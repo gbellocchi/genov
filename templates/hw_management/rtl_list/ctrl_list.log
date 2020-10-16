@@ -1,0 +1,8 @@
+hwpe_ctrl_interfaces.sv
+hwpe_ctrl_package.sv
+hwpe_ctrl_regfile_latch.sv
+hwpe_ctrl_regfile_latch_test_wrap.sv
+hwpe_ctrl_regfile.sv
+hwpe_ctrl_seq_mult.sv
+hwpe_ctrl_slave.sv
+hwpe_ctrl_uloop.sv

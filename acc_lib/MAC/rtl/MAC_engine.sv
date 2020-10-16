@@ -1,6 +1,7 @@
 /*
- * mac_engine.sv
- * Francesco Conti <fconti@iis.ee.ethz.ch>
+ * MAC_engine.sv
+ * Author: Francesco Conti <fconti@iis.ee.ethz.ch>
+ * Contribute: Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
  * Copyright (C) 2018 ETH Zurich, University of Bologna
  * Copyright and related rights are licensed under the Solderpad Hardware
@@ -139,8 +140,11 @@ module MAC_datapath
   /* CONTROL */
 
   assign done  = r_acc_valid;
-  assign ready = (r_mult_ready & a_i.valid & b_i.valid) | (~a_i.valid & ~b_i.valid);
-  assign idle  = (r_mult_ready & a_i.valid & b_i.valid) | (~a_i.valid & ~b_i.valid);
+  // assign ready = (r_mult_ready & a_i.valid & b_i.valid) | (~a_i.valid & ~b_i.valid);
+  // assign idle  = (r_mult_ready & a_i.valid & b_i.valid) | (~a_i.valid & ~b_i.valid);
+  assign ready = (r_mult_ready & a_i.ready & b_i.ready);
+  assign idle  = (r_mult_ready & a_i.ready & b_i.ready);
+
 
   // always_comb
   // begin : ctrl_op

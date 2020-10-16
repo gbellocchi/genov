@@ -11,7 +11,8 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * HWPE generator: Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
+ * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
+ * Contribute:  ${author} ${email}
  *
  * Module: ${target}_engine.sv
  * 
@@ -85,10 +86,6 @@ module ${target}_engine (\
 
   assign flags_o.cnt = cnt_out;
 
-
-
-
-
   // Engine
   generate 
   begin: ${target}_gen
@@ -121,6 +118,16 @@ module ${target}_engine (\
     );
   end
   endgenerate
+
+  // At the moment output strobe is always '1
+  // All bytes of output streams are written
+  // to TCDM
+  always_comb
+  begin
+    % for i in range (n_sink, n_sink + n_source):
+    ${chr(i+97)}_o.strb = '1;
+    % endfor
+  end
 
 endmodule\
 

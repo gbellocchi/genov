@@ -19,21 +19,27 @@ class hwpe_specs:
         self.hwpe_target        = 'FIR'
         self.design_type        = 'hls'
 
-        # HWPE streaming interfaces
-        self.list_sink_stream   = [ 'x_V' ]
-        self.list_source_stream = [ 'y_V' ]
+        # HWPE streaming interfaces [ name , data-type , reg-dim ]
+        self.list_sink_stream   = [ [ 'x_V' , 'int32_t' , 32 ] ]
+        self.list_source_stream = [ [ 'y_V' , 'int32_t' , 32 ] ]
         self.n_sink             = len(self.list_sink_stream)
         self.n_source           = len(self.list_source_stream)
 
         # HWPE standard regfiles
         self.std_reg_num        = 5       
 
-        # HWPE custom regfiles
-        self.custom_reg_name    = [ 'coeff0' , 'coeff1' , 'coeff2' , 'coeff3' ]
-        self.custom_reg_dim     = [ 32 , 32 , 32 , 32  ]
-        self.custom_reg_num     = len(self.custom_reg_name)
-        self.custom_reg_isport  = [ 1 , 1 , 1 , 1 ]
+        # HWPE custom regfiles [ name , data-type , reg-dim , isport ]
+        self.custom_reg         = [ [ 'coeff0_V' , 'uint32_t' , 32 , 1 ] , 
+                                    [ 'coeff1_V' , 'uint32_t' , 32 , 1 ] ,
+                                    [ 'coeff2_V' , 'uint32_t' , 32 , 1 ] , 
+                                    [ 'coeff3_V' , 'uint32_t' , 32 , 1 ] ]
+        self.custom_reg_num     = len(self.custom_reg)
 
         # FSM
-        self.fsm_trans_size             = [ ['len', 'x_V'] , ['len', 'y_V'] ]
+        self.fsm_trans_size     = [ ['len', 'x_V'] , ['len', 'y_V'] ]
+
+        # RISC-V firmware stimuli 
+        self.input_stimuli      = [ 'stim_input' ]
+        self.output_result      = [ 'res_fir' ]
+        # self.custom_reg_values  = []
 

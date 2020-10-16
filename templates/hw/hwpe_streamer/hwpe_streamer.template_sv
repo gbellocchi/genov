@@ -1,5 +1,4 @@
 /*
- * HWPE: Francesco Conti <fconti@iis.ee.ethz.ch>
  *
  * Copyright (C) 2018 ETH Zurich, University of Bologna
  * Copyright and related rights are licensed under the Solderpad Hardware
@@ -11,7 +10,8 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * HWPE generator: Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
+ * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
+ * Contribute:  ${author} ${email}
  *
  * Module: ${target}_streamer.sv
  * 

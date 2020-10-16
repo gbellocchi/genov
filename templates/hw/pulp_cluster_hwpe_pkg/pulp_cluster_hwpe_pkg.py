@@ -17,35 +17,44 @@ class pulp_cluster_hwpe_pkg:
     def __init__(self, specs):
         
         # Engineer(-s)
-        self.author = specs.author
-        self.email = specs.email
+        self.author             = specs.author
+        self.email              = specs.email
 
         # Environment
-        self.destdir = specs.dest_dir
-        self.module = "pulp_cluster_hwpe_pkg/pulp_cluster_hwpe_pkg"
+        self.destdir            = specs.dest_dir
+        self.module             = "pulp_cluster_hwpe_pkg/pulp_cluster_hwpe_pkg"
 
         # Generic
-        self.hwpe_target = specs.hwpe_target
+        self.hwpe_target        = specs.hwpe_target
 
         # HWPE streaming interfaces
-        self.n_sink = specs.n_sink
-        self.n_source = specs.n_source
+        self.list_sink_stream   = [item[0] for item in specs.list_sink_stream]
+        self.list_source_stream = [item[0] for item in specs.list_source_stream]
+        self.n_sink             = specs.n_sink
+        self.n_source           = specs.n_source
+
+        # HWPE custom regfiles
+        self.custom_reg_name    = [item[0] for item in specs.custom_reg]
+        self.custom_reg_dtype   = [item[1] for item in specs.custom_reg]
+        self.custom_reg_dim     = [item[2] for item in specs.custom_reg]
+        self.custom_reg_isport  = [item[3] for item in specs.custom_reg]
+        self.custom_reg_num     = specs.custom_reg_num
 
         # Common template elements
-        self.common     = hwpe_common(specs).gen()
+        self.common             = hwpe_common(specs).gen()
 
         # Template
-        self.template   = self.get_template()
+        self.template           = self.get_template()
 
     def gen(self):
         s = self.common + self.template
         pulp_template = Template(s)
         string = pulp_template.render(
-            author      = self.author,
-            email       = self.email,
-            target      = self.hwpe_target, 
-            n_sink      = self.n_sink, 
-            n_source    = self.n_source,
+            author              = self.author,
+            email               = self.email,
+            target              = self.hwpe_target, 
+            n_sink              = self.n_sink, 
+            n_source            = self.n_source,
         )
         s = re.sub(r'\s+$', '', string, flags=re.M)
         return s

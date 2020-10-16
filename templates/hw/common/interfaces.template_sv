@@ -171,7 +171,7 @@ fsm_ctrl.${name}    = static_reg_${name}; \
 
 <%def name="static_reg_to_engine_intf(name, isport)">\
   % if isport:
-.${name}_V        (  ctrl_i.${name}      ),
+.${name}        (  ctrl_i.${name}      ),
   % endif
 </%def>\
 

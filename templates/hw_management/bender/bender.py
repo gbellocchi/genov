@@ -14,10 +14,10 @@ class bender:
     def __init__(self, specs):
         self.curr_dir           = './templates/hw_management/bender/'
         self.module             = 'bender'
-        self.engine_devs           = self.get_engine()
+        self.engine_devs        = self.get_engine()
         self.stream_devs        = self.get_stream()
         self.ctrl_devs          = self.get_ctrl()
-        self.num_engine_devs       = len(self.engine_devs)
+        self.num_engine_devs    = len(self.engine_devs)
         self.num_stream_devs    = len(self.stream_devs)
         self.num_ctrl_devs      = len(self.ctrl_devs)
         self.target             = specs.hwpe_target

@@ -9,32 +9,37 @@ class hwpe_specs:
     def __init__(self):
 
         # Engineer(-s)
-        self.author                     = 'Gianluca Bellocchi'
-        self.email                      = '<gianluca.bellocchi@unimore.it>'
+        self.author             = 'Gianluca Bellocchi'
+        self.email              = '<gianluca.bellocchi@unimore.it>'
 
         # Environment
-        self.dest_dir                   = 'output'
+        self.dest_dir           = 'output'
 
         # Generic
-        self.hwpe_target                = 'CONV'
-        self.design_type                = 'hls'
+        self.hwpe_target        = 'CONV'
+        self.design_type        = 'hls'
 
-        # HWPE streaming interfaces
-        self.list_sink_stream           = [ 'instream' , 'kernel' ]
-        self.list_source_stream         = [ 'outstream' ]
-        self.n_sink                     = len(self.list_sink_stream)
-        self.n_source                   = len(self.list_source_stream)
+        # HWPE streaming interfaces [ name , data-type , reg-dim ]
+        self.list_sink_stream   = [ [ 'x_V' , 'int32_t' , 32 ] ]
+        self.list_source_stream = [ [ 'y_V' , 'int32_t' , 32 ] ]
+        self.n_sink             = len(self.list_sink_stream)
+        self.n_source           = len(self.list_source_stream)
 
         # HWPE standard regfiles
-        self.std_reg_num                = 5       
+        self.std_reg_num        = 5       
 
-        # HWPE custom regfiles
-        self.custom_reg_name            = [ 'len_kernel' ]
-        self.custom_reg_dim             = [ 32 ]
-        self.custom_reg_num             = len(self.custom_reg_name)
-        self.custom_reg_isport          = [ 0 ]
+        # HWPE custom regfiles [ name , data-type , reg-dim , isport ]
+        self.custom_reg         = [ [ 'coeff0_V' , 'uint32_t' , 32 , 1 ] , 
+                                    [ 'coeff1_V' , 'uint32_t' , 32 , 1 ] ,
+                                    [ 'coeff2_V' , 'uint32_t' , 32 , 1 ] , 
+                                    [ 'coeff3_V' , 'uint32_t' , 32 , 1 ] ]
+        self.custom_reg_num     = len(self.custom_reg)
 
         # FSM
-        self.fsm_trans_size             = [ ['len', 'instream'] , ['len_kernel', 'kernel'] , ['len', 'outstream'] ]
+        self.fsm_trans_size     = [ ['len', 'x_V'] , ['len', 'y_V'] ]
 
+        # RISC-V firmware stimuli 
+        self.input_stimuli      = [ 'stim_input' ]
+        self.output_result      = [ 'res_fir' ]
+        # self.custom_reg_values  = []
 

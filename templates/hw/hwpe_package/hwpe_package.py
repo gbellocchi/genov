@@ -35,8 +35,10 @@ class hwpe_package:
         self.std_reg_num        = specs.std_reg_num  
 
         # HWPE custom regfiles
-        self.custom_reg_name   = specs.custom_reg_name
-        self.custom_reg_dim    = specs.custom_reg_dim
+        self.custom_reg_name   = [item[0] for item in specs.custom_reg]
+        self.custom_reg_dtype  = [item[1] for item in specs.custom_reg]
+        self.custom_reg_dim    = [item[2] for item in specs.custom_reg]
+        self.custom_reg_isport = [item[3] for item in specs.custom_reg]
         self.custom_reg_num    = specs.custom_reg_num
 
         # Common template elements

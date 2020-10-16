@@ -13,5 +13,6 @@
  */
 
 package automatic pulp_cluster_hwpe_pkg;
+  localparam bit          HWPE_PRESENT = 1'b1;
   localparam int unsigned N_HWPE_PORTS = ${n_tcdm_ports}; 
 endpackage

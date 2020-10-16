@@ -9,19 +9,20 @@ HW_DIR				:= ${TEMPLATES}/hw
 HW_MNGT_DIR			:= ${TEMPLATES}/hw_management
 SW_DIR				:= ${TEMPLATES}/sw
 
-SPECS				:= ${HW_DIR}/hwpe_specs
+HW_SPECS			:= ${HW_DIR}/hwpe_specs
 
 # Engine to-be-wrapped
 ENG_DEV 		:= ./../engine_dev
 
+CP_RF				:= @cp -rf
+
 RM_F 				:= @rm -f
+RM_DF 				:= @rm -rf
 
 .PHONY: all clean
 all:
-	@cp ${TARGET}/rtl/* ${ENG_DEV}/
-	@cp ${TARGET}/specs/* ${SPECS}/
+	@${CP_RF} ${TARGET}/* ${ENG_DEV}/
 
 clean:
-	@${RM_F} ${HLS_DEVICE}/*.v
-	@${RM_F} ${SPECS}/*.py
+	@${RM_DF} ${ENG_DEV}/*
 	

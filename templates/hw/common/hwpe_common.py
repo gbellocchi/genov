@@ -4,9 +4,6 @@
 
 #!/usr/bin/env python3
 
-# Packages
-from templates.hw.hwpe_specs.hwpe_specs import hwpe_specs
-
 # HWPE overlay
 class hwpe_common:
     def __init__(self, hwpe_specs):

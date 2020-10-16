@@ -17,33 +17,34 @@ class hwpe_engine:
     def __init__(self, specs):
         
         # Engineer(-s)
-        self.author = specs.author
-        self.email = specs.email
+        self.author             = specs.author
+        self.email              = specs.email
 
         # Environment
-        self.destdir = specs.dest_dir
-        self.module = "hwpe_engine/hwpe_engine"
+        self.destdir            = specs.dest_dir
+        self.module             = "hwpe_engine/hwpe_engine"
 
         # Generic
-        self.hwpe_target = specs.hwpe_target
+        self.hwpe_target        = specs.hwpe_target
 
         # HWPE streaming interfaces
-        self.n_sink = specs.n_sink
-        self.n_source = specs.n_source
-        self.list_sink_stream = specs.list_sink_stream
-        self.list_source_stream = specs.list_source_stream
+        self.list_sink_stream   = [item[0] for item in specs.list_sink_stream]
+        self.list_source_stream = [item[0] for item in specs.list_source_stream]
+        self.n_sink             = specs.n_sink
+        self.n_source           = specs.n_source
 
         # HWPE custom regfiles
-        self.custom_reg_name   = specs.custom_reg_name
-        self.custom_reg_dim    = specs.custom_reg_dim
-        self.custom_reg_num    = specs.custom_reg_num
-        self.custom_reg_isport = specs.custom_reg_isport
+        self.custom_reg_name    = [item[0] for item in specs.custom_reg]
+        self.custom_reg_dtype   = [item[1] for item in specs.custom_reg]
+        self.custom_reg_dim     = [item[2] for item in specs.custom_reg]
+        self.custom_reg_isport  = [item[3] for item in specs.custom_reg]
+        self.custom_reg_num     = specs.custom_reg_num
 
         # Common template elements
-        self.common     = hwpe_common(specs).gen()
+        self.common             = hwpe_common(specs).gen()
 
         # Template
-        self.template   = self.get_template()
+        self.template           = self.get_template()
 
     def gen(self):
         s = self.common + self.template
@@ -59,7 +60,7 @@ class hwpe_engine:
             custom_reg_name     = self.custom_reg_name, 
             custom_reg_dim      = self.custom_reg_dim, 
             custom_reg_num      = self.custom_reg_num,
-            custom_reg_isport      = self.custom_reg_isport,
+            custom_reg_isport   = self.custom_reg_isport,
         )
         s = re.sub(r'\s+$', '', string, flags=re.M)
         return s

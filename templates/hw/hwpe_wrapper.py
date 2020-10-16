@@ -5,8 +5,8 @@
 #!/usr/bin/env python3
 
 # Packages
-from templates.hw.hwpe_specs.hwpe_specs import hwpe_specs
 from templates.hw.pulp_cluster_hwpe_pkg.pulp_cluster_hwpe_pkg import pulp_cluster_hwpe_pkg
+from templates.hw.pulp_hwpe_wrap.pulp_hwpe_wrap import pulp_hwpe_wrap
 from templates.hw.hwpe_top.hwpe_top_wrapper.hwpe_top_wrapper import hwpe_top_wrapper
 from templates.hw.hwpe_top.hwpe_top.hwpe_top import hwpe_top
 from templates.hw.hwpe_engine.hwpe_engine import hwpe_engine
@@ -15,7 +15,7 @@ from templates.hw.hwpe_ctrl.hwpe_ctrl.hwpe_ctrl import hwpe_ctrl
 from templates.hw.hwpe_ctrl.hwpe_fsm.hwpe_fsm import hwpe_fsm
 from templates.hw.hwpe_package.hwpe_package import hwpe_package
 
-# HWPE overlay
+# HWPE wrapper
 class hwpe_wrapper:
     def __init__(self, hwpe_specs):
         self.author = hwpe_specs.author
@@ -24,6 +24,10 @@ class hwpe_wrapper:
     def pulp_hwpe_pkg(self, hwpe_specs):
         pulp_hwpe_pkg = pulp_cluster_hwpe_pkg(hwpe_specs)
         return pulp_hwpe_pkg.gen()
+
+    def pulp_hwpe_wrap(self, hwpe_specs):
+        pulp_wrap = pulp_hwpe_wrap(hwpe_specs)
+        return pulp_wrap.gen()
 
     def top_wrapper(self, hwpe_specs):
         top_wrapper = hwpe_top_wrapper(hwpe_specs)
