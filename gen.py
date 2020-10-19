@@ -80,11 +80,11 @@ os.mkdir(hwpe_rtl + '/wrap')
 os.mkdir(hwpe_engine_rtl)
 
 # Copy static components
-source = static_comps + '/static_rtl/hwpe-stream'
+source = static_comps + '/static_rtl/hwpe-stream/rtl'
 destination = hwpe_streamer_rtl
 shutil.copytree(source, destination)
 
-source = static_comps + '/static_rtl/hwpe-ctrl'
+source = static_comps + '/static_rtl/hwpe-ctrl/rtl'
 destination = hwpe_ctrl_rtl
 shutil.copytree(source, destination)
 

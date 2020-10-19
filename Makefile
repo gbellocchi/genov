@@ -4,7 +4,7 @@
 ROOT 					:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 # Accelerator library
-HWPE_TARGET				:= MUL
+HWPE_TARGET				:= FIR
 
 # Templates
 TEMPLATES 				:= ./templates
@@ -20,8 +20,8 @@ ENG_DEV_RTL 			:= ${ENG_DEV}/rtl
 STATIC 					:= ./static
 
 STATIC_RTL_DIR 			:= ${STATIC}/static_rtl
-STATIC_STREAM			:= ${STATIC_RTL_DIR}/hwpe-stream
-STATIC_CTRL 			:= ${STATIC_RTL_DIR}/hwpe-ctrl
+STATIC_STREAM			:= ${STATIC_RTL_DIR}/hwpe-stream/rtl
+STATIC_CTRL 			:= ${STATIC_RTL_DIR}/hwpe-ctrl/rtl
 
 # Output content
 OUT_DIR 				:= ./output
