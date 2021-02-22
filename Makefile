@@ -4,7 +4,7 @@
 ROOT 					:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 # Accelerator library
-HWPE_TARGET				:= FIR
+HWPE_TARGET				:= MMUL_OPT
 
 # Templates
 TEMPLATES 				:= ./templates
@@ -46,7 +46,7 @@ hero_deps: pulp-integr
 	@cp -rf ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
 	@cp -rf ${OUT_SW_DIR} ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper/
 
-pulp-integr: gen
+pulp-integr: clean_pulp gen
 	@echo "Exporting HWPE package for PULP cluster."
 	@cp ${OUT_PULP_INTEGR}/pulp_cluster_hwpe_pkg.sv ${PULP_SRC}/
 	@echo "Exporting PULP HWPE wrapper."
@@ -72,10 +72,12 @@ clean:
 	@${RM_DF} ${ENG_DEV}/*
 	@${RM_DF} ${OUT_HW_DIR}/*
 	@${RM_DF} ${OUT_SW_DIR}/*
-	@${RM_DF} ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
 	@${RM_F}  ${OUT_HW_MNGT_DIR}/*.yml
 	@${RM_F}  ${HW_MNGT_DIR}/rtl_list/*.log
+	@find . -type d -name '__pycache__' -exec rm -rf {} +
+
+clean_pulp:
+	@${RM_DF} ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
 	@${RM_F}  ${PULP_SRC}/pulp_cluster_hwpe_pkg.sv
 	@${RM_F}  ${PULP_CLUSTER}/pulp_hwpe_wrap.sv
-	@find . -type d -name '__pycache__' -exec rm -rf {} +
 	

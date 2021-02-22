@@ -17,6 +17,7 @@
  * 
  */
 
+(* dont_touch = "yes" *)
 module pulp_hwpe_wrap
 #(
   parameter N_CORES = 2,
@@ -35,13 +36,13 @@ module pulp_hwpe_wrap
 (
   input  logic                        clk,
   input  logic                        rst_n,
-  input  logic                        test_mode,
+  (* dont_touch = "yes" *) input  logic                        test_mode,
   
-  XBAR_TCDM_BUS.Master                hwacc_xbar_master[N_MASTER_PORT-1:0],
-  XBAR_PERIPH_BUS.Slave               hwacc_cfg_slave,
+  (* dont_touch = "yes" *) XBAR_TCDM_BUS.Master                hwacc_xbar_master[N_MASTER_PORT-1:0],
+  (* dont_touch = "yes" *) XBAR_PERIPH_BUS.Slave               hwacc_cfg_slave,
 
-  output logic [N_CORES-1:0][1:0]     evt_o,
-  output logic                        busy_o
+  (* dont_touch = "yes" *) output logic [N_CORES-1:0][1:0]     evt_o,
+  (* dont_touch = "yes" *) output logic                        busy_o
 );
 
   logic [N_MASTER_PORT-1:0]           tcdm_req;
