@@ -124,6 +124,12 @@ filename = specs.hwpe_target + '_' + 'engine.sv'
 dest_dir = hwpe_engine_rtl
 gen.gen_dev(dev, filename, dest_dir)
 
+# Generate kernel wrapper
+dev = hwpe_wrapper.engine(specs)
+filename = specs.hwpe_target + '_' + 'kernel_wrapper.sv'
+dest_dir = hwpe_engine_rtl
+gen.gen_dev(dev, filename, dest_dir)
+
 # Generate hwpe streamer wrapper
 dev = hwpe_wrapper.streamer(specs)
 filename = specs.hwpe_target + '_' + 'streamer.sv'

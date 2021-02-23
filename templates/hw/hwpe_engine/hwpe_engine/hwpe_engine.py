@@ -22,7 +22,7 @@ class hwpe_engine:
 
         # Environment
         self.destdir            = specs.dest_dir
-        self.module             = "hwpe_engine/hwpe_engine"
+        self.module             = "hwpe_engine/hwpe_engine/hwpe_engine"
 
         # Generic
         self.hwpe_target        = specs.hwpe_target

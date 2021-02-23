@@ -9,7 +9,7 @@ class hwpe_specs:
     def __init__(self):
 
         # Engineer(-s)
-        self.author             = 'Gianluca Bellocchi'
+        self.author             = 'Gianluca Bellocchi'    
         self.email              = '<gianluca.bellocchi@unimore.it>'
 
         # Environment
@@ -18,6 +18,10 @@ class hwpe_specs:
         # Generic
         self.hwpe_target        = 'FIR'
         self.design_type        = 'hls'
+
+        # Kernel design interface [ y/n ]
+        self.ap_ctrl            = 'n'
+        self.dflow              = 'y'
 
         # HWPE streaming interfaces [ name , data-type , reg-dim ]
         self.list_sink_stream   = [ [ 'x_V' , 'int32_t' , 32 ] ]
