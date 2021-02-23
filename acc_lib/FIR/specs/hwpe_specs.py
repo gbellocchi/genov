@@ -19,9 +19,9 @@ class hwpe_specs:
         self.hwpe_target        = 'FIR'
         self.design_type        = 'hls'
 
-        # Kernel design interface [ y/n ]
-        self.ap_ctrl            = 'n'
-        self.dflow              = 'y'
+        # Kernel design interface [ is_intf ]
+        self.ap_ctrl            = 1
+        self.dflow              = 0
 
         # HWPE streaming interfaces [ name , data-type , reg-dim ]
         self.list_sink_stream   = [ [ 'x_V' , 'int32_t' , 32 ] ]

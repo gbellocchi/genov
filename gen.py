@@ -125,7 +125,7 @@ dest_dir = hwpe_engine_rtl
 gen.gen_dev(dev, filename, dest_dir)
 
 # Generate kernel wrapper
-dev = hwpe_wrapper.engine(specs)
+dev = hwpe_wrapper.kernel(specs)
 filename = specs.hwpe_target + '_' + 'kernel_wrapper.sv'
 dest_dir = hwpe_engine_rtl
 gen.gen_dev(dev, filename, dest_dir)

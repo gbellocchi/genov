@@ -23,7 +23,7 @@ class kernel_wrapper:
 
         # Environment
         self.destdir            = specs.dest_dir
-        self.module             = "hwpe_engine/hwpe_engine/kernel_wrapper"
+        self.module             = "hwpe_engine/kernel_wrapper/kernel_wrapper"
 
         # Generic
         self.hwpe_target        = specs.hwpe_target
@@ -46,6 +46,8 @@ class kernel_wrapper:
 
         # Kernel interface
         self.kernel_intf        = kernel_interface(specs).gen()
+        self.ap_ctrl            = specs.ap_ctrl
+        self.dflow              = specs.dflow
 
         # Template
         self.template           = self.get_template()
@@ -57,6 +59,8 @@ class kernel_wrapper:
             author              = self.author,
             email               = self.email,
             target              = self.hwpe_target, 
+            ap_ctrl             = self.ap_ctrl,
+            dflow               = self.dflow,
             n_sink              = self.n_sink, 
             n_source            = self.n_source,
             stream_in           = self.list_sink_stream,

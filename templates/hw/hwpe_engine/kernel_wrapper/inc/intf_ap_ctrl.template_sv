@@ -1,133 +1,122 @@
-/*
- * HWPE: Francesco Conti <fconti@iis.ee.ethz.ch>
- *
- * Copyright (C) 2018 ETH Zurich, University of Bologna
- * Copyright and related rights are licensed under the Solderpad Hardware
- * License, Version 0.51 (the "License"); you may not use this file except in
- * compliance with the License.  You may obtain a copy of the License at
- * http://solderpad.org/licenses/SHL-0.51. Unless required by applicable law
- * or agreed to in writing, software, hardware and materials distributed under
- * this License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
- * CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
- * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
- * Contribute:  ${author} ${email}
- *
- * Module: ${target}_engine.sv
- * 
- */
 
-import ${target}_package::*;
+<%
+##############################################
+## Kernel interface -> AP_CTRL (Vivado HLS) ##
+##############################################
+%>
 
-module ${target}_engine (\
+  <%def name="intf_ap_ctrl()">\
+  // Application-specific hardware kernel
+  ${target} i_${target} (
+    // Global signals
+    .ap_clk             ( clk_i            ), 
+    .ap_rst_n           ( rst_ni           ), 
 
-  // Global signals
-  ${port('clk', 'logic', 1, False)},\
-  ${port('rst', 'logic', 1, False, True)},
-  ${port('test_mode', 'logic', 1, False)},
+    // Input data (to-hwpe)
+    % for i in range (n_sink):
+    ${axi_stream_inst_in(stream_in[i], i, (n_sink + n_source))}
+    % endfor 
 
-  // Sink ports
-  % for i in range (n_sink):
-  hwpe_stream_intf_stream.sink    ${chr(i+97)}_i,
-  % endfor 
+    // Output data (from-hwpe)
+    % for j in range (n_source):
+    ${axi_stream_inst_out(stream_out[j], j+i+1, (n_sink + n_source))}
+    % endfor 
 
-  // Source ports
-  % for j in range (n_source):
-  hwpe_stream_intf_stream.source  ${chr(j+i+98)}_o,
-  % endfor 
+    // Algorithm parameters
+    % for i in range (custom_reg_num):
+    ${static_reg_to_engine_intf(custom_reg_name[i], custom_reg_isport[i])}
+    % endfor 
 
-  // Control channel
-  input  ctrl_engine_t            ctrl_i,
-  output flags_engine_t           flags_o
-);
+    // Control signals
+    .ap_start           ( ctrl_i.start     ),
+    .ap_done            ( done             ), 
+    .ap_idle            ( idle             ), 
+    .ap_ready           ( ready            )
+  );
+  </%def>\
 
-  // ${target} control
-  logic clear;
-  logic done, idle, ready;
+<%
+################################
+## Engine controls (from FSM) ##
+################################
+%>
 
-  assign clear = ctrl_i.clear;
-  assign flags_o.done = done;
-  assign flags_o.idle = idle;
+<%def name="ctrl_to_engine()">\
 
-  always_ff @(posedge clk_i or negedge rst_ni)
-  begin: fsm_ready
-    if(~rst_ni)
-      flags_o.ready = 1'b0;
-    else if(~(ready | idle))
-      flags_o.ready = 1'b0;
-    else
-      flags_o.ready = 1'b1;
-  end
+// ${target} control
+logic clear;
 
-  // IN/OUT synchronization
-  logic unsigned [$clog2(${target}_CNT_LEN):0] cnt_in; 
-  logic unsigned [$clog2(${target}_CNT_LEN):0] cnt_out;
+assign clear = ctrl_i.clear;
 
-  always_ff @(posedge clk_i or negedge rst_ni)
-  begin: engine_cnt_in
-    if((~rst_ni) | clear)
-      cnt_in = 32'b0;
-    else if((a_i.valid)&(a_i.ready))
-      cnt_in = cnt_in + 1;
-    else
-      cnt_in = cnt_in;
-  end
+</%def>\
 
-  always_ff @(posedge clk_i or negedge rst_ni or posedge done)
-  begin: engine_cnt_out
-    if((~rst_ni) | clear)
-      cnt_out = 32'b0;
-    else if((done)&(cnt_in>cnt_out))
-      cnt_out = cnt_out + 1;
-    else
-      cnt_out = cnt_out;
-  end
+<%
+###########################
+## Engine flags (to FSM) ##
+###########################
+%>
 
-  assign flags_o.cnt = cnt_out;
+<%def name="flags_from_engine()">\
 
-  // Engine
-  generate 
-  begin: ${target}_gen
-    ${target} i_${target} (
+logic done, idle, ready;
 
-          // Global signals
-          .ap_clk             ( clk_i            ), 
-          .ap_rst_n           ( rst_ni           ), 
+assign flags_o.done = done;
+assign flags_o.idle = idle;
+assign flags_o.cnt = cnt_out;
 
-          // Input data (to-hwpe)
-          % for i in range (n_sink):
-          ${axi_stream_inst_in(stream_in[i], i, (n_sink + n_source))}
-          % endfor 
+always_ff @(posedge clk_i or negedge rst_ni)
+begin: fsm_ready
+  if(~rst_ni)
+    flags_o.ready = 1'b0;
+  else if(~(ready | idle))
+    flags_o.ready = 1'b0;
+  else
+    flags_o.ready = 1'b1;
+end
 
-          // Output data (from-hwpe)
-          % for j in range (n_source):
-          ${axi_stream_inst_out(stream_out[j], j+i+1, (n_sink + n_source))}
-          % endfor 
+// IN/OUT synchronization
+logic unsigned [$clog2(${target}_CNT_LEN):0] cnt_in; 
+logic unsigned [$clog2(${target}_CNT_LEN):0] cnt_out;
 
-          // Algorithm parameters
-          % for i in range (custom_reg_num):
-          ${static_reg_to_engine_intf(custom_reg_name[i], custom_reg_isport[i])}
-          % endfor 
+always_ff @(posedge clk_i or negedge rst_ni)
+begin: engine_cnt_in
+  if((~rst_ni) | clear)
+    cnt_in = 32'b0;
+  else if((a_i.valid)&(a_i.ready))
+    cnt_in = cnt_in + 1;
+  else
+    cnt_in = cnt_in;
+end
 
-          // Control signals
-          .ap_start           ( ctrl_i.start     ),
-          .ap_done            ( done             ), 
-          .ap_idle            ( idle             ), 
-          .ap_ready           ( ready            )
-    );
-  end
-  endgenerate
+always_ff @(posedge clk_i or negedge rst_ni or posedge done)
+begin: engine_cnt_out
+  if((~rst_ni) | clear)
+    cnt_out = 32'b0;
+  else if((done)&(cnt_in>cnt_out))
+    cnt_out = cnt_out + 1;
+  else
+    cnt_out = cnt_out;
+end
 
-  // At the moment output strobe is always '1
-  // All bytes of output streams are written
-  // to TCDM
-  always_comb
-  begin
-    % for i in range (n_sink, n_sink + n_source):
-    ${chr(i+97)}_o.strb = '1;
-    % endfor
-  end
+</%def>\
 
-endmodule\
+<%
+#########################
+## Streaming interface ##
+#########################
+%>
+
+<%def name="intf_streaming()">\
+
+// At the moment output strobe is always '1
+// All bytes of output streams are written
+// to TCDM
+always_comb
+begin
+  % for i in range (n_sink, n_sink + n_source):
+  ${chr(i+97)}_o.strb = '1;
+  % endfor
+end
+
+</%def>\
 
