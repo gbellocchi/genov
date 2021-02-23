@@ -42,19 +42,22 @@ module ${target}_engine (\
   output flags_engine_t           flags_o
 );
 
-<%
-##############################################
-## Kernel interface -> AP_CTRL (Vivado HLS) ##
-##############################################
-%>
+  <%
+  ##############################################
+  ## Kernel interface -> AP_CTRL (Vivado HLS) ##
+  ##############################################
+  %>
 
-  % if (ap_ctrl==1):
-    ${intf_ap_ctrl()}
-  % endif
+  ${ctrl_to_engine(intf_ap_ctrl)}
+  ${flags_from_engine(intf_ap_ctrl)}
+  ${intf_ap_ctrl(intf_ap_ctrl)}
+  ${intf_streaming(intf_ap_ctrl)}
 
-  % if (dflow==1):
-    ${intf_ap_ctrl()}
-  % endif
+  <%
+  ####################################
+  ## Kernel interface -> DATA-FLOW  ##
+  ####################################
+  %>
 
 endmodule\
 

@@ -1,0 +1,36 @@
+<%
+##################################
+## Kernel interface -> dataflow ##
+##################################
+%>
+
+<%def name="intf_dflow()">\ 
+  // Application-specific hardware kernel TeStTtTtTtT~~~~~~~~~~~
+  ${target} i_${target} (
+    // Global signals
+    .ap_clk             ( clk_i            ), 
+    .ap_rst_n           ( rst_ni           ), 
+
+    // Input data (to-hwpe)
+    % for i in range (n_sink):
+    ${axi_stream_inst_in(stream_in[i], i, (n_sink + n_source))}
+    % endfor 
+
+    // Output data (from-hwpe)
+    % for j in range (n_source):
+    ${axi_stream_inst_out(stream_out[j], j+i+1, (n_sink + n_source))}
+    % endfor 
+
+    // Algorithm parameters
+    % for i in range (custom_reg_num):
+    ${static_reg_to_engine_intf(custom_reg_name[i], custom_reg_isport[i])}
+    % endfor 
+
+    // Control signals
+    .ap_start           ( ctrl_i.start     ),
+    .ap_done            ( done             ), 
+    .ap_idle            ( idle             ), 
+    .ap_ready           ( ready            )
+  );
+</%def>\
+

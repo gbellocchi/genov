@@ -11,7 +11,7 @@ import re
 import sys
 
 from templates.hw.common.hwpe_common import hwpe_common
-from templates.hw.hwpe_engine.kernel_wrapper.inc.kernel_interface import kernel_interface
+from templates.hw.hwpe_engine.kernel_wrapper.kernel_interface.kernel_interface import kernel_interface
 
 # Kernel wrapper
 class kernel_wrapper:
@@ -46,8 +46,8 @@ class kernel_wrapper:
 
         # Kernel interface
         self.kernel_intf        = kernel_interface(specs).gen()
-        self.ap_ctrl            = specs.ap_ctrl
-        self.dflow              = specs.dflow
+        self.intf_ap_ctrl       = specs.intf_kernel[0]
+        self.intf_dflow         = specs.intf_kernel[1]
 
         # Template
         self.template           = self.get_template()
@@ -59,8 +59,8 @@ class kernel_wrapper:
             author              = self.author,
             email               = self.email,
             target              = self.hwpe_target, 
-            ap_ctrl             = self.ap_ctrl,
-            dflow               = self.dflow,
+            intf_ap_ctrl        = self.intf_ap_ctrl,
+            intf_dflow          = self.intf_dflow,
             n_sink              = self.n_sink, 
             n_source            = self.n_source,
             stream_in           = self.list_sink_stream,

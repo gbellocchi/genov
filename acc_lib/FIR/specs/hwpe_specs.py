@@ -19,9 +19,8 @@ class hwpe_specs:
         self.hwpe_target        = 'FIR'
         self.design_type        = 'hls'
 
-        # Kernel design interface [ is_intf ]
-        self.ap_ctrl            = 1
-        self.dflow              = 0
+        # Kernel design [ is_ap_ctrl , is_dflow ]
+        self.intf_kernel        = [ 1 , 0 ]
 
         # HWPE streaming interfaces [ name , data-type , reg-dim ]
         self.list_sink_stream   = [ [ 'x_V' , 'int32_t' , 32 ] ]
@@ -32,7 +31,7 @@ class hwpe_specs:
         # HWPE standard regfiles
         self.std_reg_num        = 5       
 
-        # HWPE custom regfiles [ name , data-type , reg-dim , isport ]
+        # HWPE custom regfiles [ name , data-type , reg-dim , is_port ]
         self.custom_reg         = [ [ 'coeff0_V' , 'uint32_t' , 32 , 1 ] , 
                                     [ 'coeff1_V' , 'uint32_t' , 32 , 1 ] ,
                                     [ 'coeff2_V' , 'uint32_t' , 32 , 1 ] , 
