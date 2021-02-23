@@ -4,7 +4,7 @@
 ROOT 					:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 # Accelerator library
-HWPE_TARGET				:= MMUL_OPT
+HWPE_TARGET				:= FIR
 
 # Templates
 TEMPLATES 				:= ./templates

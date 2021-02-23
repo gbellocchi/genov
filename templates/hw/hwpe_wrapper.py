@@ -9,7 +9,7 @@ from templates.hw.pulp_cluster_hwpe_pkg.pulp_cluster_hwpe_pkg import pulp_cluste
 from templates.hw.pulp_hwpe_wrap.pulp_hwpe_wrap import pulp_hwpe_wrap
 from templates.hw.hwpe_top.hwpe_top_wrapper.hwpe_top_wrapper import hwpe_top_wrapper
 from templates.hw.hwpe_top.hwpe_top.hwpe_top import hwpe_top
-from templates.hw.hwpe_engine.hwpe_engine import hwpe_engine
+from templates.hw.hwpe_engine.hwpe_engine.hwpe_engine import hwpe_engine
 from templates.hw.hwpe_streamer.hwpe_streamer import hwpe_streamer
 from templates.hw.hwpe_ctrl.hwpe_ctrl.hwpe_ctrl import hwpe_ctrl
 from templates.hw.hwpe_ctrl.hwpe_fsm.hwpe_fsm import hwpe_fsm
