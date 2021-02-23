@@ -46,8 +46,8 @@ class kernel_wrapper:
 
         # Kernel interface
         self.kernel_intf        = kernel_interface(specs).gen()
-        self.intf_ap_ctrl       = specs.intf_kernel[0]
-        self.intf_dflow         = specs.intf_kernel[1]
+        self.is_ap_ctrl         = specs.intf_kernel[0]
+        self.is_dflow           = specs.intf_kernel[1]
 
         # Template
         self.template           = self.get_template()
@@ -59,8 +59,8 @@ class kernel_wrapper:
             author              = self.author,
             email               = self.email,
             target              = self.hwpe_target, 
-            intf_ap_ctrl        = self.intf_ap_ctrl,
-            intf_dflow          = self.intf_dflow,
+            is_ap_ctrl          = self.is_ap_ctrl,
+            is_dflow            = self.is_dflow,
             n_sink              = self.n_sink, 
             n_source            = self.n_source,
             stream_in           = self.list_sink_stream,

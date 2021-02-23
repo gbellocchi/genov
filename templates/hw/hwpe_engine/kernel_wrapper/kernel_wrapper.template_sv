@@ -48,16 +48,21 @@ module ${target}_engine (\
   ##############################################
   %>
 
-  ${ctrl_to_engine(intf_ap_ctrl)}
-  ${flags_from_engine(intf_ap_ctrl)}
-  ${intf_ap_ctrl(intf_ap_ctrl)}
-  ${intf_streaming(intf_ap_ctrl)}
+  ${ctrl_to_engine    (  is_ap_ctrl )}
+  ${flags_from_engine (  is_ap_ctrl )}
+  ${intf_ap_ctrl      (  is_ap_ctrl )}
+  ${intf_streaming    (  is_ap_ctrl )}
 
   <%
   ####################################
   ## Kernel interface -> DATA-FLOW  ##
   ####################################
   %>
+
+  ${ctrl_to_engine    (  is_dflow )}
+  ${flags_from_engine (  is_dflow )}
+  ${intf_ap_ctrl      (  is_dflow )}
+  ${intf_streaming    (  is_dflow )}
 
 endmodule\
 

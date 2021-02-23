@@ -12,6 +12,10 @@
 module FIR (
         ap_clk,
         ap_rst_n,
+        ap_start,
+        ap_done,
+        ap_idle,
+        ap_ready,
         x_V_TDATA,
         x_V_TVALID,
         x_V_TREADY,
@@ -31,6 +35,10 @@ parameter    ap_ST_fsm_state4 = 4'd8;
 
 input   ap_clk;
 input   ap_rst_n;
+input   ap_start;
+output   ap_done;
+output   ap_idle;
+output   ap_ready;
 input  [31:0] x_V_TDATA;
 input   x_V_TVALID;
 output   x_V_TREADY;
@@ -42,9 +50,14 @@ output  [31:0] y_V_TDATA;
 output   y_V_TVALID;
 input   y_V_TREADY;
 
+reg ap_done;
+reg ap_idle;
+reg ap_ready;
 reg x_V_TREADY;
 
  reg    ap_rst_n_inv;
+(* fsm_encoding = "none" *) reg   [3:0] ap_CS_fsm;
+wire    ap_CS_fsm_state1;
 reg   [0:0] guard_variable_for_F;
 reg   [31:0] h_V_0;
 reg   [31:0] h_V_1;
@@ -62,40 +75,38 @@ reg   [31:0] s_x_V_3;
 reg   [31:0] s_x1_V_3;
 reg   [31:0] s_y0_V_3;
 reg   [31:0] s_y1_V_3;
-wire    call_ret_exec_1_fu_117_x_in_V_TDATA_blk_n;
+wire    call_ret_exec_1_fu_115_x_in_V_TDATA_blk_n;
 reg    x_V_TDATA_blk_n;
-(* fsm_encoding = "none" *) reg   [3:0] ap_CS_fsm;
 wire    ap_CS_fsm_state4;
 reg    y_V_TDATA_blk_n;
 wire    ap_CS_fsm_state3;
-wire   [0:0] guard_variable_for_F_1_load_fu_132_p1;
-wire    ap_CS_fsm_state1;
-reg  signed [31:0] s_x1_V_1_load_reg_349;
+wire   [0:0] guard_variable_for_F_1_load_fu_130_p1;
+reg  signed [31:0] s_x1_V_1_load_reg_347;
 wire    ap_CS_fsm_state2;
-wire   [31:0] mul_ln68_fu_174_p2;
-reg   [31:0] mul_ln68_reg_354;
-reg  signed [31:0] s_x1_V_2_load_reg_359;
-reg    call_ret_exec_1_fu_117_ap_start;
-wire    call_ret_exec_1_fu_117_ap_done;
-wire    call_ret_exec_1_fu_117_ap_idle;
-wire    call_ret_exec_1_fu_117_ap_ready;
-wire    call_ret_exec_1_fu_117_x_in_V_TREADY;
-wire   [31:0] call_ret_exec_1_fu_117_ap_return_0;
-wire   [31:0] call_ret_exec_1_fu_117_ap_return_1;
-reg    call_ret_exec_1_fu_117_ap_ce;
+wire   [31:0] mul_ln68_fu_172_p2;
+reg   [31:0] mul_ln68_reg_352;
+reg  signed [31:0] s_x1_V_2_load_reg_357;
+reg    call_ret_exec_1_fu_115_ap_start;
+wire    call_ret_exec_1_fu_115_ap_done;
+wire    call_ret_exec_1_fu_115_ap_idle;
+wire    call_ret_exec_1_fu_115_ap_ready;
+wire    call_ret_exec_1_fu_115_x_in_V_TREADY;
+wire   [31:0] call_ret_exec_1_fu_115_ap_return_0;
+wire   [31:0] call_ret_exec_1_fu_115_ap_return_1;
+reg    call_ret_exec_1_fu_115_ap_ce;
 wire    regslice_both_y_V_U_apdone_blk;
 reg    ap_block_state4;
-wire   [31:0] add_ln68_fu_281_p2;
-wire   [31:0] mul_ln68_1_fu_210_p2;
-wire   [31:0] add_ln68_1_fu_204_p2;
-wire   [31:0] mul_ln68_2_fu_322_p2;
-wire   [31:0] add_ln68_2_fu_248_p2;
-wire  signed [31:0] mul_ln68_fu_174_p0;
-wire  signed [31:0] mul_ln68_fu_174_p1;
-wire  signed [31:0] mul_ln68_1_fu_210_p0;
-wire  signed [31:0] mul_ln68_1_fu_210_p1;
-wire  signed [31:0] mul_ln68_2_fu_322_p0;
-wire  signed [31:0] mul_ln68_2_fu_322_p1;
+wire   [31:0] add_ln68_fu_279_p2;
+wire   [31:0] mul_ln68_1_fu_208_p2;
+wire   [31:0] add_ln68_1_fu_202_p2;
+wire   [31:0] mul_ln68_2_fu_320_p2;
+wire   [31:0] add_ln68_2_fu_246_p2;
+wire  signed [31:0] mul_ln68_fu_172_p0;
+wire  signed [31:0] mul_ln68_fu_172_p1;
+wire  signed [31:0] mul_ln68_1_fu_208_p0;
+wire  signed [31:0] mul_ln68_1_fu_208_p1;
+wire  signed [31:0] mul_ln68_2_fu_320_p0;
+wire  signed [31:0] mul_ln68_2_fu_320_p1;
 reg   [3:0] ap_NS_fsm;
 wire    regslice_both_x_V_U_apdone_blk;
 wire   [31:0] x_V_TDATA_int;
@@ -108,6 +119,7 @@ wire    regslice_both_y_V_U_vld_out;
 
 // power-on initialization
 initial begin
+#0 ap_CS_fsm = 4'd1;
 #0 guard_variable_for_F = 1'd0;
 #0 h_V_0 = 32'd0;
 #0 h_V_1 = 32'd0;
@@ -125,24 +137,23 @@ initial begin
 #0 s_x1_V_3 = 32'd0;
 #0 s_y0_V_3 = 32'd0;
 #0 s_y1_V_3 = 32'd0;
-#0 ap_CS_fsm = 4'd1;
 end
 
-exec_1 call_ret_exec_1_fu_117(
+exec_1 call_ret_exec_1_fu_115(
     .ap_clk(ap_clk),
     .ap_rst(ap_rst_n_inv),
-    .ap_start(call_ret_exec_1_fu_117_ap_start),
-    .ap_done(call_ret_exec_1_fu_117_ap_done),
-    .ap_idle(call_ret_exec_1_fu_117_ap_idle),
-    .ap_ready(call_ret_exec_1_fu_117_ap_ready),
+    .ap_start(call_ret_exec_1_fu_115_ap_start),
+    .ap_done(call_ret_exec_1_fu_115_ap_done),
+    .ap_idle(call_ret_exec_1_fu_115_ap_idle),
+    .ap_ready(call_ret_exec_1_fu_115_ap_ready),
     .x_in_V_TDATA(x_V_TDATA_int),
     .x_in_V_TVALID(x_V_TVALID_int),
-    .x_in_V_TREADY(call_ret_exec_1_fu_117_x_in_V_TREADY),
+    .x_in_V_TREADY(call_ret_exec_1_fu_115_x_in_V_TREADY),
     .h_0_V_read(h_V_0),
-    .ap_return_0(call_ret_exec_1_fu_117_ap_return_0),
-    .ap_return_1(call_ret_exec_1_fu_117_ap_return_1),
-    .x_in_V_TDATA_blk_n(call_ret_exec_1_fu_117_x_in_V_TDATA_blk_n),
-    .ap_ce(call_ret_exec_1_fu_117_ap_ce)
+    .ap_return_0(call_ret_exec_1_fu_115_ap_return_0),
+    .ap_return_1(call_ret_exec_1_fu_115_ap_return_1),
+    .x_in_V_TDATA_blk_n(call_ret_exec_1_fu_115_x_in_V_TDATA_blk_n),
+    .ap_ce(call_ret_exec_1_fu_115_ap_ce)
 );
 
 regslice_both #(
@@ -182,7 +193,7 @@ always @ (posedge ap_clk) begin
 end
 
 always @ (posedge ap_clk) begin
-    if (((guard_variable_for_F_1_load_fu_132_p1 == 1'd0) & (1'b1 == ap_CS_fsm_state1))) begin
+    if (((guard_variable_for_F_1_load_fu_130_p1 == 1'd0) & (1'b1 == ap_CS_fsm_state1) & (ap_start == 1'b1))) begin
         guard_variable_for_F <= 1'd1;
         h_V_0 <= coeff0_V;
         h_V_1 <= coeff1_V;
@@ -193,60 +204,84 @@ end
 
 always @ (posedge ap_clk) begin
     if ((1'b1 == ap_CS_fsm_state2)) begin
-        mul_ln68_reg_354 <= mul_ln68_fu_174_p2;
-        s_x1_V_1_load_reg_349 <= s_x1_V_1;
+        mul_ln68_reg_352 <= mul_ln68_fu_172_p2;
+        s_x1_V_1_load_reg_347 <= s_x1_V_1;
     end
 end
 
 always @ (posedge ap_clk) begin
-    if ((~((call_ret_exec_1_fu_117_x_in_V_TDATA_blk_n == 1'b0) | (y_V_TREADY_int == 1'b0) | (regslice_both_y_V_U_apdone_blk == 1'b1)) & (1'b1 == ap_CS_fsm_state4))) begin
+    if ((~((call_ret_exec_1_fu_115_x_in_V_TDATA_blk_n == 1'b0) | (y_V_TREADY_int == 1'b0) | (regslice_both_y_V_U_apdone_blk == 1'b1)) & (1'b1 == ap_CS_fsm_state4))) begin
         s_x1_V_1 <= s_x_V_1;
         s_x1_V_3 <= s_x_V_3;
-        s_x_V_1 <= call_ret_exec_1_fu_117_ap_return_0;
-        s_x_V_3 <= s_x1_V_2_load_reg_359;
-        s_y0_V_1 <= mul_ln68_reg_354;
-        s_y0_V_3 <= mul_ln68_2_fu_322_p2;
-        s_y1_V_1 <= add_ln68_fu_281_p2;
+        s_x_V_1 <= call_ret_exec_1_fu_115_ap_return_0;
+        s_x_V_3 <= s_x1_V_2_load_reg_357;
+        s_y0_V_1 <= mul_ln68_reg_352;
+        s_y0_V_3 <= mul_ln68_2_fu_320_p2;
+        s_y1_V_1 <= add_ln68_fu_279_p2;
     end
 end
 
 always @ (posedge ap_clk) begin
     if (((y_V_TREADY_int == 1'b1) & (1'b1 == ap_CS_fsm_state3))) begin
         s_x1_V_2 <= s_x_V_2;
-        s_x1_V_2_load_reg_359 <= s_x1_V_2;
-        s_x_V_2 <= s_x1_V_1_load_reg_349;
-        s_y0_V_2 <= mul_ln68_1_fu_210_p2;
-        s_y1_V_2 <= add_ln68_1_fu_204_p2;
-        s_y1_V_3 <= add_ln68_2_fu_248_p2;
+        s_x1_V_2_load_reg_357 <= s_x1_V_2;
+        s_x_V_2 <= s_x1_V_1_load_reg_347;
+        s_y0_V_2 <= mul_ln68_1_fu_208_p2;
+        s_y1_V_2 <= add_ln68_1_fu_202_p2;
+        s_y1_V_3 <= add_ln68_2_fu_246_p2;
+    end
+end
+
+always @ (*) begin
+    if ((~((call_ret_exec_1_fu_115_x_in_V_TDATA_blk_n == 1'b0) | (y_V_TREADY_int == 1'b0) | (regslice_both_y_V_U_apdone_blk == 1'b1)) & (1'b1 == ap_CS_fsm_state4))) begin
+        ap_done = 1'b1;
+    end else begin
+        ap_done = 1'b0;
+    end
+end
+
+always @ (*) begin
+    if (((ap_start == 1'b0) & (1'b1 == ap_CS_fsm_state1))) begin
+        ap_idle = 1'b1;
+    end else begin
+        ap_idle = 1'b0;
+    end
+end
+
+always @ (*) begin
+    if ((~((call_ret_exec_1_fu_115_x_in_V_TDATA_blk_n == 1'b0) | (y_V_TREADY_int == 1'b0) | (regslice_both_y_V_U_apdone_blk == 1'b1)) & (1'b1 == ap_CS_fsm_state4))) begin
+        ap_ready = 1'b1;
+    end else begin
+        ap_ready = 1'b0;
     end
 end
 
 always @ (*) begin
     if ((~((y_V_TREADY_int == 1'b0) | (regslice_both_y_V_U_apdone_blk == 1'b1)) & (1'b1 == ap_CS_fsm_state4))) begin
-        call_ret_exec_1_fu_117_ap_ce = 1'b1;
+        call_ret_exec_1_fu_115_ap_ce = 1'b1;
     end else begin
-        call_ret_exec_1_fu_117_ap_ce = 1'b0;
+        call_ret_exec_1_fu_115_ap_ce = 1'b0;
     end
 end
 
 always @ (*) begin
     if ((~((y_V_TREADY_int == 1'b0) | (regslice_both_y_V_U_apdone_blk == 1'b1)) & (1'b1 == ap_CS_fsm_state4))) begin
-        call_ret_exec_1_fu_117_ap_start = 1'b1;
+        call_ret_exec_1_fu_115_ap_start = 1'b1;
     end else begin
-        call_ret_exec_1_fu_117_ap_start = 1'b0;
+        call_ret_exec_1_fu_115_ap_start = 1'b0;
     end
 end
 
 always @ (*) begin
     if ((1'b1 == ap_CS_fsm_state4)) begin
-        x_V_TDATA_blk_n = call_ret_exec_1_fu_117_x_in_V_TDATA_blk_n;
+        x_V_TDATA_blk_n = call_ret_exec_1_fu_115_x_in_V_TDATA_blk_n;
     end else begin
         x_V_TDATA_blk_n = 1'b1;
     end
 end
 
 always @ (*) begin
-    if (((regslice_both_x_V_U_ack_in == 1'b1) & (x_V_TVALID == 1'b1))) begin
+    if (((x_V_TVALID == 1'b1) & (regslice_both_x_V_U_ack_in == 1'b1))) begin
         x_V_TREADY = 1'b1;
     end else begin
         x_V_TREADY = 1'b0;
@@ -255,7 +290,7 @@ end
 
 always @ (*) begin
     if ((1'b1 == ap_CS_fsm_state4)) begin
-        x_V_TREADY_int = call_ret_exec_1_fu_117_x_in_V_TREADY;
+        x_V_TREADY_int = call_ret_exec_1_fu_115_x_in_V_TREADY;
     end else begin
         x_V_TREADY_int = 1'b0;
     end
@@ -280,7 +315,11 @@ end
 always @ (*) begin
     case (ap_CS_fsm)
         ap_ST_fsm_state1 : begin
-            ap_NS_fsm = ap_ST_fsm_state2;
+            if (((1'b1 == ap_CS_fsm_state1) & (ap_start == 1'b1))) begin
+                ap_NS_fsm = ap_ST_fsm_state2;
+            end else begin
+                ap_NS_fsm = ap_ST_fsm_state1;
+            end
         end
         ap_ST_fsm_state2 : begin
             ap_NS_fsm = ap_ST_fsm_state3;
@@ -293,7 +332,7 @@ always @ (*) begin
             end
         end
         ap_ST_fsm_state4 : begin
-            if ((~((call_ret_exec_1_fu_117_x_in_V_TDATA_blk_n == 1'b0) | (y_V_TREADY_int == 1'b0) | (regslice_both_y_V_U_apdone_blk == 1'b1)) & (1'b1 == ap_CS_fsm_state4))) begin
+            if ((~((call_ret_exec_1_fu_115_x_in_V_TDATA_blk_n == 1'b0) | (y_V_TREADY_int == 1'b0) | (regslice_both_y_V_U_apdone_blk == 1'b1)) & (1'b1 == ap_CS_fsm_state4))) begin
                 ap_NS_fsm = ap_ST_fsm_state1;
             end else begin
                 ap_NS_fsm = ap_ST_fsm_state4;
@@ -305,11 +344,11 @@ always @ (*) begin
     endcase
 end
 
-assign add_ln68_1_fu_204_p2 = (s_y0_V_2 + s_y1_V_1);
+assign add_ln68_1_fu_202_p2 = (s_y0_V_2 + s_y1_V_1);
 
-assign add_ln68_2_fu_248_p2 = (s_y0_V_3 + s_y1_V_2);
+assign add_ln68_2_fu_246_p2 = (s_y0_V_3 + s_y1_V_2);
 
-assign add_ln68_fu_281_p2 = (s_y0_V_1 + call_ret_exec_1_fu_117_ap_return_1);
+assign add_ln68_fu_279_p2 = (s_y0_V_1 + call_ret_exec_1_fu_115_ap_return_1);
 
 assign ap_CS_fsm_state1 = ap_CS_fsm[32'd0];
 
@@ -320,32 +359,32 @@ assign ap_CS_fsm_state3 = ap_CS_fsm[32'd2];
 assign ap_CS_fsm_state4 = ap_CS_fsm[32'd3];
 
 always @ (*) begin
-    ap_block_state4 = ((call_ret_exec_1_fu_117_x_in_V_TDATA_blk_n == 1'b0) | (regslice_both_y_V_U_apdone_blk == 1'b1));
+    ap_block_state4 = ((call_ret_exec_1_fu_115_x_in_V_TDATA_blk_n == 1'b0) | (regslice_both_y_V_U_apdone_blk == 1'b1));
 end
 
 always @ (*) begin
     ap_rst_n_inv = ~ap_rst_n;
 end
 
-assign guard_variable_for_F_1_load_fu_132_p1 = guard_variable_for_F;
+assign guard_variable_for_F_1_load_fu_130_p1 = guard_variable_for_F;
 
-assign mul_ln68_1_fu_210_p0 = s_x1_V_2;
+assign mul_ln68_1_fu_208_p0 = s_x1_V_2;
 
-assign mul_ln68_1_fu_210_p1 = h_V_2;
+assign mul_ln68_1_fu_208_p1 = h_V_2;
 
-assign mul_ln68_1_fu_210_p2 = ($signed(mul_ln68_1_fu_210_p0) * $signed(mul_ln68_1_fu_210_p1));
+assign mul_ln68_1_fu_208_p2 = ($signed(mul_ln68_1_fu_208_p0) * $signed(mul_ln68_1_fu_208_p1));
 
-assign mul_ln68_2_fu_322_p0 = s_x1_V_3;
+assign mul_ln68_2_fu_320_p0 = s_x1_V_3;
 
-assign mul_ln68_2_fu_322_p1 = h_V_3;
+assign mul_ln68_2_fu_320_p1 = h_V_3;
 
-assign mul_ln68_2_fu_322_p2 = ($signed(mul_ln68_2_fu_322_p0) * $signed(mul_ln68_2_fu_322_p1));
+assign mul_ln68_2_fu_320_p2 = ($signed(mul_ln68_2_fu_320_p0) * $signed(mul_ln68_2_fu_320_p1));
 
-assign mul_ln68_fu_174_p0 = s_x1_V_1;
+assign mul_ln68_fu_172_p0 = s_x1_V_1;
 
-assign mul_ln68_fu_174_p1 = h_V_1;
+assign mul_ln68_fu_172_p1 = h_V_1;
 
-assign mul_ln68_fu_174_p2 = ($signed(mul_ln68_fu_174_p0) * $signed(mul_ln68_fu_174_p1));
+assign mul_ln68_fu_172_p2 = ($signed(mul_ln68_fu_172_p0) * $signed(mul_ln68_fu_172_p1));
 
 assign y_V_TVALID = regslice_both_y_V_U_vld_out;
 
