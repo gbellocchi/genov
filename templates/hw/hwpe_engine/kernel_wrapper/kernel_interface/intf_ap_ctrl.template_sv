@@ -4,7 +4,7 @@
 ##############################################
 %>
 
-<%def name="intf_ap_ctrl(is_intf)">\
+<%def name="intf_ap_ctrl(is_intf, target, n_sink, n_source)">\
 
   % if is_intf:
 
@@ -47,7 +47,7 @@
 ################################
 %>
 
-<%def name="ctrl_to_engine(is_intf)">\
+<%def name="ctrl_to_engine(is_intf, target, n_sink, n_source)">\
 
   /* ${target} control signals. */
 
@@ -63,7 +63,7 @@
 ###########################
 %>
 
-<%def name="flags_from_engine(is_intf)">\
+<%def name="flags_from_engine(is_intf, target, n_sink, n_source)">\
 
   /* ${target} flag signals. */
 
@@ -115,7 +115,7 @@
 #########################
 %>
 
-<%def name="intf_streaming(is_intf)">\
+<%def name="intf_streaming(is_intf, target, n_sink, n_source)">\
 
   /* ${target} streaming interface control. */
 

@@ -48,10 +48,10 @@ module ${target}_engine (\
   ##############################################
   %>
 
-  ${ctrl_to_engine    (  is_ap_ctrl )}
-  ${flags_from_engine (  is_ap_ctrl )}
-  ${intf_ap_ctrl      (  is_ap_ctrl )}
-  ${intf_streaming    (  is_ap_ctrl )}
+  ${ctrl_to_engine    (  is_ap_ctrl, target, n_sink, n_source )}
+  ${flags_from_engine (  is_ap_ctrl, target, n_sink, n_source )}
+  ${intf_ap_ctrl      (  is_ap_ctrl, target, n_sink, n_source )}
+  ${intf_streaming    (  is_ap_ctrl, target, n_sink, n_source )}
 
   <%
   ####################################
@@ -59,10 +59,12 @@ module ${target}_engine (\
   ####################################
   %>
 
-  ${ctrl_to_engine    (  is_dflow )}
-  ${flags_from_engine (  is_dflow )}
-  ${intf_ap_ctrl      (  is_dflow )}
-  ${intf_streaming    (  is_dflow )}
+  ${ctrl_to_engine    (  is_dflow, target, n_sink, n_source )}
+  ${intf_ap_ctrl      (  is_dflow, target, n_sink, n_source )}
+  ${intf_streaming    (  is_dflow, target, n_sink, n_source )}
+  ${input_counters    (  is_dflow, target, n_sink, n_source )}
+  ${output_counters   (  is_dflow, target, n_sink, n_source )}
+  ${flags_from_engine (  is_dflow, target, n_sink, n_source )}
 
 endmodule\
 

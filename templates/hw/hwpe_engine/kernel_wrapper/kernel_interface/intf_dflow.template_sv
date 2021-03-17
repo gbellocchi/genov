@@ -4,7 +4,7 @@
 ####################################
 %>
 
-<%def name="intf_ap_ctrl(is_intf)">\
+<%def name="intf_ap_ctrl(is_intf, target, n_sink, n_source)">\
 
   % if is_intf:
 
@@ -42,7 +42,7 @@
 ################################
 %>
 
-<%def name="ctrl_to_engine(is_intf)">\
+<%def name="ctrl_to_engine(is_intf, target, n_sink, n_source)">\
 
   /* ${target} control signals. */
 
@@ -52,55 +52,139 @@
 
 </%def>\
 
+  <%
+  ####################
+  ## Input counters ##
+  ####################
+  %>
+
+<%def name="input_counters(is_intf, target, n_sink, n_source)">\
+
+  /* ${target} input counters. */
+
+  % for i in range (n_sink):
+  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] cnt_${chr(i+97)}; 
+  % endfor
+
+  % for i in range (n_sink):
+  always_ff @(posedge clk_i or negedge rst_ni)
+  begin: engine_cnt_${chr(i+97)}
+    if((~rst_ni) | clear)
+      cnt_${chr(i+97)} = 32'b0;
+    else if((${chr(i+97)}}_i.valid)&(${chr(i+97)}}_i.ready))
+      cnt_${chr(i+97)} = cnt_${chr(i+97)} + 1;
+    else
+      cnt_${chr(i+97)} = cnt_${chr(i+97)};
+  end
+  % endfor
+
+</%def>\
+
+  <%
+  #####################
+  ## Output counters ##
+  #####################
+  %>
+
+<%def name="output_counters(is_intf, target, n_sink, n_source)">\
+
+  /* ${target} output counters. */
+
+  % for j in range (n_source):
+  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] cnt_${chr(j+n_sink+97)};
+  % endfor 
+
+  % for j in range (n_source):
+  always_ff @(posedge clk_i or negedge rst_ni)
+  begin: engine_cnt_${chr(j+n_sink+97)}
+    if((~rst_ni) | clear)
+      cnt_${chr(j+n_sink+97)} = 32'b0;
+    else if((${chr(j+n_sink+97)}_o.valid)&(${chr(j+n_sink+97)}_o.ready))
+      cnt_${chr(j+n_sink+97)} = cnt_${chr(j+n_sink+97)} + 1;
+    else
+      cnt_${chr(j+n_sink+97)} = cnt_${chr(j+n_sink+97)};
+  end
+
+  // FIXME: This temporarily works with a single output.
+  // SOL:   Parametrize flags_o.
+  assign flags_o.cnt = cnt_${chr(j+n_sink+97)};
+  % endfor
+
+</%def>\
+
 <%
 ###########################
 ## Engine flags (to FSM) ##
 ###########################
 %>
 
-<%def name="flags_from_engine(is_intf)">\
+<%def name="flags_from_engine(is_intf, target, n_sink, n_source)">\
 
   /* ${target} flag signals. */
 
-  logic done, idle, ready;
+  % for j in range (n_source):
+  logic done_${j};
+  % endfor
 
-  assign flags_o.done = done;
-  assign flags_o.idle = idle;
-  assign flags_o.cnt = cnt_out;
+  logic idle, ready;
+  
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+  /* Done. */
+
+  // FIXME: Generate only when MAX_OUT is reached
+  % for j in range (n_source):
+  always_ff @(posedge clk_i or negedge rst_ni)
+  begin: fsm_done_${j}
+    if(~rst_ni)
+      done_${j} = 1'b0;
+    else if((${chr(j+n_sink+97)}_o.valid)&(${chr(j+n_sink+97)}_o.ready))
+      done_${j} = 1'b1;
+    else
+      done_${j} = 1'b0;
+  end
+
+  // FIXME: This temporarily works with a single output.
+  // SOL:   Parametrize flags_o.
+  assign flags_o.done = done_${j};
+  % endfor
+
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+  /* Ready. */
 
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: fsm_ready
     if(~rst_ni)
-      flags_o.ready = 1'b0;
-    else if(~(ready | idle))
-      flags_o.ready = 1'b0;
+      ready = 1'b0;
+    else if(
+      % for j in range (n_source-1):
+      ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) ) & \
+      % endfor
+      ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) )
+    )
+      ready = 1'b1;
     else
-      flags_o.ready = 1'b1;
+      ready = 1'b0;
   end
 
-  // IN/OUT synchronization
-  logic unsigned [$clog2(${target}_CNT_LEN):0] cnt_in; 
-  logic unsigned [$clog2(${target}_CNT_LEN):0] cnt_out;
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
-  always_ff @(posedge clk_i or negedge rst_ni)
-  begin: engine_cnt_in
-    if((~rst_ni) | clear)
-      cnt_in = 32'b0;
-    else if((a_i.valid)&(a_i.ready))
-      cnt_in = cnt_in + 1;
-    else
-      cnt_in = cnt_in;
-  end
+  /* Idle. */
 
-  always_ff @(posedge clk_i or negedge rst_ni or posedge done)
-  begin: engine_cnt_out
-    if((~rst_ni) | clear)
-      cnt_out = 32'b0;
-    else if((done)&(cnt_in>cnt_out))
-      cnt_out = cnt_out + 1;
-    else
-      cnt_out = cnt_out;
+  always_comb begin
+    if(start)
+      idle = 1'b0;
+    else if(
+      % for j in range (n_source-1):
+      ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) ) & \
+      % endfor
+      ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) )
+    )
+      idle = 1'b1;
   end
+  
+  assign flags_o.idle = idle;
 
 </%def>\
 
@@ -110,7 +194,7 @@
 #########################
 %>
 
-<%def name="intf_streaming(is_intf)">\
+<%def name="intf_streaming(is_intf, target, n_sink, n_source)">\
 
   /* ${target} streaming interface control. */
 
