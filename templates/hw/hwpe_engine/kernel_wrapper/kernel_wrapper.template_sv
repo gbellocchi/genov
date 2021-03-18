@@ -37,9 +37,13 @@ module ${target}_engine (\
   hwpe_stream_intf_stream.source  ${chr(j+i+98)}_o,
   % endfor 
 
-  // Control channel
-  input  ctrl_engine_t            ctrl_i,
-  output flags_engine_t           flags_o
+  // Control signals
+  input  logic          start,
+  
+  // Flag signals
+  output logic          done,
+  output logic          idle,
+  output logic          ready,
 );
 
   <%

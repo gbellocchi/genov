@@ -44,11 +44,13 @@
 
 <%def name="ctrl_to_engine(is_intf, target, n_sink, n_source)">\
 
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
   /* ${target} control signals. */
 
-  logic clear;
+  // Insert start
 
-  assign clear = ctrl_i.clear;
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
 </%def>\
 
@@ -59,6 +61,8 @@
   %>
 
 <%def name="input_counters(is_intf, target, n_sink, n_source)">\
+
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
   /* ${target} input counters. */
 
@@ -78,6 +82,8 @@
   end
   % endfor
 
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
 </%def>\
 
   <%
@@ -87,6 +93,8 @@
   %>
 
 <%def name="output_counters(is_intf, target, n_sink, n_source)">\
+
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
   /* ${target} output counters. */
 
@@ -110,6 +118,8 @@
   assign flags_o.cnt = cnt_${chr(j+n_sink+97)};
   % endfor
 
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
 </%def>\
 
 <%
@@ -119,6 +129,8 @@
 %>
 
 <%def name="flags_from_engine(is_intf, target, n_sink, n_source)">\
+
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
   /* ${target} flag signals. */
 
@@ -196,6 +208,8 @@
 
 <%def name="intf_streaming(is_intf, target, n_sink, n_source)">\
 
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
   /* ${target} streaming interface control. */
 
   // At the moment output strobe is always '1
@@ -207,6 +221,8 @@
     ${chr(i+97)}_o.strb = '1;
     % endfor
   end
+
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
 </%def>\
 
