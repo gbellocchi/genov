@@ -20,7 +20,7 @@ class hwpe_specs:
         self.design_type        = 'hls'
 
         # Kernel design [ is_ap_ctrl , is_dflow ]
-        self.intf_kernel        = [ 0 , 1 ]
+        self.intf_kernel        = [ 1 , 0 ]
 
         # HWPE streaming interfaces [ name , data-type , reg-dim ]
         self.list_sink_stream   = [ [ 'x_V' , 'int32_t' , 32 ] ]

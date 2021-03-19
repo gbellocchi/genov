@@ -4,7 +4,7 @@
 ##############################################
 %>
 
-<%def name="intf_ap_ctrl(is_intf, target, n_sink, n_source)">\
+<%def name="intf_hls(is_intf, target, n_sink, n_source)">\
 
   % if is_intf:
 

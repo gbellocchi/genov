@@ -54,7 +54,7 @@ module kernel_wrapper (\
 
   ${ctrl_to_engine    (  is_ap_ctrl, target, n_sink, n_source )}
   ${flags_from_engine (  is_ap_ctrl, target, n_sink, n_source )}
-  ${intf_ap_ctrl      (  is_ap_ctrl, target, n_sink, n_source )}
+  ${intf_hls          (  is_ap_ctrl, target, n_sink, n_source )}
   ${intf_streaming    (  is_ap_ctrl, target, n_sink, n_source )}
 
   <%
@@ -64,7 +64,7 @@ module kernel_wrapper (\
   %>
 
   ${ctrl_to_engine    (  is_dflow, target, n_sink, n_source )}
-  ${intf_ap_ctrl      (  is_dflow, target, n_sink, n_source )}
+  ${intf_hls          (  is_dflow, target, n_sink, n_source )}
   ${intf_streaming    (  is_dflow, target, n_sink, n_source )}
   ${input_counters    (  is_dflow, target, n_sink, n_source )}
   ${output_counters   (  is_dflow, target, n_sink, n_source )}
