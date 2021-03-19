@@ -88,7 +88,8 @@ module ${target}_engine (\
     .start           ( ctrl_i.start     ),
     .done            ( done             ), 
     .idle            ( idle             ), 
-    .ready           ( ready            )
+    .ready           ( ready            ),
+    .cnt_out         ( cnt_out          )
 
   );
 
