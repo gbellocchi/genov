@@ -83,7 +83,7 @@
   begin: engine_cnt_${chr(i+97)}
     if((~rst_ni) | clear)
       cnt_${chr(i+97)} = 32'b0;
-    else if((${chr(i+97)}}_i.valid)&(${chr(i+97)}}_i.ready))
+    else if((${chr(i+97)}_i.valid)&(${chr(i+97)}_i.ready))
       cnt_${chr(i+97)} = cnt_${chr(i+97)} + 1;
     else
       cnt_${chr(i+97)} = cnt_${chr(i+97)};

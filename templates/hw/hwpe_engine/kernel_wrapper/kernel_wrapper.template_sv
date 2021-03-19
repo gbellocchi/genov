@@ -39,6 +39,10 @@ module kernel_wrapper (\
 
   // Control signals
   input  logic          start,
+  input  logic          clear, 
+  
+  // FIXME: Clear is not used in ap_ctrl (used at engine level). 
+  //        Instantiate interface in a way that clear port gets used (or not) on the basis of is_intf.
   
   // Flag signals
   output logic          done,

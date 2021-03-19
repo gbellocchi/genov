@@ -43,19 +43,19 @@ module ${target}_engine (\
 );
 
   // ${target} control
-  logic clear;
-  logic done, idle, ready;
+  logic engine_clear;
+  logic engine_done, engine_idle, engine_ready;
   logic unsigned [($clog2(${target}_CNT_LEN)+1):0] cnt_done;
 
-  assign clear = ctrl_i.clear;
-  assign flags_o.done = done;
-  assign flags_o.idle = idle;
+  assign engine_clear = ctrl_i.clear;
+  assign flags_o.done = engine_done;
+  assign flags_o.idle = engine_idle;
 
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: fsm_ready
     if(~rst_ni)
       flags_o.ready = 1'b0;
-    else if(~(ready | idle))
+    else if(~(engine_ready | engine_idle))
       flags_o.ready = 1'b0;
     else
       flags_o.ready = 1'b1;
@@ -63,9 +63,9 @@ module ${target}_engine (\
 
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: done_cnt
-    if((~rst_ni) | clear)
+    if((~rst_ni) | engine_clear)
       cnt_done = 32'b0;
-    else if(done)
+    else if(engine_done)
       cnt_done = cnt_done + 1;
     else
       cnt_done = cnt_done;
@@ -97,9 +97,10 @@ module ${target}_engine (\
 
     // Control signals
     .start           ( ctrl_i.start     ),
-    .done            ( done             ), 
-    .idle            ( idle             ), 
-    .ready           ( ready            )
+    .clear           ( engine_clear     ),
+    .done            ( engine_done      ), 
+    .idle            ( engine_idle      ), 
+    .ready           ( engine_ready     )
 
   );
 

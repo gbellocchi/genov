@@ -31,7 +31,7 @@
     % endfor 
 
     // Control signals.
-    .ap_start           ( ctrl_i.start     ),
+    .ap_start           ( start            ),
     .ap_done            ( done             ), 
     .ap_idle            ( idle             ), 
     .ap_ready           ( ready            )
@@ -52,10 +52,6 @@
   % if is_intf is True:
 
   /* ${target} control signals. */
-
-  logic clear;
-
-  assign clear = ctrl_i.clear;
 
   % endif
 
