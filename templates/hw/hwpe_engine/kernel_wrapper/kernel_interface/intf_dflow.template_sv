@@ -6,7 +6,7 @@
 
 <%def name="intf_hls(is_intf, target, n_sink, n_source)">\
 
-  % if is_intf:
+  % if is_intf is True:
 
   /* ${target} hardware kernel. */
 
@@ -26,9 +26,11 @@
     % endfor 
 
     // Algorithm parameters.
-    % for i in range (custom_reg_num):
+    % for i in range (custom_reg_num-1):
     ${static_reg_to_engine_intf(custom_reg_name[i], custom_reg_isport[i])}
     % endfor 
+    .${custom_reg_name[i+1]}        (  ctrl_i.${custom_reg_name[i+1]}      )
+
     
   );
 
@@ -44,6 +46,8 @@
 
 <%def name="ctrl_to_engine(is_intf, target, n_sink, n_source)">\
 
+  % if is_intf is True:
+
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
   /* ${target} control signals. */
@@ -51,6 +55,8 @@
   // Insert start
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+  % endif
 
 </%def>\
 
@@ -61,6 +67,8 @@
   %>
 
 <%def name="input_counters(is_intf, target, n_sink, n_source)">\
+
+  % if is_intf is True:
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
@@ -84,6 +92,8 @@
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
+  % endif
+
 </%def>\
 
   <%
@@ -93,6 +103,8 @@
   %>
 
 <%def name="output_counters(is_intf, target, n_sink, n_source)">\
+
+  % if is_intf is True:
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
@@ -120,6 +132,8 @@
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
+  % endif
+
 </%def>\
 
 <%
@@ -130,15 +144,17 @@
 
 <%def name="flags_from_engine(is_intf, target, n_sink, n_source)">\
 
+  % if is_intf is True:
+
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
   /* ${target} flag signals. */
 
   % for j in range (n_source):
-  logic done_${j};
+  logic local_done_${j};
   % endfor
 
-  logic idle, ready;
+  logic local_idle, local_ready;
   
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
@@ -149,16 +165,16 @@
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: fsm_done_${j}
     if(~rst_ni)
-      done_${j} = 1'b0;
+      local_done_${j} = 1'b0;
     else if((${chr(j+n_sink+97)}_o.valid)&(${chr(j+n_sink+97)}_o.ready))
-      done_${j} = 1'b1;
+      local_done_${j} = 1'b1;
     else
-      done_${j} = 1'b0;
+      local_done_${j} = 1'b0;
   end
 
   // FIXME: This temporarily works with a single output.
   // SOL:   Parametrize flags_o.
-  assign flags_o.done = done_${j};
+  assign done = local_done_${j};
   % endfor
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
@@ -168,17 +184,19 @@
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: fsm_ready
     if(~rst_ni)
-      ready = 1'b0;
+      local_ready = 1'b0;
     else if(
       % for j in range (n_source-1):
       ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) ) & \
       % endfor
       ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) )
     )
-      ready = 1'b1;
+      local_ready = 1'b1;
     else
-      ready = 1'b0;
+      local_ready = 1'b0;
   end
+
+  assign ready = local_ready;
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
@@ -186,17 +204,19 @@
 
   always_comb begin
     if(start)
-      idle = 1'b0;
+      local_idle = 1'b0;
     else if(
       % for j in range (n_source-1):
       ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) ) & \
       % endfor
       ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) )
     )
-      idle = 1'b1;
+      local_idle = 1'b1;
   end
   
-  assign flags_o.idle = idle;
+  assign idle = local_idle;
+
+  % endif
 
 </%def>\
 
@@ -207,6 +227,8 @@
 %>
 
 <%def name="intf_streaming(is_intf, target, n_sink, n_source)">\
+
+  % if is_intf is True:
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
@@ -223,6 +245,8 @@
   end
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+  % endif
 
 </%def>\
 
