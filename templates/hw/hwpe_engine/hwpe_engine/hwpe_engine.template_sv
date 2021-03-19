@@ -44,7 +44,7 @@ module ${target}_engine (\
 
   // ${target} control
   logic clear;
-  logic done, idle, ready;
+  logic done, idle, ready, cnt_out;
 
   assign clear = ctrl_i.clear;
   assign flags_o.done = done;
