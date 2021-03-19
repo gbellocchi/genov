@@ -1,0 +1,40 @@
+<%
+###################################
+## Kernel wrapper waves -> DFLOW ##
+###################################
+%>
+
+<%def name="kernel_wrapper_waves_ap_dflow(is_intf, target, n_sink, n_source)">\
+
+% if is_intf:
+
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {global} -label {clk_i} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/ap_clk}
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {global} -label {rst_ni} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/ap_rst_n}
+
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {control} -label {start} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/start}
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {control} -label {done} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/done}
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {control} -label {idle} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/idle}
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {control} -label {ready} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/ready}
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {control} -label {cnt_out} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/cnt_out}
+
+  % for i in range (n_sink):
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Input data} -label {${stream_in[i]} valid} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/${stream_in[i]}_TVALID}
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Input data} -label {${stream_in[i]} data} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/${stream_in[i]}_TDATA}
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Input data} -label {${stream_in[i]} ready} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/${stream_in[i]}_TREADY}
+  % endfor
+
+  % for i in range (custom_reg_num):
+  <% NAME=custom_reg_name[i].upper() %>
+  <% name=custom_reg_name[i].lower() %>
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Custom registers} -label {${custom_reg_name[i]}} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/${custom_reg_name[i]}}
+  % endfor
+
+  % for i in range (n_source):
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Output data} -label {${stream_out[i]} valid} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/${stream_out[i]}_TVALID}
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Output data} -label {${stream_out[i]} data} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/${stream_out[i]}_TDATA}
+  add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Output data} -label {${stream_out[i]} ready} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/${stream_out[i]}_TREADY}
+  % endfor
+
+% endif
+
+</%def>\

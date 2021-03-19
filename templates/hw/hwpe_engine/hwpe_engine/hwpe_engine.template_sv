@@ -44,7 +44,8 @@ module ${target}_engine (\
 
   // ${target} control
   logic clear;
-  logic done, idle, ready, cnt_out;
+  logic done, idle, ready;
+  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] cnt_done;
 
   assign clear = ctrl_i.clear;
   assign flags_o.done = done;
@@ -60,7 +61,17 @@ module ${target}_engine (\
       flags_o.ready = 1'b1;
   end
 
-  assign flags_o.cnt = cnt_out;
+  always_ff @(posedge clk_i or negedge rst_ni)
+  begin: done_cnt
+    if((~rst_ni) | clear)
+      cnt_done = 32'b0;
+    else if(done)
+      cnt_done = cnt_done + 1;
+    else
+      cnt_done = cnt_done;
+  end
+
+  assign flags_o.cnt = cnt_done;
 
   // Kernel wrapper
   kernel_wrapper i_k_wrap (
@@ -88,8 +99,7 @@ module ${target}_engine (\
     .start           ( ctrl_i.start     ),
     .done            ( done             ), 
     .idle            ( idle             ), 
-    .ready           ( ready            ),
-    .cnt_out         ( cnt_out          )
+    .ready           ( ready            )
 
   );
 

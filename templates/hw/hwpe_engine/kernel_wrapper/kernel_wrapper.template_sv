@@ -20,7 +20,7 @@
 
 import ${target}_package::*;
 
-module ${target}_engine (\
+module kernel_wrapper (\
 
   // Global signals
   ${port('clk', 'logic', 1, False)},\
@@ -43,7 +43,7 @@ module ${target}_engine (\
   // Flag signals
   output logic          done,
   output logic          idle,
-  output logic          ready,
+  output logic          ready
 );
 
   <%
