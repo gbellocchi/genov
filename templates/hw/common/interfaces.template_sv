@@ -171,7 +171,13 @@ fsm_ctrl.${name}    = static_reg_${name}; \
 
 <%def name="static_reg_to_engine_intf(name, isport)">\
   % if isport:
-.${name}        (  ctrl_i.${name}      ),
+.${name}        ( ctrl_i.${name}      ),
+  % endif
+</%def>\
+
+<%def name="static_reg_to_kernel_module(name, isport, dim)">\
+  % if isport:
+input logic [${dim-1}:0] ${name},
   % endif
 </%def>\
 

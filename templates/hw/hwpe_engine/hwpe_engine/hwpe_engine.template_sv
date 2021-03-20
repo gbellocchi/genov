@@ -23,9 +23,9 @@ import ${target}_package::*;
 module ${target}_engine (\
 
   // Global signals
-  ${port('clk', 'logic', 1, False)},\
-  ${port('rst', 'logic', 1, False, True)},
-  ${port('test_mode', 'logic', 1, False)},
+  input  logic          clk_i,
+  input  logic          rst_ni,
+  input  logic          test_mode_i,
 
   // Sink ports
   % for i in range (n_sink):
@@ -77,17 +77,18 @@ module ${target}_engine (\
   kernel_wrapper i_k_wrap (
 
     // Global signals
-    .clk             ( clk_i            ), 
-    .rst_n           ( rst_ni           ), 
+    .clk_i           ( clk_i            ), 
+    .rst_ni          ( rst_ni           ),
+    .test_mode_i     ( test_mode_i      ), 
 
     // Input data (to-hwpe)
     % for i in range (n_sink):
-    ${axi_stream_inst_in(stream_in[i], i, (n_sink + n_source))}
+    .${stream_in[i]}_i ( ${chr(i+97)}_i  ),
     % endfor 
 
     // Output data (from-hwpe)
     % for j in range (n_source):
-    ${axi_stream_inst_out(stream_out[j], j+i+1, (n_sink + n_source))}
+    .${stream_out[j]}_o ( ${chr(i+j+98)}_o  ),
     % endfor 
 
     // Algorithm parameters
@@ -98,21 +99,23 @@ module ${target}_engine (\
     // Control signals
     .start           ( ctrl_i.start     ),
     .clear           ( engine_clear     ),
+
+    // Flag signals
     .done            ( engine_done      ), 
     .idle            ( engine_idle      ), 
     .ready           ( engine_ready     )
 
   );
 
-  // At the moment output strobe is always '1
-  // All bytes of output streams are written
-  // to TCDM
-  always_comb
-  begin
-    % for i in range (n_sink, n_sink + n_source):
-    ${chr(i+97)}_o.strb = '1;
-    % endfor
-  end
+  // // At the moment output strobe is always '1
+  // // All bytes of output streams are written
+  // // to TCDM
+  // always_comb
+  // begin
+  //   % for i in range (n_sink, n_sink + n_source):
+  //   ${chr(i+97)}_o.strb = '1;
+  //   % endfor
+  // end
 
 endmodule\
 

@@ -4,7 +4,7 @@
 ##############################################
 %>
 
-<%def name="intf_hls(is_intf, target, n_sink, n_source)">\
+<%def name="intf_hls(is_intf, target, stream_in, stream_out, n_sink, n_source)">\
 
   % if is_intf is True:
 
@@ -15,19 +15,25 @@
     .ap_clk             ( clk_i            ), 
     .ap_rst_n           ( rst_ni           ), 
 
-    // Input data (to-hwpe).
+    // Input data (to-hwpe)
     % for i in range (n_sink):
-    ${axi_stream_inst_in(stream_in[i], i, (n_sink + n_source))}
+    .${stream_in[i]}_TDATA  ( ${stream_in[i]}_i.data  ), \
+    .${stream_in[i]}_TVALID ( ${stream_in[i]}_i.valid ), \
+    .${stream_in[i]}_TREADY ( ${stream_in[i]}_i.ready ), \
     % endfor 
 
-    // Output data (from-hwpe).
+    // Output data (from-hwpe)
     % for j in range (n_source):
-    ${axi_stream_inst_out(stream_out[j], j+i+1, (n_sink + n_source))}
+    .${stream_out[j]}_TDATA  ( ${stream_out[j]}_o.data  ), \
+    .${stream_out[j]}_TVALID ( ${stream_out[j]}_o.valid ), \
+    .${stream_out[j]}_TREADY ( ${stream_out[j]}_o.ready ), \
     % endfor 
 
     // Algorithm parameters.
     % for i in range (custom_reg_num):
-    ${static_reg_to_engine_intf(custom_reg_name[i], custom_reg_isport[i])}
+      % if custom_reg_isport[i]:
+    .${custom_reg_name[i]}   ( ${custom_reg_name[i]} ),
+      % endif
     % endfor 
 
     // Control signals.
