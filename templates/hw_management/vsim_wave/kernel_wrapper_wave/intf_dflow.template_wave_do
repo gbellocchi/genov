@@ -4,7 +4,7 @@
 ###################################
 %>
 
-<%def name="kernel_wrapper_waves_ap_dflow(is_intf, target, n_sink, n_source)">\
+<%def name="kernel_wrapper_waves_ap_dflow(is_intf, target, stream_in, stream_out, n_sink, n_source)">\
 
 % if is_intf:
 

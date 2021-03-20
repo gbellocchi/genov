@@ -11,6 +11,7 @@ import re
 import sys
 
 from templates.sw.common.common_c.template_c import template_c
+from templates.hw_management.vsim_wave.engine_wave.engine_wave import hwpe_engine_waves
 from templates.hw_management.vsim_wave.kernel_wrapper_wave.kernel_wrapper_wave import kernel_wrapper_wave
 
 # Main function
@@ -52,6 +53,9 @@ class vsim_wave:
         # Common template elements
         self.common_c               = template_c(specs).gen()
 
+        # Engine
+        self.engine_wave            = hwpe_engine_waves(specs).gen()
+
         # Kernel wrapper
         self.kernel_wr_wave         = kernel_wrapper_wave(specs).gen()
         self.is_ap_ctrl             = specs.intf_kernel[0]
@@ -61,7 +65,7 @@ class vsim_wave:
         self.template               = self.get_template()
 
     def gen(self):
-        s = self.common_c + self.kernel_wr_wave + self.template
+        s = self.common_c + self.engine_wave + self.kernel_wr_wave + self.template
         pulp_template = Template(s)
         string = pulp_template.render(
             author              = self.author,
