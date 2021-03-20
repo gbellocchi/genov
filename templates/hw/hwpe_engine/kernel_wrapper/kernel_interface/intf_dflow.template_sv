@@ -58,7 +58,138 @@
 
   /* ${target} control signals. */
 
-  // Insert start
+  logic local_start;
+  assign local_start = start;
+
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+  % endif
+
+</%def>\
+
+<%
+###########################
+## Engine flags (to FSM) ##
+###########################
+%>
+
+<%def name="flags_from_engine(is_intf, target, n_sink, n_source)">\
+
+  % if is_intf is True:
+
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+  /* ${target} flag signals. */
+
+  // FIXME: This won't scale up with large interfaces (unrolling, and so on).
+  // SOL: Use array or custom typedef.
+
+  // Input signal flags
+  % for i in range (n_sink):
+  logic local_ready_in_${i};
+  logic local_done_in_${i};
+  % endfor
+
+  // Output signal flags
+  % for j in range (n_source):
+  logic local_ready_out_${j};
+  logic local_done_out_${j};
+  % endfor
+
+  logic local_idle;
+  
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+  /* Done. */
+  // A done is generated for each output. These are counted and 
+  // delivered to the FSM that decides when to update the address
+  // on the basis of the state of the line processing (see HWPE-docs).
+
+  % for j in range (n_source):
+  always_ff @(posedge clk_i or negedge rst_ni)
+  begin: fsm_done_${j}
+    if(~rst_ni)
+      local_done_out_${j} = 1'b0;
+    else if((${chr(j+n_sink+97)}_o.valid)&(${chr(j+n_sink+97)}_o.ready))
+      local_done_out_${j} = 1'b1;
+    else
+      local_done_out_${j} = 1'b0;
+  end
+
+  // FIXME: This temporarily works with a single output.
+  // SOL:   Parametrize flags_o.
+  assign done = local_done_out_${j};
+  % endfor
+
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+  /* Ready. */
+
+  always_ff @(posedge clk_i or negedge rst_ni)
+  begin: fsm_ready
+    if(~rst_ni)
+      local_ready = 1'b0;
+    else if(
+      % for j in range (n_source-1):
+      ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) ) & \
+      % endfor
+      ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) )
+    )
+      local_ready = 1'b1;
+    else
+      local_ready = 1'b0;
+  end
+
+  assign ready = local_ready;
+
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+  /* Idle. */
+
+  // FIXME: Weird behaviors in sim. Sets high before arrival of 1st local_start.
+  always_ff @(posedge clk_i or negedge rst_ni)
+  begin: fsm_ready
+    if(~rst_ni)
+      local_idle = 1'b0;
+    else if(local_start)
+      local_idle = 1'b1;
+    else if(
+      % for j in range (n_source):
+      local_done_out_${j}
+      % endfor
+    )
+      local_idle = 1'b0;
+  end
+
+  assign idle = local_idle;
+
+  % endif
+
+</%def>\
+
+<%
+#########################
+## Streaming interface ##
+#########################
+%>
+
+<%def name="intf_streaming(is_intf, target, n_sink, n_source)">\
+
+  % if is_intf is True:
+
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+  /* ${target} streaming interface control. */
+
+  // At the moment output strobe is always '1
+  // All bytes of output streams are written
+  // to TCDM
+  always_comb
+  begin
+    % for i in range (n_sink, n_sink + n_source):
+    ${chr(i+97)}_o.strb = '1;
+    % endfor
+  end
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
@@ -89,10 +220,12 @@
   begin: engine_cnt_${chr(i+97)}
     if((~rst_ni) | clear)
       local_cnt_${chr(i+97)} = 32'b0;
-    else if((${chr(i+97)}_i.valid)&(${chr(i+97)}_i.ready))
-      local_cnt_${chr(i+97)} = local_cnt_${chr(i+97)} + 1;
+    else if(!local_idle) 
+    if (${chr(i+97)}_i.valid) & (${chr(i+97)}_i.ready) )
+        local_cnt_${chr(i+97)} = local_cnt_${chr(i+97)} + 1;
     else
       local_cnt_${chr(i+97)} = local_cnt_${chr(i+97)};
+    
   end
   % endfor
 
@@ -132,120 +265,6 @@
   end
   assign cnt_${chr(j+n_sink+97)} = local_cnt_${chr(j+n_sink+97)};
   % endfor
-
-  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-
-  % endif
-
-</%def>\
-
-<%
-###########################
-## Engine flags (to FSM) ##
-###########################
-%>
-
-<%def name="flags_from_engine(is_intf, target, n_sink, n_source)">\
-
-  % if is_intf is True:
-
-  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-
-  /* ${target} flag signals. */
-
-  % for j in range (n_source):
-  logic local_done_${j};
-  % endfor
-
-  logic local_idle, local_ready;
-  
-  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-
-  /* Done. */
-
-  // FIXME: Generate only when MAX_OUT is reached
-  % for j in range (n_source):
-  always_ff @(posedge clk_i or negedge rst_ni)
-  begin: fsm_done_${j}
-    if(~rst_ni)
-      local_done_${j} = 1'b0;
-    else if((${chr(j+n_sink+97)}_o.valid)&(${chr(j+n_sink+97)}_o.ready))
-      local_done_${j} = 1'b1;
-    else
-      local_done_${j} = 1'b0;
-  end
-
-  // FIXME: This temporarily works with a single output.
-  // SOL:   Parametrize flags_o.
-  assign done = local_done_${j};
-  % endfor
-
-  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-
-  /* Ready. */
-
-  always_ff @(posedge clk_i or negedge rst_ni)
-  begin: fsm_ready
-    if(~rst_ni)
-      local_ready = 1'b0;
-    else if(
-      % for j in range (n_source-1):
-      ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) ) & \
-      % endfor
-      ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) )
-    )
-      local_ready = 1'b1;
-    else
-      local_ready = 1'b0;
-  end
-
-  assign ready = local_ready;
-
-  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-
-  /* Idle. */
-
-  always_comb begin
-    if(start)
-      local_idle = 1'b0;
-    else if(
-      % for j in range (n_source-1):
-      ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) ) & \
-      % endfor
-      ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) )
-    )
-      local_idle = 1'b1;
-  end
-  
-  assign idle = local_idle;
-
-  % endif
-
-</%def>\
-
-<%
-#########################
-## Streaming interface ##
-#########################
-%>
-
-<%def name="intf_streaming(is_intf, target, n_sink, n_source)">\
-
-  % if is_intf is True:
-
-  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-
-  /* ${target} streaming interface control. */
-
-  // At the moment output strobe is always '1
-  // All bytes of output streams are written
-  // to TCDM
-  always_comb
-  begin
-    % for i in range (n_sink, n_sink + n_source):
-    ${chr(i+97)}_o.strb = '1;
-    % endfor
-  end
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
