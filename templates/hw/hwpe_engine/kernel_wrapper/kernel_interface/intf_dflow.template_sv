@@ -166,7 +166,7 @@
   /* Idle. */
   /* This is used in the hwpe-engine to set flags_o.ready. 
      The latter triggers the START of accelerator. (see FSM_COMPUTE). */
-  /* Driven using Start and Done. */
+  /* For more infos refer to UG902. */
 
   assign idle = local_idle;
 
@@ -259,7 +259,7 @@
     end
   end
 
-  // FIXME: Now local_done_in goes High everytime an input enters the acc.
+  // FIXME: Now local_done_in goes High every time an input enters the acc.
   // This should be generalized. Even though the wrapper looper is designed to 
   // on counting the ouputs, the number of inputs needed to generate an ouput
   // are usually > 1.
@@ -292,8 +292,8 @@
   //      done_outM = cnt_out,i == ctrl_i.max_out,i; (for i=1,..,N)
   // However, loop ctrl is already implemented in micro-code looper that sits
   // in the hwpe-ctrl. Thus, the done information provided by this stage should 
-  // concern a single data element, not a tile (block,..).
-  // FIXME: At this point, cnt_out 
+  // concern a single output element, not a tile (block,..).
+  // FIXME: At this point, cnt_out is not essential here and could be removed.
 
   % for j in range (n_source):
   always_ff @(posedge clk_i or negedge rst_ni)
