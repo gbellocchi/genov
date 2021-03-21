@@ -181,6 +181,18 @@ input logic [${dim-1}:0] ${name},
   % endif
 </%def>\
 
+<%def name="static_reg_to_kernel_hls_intf(name, isport, dim, reg_num, reg_offset)">\
+% if (reg_offset < reg_num):
+  % if isport:
+.${name}   ( ${name} ),
+  % endif
+% else:
+  % if isport:
+.${name}   ( ${name} )
+  % endif
+% endif
+</%def>\
+
 <%def name="fsm_t_size(trans_size_reg, streampath, current_stream)">\
   % if current_stream == streampath:
 ${trans_size_reg};

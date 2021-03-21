@@ -29,15 +29,13 @@
     .${stream_out[j]}_TREADY ( ${stream_out[j]}_o.ready ), \
     % endfor 
 
-    // Algorithm parameters.
-    % for i in range (custom_reg_num-1):
-      % if custom_reg_isport[i]:
-    .${custom_reg_name[i]}   ( ${custom_reg_name[i]} ),
-      % endif
-    % endfor  
-    .${custom_reg_name[i+1]}   ( ${custom_reg_name[i+1]} )
+    % if custom_reg_num > 0:
+    // Algorithm parameters
+    % for i in range (custom_reg_num):
+    ${static_reg_to_kernel_hls_intf(custom_reg_name[i], custom_reg_isport[i], custom_reg_dim[i], custom_reg_num, i+1)}
+    % endfor 
+    % endif
 
-    
   );
 
   % endif
@@ -138,6 +136,10 @@
   // delivered to the FSM that decides when to update the address
   // on the basis of the state of the line processing (see HWPE-docs).
 
+  // FIXME: This temporarily works synch-outputs.
+  // EX: What if Out_0 is provided at each input and Out_1 once per 10 inputs?
+  assign done = ${AND_local_done_out_ASSIGN(n_source)} 
+
   % for j in range (n_source):
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: fsm_done_${j}
@@ -148,10 +150,6 @@
     else
       local_done_out_${j} = 1'b0;
   end
-
-  // FIXME: This temporarily works with a single output.
-  // SOL:   Parametrize flags_o and propagate.
-  assign done = local_done_out_${j};
   % endfor
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
@@ -161,7 +159,7 @@
      The latter triggers the START of accelerator. (see FSM_COMPUTE). */
   /* Driven using input counters. */
 
-  assign ready = ${AND_local_done_in(n_sink)}
+  assign ready = ${AND_local_done_in_ASSIGN(n_sink)}
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
@@ -185,11 +183,7 @@
 			local_idle = 1'b0;
     end 
     else if((!local_start) & (ready)) begin 
-      if(
-        % for j in range (n_source):
-        local_done_out_${j}
-        % endfor
-        ) begin
+      if( ${AND_local_done_out_IF(n_source)} ) begin
         /* If the Start signal is Low when Ready is High, the design stops operation, and
             the ap_idle signal goes High one cycle after ap_done.*/
         local_idle = 1'b1;
