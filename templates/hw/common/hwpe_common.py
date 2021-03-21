@@ -14,6 +14,7 @@ class hwpe_common:
     def gen(self):
         self.data_types()
         self.variables()
+        self.signals()
         self.interfaces()
         return self.common
 
@@ -25,6 +26,12 @@ class hwpe_common:
 
     def variables(self):
         with open('templates/hw/common/std_var.template_sv', 'r') as f:
+            self.common += f.read()
+            self.common += '\n'
+            f.close()
+
+    def signals(self):
+        with open('templates/hw/common/signals.template_sv', 'r') as f:
             self.common += f.read()
             self.common += '\n'
             f.close()

@@ -45,6 +45,57 @@
 </%def>\
 
 <%
+########################
+## Signal declaration ##
+########################
+%>
+
+<%def name="sign_declaration(is_intf, target, n_sink, n_source)">\
+
+  % if is_intf is True:
+
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+  /* ${target} control signals. */
+
+  logic local_start;
+
+  /* ${target} flag signals. */
+
+  // FIXME: This won't scale up with large interfaces (unrolling, and so on).
+  // SOL: Use array or custom typedef.
+
+  // Input signal flags
+  % for i in range (n_sink):
+  logic local_ready_in_${i};
+  logic local_done_in_${i}; //FIXEME: to be removed
+  % endfor
+
+  // Output signal flags
+  % for j in range (n_source):
+  logic local_done_out_${j};
+  % endfor
+
+  logic set_idle;
+  logic local_idle;
+
+  /* Counters. */
+
+  % for i in range (n_sink):
+  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] local_cnt_${chr(i+97)};
+  % endfor
+
+  % for j in range (n_source):
+  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] local_cnt_${chr(j+n_sink+97)};
+  % endfor
+
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
+
+  % endif
+
+</%def>\
+
+<%
 ################################
 ## Engine controls (from FSM) ##
 ################################
@@ -58,7 +109,10 @@
 
   /* ${target} control signals. */
 
-  logic local_start;
+  // Start is not always high. For each ready (~(engine_ready | engine_idle)) that is
+  // delivered to the FSM, a new Start signal is set high 
+  // and received by the kernel wrapper.
+
   assign local_start = start;
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
@@ -76,27 +130,6 @@
 <%def name="flags_from_engine(is_intf, target, n_sink, n_source)">\
 
   % if is_intf is True:
-
-  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-
-  /* ${target} flag signals. */
-
-  // FIXME: This won't scale up with large interfaces (unrolling, and so on).
-  // SOL: Use array or custom typedef.
-
-  // Input signal flags
-  % for i in range (n_sink):
-  logic local_ready_in_${i};
-  logic local_done_in_${i};
-  % endfor
-
-  // Output signal flags
-  % for j in range (n_source):
-  logic local_ready_out_${j};
-  logic local_done_out_${j};
-  % endfor
-
-  logic local_idle;
   
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
@@ -117,51 +150,55 @@
   end
 
   // FIXME: This temporarily works with a single output.
-  // SOL:   Parametrize flags_o.
+  // SOL:   Parametrize flags_o and propagate.
   assign done = local_done_out_${j};
   % endfor
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
   /* Ready. */
+  /* This is used in the hwpe-engine to set flags_o.ready. 
+     The latter triggers the START of accelerator. (see FSM_COMPUTE). */
+  /* Driven using input counters. */
 
-  always_ff @(posedge clk_i or negedge rst_ni)
-  begin: fsm_ready
-    if(~rst_ni)
-      local_ready = 1'b0;
-    else if(
-      % for j in range (n_source-1):
-      ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) ) & \
-      % endfor
-      ( (${chr(j+n_sink+97)}_o.valid) & (${chr(j+n_sink+97)}_o.ready) )
-    )
-      local_ready = 1'b1;
-    else
-      local_ready = 1'b0;
-  end
-
-  assign ready = local_ready;
+  assign ready = ${AND_local_done_in(n_sink)}
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
   /* Idle. */
-
-  // FIXME: Weird behaviors in sim. Sets high before arrival of 1st local_start.
-  always_ff @(posedge clk_i or negedge rst_ni)
-  begin: fsm_ready
-    if(~rst_ni)
-      local_idle = 1'b0;
-    else if(local_start)
-      local_idle = 1'b1;
-    else if(
-      % for j in range (n_source):
-      local_done_out_${j}
-      % endfor
-    )
-      local_idle = 1'b0;
-  end
+  /* This is used in the hwpe-engine to set flags_o.ready. 
+     The latter triggers the START of accelerator. (see FSM_COMPUTE). */
+  /* Driven using Start and Done. */
 
   assign idle = local_idle;
+
+  /* The Idle signal indicates when the design is idle and not operating. */
+  always_ff @(posedge clk_i or negedge rst_ni)
+  begin: fsm_idle
+		if(~rst_ni) begin
+      local_idle = 1'b0;
+    end 
+    else if(local_start) begin
+      /* Idle goes Low immediately after Start to indicate the design is no longer idle. */
+      /* If the Start signal is High when Ready is High, the design continues to operate,
+          and the Idle signal remains Low. */
+			local_idle = 1'b0;
+    end 
+    else if((!local_start) & (ready)) begin 
+      if(
+        % for j in range (n_source):
+        local_done_out_${j}
+        % endfor
+        ) begin
+        /* If the Start signal is Low when Ready is High, the design stops operation, and
+            the ap_idle signal goes High one cycle after ap_done.*/
+        local_idle = 1'b1;
+      end
+    end 
+    else begin
+			local_idle = local_idle;
+    end
+  end
 
   % endif
 
@@ -186,8 +223,8 @@
   // to TCDM
   always_comb
   begin
-    % for i in range (n_sink, n_sink + n_source):
-    ${chr(i+97)}_o.strb = '1;
+    % for j in range (n_source):
+    ${stream_out[j]}_o.strb = '1;
     % endfor
   end
 
@@ -209,24 +246,32 @@
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
-  /* ${target} input counters. */
-
-  % for i in range (n_sink):
-  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] local_cnt_${chr(i+97)}; 
-  % endfor
+  /* ${target} input counters. Ready. */
 
   % for i in range (n_sink):
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: engine_cnt_${chr(i+97)}
-    if((~rst_ni) | clear)
+    if((~rst_ni) | clear) begin
       local_cnt_${chr(i+97)} = 32'b0;
-    else if(!local_idle) 
-    if (${chr(i+97)}_i.valid) & (${chr(i+97)}_i.ready) )
-        local_cnt_${chr(i+97)} = local_cnt_${chr(i+97)} + 1;
-    else
+    end
+    else if(local_start) begin
+      local_cnt_${chr(i+97)} = 32'b0;
+    end
+    else if ((${stream_in[i]}_i.valid) & (${stream_in[i]}_i.ready)) begin
+      local_cnt_${chr(i+97)} = local_cnt_${chr(i+97)} + 1;
+    end
+    else begin
       local_cnt_${chr(i+97)} = local_cnt_${chr(i+97)};
-    
+    end
   end
+
+  // FIXME: Now local_done_in goes High everytime an input enters the acc.
+  // This should be generalized. Even though the wrapper looper is designed to 
+  // on counting the ouputs, the number of inputs needed to generate an ouput
+  // are usually > 1.
+  // SOL: Add to ctrl_i also the information about max_input.
+  assign local_done_in_${i} = (local_cnt_${chr(i+97)}==1) ? 1 : 0;
+    
   % endfor
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
@@ -248,20 +293,25 @@
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
 
   /* ${target} output counters. */
-
-  % for j in range (n_source):
-  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] local_cnt_${chr(j+n_sink+97)};
-  % endfor 
+  // Suggested design:
+  //      ap_done = done_out0 & ... & done_outM;
+  //      done_outM = cnt_out,i == ctrl_i.max_out,i; (for i=1,..,N)
+  // However, loop ctrl is already implemented in micro-code looper that sits
+  // in the hwpe-ctrl. Thus, the done information provided by this stage should 
+  // concern a single data element, not a tile (block,..).
+  // FIXME: At this point, cnt_out 
 
   % for j in range (n_source):
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: engine_cnt_${chr(j+n_sink+97)}
     if((~rst_ni) | clear)
       local_cnt_${chr(j+n_sink+97)} = 32'b0;
-    else if((${chr(j+n_sink+97)}_o.valid)&(${chr(j+n_sink+97)}_o.ready))
-      local_cnt_${chr(j+n_sink+97)} = local_cnt_${chr(j+n_sink+97)} + 1;
-    else
-      local_cnt_${chr(j+n_sink+97)} = local_cnt_${chr(j+n_sink+97)};
+    else if(!local_idle) begin
+      if((${stream_out[j]}_o.valid)&(${stream_out[j]}_o.ready))
+        local_cnt_${chr(j+n_sink+97)} = local_cnt_${chr(j+n_sink+97)} + 1;
+      else
+        local_cnt_${chr(j+n_sink+97)} = local_cnt_${chr(j+n_sink+97)};
+    end
   end
   assign cnt_${chr(j+n_sink+97)} = local_cnt_${chr(j+n_sink+97)};
   % endfor

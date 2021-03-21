@@ -55,16 +55,20 @@ module kernel_wrapper (\
   // FIXME: They could be wrapped in a custom typedef or just kept here and the 
   // on the iteration loop could be done at the FSM side counting the number of
   // received done signals
-  % if is_dflow is True:
-    % for j in range (n_source):
-  output logic [($clog2(${target}_CNT_LEN)+1):0] cnt_${chr(j+n_sink+97)},
-    % endfor 
-  % endif
+  // % if is_dflow is True:
+  //   % for j in range (n_source):
+  // output logic [($clog2(${target}_CNT_LEN)+1):0] cnt_${chr(j+n_sink+97)},
+  //   % endfor 
+  // % endif
 
   // Flag signals
   output logic          done,
   output logic          idle,
   output logic          ready
+
+  // FIXME: Use flags and ctrl typedef instead of single signals. 
+  // Why? If more i/o are going to be used (unrolling, ..), it would
+  // be more elegant to parametrize the typedefs, instead of discrete ports.
 );
 
   <%
@@ -73,9 +77,9 @@ module kernel_wrapper (\
   ##############################################
   %>
 
+  ${intf_hls          (  is_ap_ctrl, target, stream_in, stream_out, n_sink, n_source )}
   ${ctrl_to_engine    (  is_ap_ctrl, target, n_sink, n_source )}
   ${flags_from_engine (  is_ap_ctrl, target, n_sink, n_source )}
-  ${intf_hls          (  is_ap_ctrl, target, stream_in, stream_out, n_sink, n_source )}
   ${intf_streaming    (  is_ap_ctrl, target, n_sink, n_source )}
 
   <%
@@ -84,12 +88,13 @@ module kernel_wrapper (\
   ####################################
   %>
 
-  ${ctrl_to_engine    (  is_dflow, target, n_sink, n_source )}
+  ${sign_declaration  (  is_dflow, target, n_sink, n_source )}
   ${intf_hls          (  is_dflow, target, stream_in, stream_out, n_sink, n_source )}
-  ${intf_streaming    (  is_dflow, target, n_sink, n_source )}
+  ${ctrl_to_engine    (  is_dflow, target, n_sink, n_source )}
+  ${flags_from_engine (  is_dflow, target, n_sink, n_source )}
   ${input_counters    (  is_dflow, target, n_sink, n_source )}
   ${output_counters   (  is_dflow, target, n_sink, n_source )}
-  ${flags_from_engine (  is_dflow, target, n_sink, n_source )}
+  ${intf_streaming    (  is_dflow, target, n_sink, n_source )}
 
 endmodule\
 

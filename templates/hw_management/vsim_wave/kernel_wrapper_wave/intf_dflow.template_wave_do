@@ -43,6 +43,27 @@ add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Output coun
   % endfor 
 % endif
 
+add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Local} -group {Control} -label {Start} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/local_start}
+
+% for i in range (n_sink):
+add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Local} -group {Flags} -label {Ready_in_${i}} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/local_ready_in_${i}}
+ % endfor
+% for i in range (n_sink):
+add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Local} -group {Flags} -label {Done_in_${i}} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/local_done_in_${i}}
+ % endfor
+% for j in range (n_source):
+add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Local} -group {Flags} -label {Done_out_${i}} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/local_done_out_${j}}
+ % endfor
+
+add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Local} -group {Flags} -label {Idle} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/local_idle}
+
+% for i in range (n_sink):
+add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Local} -group {Counter-in} -label {Count_in_${i}} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/local_cnt_${chr(i+97)}}
+ % endfor
+% for j in range (n_source):
+add wave -noupdate -group {HWPE_${TARGET}_kernel_wrapper[0]} -group {Local} -group {Counter-out} -label {Count_out_${j}} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${TARGET}_top/i_engine/i_k_wrap/local_cnt_${chr(j+n_sink+97)}}
+ % endfor
+
 % endif
 
 </%def>\

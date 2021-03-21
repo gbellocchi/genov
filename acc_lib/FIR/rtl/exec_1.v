@@ -20,8 +20,7 @@ module exec_1 (
         h_0_V_read,
         ap_return_0,
         ap_return_1,
-        x_in_V_TDATA_blk_n,
-        ap_ce
+        x_in_V_TDATA_blk_n
 );
 
 parameter    ap_ST_fsm_state1 = 1'd1;
@@ -39,12 +38,13 @@ input  [31:0] h_0_V_read;
 output  [31:0] ap_return_0;
 output  [31:0] ap_return_1;
 output   x_in_V_TDATA_blk_n;
-input   ap_ce;
 
 reg ap_done;
 reg ap_idle;
 reg ap_ready;
 reg x_in_V_TREADY;
+reg[31:0] ap_return_0;
+reg[31:0] ap_return_1;
 reg x_in_V_TDATA_blk_n;
 
 (* fsm_encoding = "none" *) reg   [0:0] ap_CS_fsm;
@@ -57,6 +57,8 @@ reg    ap_block_state1;
 wire   [31:0] mul_ln68_fu_74_p2;
 wire  signed [31:0] mul_ln68_fu_74_p0;
 wire  signed [31:0] mul_ln68_fu_74_p1;
+reg   [31:0] ap_return_0_preg;
+reg   [31:0] ap_return_1_preg;
 reg   [0:0] ap_NS_fsm;
 
 // power-on initialization
@@ -66,6 +68,8 @@ initial begin
 #0 s_x_V_0 = 32'd0;
 #0 s_y1_V_0 = 32'd0;
 #0 s_y0_V_0 = 32'd0;
+#0 ap_return_0_preg = 32'd0;
+#0 ap_return_1_preg = 32'd0;
 end
 
 always @ (posedge ap_clk) begin
@@ -77,7 +81,27 @@ always @ (posedge ap_clk) begin
 end
 
 always @ (posedge ap_clk) begin
-    if ((~((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0)) & (1'b1 == ap_ce) & (1'b1 == ap_CS_fsm_state1))) begin
+    if (ap_rst == 1'b1) begin
+        ap_return_0_preg <= 32'd0;
+    end else begin
+        if ((~((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0)) & (1'b1 == ap_CS_fsm_state1))) begin
+            ap_return_0_preg <= s_x1_V_0;
+        end
+    end
+end
+
+always @ (posedge ap_clk) begin
+    if (ap_rst == 1'b1) begin
+        ap_return_1_preg <= 32'd0;
+    end else begin
+        if ((~((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0)) & (1'b1 == ap_CS_fsm_state1))) begin
+            ap_return_1_preg <= s_y1_V_0;
+        end
+    end
+end
+
+always @ (posedge ap_clk) begin
+    if ((~((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0)) & (1'b1 == ap_CS_fsm_state1))) begin
         s_x1_V_0 <= s_x_V_0;
         s_x_V_0 <= x_in_V_TDATA;
         s_y0_V_0 <= mul_ln68_fu_74_p2;
@@ -86,7 +110,7 @@ always @ (posedge ap_clk) begin
 end
 
 always @ (*) begin
-    if ((((ap_start == 1'b0) & (1'b1 == ap_CS_fsm_state1)) | (~((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0)) & (1'b1 == ap_ce) & (1'b1 == ap_CS_fsm_state1)))) begin
+    if ((((ap_start == 1'b0) & (1'b1 == ap_CS_fsm_state1)) | (~((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0)) & (1'b1 == ap_CS_fsm_state1)))) begin
         ap_done = 1'b1;
     end else begin
         ap_done = 1'b0;
@@ -102,10 +126,26 @@ always @ (*) begin
 end
 
 always @ (*) begin
-    if ((~((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0)) & (1'b1 == ap_ce) & (1'b1 == ap_CS_fsm_state1))) begin
+    if ((~((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0)) & (1'b1 == ap_CS_fsm_state1))) begin
         ap_ready = 1'b1;
     end else begin
         ap_ready = 1'b0;
+    end
+end
+
+always @ (*) begin
+    if ((~((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0)) & (1'b1 == ap_CS_fsm_state1))) begin
+        ap_return_0 = s_x1_V_0;
+    end else begin
+        ap_return_0 = ap_return_0_preg;
+    end
+end
+
+always @ (*) begin
+    if ((~((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0)) & (1'b1 == ap_CS_fsm_state1))) begin
+        ap_return_1 = s_y1_V_0;
+    end else begin
+        ap_return_1 = ap_return_1_preg;
     end
 end
 
@@ -118,7 +158,7 @@ always @ (*) begin
 end
 
 always @ (*) begin
-    if ((~((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0)) & (1'b1 == ap_ce) & (1'b1 == ap_CS_fsm_state1))) begin
+    if ((~((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0)) & (1'b1 == ap_CS_fsm_state1))) begin
         x_in_V_TREADY = 1'b1;
     end else begin
         x_in_V_TREADY = 1'b0;
@@ -141,10 +181,6 @@ assign ap_CS_fsm_state1 = ap_CS_fsm[32'd0];
 always @ (*) begin
     ap_block_state1 = ((ap_start == 1'b0) | (x_in_V_TVALID == 1'b0));
 end
-
-assign ap_return_0 = s_x1_V_0;
-
-assign ap_return_1 = s_y1_V_0;
 
 assign mul_ln68_fu_74_p0 = s_x1_V_0;
 
