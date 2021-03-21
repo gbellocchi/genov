@@ -4,7 +4,7 @@
 ROOT 					:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 # Accelerator library
-HWPE_TARGET				:= MAC
+HWPE_TARGET				:= FIR
 
 # Templates
 TEMPLATES 				:= ./templates
@@ -33,6 +33,7 @@ OUT_SW_DIR 				:= ${OUT_DIR}/sw
 PULP_SRC				:= ${ROOT}/../src
 HW_TEST					:= ${ROOT}/../test
 HW_DEPS					:= ${ROOT}/../deps
+HWPE_REPO				:= hwpe-repo
 PULP_CLUSTER			:= ${HW_DEPS}/pulp_cluster/rtl
 
 RM_F 					:= @rm -f
@@ -43,8 +44,8 @@ all: hero_deps
 
 hero_deps: pulp-integr
 	@echo "Exporting 'hwpe-${HWPE_TARGET}-wrapper' to HERO ecosystem."
-	@cp -rf ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
-	@cp -rf ${OUT_SW_DIR} ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper/
+	@cp -rf ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper/* ${HW_DEPS}/${HWPE_REPO}/
+	@cp -rf ${OUT_SW_DIR} ${HW_DEPS}/${HWPE_REPO}/
 
 pulp-integr: clean_pulp gen
 	@echo "Exporting HWPE package for PULP cluster."
