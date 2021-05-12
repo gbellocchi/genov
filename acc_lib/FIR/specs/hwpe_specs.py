@@ -36,13 +36,9 @@ class hwpe_specs:
                                     [ 'coeff1_V' , 'uint32_t' , 32 , 1 ] ,
                                     [ 'coeff2_V' , 'uint32_t' , 32 , 1 ] , 
                                     [ 'coeff3_V' , 'uint32_t' , 32 , 1 ] ]
+
         self.custom_reg_num     = len(self.custom_reg)
 
-        # FSM
-        self.fsm_trans_size     = [ ['len', 'x_V'] , ['len', 'y_V'] ]
-
-        # RISC-V firmware stimuli 
-        self.input_stimuli      = [ 'stim_input' ]
-        self.output_result      = [ 'res_fir' ]
-        # self.custom_reg_values  = []
+        # Address generation [ is_hardwired , is_programmed ]
+        self.addr_gen           = [ False , True ]
 

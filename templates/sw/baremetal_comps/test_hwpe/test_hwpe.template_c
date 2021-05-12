@@ -77,10 +77,6 @@ int ${TARGET}(uint32_t stim_dim, uint32_t stripe_len) {
   memset((void *)${stream_in[i]}_l2, 0, (size_t)(num_unfiltered));
   % endfor
 
-  % for i in range (n_sink):
-  ${stream_in[i]}_l2 = ${input_stimuli[i]};
-  % endfor
-
   /* L2 init - Output result */
 
   % for j in range (n_source):
@@ -216,12 +212,7 @@ int ${TARGET}(uint32_t stim_dim, uint32_t stripe_len) {
 
   /* Error check */
 
-  % for i in range (n_source):
-  for(i=0;i<num_unfiltered;i++){
-    printf("${TARGET} -> #%d is %x (%d)\n\n", i, *(${stream_out[i]}_l2+i), *(${output_result[i]}+i));
-    if(*(${stream_out[i]}_l2+i) != ${output_result[i]}[i]) errors++;
-  }
-  % endfor
+  //
 
   /* Free L2 memory */
 

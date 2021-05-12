@@ -44,10 +44,6 @@ class test_hwpe:
         self.custom_reg_isport      = [item[3] for item in specs.custom_reg]
         self.custom_reg_num         = specs.custom_reg_num
 
-        # RISC-V firmware stimuli 
-        self.input_stimuli          = specs.input_stimuli
-        self.output_result          = specs.output_result
-
         # Common template elements
         self.common_c               = template_c(specs).gen()
 
@@ -74,8 +70,6 @@ class test_hwpe:
             custom_reg_dim      = self.custom_reg_dim, 
             custom_reg_isport   = self.custom_reg_isport,
             custom_reg_num      = self.custom_reg_num,
-            input_stimuli       = self.input_stimuli,
-            output_result       = self.output_result,
         )
         s = re.sub(r'\s+$', '', string, flags=re.M)
         return s

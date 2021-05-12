@@ -43,9 +43,6 @@ class hwpe_fsm:
         self.custom_reg_isport      = [item[3] for item in specs.custom_reg]
         self.custom_reg_num         = specs.custom_reg_num
 
-        # FSM
-        self.fsm_trans_size         = specs.fsm_trans_size
-
         # Common template elements
         self.common                 = hwpe_common(specs).gen()
 
@@ -67,7 +64,6 @@ class hwpe_fsm:
             custom_reg_name         = self.custom_reg_name, 
             custom_reg_dim          = self.custom_reg_dim, 
             custom_reg_num          = self.custom_reg_num,
-            fsm_trans_size          = self.fsm_trans_size,
         )
         s = re.sub(r'\s+$', '', string, flags=re.M)
         return s

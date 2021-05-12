@@ -35,11 +35,6 @@ class hwpe_specs:
         self.custom_reg         = [ [ 'mac_par_V' , 'int32_t' , 32 , 1 ] ]
         self.custom_reg_num     = len(self.custom_reg)
 
-        # FSM
-        self.fsm_trans_size     = [ ['len', 'x1_V'] , ['len', 'x2_V'] , ['len', 'y_mul_V'] , ['len', 'y_mac_V'] ]
-
-        # RISC-V firmware stimuli 
-        self.input_stimuli      = [ 'stim_x1' , 'stim_x2' ]
-        self.output_result      = [ 'res_mul' , 'res_mac' ]
-        # self.custom_reg_values  = []
+        # Address generation [ is_hardwired , is_programmed ]
+        self.addr_gen           = [ False , True ]
 

@@ -71,9 +71,9 @@ module ${target}_fsm (
     /* INPUT FLOW */  
     % for i in range (n_sink):
     // ${chr(i+97).upper()} stream
-    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.trans_size  = ctrl_i.${fsm_t_size(fsm_trans_size[i][0], fsm_trans_size[i][1], stream_in[i])}
+    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.trans_size  = ctrl_i.len
     ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.line_stride = '0;
-    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.line_length = ctrl_i.${fsm_t_size(fsm_trans_size[i][0], fsm_trans_size[i][1], stream_in[i])}
+    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.line_length = ctrl_i.len
     ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.feat_stride = '0;
     ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.feat_length = 1;
     ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[${target}_REG_${chr(i+97).upper()}_ADDR] + (flags_ucode_i.offs[${target}_UCODE_${chr(i+97).upper()}_OFFS]);

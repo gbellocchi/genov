@@ -38,15 +38,9 @@ class hwpe_specs:
                                     [ 'k22_V'  , 'int32_t' , 32 , 1 ] ,
                                     [ 'x1_p_V' , 'int32_t' , 32 , 1 ] ,
                                     [ 'x2_p_V' , 'int32_t' , 32 , 1 ] ]
+                                    
         self.custom_reg_num     = len(self.custom_reg)
 
-        # FSM
-        # self.fsm_trans_size     = [ ['len', 'instream_V'] , ['len', 'kernel_V'] , ['len', 'outstream_V'] ]
-        self.fsm_trans_size     = [ ['len', 'x1_V'] , ['len', 'x2_V'] , ['len', 'y_V'] ]
-
-        # RISC-V firmware stimuli 
-        # self.input_stimuli      = [ 'stim_input' , 'kernel_input' ]
-        self.input_stimuli      = [ 'stim_x1', 'stim_x2' ]
-        self.output_result      = [ 'res_conv' ]
-        # self.custom_reg_values  = []
+        # Address generation [ is_hardwired , is_programmed ]
+        self.addr_gen           = [ False , True ]
 
