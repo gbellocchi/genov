@@ -31,25 +31,25 @@ module ${target}_top
   // Global signals
   ${port('clk', 'logic', 1, False)},\
   ${port('rst', 'logic', 1, False, True)},
-  (* DONT_TOUCH = "yes" *) input  logic                        test_mode_i,
+  input  logic                        test_mode_i,
 
   // Events
-  (* DONT_TOUCH = "yes" *) output logic [N_CORES-1:0][REGFILE_N_EVT-1:0] evt_o,
+  output logic [N_CORES-1:0][REGFILE_N_EVT-1:0] evt_o,
 
   // TCDM master ports
-  (* DONT_TOUCH = "yes" *) hwpe_stream_intf_tcdm.master                  tcdm[MP-1:0],
+  hwpe_stream_intf_tcdm.master                  tcdm[MP-1:0],
 
   // Peripheral slave port
-  (* DONT_TOUCH = "yes" *) hwpe_ctrl_intf_periph.slave                   periph
+  hwpe_ctrl_intf_periph.slave                   periph
 );
 
   // Signals
-  (* DONT_TOUCH = "yes" *) logic enable, clear;
-  (* DONT_TOUCH = "yes" *) logic [N_CORES-1:0][REGFILE_N_EVT-1:0] evt;
-  (* DONT_TOUCH = "yes" *) ctrl_streamer_t  streamer_ctrl;
-  (* DONT_TOUCH = "yes" *) flags_streamer_t streamer_flags;
-  (* DONT_TOUCH = "yes" *) ctrl_engine_t    engine_ctrl;
-  (* DONT_TOUCH = "yes" *) flags_engine_t   engine_flags;
+  logic enable, clear;
+  logic [N_CORES-1:0][REGFILE_N_EVT-1:0] evt;
+  ctrl_streamer_t  streamer_ctrl;
+  flags_streamer_t streamer_flags;
+  ctrl_engine_t    engine_ctrl;
+  flags_engine_t   engine_flags;
 
   // Streamer interfaces
   % for i in range (n_tcdm_ports):
