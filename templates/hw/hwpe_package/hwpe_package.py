@@ -28,8 +28,10 @@ class hwpe_package:
         self.hwpe_target = specs.hwpe_target
 
         # HWPE streaming interfaces
-        self.n_sink = specs.n_sink
-        self.n_source = specs.n_source
+        self.list_sink_stream   = [item[0] for item in specs.list_sink_stream]
+        self.list_source_stream = [item[0] for item in specs.list_source_stream]
+        self.n_sink             = specs.n_sink
+        self.n_source           = specs.n_source
 
         # HWPE standard regfiles
         self.std_reg_num        = specs.std_reg_num  
@@ -56,6 +58,8 @@ class hwpe_package:
             target              = self.hwpe_target,
             n_sink              = self.n_sink, 
             n_source            = self.n_source,
+            stream_in           = self.list_sink_stream,
+            stream_out          = self.list_source_stream,
             std_reg_num         = self.std_reg_num,
             custom_reg_name     = self.custom_reg_name, 
             custom_reg_dim      = self.custom_reg_dim, 

@@ -26,8 +26,12 @@ package ${target}_package;
 
   /* Registers */
   // TCDM addresses
-  % for i in range (n_sink+n_source):
-  parameter int unsigned ${TARGET}_REG_${chr(i+65)}_ADDR              = ${i};
+  % for i in range (n_sink):
+  parameter int unsigned ${TARGET}_REG_${stream_in[i].upper()}_ADDR              = ${i};
+  % endfor 
+
+  % for j in range (n_source):
+  parameter int unsigned ${TARGET}_REG_${stream_out[j].upper()}_ADDR              = ${i+j};
   % endfor 
 
   // Standard registers
@@ -44,8 +48,12 @@ package ${target}_package;
   % endfor 
 
   // microcode offset indeces -- this should be aligned to the microcode compiler of course!
-  % for i in range (n_sink+n_source):
-  parameter int unsigned ${TARGET}_UCODE_${chr(i+65)}_OFFS              = ${i};
+  % for i in range (n_sink):
+  parameter int unsigned ${TARGET}_UCODE_${stream_in[i].upper()}_OFFS              = ${i};
+  % endfor 
+
+  % for j in range (n_source):
+  parameter int unsigned ${TARGET}_UCODE_${stream_out[j].upper()}_OFFS              = ${i+j};
   % endfor 
 
   // microcode mnemonics -- this should be aligned to the microcode compiler of course!
@@ -77,19 +85,19 @@ package ${target}_package;
 
   typedef struct packed {
     % for i in range (n_sink):
-    hwpe_stream_package::ctrl_sourcesink_t ${chr(i+97)}_source_ctrl;
+    hwpe_stream_package::ctrl_sourcesink_t ${stream_in[i]}_source_ctrl;
     % endfor 
     % for j in range (n_source):
-    hwpe_stream_package::ctrl_sourcesink_t ${chr(j+i+98)}_sink_ctrl;
+    hwpe_stream_package::ctrl_sourcesink_t ${stream_out[j]}_sink_ctrl;
     % endfor 
   } ctrl_streamer_t;
 
   typedef struct packed {
     % for i in range (n_sink):
-    hwpe_stream_package::flags_sourcesink_t ${chr(i+97)}_source_flags;
+    hwpe_stream_package::flags_sourcesink_t ${stream_in[i]}_source_flags;
     % endfor 
     % for j in range (n_source):
-    hwpe_stream_package::flags_sourcesink_t ${chr(j+i+98)}_sink_flags;
+    hwpe_stream_package::flags_sourcesink_t ${stream_out[j]}_sink_flags;
     % endfor 
   } flags_streamer_t;
 

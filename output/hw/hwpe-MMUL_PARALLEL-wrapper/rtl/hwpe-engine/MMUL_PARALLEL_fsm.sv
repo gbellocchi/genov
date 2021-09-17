@@ -63,42 +63,42 @@ module MMUL_PARALLEL_fsm (
     // INITIALIZATION
     //
     /* INPUT FLOW */
-    // A stream
-    ctrl_streamer_o.a_source_ctrl.addressgen_ctrl.trans_size  = ctrl_i.len
-    ctrl_streamer_o.a_source_ctrl.addressgen_ctrl.line_stride = '0;
-    ctrl_streamer_o.a_source_ctrl.addressgen_ctrl.line_length = ctrl_i.len
-    ctrl_streamer_o.a_source_ctrl.addressgen_ctrl.feat_stride = '0;
-    ctrl_streamer_o.a_source_ctrl.addressgen_ctrl.feat_length = 1;
-    ctrl_streamer_o.a_source_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[MMUL_PARALLEL_REG_A_ADDR] + (flags_ucode_i.offs[MMUL_PARALLEL_UCODE_A_OFFS]);
-    ctrl_streamer_o.a_source_ctrl.addressgen_ctrl.feat_roll   = '0;
-    ctrl_streamer_o.a_source_ctrl.addressgen_ctrl.loop_outer  = '0;
-    ctrl_streamer_o.a_source_ctrl.addressgen_ctrl.realign_type = '0;
+    // ['in1', 'in2'] stream
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.trans_size  = ctrl_i.len
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.line_stride = '0;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.line_length = ctrl_i.len
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.feat_stride = '0;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.feat_length = 1;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[MMUL_PARALLEL_REG_IN1_ADDR] + (flags_ucode_i.offs[MMUL_PARALLEL_UCODE_IN1_OFFS]);
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.feat_roll   = '0;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.loop_outer  = '0;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.realign_type = '0;
     //
-    // B stream
-    ctrl_streamer_o.b_source_ctrl.addressgen_ctrl.trans_size  = ctrl_i.len
-    ctrl_streamer_o.b_source_ctrl.addressgen_ctrl.line_stride = '0;
-    ctrl_streamer_o.b_source_ctrl.addressgen_ctrl.line_length = ctrl_i.len
-    ctrl_streamer_o.b_source_ctrl.addressgen_ctrl.feat_stride = '0;
-    ctrl_streamer_o.b_source_ctrl.addressgen_ctrl.feat_length = 1;
-    ctrl_streamer_o.b_source_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[MMUL_PARALLEL_REG_B_ADDR] + (flags_ucode_i.offs[MMUL_PARALLEL_UCODE_B_OFFS]);
-    ctrl_streamer_o.b_source_ctrl.addressgen_ctrl.feat_roll   = '0;
-    ctrl_streamer_o.b_source_ctrl.addressgen_ctrl.loop_outer  = '0;
-    ctrl_streamer_o.b_source_ctrl.addressgen_ctrl.realign_type = '0;
+    // ['in1', 'in2'] stream
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.trans_size  = ctrl_i.len
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.line_stride = '0;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.line_length = ctrl_i.len
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.feat_stride = '0;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.feat_length = 1;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[MMUL_PARALLEL_REG_IN2_ADDR] + (flags_ucode_i.offs[MMUL_PARALLEL_UCODE_IN2_OFFS]);
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.feat_roll   = '0;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.loop_outer  = '0;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.realign_type = '0;
     //
     //
     /* OUTPUT FLOW */
-    // C stream
-    // ctrl_streamer_o.c_sink_ctrl.addressgen_ctrl.trans_size  = (ctrl_i.simple_mul) ? ctrl_i.len : 1;
-    ctrl_streamer_o.c_sink_ctrl.addressgen_ctrl.trans_size  =  ctrl_i.len;
-    ctrl_streamer_o.c_sink_ctrl.addressgen_ctrl.line_stride = '0;
-    // ctrl_streamer_o.c_sink_ctrl.addressgen_ctrl.line_length = (ctrl_i.simple_mul) ? ctrl_i.len : 1;
-    ctrl_streamer_o.c_sink_ctrl.addressgen_ctrl.line_length =  ctrl_i.len;
-    ctrl_streamer_o.c_sink_ctrl.addressgen_ctrl.feat_stride = '0;
-    ctrl_streamer_o.c_sink_ctrl.addressgen_ctrl.feat_length = 1;
-    ctrl_streamer_o.c_sink_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[MMUL_PARALLEL_REG_C_ADDR] + (flags_ucode_i.offs[MMUL_PARALLEL_UCODE_C_OFFS]);
-    ctrl_streamer_o.c_sink_ctrl.addressgen_ctrl.feat_roll   = '0;
-    ctrl_streamer_o.c_sink_ctrl.addressgen_ctrl.loop_outer  = '0;
-    ctrl_streamer_o.c_sink_ctrl.addressgen_ctrl.realign_type = '0;
+    // OUT_R stream
+    // ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.trans_size  = (ctrl_i.simple_mul) ? ctrl_i.len : 1;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.trans_size  =  ctrl_i.len;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.line_stride = '0;
+    // ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.line_length = (ctrl_i.simple_mul) ? ctrl_i.len : 1;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.line_length =  ctrl_i.len;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.feat_stride = '0;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.feat_length = 1;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[MMUL_PARALLEL_REG_OUT_R_ADDR] + (flags_ucode_i.offs[MMUL_PARALLEL_UCODE_OUT_R_OFFS]);
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.feat_roll   = '0;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.loop_outer  = '0;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.realign_type = '0;
     //
     // ucode
     // ctrl_ucode_o.accum_loop = '0; // this is not relevant for this simple accelerator, and it should be moved from
@@ -115,9 +115,9 @@ module MMUL_PARALLEL_fsm (
     ctrl_slave_o.evt  = '0;
     // real finite-state machine
     next_state   = curr_state;
-    ctrl_streamer_o.a_source_ctrl.req_start    = '0;
-    ctrl_streamer_o.b_source_ctrl.req_start    = '0;
-    ctrl_streamer_o.c_sink_ctrl.req_start      = '0;
+    ctrl_streamer_o.in1_source_ctrl.req_start    = '0;
+    ctrl_streamer_o.in2_source_ctrl.req_start    = '0;
+    ctrl_streamer_o.in2_sink_ctrl.req_start      = '0;
     ctrl_ucode_o.enable                        = '0;
     ctrl_ucode_o.clear                         = '0;
     //
@@ -134,16 +134,16 @@ module MMUL_PARALLEL_fsm (
       FSM_START: begin
         // update the indeces, then load the first feature
         if(
-           flags_streamer_i.a_source_flags.ready_start &
-           flags_streamer_i.b_source_flags.ready_start &
-           flags_streamer_i.c_sink_flags.ready_start)  begin
+           flags_streamer_i.in1_source_flags.ready_start &
+           flags_streamer_i.in2_source_flags.ready_start &
+           flags_streamer_i.out_r_sink_flags.ready_start)  begin
           next_state  = FSM_COMPUTE;
           ctrl_engine_o.start  = 1'b1;
           ctrl_engine_o.clear  = 1'b0;
           ctrl_engine_o.enable = 1'b1;
-          ctrl_streamer_o.a_source_ctrl.req_start = 1'b1;
-          ctrl_streamer_o.b_source_ctrl.req_start = 1'b1;
-          ctrl_streamer_o.c_sink_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.in1_source_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.in2_source_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.out_r_sink_ctrl.req_start = 1'b1;
         end
         else begin
           next_state = FSM_WAIT;
@@ -172,16 +172,16 @@ module MMUL_PARALLEL_fsm (
           next_state = FSM_TERMINATE;
         end
         else if(
-                flags_streamer_i.a_source_flags.ready_start &
-                flags_streamer_i.b_source_flags.ready_start &
-                flags_streamer_i.c_sink_flags.ready_start)  begin
+                flags_streamer_i.in1_source_flags.ready_start &
+                flags_streamer_i.in2_source_flags.ready_start &
+                flags_streamer_i.out_r_sink_flags.ready_start)  begin
           next_state = FSM_COMPUTE;
           ctrl_engine_o.start  = 1'b1;
           ctrl_engine_o.clear  = 1'b0;
           ctrl_engine_o.enable = 1'b1;
-          ctrl_streamer_o.a_source_ctrl.req_start = 1'b1;
-          ctrl_streamer_o.b_source_ctrl.req_start = 1'b1;
-          ctrl_streamer_o.c_sink_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.in1_source_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.in2_source_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.out_r_sink_ctrl.req_start = 1'b1;
         end
         else begin
           next_state = FSM_WAIT;
@@ -193,15 +193,15 @@ module MMUL_PARALLEL_fsm (
         ctrl_engine_o.enable = 1'b0;
         ctrl_ucode_o.enable  = 1'b0;
         if(
-           flags_streamer_i.a_source_flags.ready_start &
-           flags_streamer_i.b_source_flags.ready_start &
-           flags_streamer_i.c_sink_flags.ready_start)  begin
+           flags_streamer_i.in1_source_flags.ready_start &
+           flags_streamer_i.in2_source_flags.ready_start &
+           flags_streamer_i.out_r_sink_flags.ready_start)  begin
           next_state = FSM_COMPUTE;
           ctrl_engine_o.start = 1'b1;
           ctrl_engine_o.enable = 1'b1;
-          ctrl_streamer_o.a_source_ctrl.req_start = 1'b1;
-          ctrl_streamer_o.b_source_ctrl.req_start = 1'b1;
-          ctrl_streamer_o.c_sink_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.in1_source_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.in2_source_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.out_r_sink_ctrl.req_start = 1'b1;
         end
       end
       FSM_TERMINATE: begin
@@ -209,9 +209,9 @@ module MMUL_PARALLEL_fsm (
         ctrl_engine_o.clear  = 1'b0;
         ctrl_engine_o.enable = 1'b0;
         if(
-           flags_streamer_i.a_source_flags.ready_start &
-           flags_streamer_i.b_source_flags.ready_start &
-           flags_streamer_i.c_sink_flags.ready_start)  begin
+           flags_streamer_i.in1_source_flags.ready_start &
+           flags_streamer_i.in2_source_flags.ready_start &
+           flags_streamer_i.out_r_sink_flags.ready_start)  begin
           next_state = FSM_IDLE;
           ctrl_slave_o.done = 1'b1;
         end

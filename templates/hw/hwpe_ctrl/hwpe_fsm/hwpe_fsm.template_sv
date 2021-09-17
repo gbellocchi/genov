@@ -70,33 +70,33 @@ module ${target}_fsm (
 
     /* INPUT FLOW */  
     % for i in range (n_sink):
-    // ${chr(i+97).upper()} stream
-    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.trans_size  = ctrl_i.len
-    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.line_stride = '0;
-    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.line_length = ctrl_i.len
-    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.feat_stride = '0;
-    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.feat_length = 1;
-    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[${target}_REG_${chr(i+97).upper()}_ADDR] + (flags_ucode_i.offs[${target}_UCODE_${chr(i+97).upper()}_OFFS]);
-    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.feat_roll   = '0;
-    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.loop_outer  = '0;
-    ctrl_streamer_o.${chr(i+97)}_source_ctrl.addressgen_ctrl.realign_type = '0;
+    // ${stream_in} stream
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.trans_size  = ctrl_i.len
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.line_stride = '0;
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.line_length = ctrl_i.len
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.feat_stride = '0;
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.feat_length = 1;
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[${target}_REG_${stream_in[i].upper()}_ADDR] + (flags_ucode_i.offs[${target}_UCODE_${stream_in[i].upper()}_OFFS]);
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.feat_roll   = '0;
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.loop_outer  = '0;
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.realign_type = '0;
     //
     % endfor 
     //
     /* OUTPUT FLOW */    
     % for j in range (n_source):
-    // ${chr(j+i+98).upper()} stream
-    // ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.addressgen_ctrl.trans_size  = (ctrl_i.simple_mul) ? ctrl_i.len : 1;
-    ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.addressgen_ctrl.trans_size  =  ctrl_i.len;
-    ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.addressgen_ctrl.line_stride = '0;
-    // ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.addressgen_ctrl.line_length = (ctrl_i.simple_mul) ? ctrl_i.len : 1;
-    ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.addressgen_ctrl.line_length =  ctrl_i.len;
-    ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.addressgen_ctrl.feat_stride = '0;
-    ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.addressgen_ctrl.feat_length = 1;
-    ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[${target}_REG_${chr(j+i+98).upper()}_ADDR] + (flags_ucode_i.offs[${target}_UCODE_${chr(j+i+98).upper()}_OFFS]);
-    ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.addressgen_ctrl.feat_roll   = '0;
-    ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.addressgen_ctrl.loop_outer  = '0;
-    ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.addressgen_ctrl.realign_type = '0;
+    // ${stream_out[j].upper()} stream
+    // ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.trans_size  = (ctrl_i.simple_mul) ? ctrl_i.len : 1;
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.trans_size  =  ctrl_i.len;
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.line_stride = '0;
+    // ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.line_length = (ctrl_i.simple_mul) ? ctrl_i.len : 1;
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.line_length =  ctrl_i.len;
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.feat_stride = '0;
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.feat_length = 1;
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[${target}_REG_${stream_out[j].upper()}_ADDR] + (flags_ucode_i.offs[${target}_UCODE_${stream_out[j].upper()}_OFFS]);
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.feat_roll   = '0;
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.loop_outer  = '0;
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.realign_type = '0;
     //
     % endfor 
 
@@ -122,10 +122,10 @@ module ${target}_fsm (
     // real finite-state machine
     next_state   = curr_state;
     % for i in range (n_sink):
-    ctrl_streamer_o.${chr(i+97)}_source_ctrl.req_start    = '0;
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.req_start    = '0;
     % endfor 
     % for j in range (n_source):
-    ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.req_start      = '0;
+    ctrl_streamer_o.${stream_in[i]}_sink_ctrl.req_start      = '0;
     % endfor 
     ctrl_ucode_o.enable                        = '0;
     ctrl_ucode_o.clear                         = '0;
@@ -147,26 +147,32 @@ module ${target}_fsm (
       FSM_START: begin
         // update the indeces, then load the first feature
         if(
+
            % for i in range (n_sink):
-           flags_streamer_i.${chr(i+97)}_source_flags.ready_start &
+           flags_streamer_i.${stream_in[i]}_source_flags.ready_start &
            % endfor 
+
            % for j in range (n_source):
            % if j == (n_source-1):
-           flags_streamer_i.${chr(j+i+98)}_sink_flags.ready_start)  begin
+           flags_streamer_i.${stream_out[j]}_sink_flags.ready_start)  begin
            % else:
-           flags_streamer_i.${chr(j+i+98)}_sink_flags.ready_start   &
+           flags_streamer_i.${stream_out[j]}_sink_flags.ready_start   &
            % endif
            % endfor
+
           next_state  = FSM_COMPUTE;
           ctrl_engine_o.start  = 1'b1;
           ctrl_engine_o.clear  = 1'b0;
           ctrl_engine_o.enable = 1'b1;
+
           % for i in range (n_sink):
-          ctrl_streamer_o.${chr(i+97)}_source_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.${stream_in[i]}_source_ctrl.req_start = 1'b1;
           % endfor 
+
           % for j in range (n_source):
-          ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.${stream_out[j]}_sink_ctrl.req_start = 1'b1;
           % endfor
+
         end
         else begin
           next_state = FSM_WAIT;
@@ -197,25 +203,28 @@ module ${target}_fsm (
           next_state = FSM_TERMINATE;
         end
         else if(
+
                 % for i in range (n_sink):
-                flags_streamer_i.${chr(i+97)}_source_flags.ready_start &
+                flags_streamer_i.${stream_in[i]}_source_flags.ready_start &
                 % endfor 
+
                 % for j in range (n_source):
                 % if j == (n_source-1):
-                flags_streamer_i.${chr(j+i+98)}_sink_flags.ready_start)  begin
+                flags_streamer_i.${stream_out[j]}_sink_flags.ready_start)  begin
                 % else:
-                flags_streamer_i.${chr(j+i+98)}_sink_flags.ready_start   &
+                flags_streamer_i.${stream_out[j]}_sink_flags.ready_start   &
                 % endif
                 % endfor
+
           next_state = FSM_COMPUTE;
           ctrl_engine_o.start  = 1'b1;
           ctrl_engine_o.clear  = 1'b0;
           ctrl_engine_o.enable = 1'b1;
           % for i in range (n_sink):
-          ctrl_streamer_o.${chr(i+97)}_source_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.${stream_in[i]}_source_ctrl.req_start = 1'b1;
           % endfor 
           % for j in range (n_source):
-          ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.${stream_out[j]}_sink_ctrl.req_start = 1'b1;
           % endfor
         end
         else begin
@@ -230,23 +239,23 @@ module ${target}_fsm (
         ctrl_ucode_o.enable  = 1'b0;
         if(
            % for i in range (n_sink):
-           flags_streamer_i.${chr(i+97)}_source_flags.ready_start &
+           flags_streamer_i.${stream_in[i]}_source_flags.ready_start &
            % endfor 
            % for j in range (n_source):
            % if j == (n_source-1):
-           flags_streamer_i.${chr(j+i+98)}_sink_flags.ready_start)  begin
+           flags_streamer_i.${stream_out[j]}_sink_flags.ready_start)  begin
            % else:
-           flags_streamer_i.${chr(j+i+98)}_sink_flags.ready_start   &
+           flags_streamer_i.${stream_out[j]}_sink_flags.ready_start   &
            % endif
            % endfor
           next_state = FSM_COMPUTE;
           ctrl_engine_o.start = 1'b1;
           ctrl_engine_o.enable = 1'b1;
           % for i in range (n_sink):
-          ctrl_streamer_o.${chr(i+97)}_source_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.${stream_in[i]}_source_ctrl.req_start = 1'b1;
           % endfor 
           % for j in range (n_source):
-          ctrl_streamer_o.${chr(j+i+98)}_sink_ctrl.req_start = 1'b1;
+          ctrl_streamer_o.${stream_out[j]}_sink_ctrl.req_start = 1'b1;
           % endfor
         end
       end
@@ -257,13 +266,13 @@ module ${target}_fsm (
         ctrl_engine_o.enable = 1'b0;
         if(
            % for i in range (n_sink):
-           flags_streamer_i.${chr(i+97)}_source_flags.ready_start &
+           flags_streamer_i.${stream_in[i]}_source_flags.ready_start &
            % endfor 
            % for j in range (n_source):
            % if j == (n_source-1):
-           flags_streamer_i.${chr(j+i+98)}_sink_flags.ready_start)  begin
+           flags_streamer_i.${stream_out[j]}_sink_flags.ready_start)  begin
            % else:
-           flags_streamer_i.${chr(j+i+98)}_sink_flags.ready_start   &
+           flags_streamer_i.${stream_out[j]}_sink_flags.ready_start   &
            % endif
            % endfor
           next_state = FSM_IDLE;

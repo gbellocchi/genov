@@ -23,9 +23,9 @@ package MMUL_PARALLEL_package;
   parameter int unsigned MMUL_PARALLEL_CNT_LEN = 1024; // maximum length of the vectors for a scalar product
   /* Registers */
   // TCDM addresses
-  parameter int unsigned MMUL_PARALLEL_REG_A_ADDR              = 0;
-  parameter int unsigned MMUL_PARALLEL_REG_B_ADDR              = 1;
-  parameter int unsigned MMUL_PARALLEL_REG_C_ADDR              = 2;
+  parameter int unsigned MMUL_PARALLEL_REG_IN1_ADDR              = 0;
+  parameter int unsigned MMUL_PARALLEL_REG_IN2_ADDR              = 1;
+  parameter int unsigned MMUL_PARALLEL_REG_OUT_R_ADDR              = 1;
   // Standard registers
   parameter int unsigned MMUL_PARALLEL_REG_NB_ITER              = 3;
   parameter int unsigned MMUL_PARALLEL_REG_LEN_ITER             = 4;
@@ -34,9 +34,9 @@ package MMUL_PARALLEL_package;
   parameter int unsigned MMUL_PARALLEL_REG_SHIFT_VECTSTRIDE2    = 7; // Added to be aligned with sw (not used in hw)
   // Custom register files
   // microcode offset indeces -- this should be aligned to the microcode compiler of course!
-  parameter int unsigned MMUL_PARALLEL_UCODE_A_OFFS              = 0;
-  parameter int unsigned MMUL_PARALLEL_UCODE_B_OFFS              = 1;
-  parameter int unsigned MMUL_PARALLEL_UCODE_C_OFFS              = 2;
+  parameter int unsigned MMUL_PARALLEL_UCODE_IN1_OFFS              = 0;
+  parameter int unsigned MMUL_PARALLEL_UCODE_IN2_OFFS              = 1;
+  parameter int unsigned MMUL_PARALLEL_UCODE_OUT_R_OFFS              = 1;
   // microcode mnemonics -- this should be aligned to the microcode compiler of course!
   parameter int unsigned MMUL_PARALLEL_UCODE_MNEM_NBITER     = 4 - 4;
   parameter int unsigned MMUL_PARALLEL_UCODE_MNEM_ITERSTRIDE = 5 - 4;
@@ -57,14 +57,14 @@ package MMUL_PARALLEL_package;
     logic ready;
   } flags_engine_t;
   typedef struct packed {
-    hwpe_stream_package::ctrl_sourcesink_t a_source_ctrl;
-    hwpe_stream_package::ctrl_sourcesink_t b_source_ctrl;
-    hwpe_stream_package::ctrl_sourcesink_t c_sink_ctrl;
+    hwpe_stream_package::ctrl_sourcesink_t in1_source_ctrl;
+    hwpe_stream_package::ctrl_sourcesink_t in2_source_ctrl;
+    hwpe_stream_package::ctrl_sourcesink_t out_r_sink_ctrl;
   } ctrl_streamer_t;
   typedef struct packed {
-    hwpe_stream_package::flags_sourcesink_t a_source_flags;
-    hwpe_stream_package::flags_sourcesink_t b_source_flags;
-    hwpe_stream_package::flags_sourcesink_t c_sink_flags;
+    hwpe_stream_package::flags_sourcesink_t in1_source_flags;
+    hwpe_stream_package::flags_sourcesink_t in2_source_flags;
+    hwpe_stream_package::flags_sourcesink_t out_r_sink_flags;
   } flags_streamer_t;
   typedef struct packed {
     logic simple_mul;

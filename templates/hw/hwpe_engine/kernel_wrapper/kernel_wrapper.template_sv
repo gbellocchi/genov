@@ -57,7 +57,7 @@ module kernel_wrapper (\
   // received done signals
   // % if is_dflow is True:
   //   % for j in range (n_source):
-  // output logic [($clog2(${target}_CNT_LEN)+1):0] cnt_${chr(j+n_sink+97)},
+  // output logic [($clog2(${target}_CNT_LEN)+1):0] cnt_${stream_out[j]},
   //   % endfor 
   // % endif
 

@@ -99,15 +99,15 @@
 </%def>\
 
 <%def name="axi_stream_inst_in(prefix, index, n_ports)">\
-.${prefix}_TDATA  ( ${chr(index+97)}_i.data  ), \
-.${prefix}_TVALID ( ${chr(index+97)}_i.valid ), \
-.${prefix}_TREADY ( ${chr(index+97)}_i.ready ), \
+.${prefix}_TDATA  ( i_${stream_in[index]}.data  ), \
+.${prefix}_TVALID ( i_${stream_in[index]}.valid ), \
+.${prefix}_TREADY ( i_${stream_in[index]}.ready ), \
 </%def>\
 
 <%def name="axi_stream_inst_out(prefix, index, n_ports)">\
-.${prefix}_TDATA  ( ${chr(index+97)}_o.data  ), \
-.${prefix}_TVALID ( ${chr(index+97)}_o.valid ), \
-.${prefix}_TREADY ( ${chr(index+97)}_o.ready ), \
+.${prefix}_TDATA  ( o_${stream_out[index]}.data  ), \
+.${prefix}_TVALID ( o_${stream_out[index]}.valid ), \
+.${prefix}_TREADY ( o_${stream_out[index]}.ready ), \
 </%def>\
 
 <%
