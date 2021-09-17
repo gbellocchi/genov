@@ -29,12 +29,12 @@ module kernel_wrapper (\
 
   // Sink ports
   % for i in range (n_sink):
-  hwpe_stream_intf_stream.sink    ${stream_in[i]}_i,
+  hwpe_stream_intf_stream.sink    i_${stream_in[i]},
   % endfor 
 
   // Source ports
   % for j in range (n_source):
-  hwpe_stream_intf_stream.source  ${stream_out[j]}_o,
+  hwpe_stream_intf_stream.source  o_${stream_out[j]},
   % endfor 
 
   % if custom_reg_num > 0:

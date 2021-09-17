@@ -52,8 +52,12 @@ module ${target}_top
   flags_engine_t   engine_flags;
 
   // Streamer interfaces
-  % for i in range (n_tcdm_ports):
-  ${stream_intf_stream_decl_1(chr(i+97), 32, 'clk_i')}
+  % for i in range (n_sink):
+  ${stream_intf_stream_decl_1(stream_in[i], 32, 'clk_i')}
+  % endfor 
+
+  % for j in range (n_source):
+  ${stream_intf_stream_decl_1(stream_out[j], 32, 'clk_i')}
   % endfor 
 
   // HWPE engine wrapper
@@ -62,10 +66,10 @@ module ${target}_top
     .rst_ni           ( rst_ni         ),
     .test_mode_i      ( test_mode_i    ),
     % for i in range (n_sink):
-    ${stream_instance(chr(i+97), 'i', 'sink')}
+    ${stream_instance(stream_in[i], 'i', 'sink')}
     % endfor
     % for j in range (n_source):
-    ${stream_instance(chr(j+i+98), 'o', 'source')}
+    ${stream_instance(stream_out[j], 'o', 'source')}
     % endfor
     .ctrl_i           ( engine_ctrl    ),
     .flags_o          ( engine_flags   )
@@ -81,10 +85,10 @@ module ${target}_top
     .enable_i         ( enable         ),
     .clear_i          ( clear          ),
     % for i in range (n_sink):
-    ${stream_instance(chr(i+97), 'o', 'source')}
+    ${stream_instance(stream_in[i], 'o', 'source')}
     % endfor
     % for j in range (n_source):
-    ${stream_instance(chr(j+i+98), 'i', 'sink')}
+    ${stream_instance(stream_out[j], 'i', 'sink')}
     % endfor
     .tcdm             ( tcdm           ),
     .ctrl_i           ( streamer_ctrl  ),

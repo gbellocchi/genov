@@ -80,11 +80,11 @@
   /* Counters. */
 
   % for i in range (n_sink):
-  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] local_cnt_${chr(i+97)};
+  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] local_cnt_${stream_in[i]};
   % endfor
 
   % for j in range (n_source):
-  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] local_cnt_${chr(j+n_sink+97)};
+  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] local_cnt_${stream_out[j]};
   % endfor
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
@@ -145,7 +145,7 @@
   begin: fsm_done_${j}
     if(~rst_ni)
       local_done_out_${j} = 1'b0;
-    else if((${chr(j+n_sink+97)}_o.valid)&(${chr(j+n_sink+97)}_o.ready))
+    else if((o_${stream_out[j]}.valid)&(o_${stream_out[j]}.ready))
       local_done_out_${j} = 1'b1;
     else
       local_done_out_${j} = 1'b0;
@@ -244,18 +244,18 @@
 
   % for i in range (n_sink):
   always_ff @(posedge clk_i or negedge rst_ni)
-  begin: engine_cnt_${chr(i+97)}
+  begin: engine_cnt_${stream_in[i]}
     if((~rst_ni) | clear) begin
-      local_cnt_${chr(i+97)} = 32'b0;
+      local_cnt_${stream_in[i]} = 32'b0;
     end
     else if(local_start) begin
-      local_cnt_${chr(i+97)} = 32'b0;
+      local_cnt_${stream_in[i]} = 32'b0;
     end
     else if ((${stream_in[i]}_i.valid) & (${stream_in[i]}_i.ready)) begin
-      local_cnt_${chr(i+97)} = local_cnt_${chr(i+97)} + 1;
+      local_cnt_${stream_in[i]} = local_cnt_${stream_in[i]} + 1;
     end
     else begin
-      local_cnt_${chr(i+97)} = local_cnt_${chr(i+97)};
+      local_cnt_${stream_in[i]} = local_cnt_${stream_in[i]};
     end
   end
 
@@ -264,7 +264,7 @@
   // on counting the ouputs, the number of inputs needed to generate an ouput
   // are usually > 1.
   // SOL: Add to ctrl_i also the information about max_input.
-  assign local_done_in_${i} = (local_cnt_${chr(i+97)}==1) ? 1 : 0;
+  assign local_done_in_${i} = (local_cnt_${stream_in[i]}==1) ? 1 : 0;
     
   % endfor
 
@@ -297,17 +297,17 @@
 
   % for j in range (n_source):
   always_ff @(posedge clk_i or negedge rst_ni)
-  begin: engine_cnt_${chr(j+n_sink+97)}
+  begin: engine_cnt_${stream_out[j]}
     if((~rst_ni) | clear)
-      local_cnt_${chr(j+n_sink+97)} = 32'b0;
+      local_cnt_${stream_out[j]} = 32'b0;
     else if(!local_idle) begin
       if((${stream_out[j]}_o.valid)&(${stream_out[j]}_o.ready))
-        local_cnt_${chr(j+n_sink+97)} = local_cnt_${chr(j+n_sink+97)} + 1;
+        local_cnt_${stream_out[j]} = local_cnt_${stream_out[j]} + 1;
       else
-        local_cnt_${chr(j+n_sink+97)} = local_cnt_${chr(j+n_sink+97)};
+        local_cnt_${stream_out[j]} = local_cnt_${stream_out[j]};
     end
   end
-  assign cnt_${chr(j+n_sink+97)} = local_cnt_${chr(j+n_sink+97)};
+  assign cnt_${stream_out[j]} = local_cnt_${stream_out[j]};
   % endfor
 
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */

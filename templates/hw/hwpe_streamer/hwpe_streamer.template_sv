@@ -37,10 +37,10 @@ module ${target}_streamer
 
   // Streaming interfaces
   % for i in range (n_sink):
-  ${stream_intf_stream_decl_2(chr(i+97), 32, 'o', 'source')}
+  ${stream_intf_stream_decl_2(stream_in[i], 32, 'source')}
   % endfor 
   % for j in range (n_source):
-  ${stream_intf_stream_decl_2(chr(j+i+98), 32, 'i', 'sink')}
+  ${stream_intf_stream_decl_2(stream_out[j], 32, 'sink')}
   % endfor
 
   // TCDM ports
@@ -54,18 +54,18 @@ module ${target}_streamer
   // FIFO ready signals
   logic\
   % for i in range (n_sink-1):
-  ${chr(i+97)}_tcdm_fifo_ready, \
+  ${stream_in[i]}_tcdm_fifo_ready, \
   % endfor
-  ${chr(i+98)}_tcdm_fifo_ready;
+  ${stream_in[i+1]}_tcdm_fifo_ready;
 
   // Pre-FIFO streamer interfaces (TCDM-side)
   % for i in range (n_sink):
-  ${stream_intf_stream_decl_1(chr(i+97) + '_prefifo', 32, 'clk_i')}
+  ${stream_intf_stream_decl_1(stream_in[i] + '_prefifo', 32, 'clk_i')}
   % endfor 
 
   // Post-FIFO streamer interfaces (TCDM-side)
   % for j in range (n_source):
-  ${stream_intf_stream_decl_1(chr(j+i+98) + '_postfifo', 32, 'clk_i')}
+  ${stream_intf_stream_decl_1(stream_out[j] + '_postfifo', 32, 'clk_i')}
   % endfor 
 
   // FIFO interfaces
@@ -77,18 +77,19 @@ module ${target}_streamer
   // Source modules (TCDM -> HWPE)
   % for i in range (n_sink):
   hwpe_stream_source #(
-    .DATA_WIDTH ( 32 ),
-    .DECOUPLED  ( 1  )
-  ) i_${ chr(i+97) }_source (
+    .DATA_WIDTH   ( 32 ),
+    .DECOUPLED    ( 1  )
+    // .NB_TCDM_PORTS (    )
+  ) i_${ stream_in[i] }_source (
     .clk_i              ( clk_i                  ),
     .rst_ni             ( rst_ni                 ),
     .test_mode_i        ( test_mode_i            ),
     .clear_i            ( clear_i                ),
     .tcdm               ( tcdm_fifo_${i}            ), 
-    .stream             ( ${ chr(i+97) }_prefifo.source       ),
-    .ctrl_i             ( ctrl_i.${ chr(i+97) }_source_ctrl   ),
-    .flags_o            ( flags_o.${ chr(i+97) }_source_flags ),
-    .tcdm_fifo_ready_o  ( ${ chr(i+97) }_tcdm_fifo_ready      )
+    .stream             ( ${stream_in[i]}_prefifo.source       ),
+    .ctrl_i             ( ctrl_i.${stream_in[i]}_source_ctrl   ),
+    .flags_o            ( flags_o.${stream_in[i]}_source_flags ),
+    .tcdm_fifo_ready_o  ( ${stream_in[i]}_tcdm_fifo_ready      )
   );
   % endfor 
 
@@ -96,15 +97,16 @@ module ${target}_streamer
   % for j in range (n_source):
   hwpe_stream_sink #(
     .DATA_WIDTH ( 32 )
-  ) i_${ chr(j+i+98) }_sink (
+    // .NB_TCDM_PORTS (    )
+  ) i_${ stream_out[j] }_sink (
     .clk_i              ( clk_i                  ),
     .rst_ni             ( rst_ni                 ),
     .test_mode_i        ( test_mode_i            ),
     .clear_i            ( clear_i                ),
     .tcdm               ( tcdm_fifo_${j+i+1}            ), 
-    .stream             ( ${ chr(j+i+98) }_postfifo.sink       ),
-    .ctrl_i             ( ctrl_i.${ chr(j+i+98) }_sink_ctrl   ),
-    .flags_o            ( flags_o.${ chr(j+i+98) }_sink_flags )
+    .stream             ( ${ stream_out[j] }_postfifo.sink       ),
+    .ctrl_i             ( ctrl_i.${ stream_out[j] }_sink_ctrl   ),
+    .flags_o            ( flags_o.${ stream_out[j] }_sink_flags )
   );
   % endfor 
 
@@ -112,12 +114,12 @@ module ${target}_streamer
   % for i in range (n_sink):
   hwpe_stream_tcdm_fifo_load #(
     .FIFO_DEPTH ( 4 )
-  ) i_${ chr(i+97) }_tcdm_fifo_load (
+  ) i_${ stream_in[i] }_tcdm_fifo_load (
     .clk_i       ( clk_i             ),
     .rst_ni      ( rst_ni            ),
     .clear_i     ( clear_i           ),
     .flags_o     (                   ),
-    .ready_i     ( ${ chr(i+97) }_tcdm_fifo_ready ),
+    .ready_i     ( ${ stream_in[i] }_tcdm_fifo_ready ),
     .tcdm_slave  ( tcdm_fifo_${i}[0]    ),
     .tcdm_master ( tcdm      [${i}]     )
   );
@@ -127,7 +129,7 @@ module ${target}_streamer
   % for j in range (n_source):
   hwpe_stream_tcdm_fifo_store #(
     .FIFO_DEPTH ( 4 )
-  ) i_${ chr(i+j+98) }_tcdm_fifo_store (
+  ) i_${ stream_out[j] }_tcdm_fifo_store (
     .clk_i       ( clk_i          ),
     .rst_ni      ( rst_ni         ),
     .clear_i     ( clear_i        ),
@@ -143,12 +145,12 @@ module ${target}_streamer
     .DATA_WIDTH( 32 ),
     .FIFO_DEPTH( 2  ),
     .LATCH_FIFO( 0  )
-  ) i_${ chr(i+97) }_fifo (
+  ) i_${ stream_in[i] }_fifo (
     .clk_i   ( clk_i          ),
     .rst_ni  ( rst_ni         ),
     .clear_i ( clear_i        ),
-    .push_i  ( ${ chr(i+97) }_prefifo.sink ),
-    .pop_o   ( ${ chr(i+97) }_o            ),
+    .push_i  ( ${ stream_in[i] }_prefifo.sink ),
+    .pop_o   ( ${ stream_in[i] }_o            ),
     .flags_o (                )
   );
   % endfor 
@@ -159,12 +161,12 @@ module ${target}_streamer
     .DATA_WIDTH( 32 ),
     .FIFO_DEPTH( 2  ),
     .LATCH_FIFO( 0  )
-  ) i_${ chr(i+j+98) }_fifo (
+  ) i_${ stream_out[j] }_fifo (
     .clk_i   ( clk_i             ),
     .rst_ni  ( rst_ni            ),
     .clear_i ( clear_i           ),
-    .push_i  ( ${ chr(i+j+98) }_i               ),
-    .pop_o   ( ${ chr(i+j+98) }_postfifo.source ),
+    .push_i  ( ${ stream_out[j] }_i               ),
+    .pop_o   ( ${ stream_out[j] }_postfifo.source ),
     .flags_o (                   )
   );
   % endfor

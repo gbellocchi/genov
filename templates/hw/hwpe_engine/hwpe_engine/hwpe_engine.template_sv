@@ -29,12 +29,12 @@ module ${target}_engine (\
 
   // Sink ports
   % for i in range (n_sink):
-  hwpe_stream_intf_stream.sink    ${chr(i+97)}_i,
+  hwpe_stream_intf_stream.sink    ${stream_in[i]},
   % endfor 
 
   // Source ports
   % for j in range (n_source):
-  hwpe_stream_intf_stream.source  ${chr(j+i+98)}_o,
+  hwpe_stream_intf_stream.source  ${stream_out[j]},
   % endfor 
 
   // Control channel
@@ -83,12 +83,12 @@ module ${target}_engine (\
 
     // Input data (to-hwpe)
     % for i in range (n_sink):
-    .${stream_in[i]}_i ( ${chr(i+97)}_i  ),
+    .i_${stream_in[i]} ( ${stream_in[i]}  ),
     % endfor 
 
     // Output data (from-hwpe)
     % for j in range (n_source):
-    .${stream_out[j]}_o ( ${chr(i+j+98)}_o  ),
+    .o_${stream_out[j]} ( ${stream_out[j]}  ),
     % endfor 
 
     // Algorithm parameters

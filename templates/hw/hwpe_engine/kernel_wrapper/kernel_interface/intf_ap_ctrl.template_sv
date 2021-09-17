@@ -136,8 +136,8 @@
   // to TCDM
   always_comb
   begin
-    % for i in range (n_sink, n_sink + n_source):
-    ${chr(i+97)}_o.strb = '1;
+    % for j in range (n_source):
+    o_${stream_out[j]}.strb = '1;
     % endfor
   end
 
