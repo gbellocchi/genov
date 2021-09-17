@@ -4,7 +4,7 @@
 ROOT 					:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 # Accelerator library
-HWPE_TARGET				:= MMUL_BASELINE
+HWPE_TARGET				:= MMUL_PARALLEL
 
 # Templates
 TEMPLATES 				:= ./templates
@@ -57,7 +57,7 @@ pulp-integr: clean_pulp gen
 
 gen: engine_dev static_rtl 
 	@echo "HWPE wrapper generation."
-	@python3 gen.py
+	@python2.7 gen.py
 
 engine_dev: acc_lib
 	@ls ${ENG_DEV_RTL} >> ${HW_MNGT_DIR}/rtl_list/engine_list.log
@@ -68,6 +68,10 @@ static_rtl:
 
 acc_lib:
 	@cd acc_lib && make -s clean all TARGET=${HWPE_TARGET}
+
+init:
+	# @git submodule update --init --recursive
+	@python2.7 setup.py install --user
 
 clean:
 	@${RM_DF} ${ENG_DEV}/*
