@@ -4,14 +4,17 @@
 
 #!/usr/bin/env python3
 
-# Packages
+# Packages - Engine
 from templates.hw.pulp_cluster_hwpe_pkg.pulp_cluster_hwpe_pkg import pulp_cluster_hwpe_pkg
 from templates.hw.pulp_hwpe_wrap.pulp_hwpe_wrap import pulp_hwpe_wrap
 from templates.hw.hwpe_top.hwpe_top_wrapper.hwpe_top_wrapper import hwpe_top_wrapper
 from templates.hw.hwpe_top.hwpe_top.hwpe_top import hwpe_top
-from templates.hw.hwpe_engine.hwpe_engine.hwpe_engine import hwpe_engine
-from templates.hw.hwpe_engine.kernel_wrapper.kernel_wrapper import kernel_wrapper
+# Packages - Engine
+from templates.hw.hwpe_engine.top.hwpe_engine import hwpe_engine
+from templates.hw.hwpe_engine.modules.kernel_wrapper.kernel_wrapper import kernel_wrapper
+# Packages - Streamer
 from templates.hw.hwpe_streamer.hwpe_streamer import hwpe_streamer
+# Packages - Controller
 from templates.hw.hwpe_ctrl.hwpe_ctrl.hwpe_ctrl import hwpe_ctrl
 from templates.hw.hwpe_ctrl.hwpe_fsm.hwpe_fsm import hwpe_fsm
 from templates.hw.hwpe_package.hwpe_package import hwpe_package

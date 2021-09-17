@@ -120,9 +120,9 @@
 hwpe_stream_intf_stream #( .DATA_WIDTH(${data_width}) ) ${name} ( .clk (${clk_name}) );
 </%def>\
 
-<%def name="stream_intf_stream_decl_2(name, data_width, stream_dir)">\
-hwpe_stream_intf_stream.${stream_dir} ${name},
-</%def>\
+// <%def name="stream_intf_stream_decl_2(name, data_width, stream_dir)">\
+// hwpe_stream_intf_stream.${stream_dir} ${name},
+// </%def>\
 
 <%def name="stream_instance(name, io_dir, stream_dir)">\
 .${name}_${io_dir}              ( ${name}.${stream_dir}       ), \

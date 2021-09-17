@@ -80,6 +80,7 @@ clean:
 	@${RM_F}  ${OUT_HW_MNGT_DIR}/*.yml
 	@${RM_F}  ${HW_MNGT_DIR}/rtl_list/*.log
 	@find . -type d -name '__pycache__' -exec rm -rf {} +
+	@find . -type d -name '__pycache__' -exec rm -rf {} +
 
 clean_pulp:
 	@${RM_DF} ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
