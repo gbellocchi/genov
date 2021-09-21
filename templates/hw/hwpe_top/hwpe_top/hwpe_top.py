@@ -28,10 +28,14 @@ class hwpe_top:
         self.hwpe_target        = specs.hwpe_target
 
         # HWPE streaming interfaces
-        self.list_sink_stream   = [item[0] for item in specs.list_sink_stream]
-        self.list_source_stream = [item[0] for item in specs.list_source_stream]
-        self.n_sink             = specs.n_sink
-        self.n_source           = specs.n_source
+        self.list_sink_stream                   = [item[0] for item in specs.list_sink_stream]
+        self.list_source_stream                 = [item[0] for item in specs.list_source_stream]
+        self.sink_is_parallel                   = [item[3] for item in specs.list_sink_stream]
+        self.source_is_parallel                 = [item[3] for item in specs.list_source_stream]
+        self.sink_parallelism_factor            = [item[4] for item in specs.list_sink_stream]
+        self.source_parallelism_factor          = [item[4] for item in specs.list_source_stream]
+        self.n_sink                             = specs.n_sink
+        self.n_source                           = specs.n_source
 
         # HWPE custom regfiles
         self.custom_reg_name    = [item[0] for item in specs.custom_reg]
@@ -50,13 +54,17 @@ class hwpe_top:
         s = self.common + self.template
         pulp_template = Template(s)
         string = pulp_template.render(
-            author              = self.author,
-            email               = self.email,
-            target              = self.hwpe_target, 
-            n_sink              = self.n_sink, 
-            n_source            = self.n_source,
-            stream_in           = self.list_sink_stream,
-            stream_out          = self.list_source_stream,
+            author                  = self.author,
+            email                   = self.email,
+            target                  = self.hwpe_target, 
+            n_sink                  = self.n_sink, 
+            n_source                = self.n_source,
+            stream_in               = self.list_sink_stream,
+            stream_out              = self.list_source_stream,
+            is_parallel_in          = self.sink_is_parallel,
+            is_parallel_out         = self.source_is_parallel,
+            in_parallelism_factor   = self.sink_parallelism_factor,
+            out_parallelism_factor  = self.source_parallelism_factor,
         )
         s = re.sub(r'\s+$', '', string, flags=re.M)
         return s

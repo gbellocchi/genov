@@ -47,17 +47,77 @@ module MMUL_PARALLEL_top
   ctrl_engine_t    engine_ctrl;
   flags_engine_t   engine_flags;
   // Streamer interfaces
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1 ( .clk (clk_i) );
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_0 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_1 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_2 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_3 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_4 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_5 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_6 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_7 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_8 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_9 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_10 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_11 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_12 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_13 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_14 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1_15 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_0 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_1 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_2 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_3 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_4 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_5 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_6 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_7 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_8 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_9 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_10 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_11 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_12 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_13 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_14 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_15 ( .clk (clk_i) );
   hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) out_r ( .clk (clk_i) );
   // HWPE engine wrapper
   MMUL_PARALLEL_engine i_engine (
     .clk_i            ( clk_i          ),
     .rst_ni           ( rst_ni         ),
     .test_mode_i      ( test_mode_i    ),
-    .in1_i              ( in1.sink       ),
-    .in2_i              ( in2.sink       ),
-    .out_r_o              ( out_r.source       ),
+    .in1_0_i              ( in1_0.i       ),
+    .in1_1_i              ( in1_1.i       ),
+    .in1_2_i              ( in1_2.i       ),
+    .in1_3_i              ( in1_3.i       ),
+    .in1_4_i              ( in1_4.i       ),
+    .in1_5_i              ( in1_5.i       ),
+    .in1_6_i              ( in1_6.i       ),
+    .in1_7_i              ( in1_7.i       ),
+    .in1_8_i              ( in1_8.i       ),
+    .in1_9_i              ( in1_9.i       ),
+    .in1_10_i              ( in1_10.i       ),
+    .in1_11_i              ( in1_11.i       ),
+    .in1_12_i              ( in1_12.i       ),
+    .in1_13_i              ( in1_13.i       ),
+    .in1_14_i              ( in1_14.i       ),
+    .in1_15_i              ( in1_15.i       ),
+    .in2_0_i              ( in2_0.i       ),
+    .in2_1_i              ( in2_1.i       ),
+    .in2_2_i              ( in2_2.i       ),
+    .in2_3_i              ( in2_3.i       ),
+    .in2_4_i              ( in2_4.i       ),
+    .in2_5_i              ( in2_5.i       ),
+    .in2_6_i              ( in2_6.i       ),
+    .in2_7_i              ( in2_7.i       ),
+    .in2_8_i              ( in2_8.i       ),
+    .in2_9_i              ( in2_9.i       ),
+    .in2_10_i              ( in2_10.i       ),
+    .in2_11_i              ( in2_11.i       ),
+    .in2_12_i              ( in2_12.i       ),
+    .in2_13_i              ( in2_13.i       ),
+    .in2_14_i              ( in2_14.i       ),
+    .in2_15_i              ( in2_15.i       ),
+    .out_r_o              ( out_r.o       ),
     .ctrl_i           ( engine_ctrl    ),
     .flags_o          ( engine_flags   )
   );
@@ -70,9 +130,39 @@ module MMUL_PARALLEL_top
     .test_mode_i      ( test_mode_i    ),
     .enable_i         ( enable         ),
     .clear_i          ( clear          ),
-    .in1_o              ( in1.source       ),
-    .in2_o              ( in2.source       ),
-    .out_r_i              ( out_r.sink       ),
+    .in1_0              ( in1_0.o       ),
+    .in1_1              ( in1_1.o       ),
+    .in1_2              ( in1_2.o       ),
+    .in1_3              ( in1_3.o       ),
+    .in1_4              ( in1_4.o       ),
+    .in1_5              ( in1_5.o       ),
+    .in1_6              ( in1_6.o       ),
+    .in1_7              ( in1_7.o       ),
+    .in1_8              ( in1_8.o       ),
+    .in1_9              ( in1_9.o       ),
+    .in1_10              ( in1_10.o       ),
+    .in1_11              ( in1_11.o       ),
+    .in1_12              ( in1_12.o       ),
+    .in1_13              ( in1_13.o       ),
+    .in1_14              ( in1_14.o       ),
+    .in1_15              ( in1_15.o       ),
+    .in2_0              ( in2_0.o       ),
+    .in2_1              ( in2_1.o       ),
+    .in2_2              ( in2_2.o       ),
+    .in2_3              ( in2_3.o       ),
+    .in2_4              ( in2_4.o       ),
+    .in2_5              ( in2_5.o       ),
+    .in2_6              ( in2_6.o       ),
+    .in2_7              ( in2_7.o       ),
+    .in2_8              ( in2_8.o       ),
+    .in2_9              ( in2_9.o       ),
+    .in2_10              ( in2_10.o       ),
+    .in2_11              ( in2_11.o       ),
+    .in2_12              ( in2_12.o       ),
+    .in2_13              ( in2_13.o       ),
+    .in2_14              ( in2_14.o       ),
+    .in2_15              ( in2_15.o       ),
+    .out_r              ( out_r.i       ),
     .tcdm             ( tcdm           ),
     .ctrl_i           ( streamer_ctrl  ),
     .flags_o          ( streamer_flags )

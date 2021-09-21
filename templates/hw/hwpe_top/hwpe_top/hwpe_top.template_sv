@@ -53,11 +53,23 @@ module ${target}_top
 
   // Streamer interfaces
   % for i in range (n_sink):
-  ${stream_intf_stream_decl_1(stream_in[i], 32, 'clk_i')}
+    % if (is_parallel_in[i]):
+      % for k in range (in_parallelism_factor[i]):
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) ${stream_in[i]}_${k} ( .clk (clk_i) );
+      % endfor
+    % else:
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) ${stream_in[i]} ( .clk (clk_i) );
+    % endif
   % endfor 
 
   % for j in range (n_source):
-  ${stream_intf_stream_decl_1(stream_out[j], 32, 'clk_i')}
+    % if (is_parallel_out[j]):
+      % for k in range (out_parallelism_factor[j]):
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) ${stream_out[j]}_${k} ( .clk (clk_i) );
+      % endfor
+    % else:
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) ${stream_out[j]} ( .clk (clk_i) );
+    % endif
   % endfor 
 
   // HWPE engine wrapper
@@ -65,12 +77,27 @@ module ${target}_top
     .clk_i            ( clk_i          ),
     .rst_ni           ( rst_ni         ),
     .test_mode_i      ( test_mode_i    ),
+
     % for i in range (n_sink):
-    ${stream_instance(stream_in[i], 'i', 'sink')}
-    % endfor
+      % if (is_parallel_in[i]):
+        % for k in range (in_parallelism_factor[i]):
+    .${stream_in[i]}_${k}_i              ( ${stream_in[i]}_${k}.i       ),
+        % endfor
+      % else:
+    .${stream_in[i]}_i              ( ${stream_in[i]}.i       ),
+      % endif
+    % endfor 
+
     % for j in range (n_source):
-    ${stream_instance(stream_out[j], 'o', 'source')}
-    % endfor
+      % if (is_parallel_out[j]):
+        % for k in range (out_parallelism_factor[j]):
+    .${stream_out[j]}_${k}_o              ( ${stream_out[j]}_${k}.o       ),
+        % endfor
+      % else:
+    .${stream_out[j]}_o              ( ${stream_out[j]}.o       ),
+      % endif
+    % endfor 
+
     .ctrl_i           ( engine_ctrl    ),
     .flags_o          ( engine_flags   )
   );
@@ -84,12 +111,27 @@ module ${target}_top
     .test_mode_i      ( test_mode_i    ),
     .enable_i         ( enable         ),
     .clear_i          ( clear          ),
+    
     % for i in range (n_sink):
-    ${stream_instance(stream_in[i], 'o', 'source')}
-    % endfor
+      % if (is_parallel_in[i]):
+        % for k in range (in_parallelism_factor[i]):
+    .${stream_in[i]}_${k}              ( ${stream_in[i]}_${k}.o       ),
+        % endfor
+      % else:
+    .${stream_in[i]}              ( ${stream_in[i]}.o       ),
+      % endif
+    % endfor 
+
     % for j in range (n_source):
-    ${stream_instance(stream_out[j], 'i', 'sink')}
-    % endfor
+      % if (is_parallel_out[j]):
+        % for k in range (out_parallelism_factor[j]):
+    .${stream_out[j]}_${k}              ( ${stream_out[j]}_${k}.i       ),
+        % endfor
+      % else:
+    .${stream_out[j]}              ( ${stream_out[j]}.i       ),
+      % endif
+    % endfor 
+
     .tcdm             ( tcdm           ),
     .ctrl_i           ( streamer_ctrl  ),
     .flags_o          ( streamer_flags )
