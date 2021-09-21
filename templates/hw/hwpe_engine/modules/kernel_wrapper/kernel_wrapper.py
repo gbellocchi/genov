@@ -11,7 +11,7 @@ import re
 import sys
 
 from templates.hw.common.hwpe_common import hwpe_common
-from templates.hw.hwpe_engine.kernel_wrapper.kernel_interface.kernel_interface import kernel_interface
+from templates.hw.hwpe_engine.modules.kernel_wrapper.kernel_interface.kernel_interface import kernel_interface
 
 # Kernel wrapper
 class kernel_wrapper:
@@ -23,7 +23,7 @@ class kernel_wrapper:
 
         # Environment
         self.destdir            = specs.dest_dir
-        self.module             = "hwpe_engine/kernel_wrapper/kernel_wrapper"
+        self.module             = "hwpe_engine/modules/kernel_wrapper/kernel_wrapper"
 
         # Generic
         self.hwpe_target        = specs.hwpe_target

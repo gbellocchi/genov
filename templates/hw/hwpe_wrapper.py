@@ -13,7 +13,8 @@ from templates.hw.hwpe_top.hwpe_top.hwpe_top import hwpe_top
 from templates.hw.hwpe_engine.top.hwpe_engine import hwpe_engine
 from templates.hw.hwpe_engine.modules.kernel_wrapper.kernel_wrapper import kernel_wrapper
 # Packages - Streamer
-from templates.hw.hwpe_streamer.hwpe_streamer import hwpe_streamer
+from templates.hw.hwpe_streamer.top.hwpe_streamer import hwpe_streamer
+# from templates.hw.hwpe_streamer.modules.fifo import fifo
 # Packages - Controller
 from templates.hw.hwpe_ctrl.hwpe_ctrl.hwpe_ctrl import hwpe_ctrl
 from templates.hw.hwpe_ctrl.hwpe_fsm.hwpe_fsm import hwpe_fsm

@@ -1,0 +1,123 @@
+<%
+#######################################
+## Library of components - Streaming ##
+#######################################
+%>
+
+<%
+###########################
+## Streaming - Interface ##
+###########################
+%>
+
+<%def name="streaming_intf(stream_in, stream_out, n_sink, n_source, is_parallel_in, is_parallel_out, in_parallelism_factor, out_parallelism_factor)">\
+
+  // Streaming interfaces
+  
+  % for i in range (n_sink):
+    % if (is_parallel_in[i]):
+      % for k in range (in_parallelism_factor[i]):
+  hwpe_stream_intf_stream.source ${stream_in[i]}_${k},
+      % endfor
+    % else:
+  hwpe_stream_intf_stream.source ${stream_in[i]},
+    % endif
+  % endfor 
+
+  % for j in range (n_source):
+    % if (is_parallel_out[j]):
+      % for k in range (out_parallelism_factor[j]):
+  hwpe_stream_intf_stream.source ${stream_out[j]}_${k},
+      % endfor
+    % else:
+  hwpe_stream_intf_stream.source ${stream_out[j]},
+    % endif
+  % endfor 
+
+</%def>\
+
+<%
+#############################
+## Streaming - Source/Sink ##
+#############################
+%>
+
+<%def name="streaming_source_sink(stream_in, stream_out, n_sink, n_source, is_parallel_in, is_parallel_out, in_parallelism_factor, out_parallelism_factor)">\
+
+  // Source modules (TCDM -> HWPE)
+
+  % for i in range (n_sink):
+    % if ( is_parallel_in[i] ):
+      % for k in range ( in_parallelism_factor[i] ):
+  hwpe_stream_source #(
+    .DATA_WIDTH   ( 32 ),
+    .DECOUPLED    ( 1  )
+  ) i_${ stream_in[i] }_${k}_source (
+    .clk_i              ( clk_i                  ),
+    .rst_ni             ( rst_ni                 ),
+    .test_mode_i        ( test_mode_i            ),
+    .clear_i            ( clear_i                ),
+    .tcdm               ( tcdm_fifo_${i}            ), 
+    .stream             ( ${stream_in[i]}_prefifo.source       ),
+    .ctrl_i             ( ctrl_i.${stream_in[i]}_source_ctrl   ),
+    .flags_o            ( flags_o.${stream_in[i]}_source_flags ),
+    .tcdm_fifo_ready_o  ( ${stream_in[i]}_tcdm_fifo_ready      )
+  );
+      % endfor
+    % else:
+  hwpe_stream_source #(
+    .DATA_WIDTH   ( 32 ),
+    .DECOUPLED    ( 1  )
+  ) i_${ stream_in[i] }_source (
+    .clk_i              ( clk_i                  ),
+    .rst_ni             ( rst_ni                 ),
+    .test_mode_i        ( test_mode_i            ),
+    .clear_i            ( clear_i                ),
+    .tcdm               ( tcdm_fifo_${i}            ), 
+    .stream             ( ${stream_in[i]}_prefifo.source       ),
+    .ctrl_i             ( ctrl_i.${stream_in[i]}_source_ctrl   ),
+    .flags_o            ( flags_o.${stream_in[i]}_source_flags ),
+    .tcdm_fifo_ready_o  ( ${stream_in[i]}_tcdm_fifo_ready      )
+  );
+    % endif
+  % endfor 
+
+  //
+
+  // Sink modules (TCDM <- HWPE)
+
+  % for j in range (n_source):
+    % if ( is_parallel_out[j] ):
+      % for k in range ( out_parallelism_factor[j] ):
+  hwpe_stream_sink #(
+    .DATA_WIDTH ( 32 )
+    // .NB_TCDM_PORTS (    )
+  ) i_${ stream_out[j] }_${k}_sink (
+    .clk_i              ( clk_i                  ),
+    .rst_ni             ( rst_ni                 ),
+    .test_mode_i        ( test_mode_i            ),
+    .clear_i            ( clear_i                ),
+    .tcdm               ( tcdm_fifo_${j+i+1}            ), 
+    .stream             ( ${ stream_out[j] }_postfifo.sink       ),
+    .ctrl_i             ( ctrl_i.${ stream_out[j] }_sink_ctrl   ),
+    .flags_o            ( flags_o.${ stream_out[j] }_sink_flags )
+  );
+      % endfor
+    % else:
+  hwpe_stream_sink #(
+    .DATA_WIDTH ( 32 )
+    // .NB_TCDM_PORTS (    )
+  ) i_${ stream_out[j] }_sink (
+    .clk_i              ( clk_i                  ),
+    .rst_ni             ( rst_ni                 ),
+    .test_mode_i        ( test_mode_i            ),
+    .clear_i            ( clear_i                ),
+    .tcdm               ( tcdm_fifo_${j+i+1}            ), 
+    .stream             ( ${ stream_out[j] }_postfifo.sink       ),
+    .ctrl_i             ( ctrl_i.${ stream_out[j] }_sink_ctrl   ),
+    .flags_o            ( flags_o.${ stream_out[j] }_sink_flags )
+  );
+    % endif
+  % endfor 
+
+</%def>\
