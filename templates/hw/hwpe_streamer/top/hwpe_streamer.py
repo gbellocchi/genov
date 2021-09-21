@@ -16,10 +16,9 @@ from templates.hw.hwpe_streamer.modules.streaming.streaming import streaming
 from templates.hw.hwpe_streamer.modules.fifo.fifo import fifo
 from templates.hw.hwpe_streamer.modules.tcdm.tcdm import tcdm
 
-# HWPE engine
+# HWPE streamer
 class hwpe_streamer:
     def __init__(self, specs):
-        # Specs
         self.specs                  = specs
         
         # Engineer(-s)
@@ -43,23 +42,22 @@ class hwpe_streamer:
         self.n_sink                             = specs.n_sink
         self.n_source                           = specs.n_source
 
-        # Common template elements
-        self.common                 = hwpe_common(specs).gen()
-
-        self.fifo_dev               = fifo(specs).gen()
-        self.streaming_dev          = streaming(specs).gen()
-        self.tcdm_dev          = tcdm(specs).gen()
-
         # Template
         self.template               = self.get_template()
 
-    # def modules(self):
-    #     self.fifo        = fifo(self.specs).gen()
-    #     self.m           = self.fifo
-    #     return self.m
+    def modules(self, specs):
+        self.m                      = ''
+        self.m                      += fifo(specs).gen()
+        self.m                      += streaming(specs).gen()
+        self.m                      += tcdm(specs).gen()
+        return self.m
+
+    def common(self, specs):
+        self.c                      = hwpe_common(specs).gen()
+        return self.c
 
     def gen(self):
-        s = self.common + self.streaming_dev + self.fifo_dev + self.tcdm_dev + self.template
+        s = self.common(self.specs) + self.modules(self.specs) + self.template
         pulp_template = Template(s)
         string = pulp_template.render(
             author                  = self.author,
