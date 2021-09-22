@@ -118,17 +118,17 @@ filename = specs.hwpe_target + '_' + 'top.sv'
 dest_dir = hwpe_engine_rtl
 gen.gen_dev(dev, filename, dest_dir)
 
-# Generate hwpe engine wrapper
+# Generate hwpe engine
 dev = hwpe_wrapper.engine(specs)
 filename = specs.hwpe_target + '_' + 'engine.sv'
 dest_dir = hwpe_engine_rtl
 gen.gen_dev(dev, filename, dest_dir)
 
-# Generate kernel wrapper
-dev = hwpe_wrapper.kernel(specs)
-filename = specs.hwpe_target + '_' + 'kernel_wrapper.sv'
-dest_dir = hwpe_engine_rtl
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate kernel
+# dev = hwpe_wrapper.kernel(specs)
+# filename = specs.hwpe_target + '_' + 'kernel_wrapper.sv'
+# dest_dir = hwpe_engine_rtl
+# gen.gen_dev(dev, filename, dest_dir)
 
 # Generate hwpe streamer wrapper
 dev = hwpe_wrapper.streamer(specs)
