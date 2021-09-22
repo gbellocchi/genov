@@ -12,6 +12,9 @@ import sys
 
 from templates.hw.common.hwpe_common import hwpe_common
 
+from templates.hw.hwpe_engine.modules.streaming.streaming import streaming
+from templates.hw.hwpe_engine.modules.kernel_wrapper.kernel_wrapper import kernel_wrapper
+
 # HWPE engine
 class hwpe_engine:
     def __init__(self, specs):
@@ -40,14 +43,13 @@ class hwpe_engine:
         self.custom_reg_isport  = [item[3] for item in specs.custom_reg]
         self.custom_reg_num     = specs.custom_reg_num
 
-        # Common template elements
-        self.common             = hwpe_common(specs).gen()
+        self.specs                  = specs
 
         # Template
         self.template           = self.get_template()
 
     def gen(self):
-        s = self.common + self.template
+        s = self.common(specs) + self.modules(specs) + self.template
         pulp_template = Template(s)
         string = pulp_template.render(
             author              = self.author,
@@ -70,4 +72,14 @@ class hwpe_engine:
             s = f.read()
             f.close()
             return s
+
+    def common(self, specs):
+        self.c                      = hwpe_common(specs).gen()
+        return self.c
+
+    def modules(self, specs):
+        self.m                      = ''
+        self.m                      += streaming(specs).gen()
+        self.m                      += kernel_wrapper(specs).gen()
+        return self.m
 

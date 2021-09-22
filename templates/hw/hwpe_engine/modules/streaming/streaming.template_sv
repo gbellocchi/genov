@@ -10,27 +10,27 @@
 ###########################
 %>
 
-<%def name="streaming_intf(stream_in, stream_out, n_sink, n_source, is_parallel_in, is_parallel_out, in_parallelism_factor, out_parallelism_factor)">\
+<%def name="streaming_intf()">\
 
   // Streaming interfaces
   
   % for i in range (n_sink):
     % if (is_parallel_in[i]):
       % for k in range (in_parallelism_factor[i]):
-  hwpe_stream_intf_stream.source ${stream_in[i]}_${k},
+  hwpe_stream_intf_stream.sink ${stream_in[i]}_${k},
       % endfor
     % else:
-  hwpe_stream_intf_stream.source ${stream_in[i]},
+  hwpe_stream_intf_stream.sink ${stream_in[i]},
     % endif
   % endfor 
 
   % for j in range (n_source):
     % if (is_parallel_out[j]):
       % for k in range (out_parallelism_factor[j]):
-  hwpe_stream_intf_stream.sink ${stream_out[j]}_${k},
+  hwpe_stream_intf_stream.source ${stream_out[j]}_${k},
       % endfor
     % else:
-  hwpe_stream_intf_stream.sink ${stream_out[j]},
+  hwpe_stream_intf_stream.source ${stream_out[j]},
     % endif
   % endfor 
 
@@ -42,7 +42,7 @@
 #############################
 %>
 
-<%def name="streaming_source_sink(stream_in, stream_out, n_sink, n_source, is_parallel_in, is_parallel_out, in_parallelism_factor, out_parallelism_factor)">\
+<%def name="streaming_source_sink()">\
 
   // Source modules (TCDM -> HWPE)
 

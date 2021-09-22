@@ -41,18 +41,10 @@ class hwpe_streamer:
         self.n_sink                             = specs.n_sink
         self.n_source                           = specs.n_source
 
-        # All input specs to forward to other methods
         self.specs                  = specs
 
         # Template
         self.template               = self.get_template()
-
-    def modules(self, specs):
-        self.m                      = ''
-        self.m                      += fifo(specs).gen()
-        self.m                      += streaming(specs).gen()
-        self.m                      += tcdm(specs).gen()
-        return self.m
 
     def gen(self):
         s = self.common(self.specs) + self.modules(self.specs) + self.template
@@ -82,4 +74,11 @@ class hwpe_streamer:
     def common(self, specs):
         self.c                      = hwpe_common(specs).gen()
         return self.c
+
+    def modules(self, specs):
+        self.m                      = ''
+        self.m                      += fifo(specs).gen()
+        self.m                      += streaming(specs).gen()
+        self.m                      += tcdm(specs).gen()
+        return self.m
 
