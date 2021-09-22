@@ -37,5 +37,5 @@ class hwpe_specs:
 
         # Address generation [ is_programmable ]
         self.addr_gen_in        = [ [True] , [True] ]
-        self.addr_gen_out       = [ [True] ]
+        self.addr_gen_out       = [ [False] ]
 

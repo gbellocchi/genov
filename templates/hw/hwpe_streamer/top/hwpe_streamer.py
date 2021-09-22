@@ -19,7 +19,6 @@ from templates.hw.hwpe_streamer.modules.tcdm.tcdm import tcdm
 # HWPE streamer
 class hwpe_streamer:
     def __init__(self, specs):
-        self.specs                  = specs
         
         # Engineer(-s)
         self.author                 = specs.author
@@ -42,6 +41,9 @@ class hwpe_streamer:
         self.n_sink                             = specs.n_sink
         self.n_source                           = specs.n_source
 
+        # All input specs to forward to other methods
+        self.specs                  = specs
+
         # Template
         self.template               = self.get_template()
 
@@ -51,10 +53,6 @@ class hwpe_streamer:
         self.m                      += streaming(specs).gen()
         self.m                      += tcdm(specs).gen()
         return self.m
-
-    def common(self, specs):
-        self.c                      = hwpe_common(specs).gen()
-        return self.c
 
     def gen(self):
         s = self.common(self.specs) + self.modules(self.specs) + self.template
@@ -80,4 +78,8 @@ class hwpe_streamer:
             s = f.read()
             f.close()
             return s
+
+    def common(self, specs):
+        self.c                      = hwpe_common(specs).gen()
+        return self.c
 

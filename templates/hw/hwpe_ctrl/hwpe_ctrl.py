@@ -44,18 +44,18 @@ class hwpe_ctrl:
         self.custom_reg_isport                  = [item[3] for item in specs.custom_reg]
         self.custom_reg_num                     = specs.custom_reg_num
 
-        # HWPE custom regfiles
-        self.addr_gen_in_isprogr        = [item[0] for item in specs.addr_gen_in]
-        self.addr_gen_out_isprogr       = [item[0] for item in specs.addr_gen_out]
+        # Address generation
+        self.addr_gen_in_isprogr                = [item[0] for item in specs.addr_gen_in]
+        self.addr_gen_out_isprogr               = [item[0] for item in specs.addr_gen_out]
 
-        # Common template elements
-        self.common             = hwpe_common(specs).gen()
+        # All input specs to forward to other methods
+        self.specs                  = specs
 
         # Template
         self.template           = self.get_template()
 
     def gen(self):
-        s = self.common + self.template
+        s = self.common(self.specs) + self.template
         pulp_template = Template(s)
         string = pulp_template.render(
             author                  = self.author,
@@ -84,35 +84,6 @@ class hwpe_ctrl:
             f.close()
             return s
 
-# # HWPE ctrl package
-# class hwpe_ctrl_package:
-#     def __init__(self, specs):
-        
-#         # Engineer(-s)
-#         self.author     = specs.author
-#         self.email      = specs.email
-
-#         # Environment
-#         self.destdir    = specs.dest_dir
-#         self.module     = "hwpe_ctrl/hwpe_ctrl/hwpe_ctrl"
-
-#         # Generic
-#         self.hwpe_target = specs.hwpe_target
-
-#         # HWPE regfiles
-#         self.reg_name   = specs.reg_name
-#         self.reg_dim    = specs.reg_dim
-#         self.reg_num    = specs.reg_num
-
-#     def gen(self):
-#         pulp_template = Template(filename=('templates/'+self.module+'.template_sv'))
-#         string = pulp_template.render(
-#             author      = self.author,
-#             email       = self.email,
-#             target      = self.hwpe_target,
-#             reg_name    = self.reg_name, 
-#             reg_dim     = self.reg_dim, 
-#             reg_num     = self.reg_num,
-#         )
-#         s = re.sub(r'\s+$', '', string, flags=re.M)
-#         return s
+    def common(self, specs):
+        self.c                      = hwpe_common(specs).gen()
+        return self.c
