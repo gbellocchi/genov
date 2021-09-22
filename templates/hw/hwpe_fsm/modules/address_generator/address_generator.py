@@ -4,7 +4,7 @@
 
 #!/usr/bin/env python3
 
-# FIFO
+# Address generator
 class address_generator:
     def __init__(self, hwpe_specs):
         self.common = ''
