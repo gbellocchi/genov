@@ -16,8 +16,8 @@ from templates.hw.hwpe_engine.modules.kernel_wrapper.kernel_wrapper import kerne
 from templates.hw.hwpe_streamer.top.hwpe_streamer import hwpe_streamer
 # from templates.hw.hwpe_streamer.modules.fifo import fifo
 # Packages - Controller
-from templates.hw.hwpe_ctrl.hwpe_ctrl.hwpe_ctrl import hwpe_ctrl
-from templates.hw.hwpe_ctrl.hwpe_fsm.hwpe_fsm import hwpe_fsm
+from templates.hw.hwpe_ctrl.hwpe_ctrl import hwpe_ctrl
+from templates.hw.hwpe_fsm.hwpe_fsm import hwpe_fsm
 from templates.hw.hwpe_package.hwpe_package import hwpe_package
 
 # HWPE wrapper

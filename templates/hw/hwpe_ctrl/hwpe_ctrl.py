@@ -22,7 +22,7 @@ class hwpe_ctrl:
 
         # Environment
         self.destdir            = specs.dest_dir
-        self.module             = "hwpe_ctrl/hwpe_ctrl/hwpe_ctrl"
+        self.module             = "hwpe_ctrl/hwpe_ctrl"
 
         # Generic
         self.hwpe_target        = specs.hwpe_target

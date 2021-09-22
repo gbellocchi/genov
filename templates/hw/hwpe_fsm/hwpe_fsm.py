@@ -22,7 +22,7 @@ class hwpe_fsm:
 
         # Environment
         self.destdir                = specs.dest_dir
-        self.module                 = "hwpe_ctrl/hwpe_fsm/hwpe_fsm"
+        self.module                 = "hwpe_fsm/hwpe_fsm"
 
         # Generic
         self.hwpe_target            = specs.hwpe_target
