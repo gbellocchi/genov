@@ -16,12 +16,12 @@
  * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
  * Contribute:  Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
- * Module: MMUL_PARALLEL_ctrl.sv
+ * Module: mmul_parallel_ctrl.sv
  *
  */
-import MMUL_PARALLEL_package::*;
+import mmul_parallel_package::*;
 import hwpe_ctrl_package::*;
-module MMUL_PARALLEL_ctrl
+module mmul_parallel_ctrl
 #(
   parameter int unsigned N_CORES         = 2,
   parameter int unsigned N_CONTEXT       = 2,
@@ -82,11 +82,11 @@ module MMUL_PARALLEL_ctrl
   assign evt_o = slave_flags.evt;
   /* Direct register file mappings */
   // Standard registers
-  assign static_reg_nb_iter    = reg_file.hwpe_params[MMUL_PARALLEL_REG_NB_ITER]  + 1;
-  assign static_reg_len_iter   = reg_file.hwpe_params[MMUL_PARALLEL_REG_LEN_ITER] + 1;
-  assign static_reg_shift      = reg_file.hwpe_params[MMUL_PARALLEL_REG_SHIFT_SIMPLEMUL][31:16];
-  assign static_reg_simplemul  = reg_file.hwpe_params[MMUL_PARALLEL_REG_SHIFT_SIMPLEMUL][0];
-  assign static_reg_vectstride = reg_file.hwpe_params[MMUL_PARALLEL_REG_SHIFT_VECTSTRIDE];
+  assign static_reg_nb_iter    = reg_file.hwpe_params[mmul_parallel_REG_NB_ITER]  + 1;
+  assign static_reg_len_iter   = reg_file.hwpe_params[mmul_parallel_REG_LEN_ITER] + 1;
+  assign static_reg_shift      = reg_file.hwpe_params[mmul_parallel_REG_SHIFT_SIMPLEMUL][31:16];
+  assign static_reg_simplemul  = reg_file.hwpe_params[mmul_parallel_REG_SHIFT_SIMPLEMUL][0];
+  assign static_reg_vectstride = reg_file.hwpe_params[mmul_parallel_REG_SHIFT_VECTSTRIDE];
   assign static_reg_onestride  = 4;
   // Custom registers
   /* Microcode processor */
@@ -111,9 +111,9 @@ module MMUL_PARALLEL_ctrl
     12'b0,
     static_reg_nb_iter[11:0]
   };
-  assign ucode_registers_read[MMUL_PARALLEL_UCODE_MNEM_NBITER]     = static_reg_nb_iter;
-  assign ucode_registers_read[MMUL_PARALLEL_UCODE_MNEM_ITERSTRIDE] = static_reg_vectstride;
-  assign ucode_registers_read[MMUL_PARALLEL_UCODE_MNEM_ONESTRIDE]  = static_reg_onestride;
+  assign ucode_registers_read[mmul_parallel_UCODE_MNEM_NBITER]     = static_reg_nb_iter;
+  assign ucode_registers_read[mmul_parallel_UCODE_MNEM_ITERSTRIDE] = static_reg_vectstride;
+  assign ucode_registers_read[mmul_parallel_UCODE_MNEM_ONESTRIDE]  = static_reg_onestride;
   assign ucode_registers_read[11:3] = '0;
   hwpe_ctrl_uloop #(
     .NB_LOOPS       ( 1  ),
@@ -131,7 +131,7 @@ module MMUL_PARALLEL_ctrl
     .registers_read_i ( ucode_registers_read )
   );
   /* Main FSM */
-  MMUL_PARALLEL_fsm i_fsm (
+  mmul_parallel_fsm i_fsm (
     .clk_i            ( clk_i              ),
     .rst_ni           ( rst_ni             ),
     .test_mode_i      ( test_mode_i        ),
@@ -151,7 +151,7 @@ module MMUL_PARALLEL_ctrl
   begin
     fsm_ctrl.simple_mul = static_reg_simplemul;
     fsm_ctrl.shift      = static_reg_shift[$clog2(32)-1:0];
-    fsm_ctrl.len        = static_reg_len_iter[$clog2(MMUL_PARALLEL_CNT_LEN):0];
+    fsm_ctrl.len        = static_reg_len_iter[$clog2(mmul_parallel_CNT_LEN):0];
     // Custom register file mappings to fsm
   end
 endmodule

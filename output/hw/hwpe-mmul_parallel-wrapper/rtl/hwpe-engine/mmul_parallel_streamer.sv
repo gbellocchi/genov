@@ -15,12 +15,12 @@
  * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
  * Contribute:  Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
- * Module: MMUL_PARALLEL_streamer.sv
+ * Module: mmul_parallel_streamer.sv
  *
  */
-import MMUL_PARALLEL_package::*;
+import mmul_parallel_package::*;
 import hwpe_stream_package::*;
-module MMUL_PARALLEL_streamer
+module mmul_parallel_streamer
 #(
   parameter int unsigned MP  = 3, // number of master ports
   parameter int unsigned FD  = 2 // FIFO depth

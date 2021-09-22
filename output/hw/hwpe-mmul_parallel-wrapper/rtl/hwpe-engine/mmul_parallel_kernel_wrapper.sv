@@ -16,10 +16,10 @@
  * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
  * Contribute:  Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
- * Module: MMUL_PARALLEL_engine.sv
+ * Module: mmul_parallel_engine.sv
  *
  */
-import MMUL_PARALLEL_package::*;
+import mmul_parallel_package::*;
 module kernel_wrapper (
   // Global signals
   input  logic          clk_i,
@@ -41,7 +41,7 @@ module kernel_wrapper (
   // received done signals
   // % if is_dflow is True:
   //   % for j in range (n_source):
-  // output logic [($clog2(MMUL_PARALLEL_CNT_LEN)+1):0] cnt_out_r,
+  // output logic [($clog2(mmul_parallel_CNT_LEN)+1):0] cnt_out_r,
   //   % endfor
   // % endif
   // Flag signals
@@ -53,9 +53,9 @@ module kernel_wrapper (
   // be more elegant to parametrize the typedefs, instead of discrete ports.
 );
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-  /* MMUL_PARALLEL control signals. */
+  /* mmul_parallel control signals. */
   logic local_start;
-  /* MMUL_PARALLEL flag signals. */
+  /* mmul_parallel flag signals. */
   // FIXME: This won't scale up with large interfaces (unrolling, and so on).
   // SOL: Use array or custom typedef.
   // Input signal flags
@@ -68,12 +68,12 @@ module kernel_wrapper (
   logic set_idle;
   logic local_idle;
   /* Counters. */
-  logic unsigned [($clog2(MMUL_PARALLEL_CNT_LEN)+1):0] local_cnt_in1;
-  logic unsigned [($clog2(MMUL_PARALLEL_CNT_LEN)+1):0] local_cnt_in2;
-  logic unsigned [($clog2(MMUL_PARALLEL_CNT_LEN)+1):0] local_cnt_out_r;
+  logic unsigned [($clog2(mmul_parallel_CNT_LEN)+1):0] local_cnt_in1;
+  logic unsigned [($clog2(mmul_parallel_CNT_LEN)+1):0] local_cnt_in2;
+  logic unsigned [($clog2(mmul_parallel_CNT_LEN)+1):0] local_cnt_out_r;
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-  /* MMUL_PARALLEL hardware kernel. */
-  MMUL_PARALLEL i_MMUL_PARALLEL (
+  /* mmul_parallel hardware kernel. */
+  mmul_parallel i_mmul_parallel (
     // Global signals.
     .ap_clk             ( clk_i            ),
     .ap_rst_n           ( rst_ni           ),
@@ -83,7 +83,7 @@ module kernel_wrapper (
     .out_r_TDATA  ( out_r_o.data  ),     .out_r_TVALID ( out_r_o.valid ),     .out_r_TREADY ( out_r_o.ready ),
   );
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-  /* MMUL_PARALLEL control signals. */
+  /* mmul_parallel control signals. */
   // Start is not always high. For each ready (~(engine_ready | engine_idle)) that is
   // delivered to the FSM, a new Start signal is set high
   // and received by the kernel wrapper.
@@ -142,7 +142,7 @@ module kernel_wrapper (
     end
   end
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-  /* MMUL_PARALLEL input counters. Ready. */
+  /* mmul_parallel input counters. Ready. */
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: engine_cnt_in1
     if((~rst_ni) | clear) begin
@@ -187,7 +187,7 @@ module kernel_wrapper (
   assign local_done_in_1 = (local_cnt_in2==1) ? 1 : 0;
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-  /* MMUL_PARALLEL output counters. */
+  /* mmul_parallel output counters. */
   // Suggested design:
   //      ap_done = done_out0 & ... & done_outM;
   //      done_outM = cnt_out,i == ctrl_i.max_out,i; (for i=1,..,N)
@@ -209,7 +209,7 @@ module kernel_wrapper (
   assign cnt_out_r = local_cnt_out_r;
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ */
-  /* MMUL_PARALLEL streaming interface control. */
+  /* mmul_parallel streaming interface control. */
   // At the moment output strobe is always '1
   // All bytes of output streams are written
   // to TCDM

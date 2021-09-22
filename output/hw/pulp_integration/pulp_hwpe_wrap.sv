@@ -50,7 +50,7 @@ module pulp_hwpe_wrap
   logic [N_MASTER_PORT-1:0] [32-1:0]  tcdm_wdata;
   logic [N_MASTER_PORT-1:0] [32-1:0]  tcdm_r_rdata;
   logic [N_MASTER_PORT-1:0]           tcdm_r_valid;
-  MMUL_PARALLEL_top_wrap #(
+  mmul_parallel_top_wrap #(
     .N_CORES          ( N_CORES ),
     .MP               ( N_MASTER_PORT ),
     .ID               ( ID_WIDTH )

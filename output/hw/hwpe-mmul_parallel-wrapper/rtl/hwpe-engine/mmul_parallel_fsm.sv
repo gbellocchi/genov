@@ -16,12 +16,12 @@
  * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
  * Contribute:  Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
- * Module: MMUL_PARALLEL_fsm.sv
+ * Module: mmul_parallel_fsm.sv
  *
  */
-import MMUL_PARALLEL_package::*;
+import mmul_parallel_package::*;
 import hwpe_ctrl_package::*;
-module MMUL_PARALLEL_fsm (
+module mmul_parallel_fsm (
   // Global signals
   input  logic                                  clk_i,
   input  logic                                  rst_ni,
@@ -70,7 +70,7 @@ module MMUL_PARALLEL_fsm (
     ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.line_length = ctrl_i.len
     ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.feat_stride = '0;
     ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.feat_length = 1;
-    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[MMUL_PARALLEL_REG_IN1_ADDR] + (flags_ucode_i.offs[MMUL_PARALLEL_UCODE_IN1_OFFS]);
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[mmul_parallel_REG_IN1_ADDR] + (flags_ucode_i.offs[mmul_parallel_UCODE_IN1_OFFS]);
     ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.feat_roll   = '0;
     ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.loop_outer  = '0;
     ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.realign_type = '0;
@@ -81,7 +81,7 @@ module MMUL_PARALLEL_fsm (
     ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.line_length = ctrl_i.len
     ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.feat_stride = '0;
     ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.feat_length = 1;
-    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[MMUL_PARALLEL_REG_IN2_ADDR] + (flags_ucode_i.offs[MMUL_PARALLEL_UCODE_IN2_OFFS]);
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[mmul_parallel_REG_IN2_ADDR] + (flags_ucode_i.offs[mmul_parallel_UCODE_IN2_OFFS]);
     ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.feat_roll   = '0;
     ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.loop_outer  = '0;
     ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.realign_type = '0;
@@ -96,7 +96,7 @@ module MMUL_PARALLEL_fsm (
     ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.line_length =  ctrl_i.len;
     ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.feat_stride = '0;
     ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.feat_length = 1;
-    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[MMUL_PARALLEL_REG_OUT_R_ADDR] + (flags_ucode_i.offs[MMUL_PARALLEL_UCODE_OUT_R_OFFS]);
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.base_addr   = reg_file_i.hwpe_params[mmul_parallel_REG_OUT_R_ADDR] + (flags_ucode_i.offs[mmul_parallel_UCODE_OUT_R_OFFS]);
     ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.feat_roll   = '0;
     ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.loop_outer  = '0;
     ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.realign_type = '0;

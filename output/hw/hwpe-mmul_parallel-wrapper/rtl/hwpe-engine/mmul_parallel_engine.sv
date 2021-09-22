@@ -16,11 +16,11 @@
  * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
  * Contribute:  Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
- * Module: MMUL_PARALLEL_engine.sv
+ * Module: mmul_parallel_engine.sv
  *
  */
-import MMUL_PARALLEL_package::*;
-module MMUL_PARALLEL_engine (
+import mmul_parallel_package::*;
+module mmul_parallel_engine (
   // Global signals
   input  logic          clk_i,
   input  logic          rst_ni,
@@ -34,10 +34,10 @@ module MMUL_PARALLEL_engine (
   input  ctrl_engine_t            ctrl_i,
   output flags_engine_t           flags_o
 );
-  // MMUL_PARALLEL control
+  // mmul_parallel control
   logic engine_clear;
   logic engine_done, engine_idle, engine_ready;
-  logic unsigned [($clog2(MMUL_PARALLEL_CNT_LEN)+1):0] cnt_done;
+  logic unsigned [($clog2(mmul_parallel_CNT_LEN)+1):0] cnt_done;
   assign engine_clear = ctrl_i.clear;
   assign flags_o.done = engine_done;
   assign flags_o.idle = engine_idle;

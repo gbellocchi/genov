@@ -16,12 +16,12 @@
  * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
  * Contribute:  Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
- * Module: MMUL_PARALLEL_top_wrapper.sv
+ * Module: mmul_parallel_top_wrapper.sv
  *
  */
-import MMUL_PARALLEL_package::*;
+import mmul_parallel_package::*;
 import hwpe_ctrl_package::*;
-module MMUL_PARALLEL_top_wrap
+module mmul_parallel_top_wrap
 #(
   parameter int unsigned N_CORES = 2,
   parameter int unsigned MP  = 3,
@@ -89,11 +89,11 @@ module MMUL_PARALLEL_top_wrap
     periph_r_valid = periph.r_valid;
     periph_r_id    = periph.r_id;
   end
-  MMUL_PARALLEL_top #(
+  mmul_parallel_top #(
     .N_CORES ( N_CORES ),
     .MP      ( MP      ),
     .ID      ( ID      )
-  ) i_MMUL_PARALLEL_top (
+  ) i_mmul_parallel_top (
     .clk_i       ( clk_i       ),
     .rst_ni      ( rst_ni      ),
     .test_mode_i ( test_mode_i ),

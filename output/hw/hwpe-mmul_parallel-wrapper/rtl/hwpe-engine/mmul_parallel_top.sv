@@ -16,12 +16,12 @@
  * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
  * Contribute:  Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
- * Module: MMUL_PARALLEL_top.sv
+ * Module: mmul_parallel_top.sv
  *
  */
-import MMUL_PARALLEL_package::*;
+import mmul_parallel_package::*;
 import hwpe_ctrl_package::*;
-module MMUL_PARALLEL_top
+module mmul_parallel_top
 #(
   parameter int unsigned N_CORES = 2,
   parameter int unsigned MP  = 3,
@@ -81,7 +81,7 @@ module MMUL_PARALLEL_top
   hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2_15 ( .clk (clk_i) );
   hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) out_r ( .clk (clk_i) );
   // HWPE engine wrapper
-  MMUL_PARALLEL_engine i_engine (
+  mmul_parallel_engine i_engine (
     .clk_i            ( clk_i          ),
     .rst_ni           ( rst_ni         ),
     .test_mode_i      ( test_mode_i    ),
@@ -122,7 +122,7 @@ module MMUL_PARALLEL_top
     .flags_o          ( engine_flags   )
   );
   // HWPE streamer wrapper
-  MMUL_PARALLEL_streamer #(
+  mmul_parallel_streamer #(
     .MP ( MP )
   ) i_streamer (
     .clk_i            ( clk_i          ),
@@ -168,7 +168,7 @@ module MMUL_PARALLEL_top
     .flags_o          ( streamer_flags )
   );
   // HWPE ctrl wrapper
-  MMUL_PARALLEL_ctrl #(
+  mmul_parallel_ctrl #(
     .N_CORES   ( 2  ),
     .N_CONTEXT ( 2  ),
     .N_IO_REGS ( 16 ),

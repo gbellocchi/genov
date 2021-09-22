@@ -16,11 +16,11 @@
  * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
  * Contribute:  Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
- * Module: MMUL_PARALLEL_package.sv
+ * Module: mmul_parallel_package.sv
  *
  */
 import hwpe_stream_package::*;
-package MMUL_PARALLEL_package;
+package mmul_parallel_package;
   parameter int unsigned MMUL_PARALLEL_CNT_LEN = 1024; // maximum length of the vectors for a scalar product
   /* Registers */
   // TCDM addresses
@@ -48,11 +48,11 @@ package MMUL_PARALLEL_package;
     logic simple_mul;
     logic start;
     logic unsigned [$clog2(32)-1       :0] shift;
-    logic unsigned [$clog2(MMUL_PARALLEL_CNT_LEN):0] len; // 1 bit more as cnt starts from 1, not 0
+    logic unsigned [$clog2(mmul_parallel_CNT_LEN):0] len; // 1 bit more as cnt starts from 1, not 0
     // Custom register files
   } ctrl_engine_t;
   typedef struct packed {
-    logic unsigned [$clog2(MMUL_PARALLEL_CNT_LEN):0] cnt; // 1 bit more as cnt starts from 1, not 0
+    logic unsigned [$clog2(mmul_parallel_CNT_LEN):0] cnt; // 1 bit more as cnt starts from 1, not 0
     logic done;
     logic idle;
     logic ready;
@@ -70,7 +70,7 @@ package MMUL_PARALLEL_package;
   typedef struct packed {
     logic simple_mul;
     logic unsigned [$clog2(32)-1       :0] shift;
-    logic unsigned [$clog2(MMUL_PARALLEL_CNT_LEN):0] len; // 1 bit more as cnt starts from 1, not 0
+    logic unsigned [$clog2(mmul_parallel_CNT_LEN):0] len; // 1 bit more as cnt starts from 1, not 0
     // Custom register files
   } ctrl_fsm_t;
   typedef enum {
