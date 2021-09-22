@@ -165,10 +165,6 @@ ${type} [(${dim}-1):0] ${name}_${index}; \
 assign static_reg_${name} = reg_file.hwpe_params[${target}_REG_${NAME}]; \
 </%def>\
 
-<%def name="static_reg_to_fsm(name)">\
-fsm_ctrl.${name}    = static_reg_${name}; \
-</%def>\
-
 <%def name="static_reg_to_engine_intf(name, isport)">\
   % if isport:
 .${name}        ( ctrl_i.${name}      ),

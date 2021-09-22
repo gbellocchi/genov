@@ -11,8 +11,8 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
- * Contribute:  ${author} ${email}
+ * HWPE author: Francesco Conti <fconti@iis.ee.ethz.ch>
+ * HWPE specialization tool: Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
  * Module: ${target}_fsm.sv
  * 

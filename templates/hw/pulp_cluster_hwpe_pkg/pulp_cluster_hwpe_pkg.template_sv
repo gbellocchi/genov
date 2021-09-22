@@ -2,7 +2,7 @@
  *
  * pulp_cluster_hwpe_pkg.sv
  *
- * Author: ${author} ${email}
+ * HWPE specialization tool: Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
  * Configuration package for HWPE module
  * This package has to be included in the 'pulp_cluster_cfg_pkg' configuration package

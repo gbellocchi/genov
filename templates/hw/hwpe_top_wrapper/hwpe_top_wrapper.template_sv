@@ -1,5 +1,3 @@
-
-//
 /*
  * HWPE: Francesco Conti <fconti@iis.ee.ethz.ch>
  *
@@ -13,27 +11,32 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Authors:     Francesco Conti <fconti@iis.ee.ethz.ch>
- * Contribute:  Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
+ * HWPE author: Francesco Conti <fconti@iis.ee.ethz.ch>
+ * HWPE specialization tool: Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
- * Module: mmul_parallel_top_wrapper.sv
- *
+ * Module: ${target}_top_wrapper.sv
+ * 
  */
-import mmul_parallel_package::*;
+
+
+import ${target}_package::*;
 import hwpe_ctrl_package::*;
-module mmul_parallel_top_wrap
+
+module ${target}_top_wrap
 #(
   parameter int unsigned N_CORES = 2,
-  parameter int unsigned MP  = 3,
+  parameter int unsigned MP  = ${n_tcdm_ports},
   parameter int unsigned ID  = 10
 )
-(
+( 
   // Global signals
-  input  logic          clk_i,
-  input  logic          rst_ni,
+  ${port('clk', 'logic', 1, False)},\
+  ${port('rst', 'logic', 1, False, True)},
   input  logic          test_mode_i,
+
   // Events
   output logic [N_CORES-1:0][REGFILE_N_EVT-1:0] evt_o,
+
   // TCDM master ports
   output logic [MP-1:0]                         tcdm_req,
   input  logic [MP-1:0]                         tcdm_gnt,
@@ -43,6 +46,7 @@ module mmul_parallel_top_wrap
   output logic [MP-1:0][31:0]                   tcdm_data,
   input  logic [MP-1:0][31:0]                   tcdm_r_data,
   input  logic [MP-1:0]                         tcdm_r_valid,
+
   // Peripheral slave port
   input  logic                                  periph_req,
   output logic                                  periph_gnt,
@@ -55,14 +59,17 @@ module mmul_parallel_top_wrap
   output logic                                  periph_r_valid,
   output logic       [ID-1:0]                   periph_r_id
 );
+
   hwpe_stream_intf_tcdm tcdm[MP-1:0] (
     .clk ( clk_i )
   );
+
   hwpe_ctrl_intf_periph #(
     .ID_WIDTH ( ID )
   ) periph (
     .clk ( clk_i )
   );
+
   // bindings
   generate
     for(genvar ii=0; ii<MP; ii++) begin: tcdm_binding
@@ -76,6 +83,7 @@ module mmul_parallel_top_wrap
       assign tcdm[ii].r_valid = tcdm_r_valid [ii];
     end
   endgenerate
+  
   always_comb
   begin
     periph.req  = periph_req;
@@ -89,11 +97,12 @@ module mmul_parallel_top_wrap
     periph_r_valid = periph.r_valid;
     periph_r_id    = periph.r_id;
   end
-  mmul_parallel_top #(
+
+  ${target}_top #(
     .N_CORES ( N_CORES ),
     .MP      ( MP      ),
     .ID      ( ID      )
-  ) i_mmul_parallel_top (
+  ) i_${target}_top (
     .clk_i       ( clk_i       ),
     .rst_ni      ( rst_ni      ),
     .test_mode_i ( test_mode_i ),
@@ -101,4 +110,7 @@ module mmul_parallel_top_wrap
     .tcdm        ( tcdm        ),
     .periph      ( periph      )
   );
-  endmodule
+  
+  endmodule\
+
+

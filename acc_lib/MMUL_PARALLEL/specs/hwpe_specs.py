@@ -35,6 +35,7 @@ class hwpe_specs:
         self.custom_reg         = [ ]
         self.custom_reg_num     = len(self.custom_reg)
 
-        # Address generation [ is_hardwired , is_programmed ]
-        self.addr_gen           = [ False , True ]
+        # Address generation [ is_programmable ]
+        self.addr_gen_in        = [ [True] , [True] ]
+        self.addr_gen_out       = [ [True] ]
 
