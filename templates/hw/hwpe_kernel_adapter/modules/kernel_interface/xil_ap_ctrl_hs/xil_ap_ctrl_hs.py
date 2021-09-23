@@ -18,7 +18,3 @@ class xil_ap_ctrl_hs:
             self.common += f.read()
             self.common += '\n'
             f.close()
-
-
-
-

@@ -19,11 +19,11 @@ class hwpe_specs:
         self.hwpe_target        = 'mmul_parallel'
         self.design_type        = 'hls'
 
-        # Kernel design [ is_ap_ctrl , is_dflow ]
+        # Kernel design [ is_ap_ctrl_hs , is_mdc_dataflow ]
         self.intf_kernel        = [ False , True ]
 
         # HWPE streaming interfaces [ name , data-type , reg-dim , is_parallel , parallelism_factor]
-        self.list_sink_stream   = [ [ 'in1' , 'int32_t' , 32 , True , 16 ] , [ 'in2' , 'int32_t' , 32 , True , 16 ] ]
+        self.list_sink_stream   = [ [ 'in1' , 'int32_t' , 32 , False , 16 ] , [ 'in2' , 'int32_t' , 32 , True , 16 ] ]
         self.list_source_stream = [ [ 'out_r' , 'int32_t' , 32 , False, 1] ]
         self.n_sink             = len(self.list_sink_stream)
         self.n_source           = len(self.list_source_stream)

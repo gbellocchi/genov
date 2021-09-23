@@ -34,7 +34,7 @@ module ${target}_engine (\
   output flags_engine_t           flags_o
 );
 
-  /* Control signals */
+  /* Control/flag signals */
 
   logic clear;
   logic done, idle, ready;
@@ -74,13 +74,14 @@ module ${target}_engine (\
     % if custom_reg_num>0:
     // Kernel parameters
       % for i in range (custom_reg_num):
-    ${static_reg_to_engine_intf(custom_reg_name[i], custom_reg_isport[i])}
+        % if custom_reg_isport[i]:
+    .${custom_reg_name[i]}        ( ctrl_i.${custom_reg_name[i]}      ),
+        % endif
       % endfor
     % endif 
 
     // Control signals
     .start           ( ctrl_i.start     ),
-    .clear           ( engine_clear     ),
 
     // Flag signals
     .done            ( engine_done      ), 

@@ -15,10 +15,10 @@ class kernel_interface:
         self.s = specs
 
     def gen(self):
+        self.get_template()
+        return self.m
+
+    def get_template(self):
         self.m = ''
         self.m += xil_ap_ctrl_hs(self.s).gen()
         self.m += mdc_dataflow(self.s).gen()
-        return self.m
-
-
-
