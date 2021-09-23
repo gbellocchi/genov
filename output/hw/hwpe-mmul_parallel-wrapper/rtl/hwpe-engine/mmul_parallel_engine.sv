@@ -91,8 +91,8 @@ module mmul_parallel_engine (
       cnt_out_r = cnt_out_r;
   end
   assign flags_o.cnt_out_r = cnt_out_r;
-  /* Hardware kernel */
-  kernel i_k_wrap (
+  /* Kernel adapter */
+  hwpe_kernel_adapter i_mmul_parallel_adapter (
     // Global signals
     .clk_i           ( clk_i            ),
     .rst_ni          ( rst_ni           ),

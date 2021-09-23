@@ -12,11 +12,12 @@ import sys
 
 from templates.hw.common.hwpe_common import hwpe_common
 
-from templates.hw.hwpe_engine.modules.streaming.streaming import streaming
-from templates.hw.hwpe_engine.modules.counter.counter import counter
+from templates.hw.hwpe_kernel_adapter.modules.streaming.streaming import streaming
+from templates.hw.hwpe_kernel_adapter.modules.kernel_interface.kernel_interface import kernel_interface
 
-# HWPE engine
-class hwpe_engine:
+
+# HWPE kernel adapter
+class hwpe_kernel_adapter:
     def __init__(self, specs):
         
         # Engineer(-s)
@@ -25,7 +26,7 @@ class hwpe_engine:
 
         # Environment
         self.destdir            = specs.dest_dir
-        self.module             = "hwpe_engine/top/hwpe_engine"
+        self.module             = "hwpe_kernel_adapter/top/hwpe_kernel_adapter"
 
         # Generic
         self.hwpe_target        = specs.hwpe_target
@@ -47,6 +48,10 @@ class hwpe_engine:
         self.custom_reg_isport  = [item[3] for item in specs.custom_reg]
         self.custom_reg_num     = specs.custom_reg_num
 
+        # Kernel interface
+        self.is_ap_ctrl         = specs.intf_kernel[0]
+        self.is_dflow           = specs.intf_kernel[1]
+
         self.specs              = specs
 
         # Template
@@ -59,6 +64,8 @@ class hwpe_engine:
             author                  = self.author,
             email                   = self.email,
             target                  = self.hwpe_target, 
+            is_ap_ctrl              = self.is_ap_ctrl,
+            is_dflow                = self.is_dflow,
             n_sink                  = self.n_sink, 
             n_source                = self.n_source,
             stream_in               = self.list_sink_stream,
@@ -76,7 +83,7 @@ class hwpe_engine:
         return s
     
     def get_template(self):
-        with open('templates/hw/'+self.module+'.template_sv', 'r') as f:
+        with open('templates/hw/' + self.module + '.template_sv', 'r') as f:
             s = f.read()
             f.close()
             return s
@@ -88,6 +95,6 @@ class hwpe_engine:
     def modules(self, specs):
         self.m                      = ''
         self.m                      += streaming(specs).gen()
-        self.m                      += counter(specs).gen()
+        self.m                      += kernel_interface(specs).gen()
         return self.m
 

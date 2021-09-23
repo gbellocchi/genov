@@ -1,0 +1,92 @@
+/*
+ * HWPE: Francesco Conti <fconti@iis.ee.ethz.ch>
+ *
+ * Copyright (C) 2018 ETH Zurich, University of Bologna
+ * Copyright and related rights are licensed under the Solderpad Hardware
+ * License, Version 0.51 (the "License"); you may not use this file except in
+ * compliance with the License.  You may obtain a copy of the License at
+ * http://solderpad.org/licenses/SHL-0.51. Unless required by applicable law
+ * or agreed to in writing, software, hardware and materials distributed under
+ * this License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ *
+ * HWPE author: Francesco Conti <fconti@iis.ee.ethz.ch>
+ * HWPE specialization tool: Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
+ *
+ * Module: ${target}_kernel_adapter.sv
+ * 
+ */
+
+import ${target}_package::*;
+
+module ${target}_kernel_adapter (\
+
+  // Global signals
+  input  logic          clk_i,
+  input  logic          rst_ni,
+  input  logic          test_mode_i,
+
+  ${streaming_kernel_intf()}
+
+  % if custom_reg_num > 0:
+  // Algorithm parameters
+  % for i in range (custom_reg_num):
+  ${static_reg_to_kernel_module(custom_reg_name[i], custom_reg_isport[i], custom_reg_dim[i])}
+  % endfor 
+  % endif
+
+  // Control signals
+  input  logic          start,
+  input  logic          clear, 
+  
+  // FIXME: Clear is not used in ap_ctrl (used at engine level). 
+  //        Instantiate interface in a way that clear port gets used (or not) on the basis of is_intf.
+  
+  // Counters
+  // FIXME: They could be wrapped in a custom typedef or just kept here and the 
+  // on the iteration loop could be done at the FSM side counting the number of
+  // received done signals
+  // % if is_dflow is True:
+  //   % for j in range (n_source):
+  // output logic [($clog2(${target}_CNT_LEN)+1):0] cnt_${stream_out[j]},
+  //   % endfor 
+  // % endif
+
+  // Flag signals
+  output logic          done,
+  output logic          idle,
+  output logic          ready
+
+  // FIXME: Use flags and ctrl typedef instead of single signals. 
+  // Why? If more i/o are going to be used (unrolling, ..), it would
+  // be more elegant to parametrize the typedefs, instead of discrete ports.
+);
+
+  <%
+  ############################################################
+  ## Kernel interface -> Xilinx ap_ctrl_hs (refer to UG902) ##
+  ############################################################
+  %>
+
+  ${intf_hls          ()}
+  ${ctrl_to_engine    ()}
+  ${flags_from_engine ()}
+  ${intf_streaming    ()}
+
+  <%
+  #######################################
+  ## Kernel interface -> MDC dataflow  ##
+  #######################################
+  %>
+
+  ${sign_declaration  ()}
+  ${intf_hls          ()}
+  ${ctrl_to_engine    ()}
+  ${flags_from_engine ()}
+  ${input_counters    ()}
+  ${output_counters   ()}
+  ${intf_streaming    ()}
+
+endmodule\
+

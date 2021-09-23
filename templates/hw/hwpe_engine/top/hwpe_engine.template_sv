@@ -59,9 +59,9 @@ module ${target}_engine (\
   ${counter_out_ff_impl()}
   ${counter_out_assign_to_fsm()}
 
-  /* Hardware kernel */
+  /* Kernel adapter */
 
-  kernel i_k_wrap (
+  hwpe_kernel_adapter i_${target}_adapter (
 
     // Global signals
     .clk_i           ( clk_i            ), 

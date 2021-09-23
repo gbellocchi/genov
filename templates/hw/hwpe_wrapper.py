@@ -12,6 +12,7 @@ from templates.hw.hwpe_top_wrapper.hwpe_top_wrapper import hwpe_top_wrapper
 from templates.hw.hwpe_top.hwpe_top import hwpe_top
 # Packages - Engine
 from templates.hw.hwpe_engine.top.hwpe_engine import hwpe_engine
+from templates.hw.hwpe_kernel_adapter.top.hwpe_kernel_adapter import hwpe_kernel_adapter
 # Packages - Streamer
 from templates.hw.hwpe_streamer.top.hwpe_streamer import hwpe_streamer
 # Packages - Controller
@@ -44,6 +45,10 @@ class hwpe_wrapper:
     def engine(self, hwpe_specs):
         engine = hwpe_engine(hwpe_specs)
         return engine.gen()
+
+    def kernel_adapter(self, hwpe_specs):
+        kernel_adapter = hwpe_kernel_adapter(hwpe_specs)
+        return kernel_adapter.gen()
 
     def streamer(self, hwpe_specs):
         streamer = hwpe_streamer(hwpe_specs)
