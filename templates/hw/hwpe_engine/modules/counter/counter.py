@@ -7,8 +7,6 @@
 # Counter
 class counter:
     def __init__(self, hwpe_specs):
-        self.author = hwpe_specs.author
-        self.email = hwpe_specs.email
         self.common = ''
 
     def gen(self):

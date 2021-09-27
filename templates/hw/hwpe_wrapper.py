@@ -10,6 +10,7 @@ from templates.hw.pulp_hwpe_wrap.pulp_hwpe_wrap import pulp_hwpe_wrap
 # Packages - Top
 from templates.hw.hwpe_top_wrapper.hwpe_top_wrapper import hwpe_top_wrapper
 from templates.hw.hwpe_top.hwpe_top import hwpe_top
+from templates.hw.hwpe_package.top.hwpe_package import hwpe_package
 # Packages - Engine
 from templates.hw.hwpe_engine.top.hwpe_engine import hwpe_engine
 from templates.hw.hwpe_kernel_adapter.top.hwpe_kernel_adapter import hwpe_kernel_adapter
@@ -18,7 +19,6 @@ from templates.hw.hwpe_streamer.top.hwpe_streamer import hwpe_streamer
 # Packages - Controller
 from templates.hw.hwpe_ctrl.hwpe_ctrl import hwpe_ctrl
 from templates.hw.hwpe_fsm.top.hwpe_fsm import hwpe_fsm
-from templates.hw.hwpe_package.hwpe_package import hwpe_package
 
 # HWPE wrapper
 class hwpe_wrapper:

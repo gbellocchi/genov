@@ -22,7 +22,7 @@
     ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.line_length     = ctrl_i.${stream_in[i]}_line_length; 
     ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.feat_stride     = ctrl_i.${stream_in[i]}_feat_stride; 
     ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.feat_length     = ctrl_i.${stream_in[i]}_feat_length;
-    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.base_addr       = ctrl_i.${stream_in[i]}_port_offset * ${k} + reg_file_i.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_${k}_ADDR] + (flags_ucode_i.offs[${TARGET}_UCODE_${stream_in[i].upper()}_${k}_OFFS]);
+    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.base_addr       = ctrl_i.${stream_in[i]}_port_offset * ${k} + reg_file_i.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_ADDR] + (flags_ucode_i.offs[${TARGET}_UCODE_${stream_in[i].upper()}_${k}_OFFS]);
     ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.feat_roll       = ctrl_i.${stream_in[i]}_feat_roll;
     ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.loop_outer      = ctrl_i.${stream_in[i]}_loop_outer; 
     ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.realign_type    = ctrl_i.${stream_in[i]}_realign_type; 
@@ -90,7 +90,7 @@
     ctrl_streamer_o.${stream_out[j]}_${k}_source_ctrl.addressgen_ctrl.line_length     = ctrl_i.${stream_out[j]}_line_length; 
     ctrl_streamer_o.${stream_out[j]}_${k}_source_ctrl.addressgen_ctrl.feat_stride     = ctrl_i.${stream_out[j]}_feat_stride; 
     ctrl_streamer_o.${stream_out[j]}_${k}_source_ctrl.addressgen_ctrl.feat_length     = ctrl_i.${stream_out[j]}_feat_length;
-    ctrl_streamer_o.${stream_out[j]}_${k}_source_ctrl.addressgen_ctrl.base_addr       = ctrl_i.${stream_out[j]}_port_offset * ${k} + reg_file_i.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_${k}_ADDR] + (flags_ucode_i.offs[${TARGET}_UCODE_${stream_out[j].upper()}_${k}_OFFS]);
+    ctrl_streamer_o.${stream_out[j]}_${k}_source_ctrl.addressgen_ctrl.base_addr       = ctrl_i.${stream_out[j]}_port_offset * ${k} + reg_file_i.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_ADDR] + (flags_ucode_i.offs[${TARGET}_UCODE_${stream_out[j].upper()}_${k}_OFFS]);
     ctrl_streamer_o.${stream_out[j]}_${k}_source_ctrl.addressgen_ctrl.feat_roll       = ctrl_i.${stream_out[j]}_feat_roll;
     ctrl_streamer_o.${stream_out[j]}_${k}_source_ctrl.addressgen_ctrl.loop_outer      = ctrl_i.${stream_out[j]}_loop_outer; 
     ctrl_streamer_o.${stream_out[j]}_${k}_source_ctrl.addressgen_ctrl.realign_type    = ctrl_i.${stream_out[j]}_realign_type; 

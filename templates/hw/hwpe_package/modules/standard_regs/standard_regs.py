@@ -4,8 +4,8 @@
 
 #!/usr/bin/env python3
 
-# Streaming
-class streaming:
+# Standard registers
+class standard_regs:
     def __init__(self, hwpe_specs):
         self.common = ''
 
@@ -14,7 +14,7 @@ class streaming:
         return self.common
 
     def module(self):
-        with open('templates/hw/hwpe_engine/modules/streaming/streaming.template_sv', 'r') as f:
+        with open('templates/hw/hwpe_package/modules/standard_regs/standard_regs.template_sv', 'r') as f:
             self.common += f.read()
             self.common += '\n'
             f.close()
