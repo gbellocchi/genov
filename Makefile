@@ -3,6 +3,8 @@
 
 ROOT 					:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
+CONFIG = default.config
+
 # Setup
 PY_VER					:= 2.7
 
@@ -39,18 +41,15 @@ HW_DEPS					:= ${ROOT}/../deps
 HWPE_REPO				:= hwpe-${HWPE_TARGET}-wrapper
 PULP_CLUSTER			:= ${HW_DEPS}/overlay_cluster/rtl
 
-RM_F 					:= @rm -f
-RM_DF 					:= @rm -rf
-
 .PHONY: all export gen engine_dev static_rtl acc_lib clean
-all: pulp-integr
+all: gen
 
 hero_deps: pulp-integr
 	@echo "Exporting 'hwpe-${HWPE_TARGET}-wrapper' to HERO ecosystem."
 	@cp -rf ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper ${HW_DEPS}/${HWPE_REPO}
 	@cp -rf ${OUT_SW_DIR} ${HW_DEPS}/${HWPE_REPO}/
 
-pulp-integr: clean_pulp gen
+pulp-integr: clean_overlay gen
 	@echo "Exporting HWPE package for PULP cluster."
 	@cp ${OUT_PULP_INTEGR}/pulp_cluster_hwpe_pkg.sv ${PULP_SRC}/
 	@echo "Exporting PULP HWPE wrapper."
@@ -58,7 +57,7 @@ pulp-integr: clean_pulp gen
 	@echo "Exporting Modelsim wave script."
 	@cp ${OUT_PULP_INTEGR}/pulp_tb.wave.do ${HW_TEST}/
 
-gen: engine_dev static_rtl 
+gen: clean engine_dev static_rtl 
 	@echo "HWPE wrapper generation."
 	@python${PY_VER} gen.py
 
@@ -77,16 +76,17 @@ init:
 	@python${PY_VER} setup.py install --user
 
 clean:
-	@${RM_DF} ${ENG_DEV}/*
-	@${RM_DF} ${OUT_HW_DIR}/*
-	@${RM_DF} ${OUT_SW_DIR}/*
-	@${RM_F}  ${OUT_HW_MNGT_DIR}/*.yml
-	@${RM_F}  ${HW_MNGT_DIR}/rtl_list/*.log
+	@rm -rf ${ENG_DEV}/*
+	@rm -rf ${OUT_HW_DIR}/*
+	@rm -rf ${OUT_SW_DIR}/*
+	@rm -f ${OUT_HW_MNGT_DIR}/*.yml
+	@rm -f ${HW_MNGT_DIR}/rtl_list/*.log
 	@find . -type d -name '__pycache__' -exec rm -rf {} +
 	@find . -name "*.pyc" -type f -delete
 
-clean_pulp:
-	@${RM_DF} ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
-	@${RM_F}  ${PULP_SRC}/pulp_cluster_hwpe_pkg.sv
-	@${RM_F}  ${PULP_CLUSTER}/pulp_hwpe_wrap.sv
+clean_overlay:
+	@./scripts/clean_overlay.sh scripts/clean_overlay.sh
+# @rm -r ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
+# @rm ${PULP_SRC}/pulp_cluster_hwpe_pkg.sv
+# @rm ${PULP_CLUSTER}/pulp_hwpe_wrap.sv
 	

@@ -1,4 +1,4 @@
-# HWPE Wrapper Generator Tool
+# HWPE Wrapper Automated Generator Tool
 The HWPE Wrapper Generator Tool consists of a set of python packages, SV templates and a Makefile that permit to speed up the 
 integration and deployment of hardware accelerators in PULP-based systems. To learn more about HWPE, take a look at [1] and [2].
 
@@ -17,14 +17,31 @@ If you need further details, please contact me at <gianluca.bellocchi@unimore.it
 
 ## Getting Started
 
+## Clone the repository
+We recommed the toolchain to be cloned in the hardware subdirectory of the PULP-based Overlay subsystem, as most of its functionalities will directly interact with that system portion.
+
+```
+git clone https://git.hipert.unimore.it/comp4drones/HERO/hwpe-wrapper-gen-tool.git
+```
+
 ### External sources
 The tool uses Git submodules that have to be initialized. In order to fetch the submodules in the repository, run:
 
 ```
-git submodule update --init --recursive
+make init
 ```
 
+This command also manages the installation of the required Python packages (defined in `setup.py`).
+
 ### Setup
+Most of the specialization flow is handled locally to the tool subdirectory. At a certain point the user may decide to export and integrate the specialized hardware/software products to the Overlay system. This process is fully automated as far as some precise rules are respected (take a look at )
+
+All toolchains and SDKs are installed automatically to the location pointed to by the `HERO_INSTALL` environment variable. Please set it to your preferred installation location before continuing with the next step
+```
+export HERO_INSTALL=<your_path>
+```
+We recommend you create an `install` subdirectory in this repository and set `HERO_INSTALL` to that.
+
 
 #### Accelerator library
 Move to the accelerator library:
@@ -39,7 +56,7 @@ create a new library folder containing RTL, SPECS and SW subfolders.
 ##### RTL subfolder
 This folder comprises the RTL files of the hardware accelerator to be wrapped. 
 
-##### SPECS subfolder
+##### Wrapper specialization configuration
 This folder comprises the Python specification file with the information concerning the interface between the HWPE wrapper and the hardware accelerator.
 
 #### HWPE_TARGET
