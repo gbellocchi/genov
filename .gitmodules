@@ -1,0 +1,11 @@
+[submodule "static/static_rtl/hwpe-ctrl"]
+    path = static/static_rtl/hwpe-ctrl
+    url = https://github.com/pulp-platform/hwpe-ctrl
+
+[submodule "static/static_rtl/hwpe-ctrl-fpga"]
+    path = static/static_rtl/hwpe-ctrl-fpga
+    url = https://git.hipert.unimore.it/comp4drones/HERO/hwpe-ctrl-fpga.git
+
+[submodule "static/static_rtl/hwpe-stream"]
+    path = static/static_rtl/hwpe-stream
+    url = https://github.com/pulp-platform/hwpe-stream
