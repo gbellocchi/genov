@@ -52,8 +52,8 @@ This location should comprise the following directories that are going to be tar
 ### Engine design
 The methodology currently supports wrapping of custom acceleration engines that exhibit the following features:
 
- 1. **Streaming accelerators** since they permit to take advantage of the strong decoupling in designing the wrapper and the accelerator engine.
- 2. **Data access pattern** has to be easily describable in a for-loop fashion, as reported in the listing below. To this end, the user can take advantage of address generators to map local memory accesses to data streams. More information concerning the address generator and the mapping of its parameters to the specific data access pattern of the accelerator are to be found in [3].
+ 1. **Streaming accelerators** - This class of accelerators permit to take advantage of the strong decoupling in designing the wrapper and the accelerator engine.
+ 2. **Defined data access pattern** - The user must be able to describe the data access pattern of each set of input/output TCDM masters. This has to be easily describable in a for-loop fashion, as reported in the listing below. To this end, the user can take advantage of address generators to map local memory accesses to data streams. More information concerning the address generator and the mapping of its parameters to the specific data access pattern of the accelerator are to be found in [3].
 
 ```python
 int word_addr=0, line_addr=0, feat_addr=0;
@@ -64,7 +64,7 @@ while(trans_idx < trans_size) {
 	for(int feat_idx=0; feat_idx<feat_roll; feat_idx++) { // feature loop
 		for(int line_idx=0; line_idx<feat_length; line_idx++) { // line loop
 			for(int word_idx=0; word_idx<line_length; word_idx++) { // word loop
-				gen_addr = base_addr + feat_addr + line_addr + word_idx * STEP;
+				gen_addr = base_addr + feat_addr + line_addr + word_idx * step_addr;
 			}
 			line_addr += line_stride; 
 		}
