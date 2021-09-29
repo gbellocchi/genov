@@ -97,7 +97,7 @@ Once the accelerator library has been updated, return back to the top folder. He
 The first required step is to open the Makefile and modify the value of the macro `HWPE_TARGET` specifying the name of the accelerator the user wants to wrap. This has to match the name of an accelerator library component. As an example: 
 
 ```
-HWPE_TARGET = mac
+HWPE_TARGET = mmul_parallel
 ```
 Subsequently, to specialize the wrapper is required to just run `make`. 
 
@@ -114,7 +114,7 @@ make overlay_deps
 ```
 
 ### Runtime Accelerator Control
-The overlay and the wrapper feed the accelerator datapath exploiting **data tiling**.
+The overlay and the wrapper feed the accelerator datapath exploiting **data tiling**. Complex control routines, data management policies and accelerator programming are all managed in software taking advantage of the overlay proxy core.
 
 ## References:
 1) "A RISC-V-based FPGA Overlay to Simplify Embedded Accelerator Deployment" - G. Bellocchi et al. (2021)
