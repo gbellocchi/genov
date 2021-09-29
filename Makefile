@@ -72,8 +72,8 @@ PULP_CLUSTER			:= ${HW_DEPS}/overlay_cluster/rtl
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-.PHONY: all hero_deps pulp-integr gen engine_dev static_rtl acc_lib init clean clean_overlay check-env
-all: clean gen
+.PHONY: all hero_deps pulp-integr specialization engine_dev static_rtl acc_lib init clean clean_overlay check-env
+all: clean specialization
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -100,9 +100,9 @@ pulp-integr: check-env clean_overlay gen
 #  PHASE 2 - WRAPPER SPECIALIZATION  #
 # ---------------------------------- #
 
-gen: check-env clean engine_dev static_rtl 
-	@echo "HWPE wrapper generation."
-	@python${PY_VER} gen.py
+specialization: check-env clean engine_dev static_rtl 
+	@echo "HWPE wrapper specialization."
+	@python${PY_VER} specialization.py
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 

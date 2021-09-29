@@ -1,5 +1,5 @@
 
-# HWPE Wrapper Automated Generator Tool
+# HWPE Wrapper Automated Specialization Tool
 
 ## Introduction
 ### Description
@@ -16,7 +16,7 @@ Given a set of initial design rules, the designer is equipped with a high-level 
 
 ## Getting Started
 
-### Clone the repository
+### Clone the Repository
 We recommed the toolchain to be cloned in the hardware subdirectory of the PULP-based Overlay subsystem, as most of its functionalities will directly interact with that system portion.
 
 ```
@@ -40,7 +40,7 @@ This location should comprise the following directories that are going to be tar
 
 We also recommend to specify the Python version installed on the user machine modifying `PY_VER` constant in the top Makefile. The tool has been tested both with v2.7 and v3.
 
- ### External sources
+ ### External Sources
 The tool uses Git submodules that have to be initialized. In order to fetch the submodules in the repository, run:
 
 ```
@@ -51,7 +51,7 @@ This command also manages the installation of the required Python packages (defi
 
 ## Accelerator Integration Methodology
 
-### Engine design
+### Engine Design
 The methodology currently supports wrapping of custom acceleration engines that exhibit the following features:
 
  1. **Streaming accelerators** - This class of accelerators permit to take advantage of the strong decoupling in designing the wrapper and the accelerator engine.
@@ -85,7 +85,7 @@ while(trans_idx < trans_size) {
 }
 ```
 
-#### Accelerator library
+#### Accelerator Library
 User-defined engine specifications and examples are to be inserted in the accelerator library (`acc_lib`).
 To extend the content of the library, the best practice is to create a new library folder containing:
 
@@ -94,7 +94,7 @@ To extend the content of the library, the best practice is to create a new libra
  3. `sw` - Additional software components to guide testing.
  4. `__init__.py` - To properly propagate information from the accelerator library throughout the template library, the content of the former has to be interpretable and accessible by Python as part of the tool package.
 
-### Wrapper specialization 
+### Wrapper Specialization 
 Once the accelerator library has been updated, return back to the top folder. Here is a Makefile comprising all the recipes that are necessary to manage the specialization environment and export HW/SW products to the overlay system. 
 
 The first required step is to open the Makefile and modify the value of the macro `HWPE_TARGET` specifying the name of the accelerator the user wants to wrap. This has to match the name of an accelerator library component. As an example: 
@@ -119,12 +119,25 @@ make overlay_deps
 ### Runtime Accelerator Control
 The overlay and the wrapper feed the accelerator datapath exploiting **data tiling**. Complex control routines, data management policies and accelerator programming are all managed in software taking advantage of the overlay proxy core.
 
-## References:
+## Back-End
+**WORK-IN-PROGRESS**
+Python is exploited as a way of packaging a rendering environment for **templates** of different nature - RTL, C, yml, etc. To implement the functionalities required by such an environment we have decided to exploit the simple and straightfoward Mako template library [6].
+
+The back-end flow is managed by `specialization.py` in the root folder.
+
+### Package Structure
+#### HWPE 
+#### Overlay 
+#### Software 
+### How to Integrate New Functionalities
+#### Modules
+
+## References
 1) "A RISC-V-based FPGA Overlay to Simplify Embedded Accelerator Deployment" - G. Bellocchi et al. (2021)
 2) "XNOR Neural Engine: A Hardware Accelerator IP for 21.6-fJ/op Binary Neural Network Inference" - F. Conti et al. (2018)
 3) Hardware Processing Engines Documentation: https://hwpe-doc.readthedocs.io/en/latest/index.html
 
-## Useful repositories:
+## Useful Repositories
 1) Hardware Processing Engine - Streamer: https://github.com/pulp-platform/hwpe-stream
 2) Hardware Processing Engine - Controller: https://github.com/pulp-platform/hwpe-ctrl
 3) Hardware Processing Engine - MAC engine example: https://github.com/pulp-platform/hwpe-mac-engine
