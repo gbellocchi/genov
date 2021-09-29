@@ -86,13 +86,14 @@ while(trans_idx < trans_size) {
 ```
 
 #### Accelerator Library
-User-defined engine specifications and examples are to be inserted in the accelerator library (`acc_lib`).
-To extend the content of the library, the best practice is to create a new library folder containing:
+User-defined engine specifications are to be inserted in the accelerator library (`acc_lib`). There exist exemplary library items to guide the user in the phase of integration of new wrapper specifications. 
+To extend the content of the library, the best practice is to create a new library folder comprising the following sections:
 
- 1. `specs` - Python specification file with the information concerning the interface between the HWPE wrapper and the acceleration engine, as well as additional features
- 2. `rtl` - RTL components of the engine the user wants to wrap. To this end, the flow does not mandate any specific design methodology for the target accelerator engines.
- 3. `sw` - Additional software components to guide testing.
- 4. `__init__.py` - To properly propagate information from the accelerator library throughout the template library, the content of the former has to be interpretable and accessible by Python as part of the tool package.
+ 1. `specs/` - This location contains the Python specification file `hwpe_specs.py`. The latter embodies the required information to specialize the interface between the HWPE wrapper and the acceleration engine, as well as additional features.
+ 2. `rtl/` - This location contains the RTL components of the engine the user wants to wrap. To this end, the flow does not mandate any specific design methodology for the target accelerator engines.
+ 3. `sw/` - This location contains additional software components for the testing phase.
+
+An `__init__.py` is always required to properly propagate information from the accelerator library throughout the template library. The content of the former has to be interpretable and accessible by Python as part of the tool package.
 
 ### Wrapper Specialization 
 Once the accelerator library has been updated, return back to the top folder. Here is a Makefile comprising all the recipes that are necessary to manage the specialization environment and export HW/SW products to the overlay system. 
