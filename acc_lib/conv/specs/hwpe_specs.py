@@ -16,20 +16,20 @@ class hwpe_specs:
         self.dest_dir           = 'output'
 
         # Generic
-        self.hwpe_target        = 'CONV'
+        self.hwpe_target        = 'conv'
         self.design_type        = 'hls'
 
-        # Kernel design [ is_ap_ctrl , is_dflow ]
-        self.intf_kernel        = [ False , True ]
+        # Kernel design [ is_ap_ctrl_hs , is_mdc_dataflow ]
+        self.intf_kernel        = [ True , False ]
 
-        # HWPE streaming interfaces [ name , data-type , reg-dim ]
-        self.list_sink_stream   = [ [ 'x1_V' , 'int32_t' , 32 ] , [ 'x2_V' , 'int32_t' , 32 ] ]
-        self.list_source_stream = [ [ 'y_V' , 'int32_t' , 32 ] ]
+        # HWPE streaming interfaces [ name , data-type , reg-dim , is_parallel , parallelism_factor]
+        self.list_sink_stream   = [ [ 'x1_V' , 'int32_t' , 32 , False , 1] , [ 'x2_V' , 'int32_t' , 32 , False , 1] ]
+        self.list_source_stream = [ [ 'y_V' , 'int32_t' , 32 , False , 1] ]
         self.n_sink             = len(self.list_sink_stream)
         self.n_source           = len(self.list_source_stream)
 
         # HWPE standard regfiles
-        self.std_reg_num        = 5       
+        self.std_reg_num        = 4       
 
         # HWPE custom regfiles [ name , data-type , reg-dim , isport ]
         self.custom_reg         = [ [ 'k11_V'  , 'int32_t' , 32 , 1 ] ,
@@ -41,6 +41,7 @@ class hwpe_specs:
                                     
         self.custom_reg_num     = len(self.custom_reg)
 
-        # Address generation [ is_hardwired , is_programmed ]
-        self.addr_gen           = [ False , True ]
+        # Address generation [ is_programmable ]
+        self.addr_gen_in        = [ [True] , [True] ]
+        self.addr_gen_out       = [ [True] ]
 

@@ -22,7 +22,7 @@ PY_VER					:= 2.7
 
 # Choose target on those available in the application library (e.g. mmul_parallel)
 
-HWPE_TARGET				:= mmul_parallel
+HWPE_TARGET				:= conv
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -73,7 +73,7 @@ PULP_CLUSTER			:= ${HW_DEPS}/overlay_cluster/rtl
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
 .PHONY: all hero_deps pulp-integr gen engine_dev static_rtl acc_lib init clean clean_overlay check-env
-all: check-env gen
+all: clean gen
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -100,7 +100,7 @@ pulp-integr: check-env clean_overlay gen
 #  PHASE 2 - WRAPPER SPECIALIZATION  #
 # ---------------------------------- #
 
-gen: clean engine_dev static_rtl 
+gen: check-env clean engine_dev static_rtl 
 	@echo "HWPE wrapper generation."
 	@python${PY_VER} gen.py
 
@@ -126,7 +126,7 @@ acc_lib: check-env
 #  CLEAN ENVIRONMENT  #
 # ------------------- #
 
-clean:
+clean: check-env
 	@rm -rf ${ENG_DEV}/*
 	@rm -rf ${OUT_HW_DIR}/*
 	@rm -rf ${OUT_SW_DIR}/*

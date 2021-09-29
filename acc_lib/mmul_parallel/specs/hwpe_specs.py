@@ -23,7 +23,7 @@ class hwpe_specs:
         self.intf_kernel        = [ True , False ]
 
         # HWPE streaming interfaces [ name , data-type , reg-dim , is_parallel , parallelism_factor]
-        self.list_sink_stream   = [ [ 'in1' , 'int32_t' , 32 , True , 16 ] , [ 'in2' , 'int32_t' , 32 , True , 16 ] ]
+        self.list_sink_stream   = [ [ 'in1' , 'int32_t' , 32 , True , 16] , [ 'in2' , 'int32_t' , 32 , True , 16 ] ]
         self.list_source_stream = [ [ 'out_r' , 'int32_t' , 32 , False, 1] ]
         self.n_sink             = len(self.list_sink_stream)
         self.n_source           = len(self.list_source_stream)

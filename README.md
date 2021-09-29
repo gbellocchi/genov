@@ -23,15 +23,6 @@ We recommed the toolchain to be cloned in the hardware subdirectory of the PULP-
 git clone https://git.hipert.unimore.it/comp4drones/HERO/hwpe-wrapper-gen-tool.git
 ```
 
-### External sources
-The tool uses Git submodules that have to be initialized. In order to fetch the submodules in the repository, run:
-
-```
-make init
-```
-
-This command also manages the installation of the required Python packages (defined in `setup.py`).
-
 ### Setup
 Most of the specialization flow is handled locally to the tool subdirectory. At a certain point the user may decide to export and integrate the specialized hardware/software products to the overlay system. This process is fully automated (and no-error-prone) as far as the tool knows how to securely interface to the overlay.
 
@@ -46,6 +37,17 @@ This location should comprise the following directories that are going to be tar
  - `src` - SystemVerilog source files to parametrize the PULP-based overlay system.
  - `deps` - SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, HWPE accelerators, etc.).
  - `test` - SystemVerilog testbench to simulate the hardware behavior.
+
+We also recommend to specify the Python version installed on the user machine modifying `PY_VER` constant in the top Makefile. The tool has been tested both with v2.7 and v3.
+
+ ### External sources
+The tool uses Git submodules that have to be initialized. In order to fetch the submodules in the repository, run:
+
+```
+make init
+```
+
+This command also manages the installation of the required Python packages (defined in `setup.py`). Indeed, the templating operation is performed taking advantage of the Mako template library [6].
 
 ## Accelerator Integration Methodology
 
@@ -90,6 +92,7 @@ To extend the content of the library, the best practice is to create a new libra
  1. `specs` - Python specification file with the information concerning the interface between the HWPE wrapper and the acceleration engine, as well as additional features
  2. `rtl` - RTL components of the engine the user wants to wrap. To this end, the flow does not mandate any specific design methodology for the target accelerator engines.
  3. `sw` - Additional software components to guide testing.
+ 4. `__init__.py` - To properly propagate information from the accelerator library throughout the template library, the content of the former has to be interpretable and accessible by Python as part of the tool package.
 
 ### Wrapper specialization 
 Once the accelerator library has been updated, return back to the top folder. Here is a Makefile comprising all the recipes that are necessary to manage the specialization environment and export HW/SW products to the overlay system. 
@@ -127,3 +130,4 @@ The overlay and the wrapper feed the accelerator datapath exploiting **data tili
 3) Hardware Processing Engine - MAC engine example: https://github.com/pulp-platform/hwpe-mac-engine
 4) Hardware Processing Engine - Standalone testbench: https://github.com/pulp-platform/hwpe-tb
 5) PULP platform - https://github.com/pulp-platform
+6) Mako Templates for Python - https://www.makotemplates.org/
