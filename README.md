@@ -34,9 +34,9 @@ export OVERLAY_HW_EXPORT=<your_path>
 
 This location should comprise the following directories that are going to be targeted in the integration phase:
 
- - `src` - SystemVerilog source files to parametrize the PULP-based overlay system.
- - `deps` - SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, HWPE accelerators, etc.).
- - `test` - SystemVerilog testbench to simulate the hardware behavior.
+ - `src/` - This location comprises SystemVerilog source files to parametrize the PULP-based overlay system.
+ - `deps/` - This location comprises SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, HWPE accelerators, etc.).
+ - `test/` - This location comprises a SystemVerilog testbench to simulate the hardware behavior.
 
 We also recommend to specify the Python version installed on the user machine modifying `PY_VER` constant in the top Makefile. The tool has been tested both with v2.7 and v3.
 
