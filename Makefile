@@ -72,7 +72,7 @@ PULP_CLUSTER			:= ${HW_DEPS}/overlay_cluster/rtl
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-.PHONY: all hero_deps pulp-integr specialization engine_dev static_rtl acc_lib init clean clean_overlay check-env
+.PHONY: all overlay_deps overlay_src specialization engine_dev static_rtl acc_lib init clean clean_overlay check_env
 all: clean specialization
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
@@ -81,12 +81,12 @@ all: clean specialization
 #  PHASE 3 - SYSTEM-LEVEL INTEGRATION  #
 # ------------------------------------ #
 
-hero_deps: check-env pulp-integr
+overlay_deps: check_env overlay_src
 	@echo "Exporting 'hwpe-${HWPE_TARGET}-wrapper' to HERO ecosystem."
 	@cp -rf ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
 	@cp -rf ${OUT_SW_DIR} ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper/
 
-pulp-integr: check-env clean_overlay gen
+overlay_src: check_env clean_overlay specialization
 	@echo "Exporting HWPE package for PULP cluster."
 	@cp ${OUT_PULP_INTEGR}/pulp_cluster_hwpe_pkg.sv ${PULP_SRC}/
 	@echo "Exporting PULP HWPE wrapper."
@@ -100,7 +100,7 @@ pulp-integr: check-env clean_overlay gen
 #  PHASE 2 - WRAPPER SPECIALIZATION  #
 # ---------------------------------- #
 
-specialization: check-env clean engine_dev static_rtl 
+specialization: check_env clean engine_dev static_rtl 
 	@echo "HWPE wrapper specialization."
 	@python${PY_VER} specialization.py
 
@@ -110,14 +110,14 @@ specialization: check-env clean engine_dev static_rtl
 #  PHASE 1 - GET SOURCE COMPONENTS  #
 # --------------------------------- #
 
-engine_dev: check-env acc_lib
+engine_dev: check_env acc_lib
 	@ls ${ENG_DEV_RTL} >> ${HW_MNGT_DIR}/rtl_list/engine_list.log
 
-static_rtl: check-env
+static_rtl: check_env
 	@ls -R ${STATIC_STREAM} | grep '\.sv' >> ${HW_MNGT_DIR}/rtl_list/stream_list.log
 	@ls -R ${STATIC_CTRL} | grep '\.sv' >> ${HW_MNGT_DIR}/rtl_list/ctrl_list.log 
 
-acc_lib: check-env
+acc_lib: check_env
 	@cd acc_lib && make -s clean all TARGET=${HWPE_TARGET}
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
@@ -126,7 +126,7 @@ acc_lib: check-env
 #  CLEAN ENVIRONMENT  #
 # ------------------- #
 
-clean: check-env
+clean: check_env
 	@rm -rf ${ENG_DEV}/*
 	@rm -rf ${OUT_HW_DIR}/*
 	@rm -rf ${OUT_SW_DIR}/*
@@ -135,10 +135,10 @@ clean: check-env
 	@find . -type d -name '__pycache__' -exec rm -rf {} +
 	@find . -name "*.pyc" -type f -delete
 
-clean_overlay: check-env
-	@rm -r ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
-	@rm ${PULP_SRC}/pulp_cluster_hwpe_pkg.sv
-	@rm ${PULP_CLUSTER}/pulp_hwpe_wrap.sv
+clean_overlay: check_env
+	@rm -rf ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
+	@rm -f ${PULP_SRC}/pulp_cluster_hwpe_pkg.sv
+	@rm -f ${PULP_CLUSTER}/pulp_hwpe_wrap.sv
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -146,11 +146,11 @@ clean_overlay: check-env
 #  ENVIRONMENT INITIALIZATION  #
 # ---------------------------- #
 
-init: check-env
+init: check_env
 	@git submodule update --init --recursive
 	@python${PY_VER} setup.py install --user
 
-check-env:
+check_env:
 ifndef OVERLAY_HW_EXPORT
 	$(error OVERLAY_HW_EXPORT is undefined)
 endif

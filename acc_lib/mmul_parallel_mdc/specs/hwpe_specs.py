@@ -16,7 +16,7 @@ class hwpe_specs:
         self.dest_dir           = 'output'
 
         # Generic
-        self.hwpe_target        = 'mmul_parallel'
+        self.hwpe_target        = 'mmul_parallel_mdc'
         self.design_type        = 'hls'
 
         # Kernel design [ is_ap_ctrl_hs , is_mdc_dataflow ]
