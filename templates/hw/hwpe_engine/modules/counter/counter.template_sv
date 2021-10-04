@@ -71,7 +71,7 @@
   % for j in range (n_source):
     % if (is_parallel_out[j]):
       % for k in range (out_parallelism_factor[j]):
-  assign flags_o.cnt_${stream_out[j]}_{k} = cnt_${stream_out[j]}_{k};
+  assign flags_o.cnt_${stream_out[j]}_${k} = cnt_${stream_out[j]}_{k};
       % endfor
     % else:
   assign flags_o.cnt_${stream_out[j]} = cnt_${stream_out[j]};

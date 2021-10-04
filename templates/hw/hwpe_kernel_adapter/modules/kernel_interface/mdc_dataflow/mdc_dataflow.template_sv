@@ -36,22 +36,30 @@
   % for i in range (n_sink):
     % if (is_parallel_in[i]):
       % for k in range (in_parallelism_factor[i]):
-  logic local_ready_${stream_in[i]}_${k};
+
+  logic kernel_ready_${stream_in[i]}_${k};
   logic kernel_done_${stream_in[i]}_${k}; //FIXEME: to be removed
+
       % endfor
     % else:
-  logic local_ready_${stream_in[i]};
+
+  logic kernel_ready_${stream_in[i]};
   logic kernel_done_${stream_in[i]}; //FIXEME: to be removed
+
     % endif
   % endfor
 
   % for j in range (n_source):
     % if (is_parallel_out[j]):
       % for k in range (out_parallelism_factor[j]):
+
   logic kernel_done_${stream_out[j]}_${k};
+
       % endfor
     % else:
+
   logic kernel_done_${stream_out[j]};
+
     % endif
   % endfor
 
@@ -64,11 +72,12 @@
 
   // FIXME: This temporarily works synch-outputs.
   // EX: What if Out_0 is provided at each input and Out_1 once per 10 inputs?
-  assign done = ${AND_local_done_out()} 
+  assign done = ${AND_kernel_done_out()} 
 
   % for j in range (n_source):
     % if (is_parallel_out[j]):
       % for k in range (out_parallelism_factor[j]):
+
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: fsm_done_${stream_out[j]}_${k}
     if(~rst_ni)
@@ -78,8 +87,10 @@
     else
       kernel_done_${stream_out[j]}_${k} = 1'b0;
   end
+
       % endfor
     % else:
+
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: fsm_done_${stream_out[j]}
     if(~rst_ni)
@@ -89,6 +100,7 @@
     else
       kernel_done_${stream_out[j]} = 1'b0;
   end
+
     % endif
   % endfor
 
@@ -97,7 +109,7 @@
      The latter triggers the START of accelerator. (see FSM_COMPUTE). */
   /* Driven using input counters. */
 
-  assign ready = ${AND_local_done_in()}
+  assign ready = ${AND_kernel_done_in()}
 
   /* Idle. */
   /* This is used in the hwpe-engine to set flags_o.ready. 
@@ -119,7 +131,7 @@
 			kernel_idle = 1'b0;
     end 
     else if((!kernel_start) & (ready)) begin 
-      if( ${AND_local_done_out()} ) begin
+      if( ${AND_kernel_done_out()} ) begin
         /* If the Start signal is Low when Ready is High, the design stops operation, and
             the ap_idle signal goes High one cycle after ap_done.*/
         kernel_idle = 1'b1;
@@ -146,58 +158,58 @@
     % if (is_parallel_in[i]):
       % for k in range (in_parallelism_factor[i]):
 
-  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] local_cnt_${stream_in[i]}_${k};
+  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] kernel_cnt_${stream_in[i]}_${k};
 
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: engine_cnt_${stream_in[i]}_${k}
-    if((~rst_ni) | clear) begin
-      local_cnt_${stream_in[i]}_${k} = 32'b0;
+    if((~rst_ni) | start) begin
+      kernel_cnt_${stream_in[i]}_${k} = 32'b0;
     end
     else if(kernel_start) begin
-      local_cnt_${stream_in[i]}_${k} = 32'b0;
+      kernel_cnt_${stream_in[i]}_${k} = 32'b0;
     end
     else if ((i_${stream_in[i]}_${k}.valid) & (i_${stream_in[i]}_${k}.ready)) begin
-      local_cnt_${stream_in[i]}_${k} = local_cnt_${stream_in[i]}_${k} + 1;
+      kernel_cnt_${stream_in[i]}_${k} = kernel_cnt_${stream_in[i]}_${k} + 1;
     end
     else begin
-      local_cnt_${stream_in[i]}_${k} = local_cnt_${stream_in[i]}_${k};
+      kernel_cnt_${stream_in[i]}_${k} = kernel_cnt_${stream_in[i]}_${k};
     end
   end
 
-  // FIXME: Now local_done_in goes High every time an input enters the acc.
+  // FIXME: Now kernel_done_in goes High every time an input enters the acc.
   // This should be generalized. Even though the wrapper looper is designed to 
   // on counting the ouputs, the number of inputs needed to generate an ouput
   // are usually > 1.
   // SOL: Add to ctrl_i also the information about max_input.
-  assign local_done_${stream_in[i]}_${k} = (local_cnt_${stream_in[i]}_${k}==1) ? 1 : 0;
+  assign kernel_done_${stream_in[i]}_${k} = (kernel_cnt_${stream_in[i]}_${k}==1) ? 1 : 0;
 
       % endfor
     % else:
 
-  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] local_cnt_${stream_in[i]};
+  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] kernel_cnt_${stream_in[i]};
 
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: engine_cnt_${stream_in[i]}
-    if((~rst_ni) | clear) begin
-      local_cnt_${stream_in[i]} = 32'b0;
+    if((~rst_ni) | start) begin
+      kernel_cnt_${stream_in[i]} = 32'b0;
     end
     else if(kernel_start) begin
-      local_cnt_${stream_in[i]} = 32'b0;
+      kernel_cnt_${stream_in[i]} = 32'b0;
     end
     else if ((i_${stream_in[i]}.valid) & (i_${stream_in[i]}.ready)) begin
-      local_cnt_${stream_in[i]} = local_cnt_${stream_in[i]} + 1;
+      kernel_cnt_${stream_in[i]} = kernel_cnt_${stream_in[i]} + 1;
     end
     else begin
-      local_cnt_${stream_in[i]} = local_cnt_${stream_in[i]};
+      kernel_cnt_${stream_in[i]} = kernel_cnt_${stream_in[i]};
     end
   end
 
-  // FIXME: Now local_done_in goes High every time an input enters the acc.
+  // FIXME: Now kernel_done_in goes High every time an input enters the acc.
   // This should be generalized. Even though the wrapper looper is designed to 
   // on counting the ouputs, the number of inputs needed to generate an ouput
   // are usually > 1.
   // SOL: Add to ctrl_i also the information about max_input.
-  assign local_done_${stream_in[i]} = (local_cnt_${stream_in[i]}==1) ? 1 : 0;
+  assign kernel_done_${stream_in[i]} = (kernel_cnt_${stream_in[i]}==1) ? 1 : 0;
 
     % endif
   % endfor 
@@ -217,7 +229,7 @@
     % if (is_parallel_out[j]):
       % for k in range (out_parallelism_factor[j]):
 
-  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] local_cnt_${stream_out[j]}_${k};
+  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] kernel_cnt_${stream_out[j]}_${k};
 
   // Suggested design:
   //      ap_done = done_out0 & ... & done_outM;
@@ -229,22 +241,22 @@
 
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: engine_cnt_${stream_out[j]}_${k}
-    if((~rst_ni) | clear)
-      local_cnt_${stream_out[j]}_${k} = 32'b0;
+    if((~rst_ni) | start)
+      kernel_cnt_${stream_out[j]}_${k} = 32'b0;
     else if(!kernel_idle) begin
       if((${stream_out[j]}_${k}_o.valid)&(${stream_out[j]}_${k}_o.ready))
-        local_cnt_${stream_out[j]}_${k} = local_cnt_${stream_out[j]}_${k} + 1;
+        kernel_cnt_${stream_out[j]}_${k} = kernel_cnt_${stream_out[j]}_${k} + 1;
       else
-        local_cnt_${stream_out[j]}_${k} = local_cnt_${stream_out[j]}_${k};
+        kernel_cnt_${stream_out[j]}_${k} = kernel_cnt_${stream_out[j]}_${k};
     end
   end
 
-  assign cnt_${stream_out[j]}_${k} = local_cnt_${stream_out[j]}_${k};
+  assign cnt_${stream_out[j]}_${k} = kernel_cnt_${stream_out[j]}_${k};
 
       % endfor
     % else:
 
-  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] local_cnt_${stream_out[j]};
+  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] kernel_cnt_${stream_out[j]};
 
   // Suggested design:
   //      ap_done = done_out0 & ... & done_outM;
@@ -256,17 +268,17 @@
 
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: engine_cnt_${stream_out[j]}
-    if((~rst_ni) | clear)
-      local_cnt_${stream_out[j]} = 32'b0;
+    if((~rst_ni) | start)
+      kernel_cnt_${stream_out[j]} = 32'b0;
     else if(!kernel_idle) begin
       if((${stream_out[j]}_o.valid)&(${stream_out[j]}_o.ready))
-        local_cnt_${stream_out[j]} = local_cnt_${stream_out[j]} + 1;
+        kernel_cnt_${stream_out[j]} = kernel_cnt_${stream_out[j]} + 1;
       else
-        local_cnt_${stream_out[j]} = local_cnt_${stream_out[j]};
+        kernel_cnt_${stream_out[j]} = kernel_cnt_${stream_out[j]};
     end
   end
 
-  assign cnt_${stream_out[j]} = local_cnt_${stream_out[j]};
+  assign cnt_${stream_out[j]} = kernel_cnt_${stream_out[j]};
 
     % endif
   % endfor
@@ -288,6 +300,15 @@
     .ap_clk             ( clk_i            ), 
     .ap_rst_n           ( rst_ni           ), 
 
+    % if custom_reg_num>0:
+    // Kernel parameters
+      % for i in range (custom_reg_num):
+        % if custom_reg_isport[i]:
+    .${custom_reg_name[i]}        ( ${custom_reg_name[i]} ),
+        % endif
+      % endfor
+    % endif 
+
     // Sink ports
     % for i in range (n_sink):
       % if (is_parallel_in[i]):
@@ -304,7 +325,7 @@
     % endfor  
 
     // Source ports
-    % for j in range (n_source):
+    % for j in range (n_source-1):
       % if (is_parallel_out[j]):
         % for k in range (out_parallelism_factor[j]):
     .${stream_out[j]}_${k}_TDATA  ( i_${stream_out[j]}_${k}.data  ),
@@ -318,14 +339,23 @@
       % endif
     % endfor
 
-    % if custom_reg_num>0:
-    // Kernel parameters
-      % for i in range (custom_reg_num):
-        % if custom_reg_isport[i]:
-    .${custom_reg_name[i]}        ( ${custom_reg_name[i]} ),
-        % endif
+    % if (is_parallel_out[n_source-1]):
+      % for k in range (out_parallelism_factor[n_source-1]-1):
+    .${stream_out[n_source-1]}_${k}_TDATA  ( i_${stream_out[n_source-1]}_${k}.data  ),
+    .${stream_out[n_source-1]}_${k}_TVALID ( i_${stream_out[n_source-1]}_${k}.valid ),
+    .${stream_out[n_source-1]}_${k}_TREADY ( i_${stream_out[n_source-1]}_${k}.ready ),
       % endfor
-    % endif 
+    % else:
+    .${stream_out[n_source-1]}_TDATA  ( i_${stream_out[n_source-1]}.data  ),
+    .${stream_out[n_source-1]}_TVALID ( i_${stream_out[n_source-1]}.valid ),
+    .${stream_out[n_source-1]}_TREADY ( i_${stream_out[n_source-1]}.ready )
+    % endif
+
+    % if (is_parallel_out[n_source-1]):
+    .${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}_TDATA  ( i_${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}.data  ),
+    .${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}_TVALID ( i_${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}.valid ),
+    .${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}_TREADY ( i_${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}.ready )
+    % endif
 
   );
 
@@ -364,48 +394,48 @@
 %>
 
 
-<%def name="AND_local_done_in()">\
+<%def name="AND_kernel_done_in()">\
 \
 % for i in range (n_sink-1):
     % if (is_parallel_in[i]):
         % for k in range (in_parallelism_factor[i]):
-local_done_${stream_in[i]}_${k} & \
+kernel_done_${stream_in[i]}_${k} & \
         % endfor
     % else:
-local_done_${stream_in[i]} & \
+kernel_done_${stream_in[i]} & \
     % endif
 % endfor
 \
 % if (is_parallel_in[n_sink-1]):
     % for k in range (in_parallelism_factor[n_sink-1]-1):
-local_done_in_${n_sink-1}_${k} & \
+kernel_done_in_${n_sink-1}_${k} & \
     % endfor
-local_done_in_${n_sink-1}_${in_parallelism_factor[n_sink-1]-1};\
+kernel_done_in_${n_sink-1}_${in_parallelism_factor[n_sink-1]-1};\
 % else:
-local_done_in_${n_sink-1};\
+kernel_done_in_${n_sink-1};\
 % endif
 \
 </%def>\
 
-<%def name="AND_local_done_out()">\
+<%def name="AND_kernel_done_out()">\
 \
 % for j in range (n_source-1):
     % if (is_parallel_out[j]):
         % for k in range (out_parallelism_factor[j]):
-local_done_${stream_out[j]}_${k} & \
+kernel_done_${stream_out[j]}_${k} & \
         % endfor
     % else:
-local_done_${stream_out[j]} & \
+kernel_done_${stream_out[j]} & \
     % endif
 % endfor
 \
 % if (is_parallel_out[n_source-1]):
     % for k in range (out_parallelism_factor[n_source-1]-1):
-local_done_out_${n_source-1}_${k} & \
+kernel_done_out_${n_source-1}_${k} & \
     % endfor
-local_done_out_${n_source-1}_${out_parallelism_factor[n_source-1]-1};\
+kernel_done_out_${n_source-1}_${out_parallelism_factor[n_source-1]-1};\
 % else:
-local_done_out_${n_source-1};\
+kernel_done_out_${n_source-1};\
 % endif
 \
 </%def>\

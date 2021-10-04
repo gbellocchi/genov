@@ -182,7 +182,17 @@ package ${target}_package;
   } ctrl_engine_t; 
 
   typedef struct packed {
-    logic unsigned [$clog2(${target.upper()}_CNT_LEN):0] cnt;
+
+    % for j in range (n_source):
+      % if (is_parallel_out[j]):
+        % for k in range (out_parallelism_factor[j]):
+    logic unsigned [$clog2(${target.upper()}_${stream_out[j].upper()}_${k.upper()}_CNT_LEN):0] cnt_${stream_out[j]}_${k};
+        % endfor
+      % else:
+    logic unsigned [$clog2(${target.upper()}_${stream_out[j].upper()}_CNT_LEN):0] cnt_${stream_out[j]};
+      % endif
+    % endfor
+
     logic done;
     logic idle;
     logic ready;
