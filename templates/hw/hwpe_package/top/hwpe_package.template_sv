@@ -307,7 +307,7 @@ package ${target}_package;
     % endfor
 
     // Computation
-    logic unsigned [$clog2(MMUL_PARALLEL_CNT_LEN):0] cnt_limit;
+    logic unsigned [$clog2(${target.upper()}_CNT_LEN):0] cnt_limit;
 
     % if custom_reg_num>0:
     // Custom registers

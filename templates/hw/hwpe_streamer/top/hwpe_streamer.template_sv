@@ -49,7 +49,7 @@ module ${target}_streamer
   #########################
   %>
 
-  ${ streaming_intf(stream_in, stream_out, n_sink, n_source, is_parallel_in, is_parallel_out, in_parallelism_factor, out_parallelism_factor) }
+  ${ streaming_intf() }
 
   // control channel
   input  ctrl_streamer_t  ctrl_i,
@@ -57,12 +57,14 @@ module ${target}_streamer
 );
 
   <%
-  ###############
-  ## Streaming ##
-  ###############
+  ############################
+  ## Interfaces and signals ##
+  ############################
   %>
 
-  ${ streaming_source_sink(stream_in, stream_out, n_sink, n_source, is_parallel_in, is_parallel_out, in_parallelism_factor, out_parallelism_factor)}
+  ${ fifo_tcdm_ready_signs() }
+  ${ fifo_tcdm_intf_post_fifo() }
+  ${ fifo_stream_intf_pre_fifo() }
   
   <%
   ##########
@@ -70,10 +72,16 @@ module ${target}_streamer
   ##########
   %>
 
-  ${ fifo_ready_sign( stream_in, n_sink, is_parallel_in, in_parallelism_factor) }
-  ${ fifo_intf( stream_in, n_sink, is_parallel_in, in_parallelism_factor) }
-  ${ fifo_pre( stream_in, stream_out, n_sink, n_source, is_parallel_in, is_parallel_out, in_parallelism_factor, out_parallelism_factor) }
-  ${ fifo_post( stream_in, stream_out, n_sink, n_source, is_parallel_in, is_parallel_out, in_parallelism_factor, out_parallelism_factor) }
+  ${ fifo_tcdm_side() }
+  ${ fifo_engine_side() }
+
+  <%
+  #######################
+  ## Streaming modules ##
+  #######################
+  %>
+
+  ${ streaming_source_sink()}
 
 endmodule\
 

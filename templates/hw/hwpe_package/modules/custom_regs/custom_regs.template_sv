@@ -18,7 +18,7 @@
 
     % for i in range (custom_reg_num):
         <% NAME=custom_reg_name[i].upper() %>
-  parameter int unsigned ${TARGET}_REG_${NAME}             = ${addr_current};
+  parameter int unsigned ${target.upper()}_REG_${NAME}             = ${addr_current};
         <%  
           addr_current += 1
         %>

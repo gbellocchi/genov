@@ -12,24 +12,24 @@
 
 <%def name="standard_regs(addr_current)">\
 
-  parameter int unsigned ${TARGET}_REG_NB_ITER              = ${addr_current};
+  parameter int unsigned ${target.upper()}_REG_NB_ITER              = ${addr_current};
 
         <%  
           addr_current += 1
         %>
 
-  parameter int unsigned ${TARGET}_REG_SHIFT_LINESTRIDE     = ${addr_current};
+  parameter int unsigned ${target.upper()}_REG_SHIFT_LINESTRIDE     = ${addr_current};
 
         <%  
           addr_current += 1
         %>
 
-  parameter int unsigned ${TARGET}_REG_SHIFT_TILESTRIDE     = ${addr_current};
+  parameter int unsigned ${target.upper()}_REG_SHIFT_TILESTRIDE     = ${addr_current};
 
         <%  
           addr_current += 1
         %>
 
-  parameter int unsigned ${TARGET}_REG_CNT_LIMIT            = ${addr_current};
+  parameter int unsigned ${target.upper()}_REG_CNT_LIMIT            = ${addr_current};
 
 </%def>\
