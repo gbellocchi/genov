@@ -22,7 +22,7 @@ PY_VER					:= 2.7
 
 # Choose target on those available in the application library (e.g. mmul_parallel)
 
-HWPE_TARGET				:= mmul_parallel_mdc
+HWPE_TARGET				:= mmul_parallel
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -68,7 +68,7 @@ OVERLAY_HW_REPO			:= ${OVERLAY_HW_EXPORT}
 PULP_SRC				:= ${OVERLAY_HW_EXPORT}/src
 HW_TEST					:= ${OVERLAY_HW_EXPORT}/test
 HW_DEPS					:= ${OVERLAY_HW_EXPORT}/deps
-PULP_CLUSTER			:= ${HW_DEPS}/overlay_cluster/rtl
+OVERLAY_CLUSTER			:= ${HW_DEPS}/overlay_cluster/rtl
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -83,14 +83,14 @@ all: clean specialization
 
 overlay_deps: check_env overlay_src
 	@echo "Exporting 'hwpe-${HWPE_TARGET}-wrapper' to HERO ecosystem."
-	@cp -rf ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
-	@cp -rf ${OUT_SW_DIR} ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper/
+	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
+	@cp -r ${OUT_SW_DIR} ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper/
 
-overlay_src: check_env clean_overlay specialization
+overlay_src: check_env specialization
 	@echo "Exporting HWPE package for PULP cluster."
 	@cp ${OUT_PULP_INTEGR}/pulp_cluster_hwpe_pkg.sv ${PULP_SRC}/
 	@echo "Exporting PULP HWPE wrapper."
-	@cp ${OUT_PULP_INTEGR}/pulp_hwpe_wrap.sv ${PULP_CLUSTER}/
+	@cp ${OUT_PULP_INTEGR}/pulp_hwpe_wrap.sv ${OVERLAY_CLUSTER}/
 	@echo "Exporting Modelsim wave script."
 	@cp ${OUT_PULP_INTEGR}/pulp_tb.wave.do ${HW_TEST}/
 
@@ -138,7 +138,7 @@ clean: check_env
 clean_overlay: check_env
 	@rm -rf ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
 	@rm -f ${PULP_SRC}/pulp_cluster_hwpe_pkg.sv
-	@rm -f ${PULP_CLUSTER}/pulp_hwpe_wrap.sv
+	@rm -f ${OVERLAY_CLUSTER}/pulp_hwpe_wrap.sv
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 

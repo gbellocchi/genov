@@ -5,7 +5,7 @@
 #!/usr/bin/env python3
 
 # Packages - Overlay
-from templates.hw.pulp_cluster_hwpe_pkg.pulp_cluster_hwpe_pkg import pulp_cluster_hwpe_pkg
+from templates.hw.overlay_hwpe_pkg.top.overlay_hwpe_pkg import overlay_hwpe_pkg
 from templates.hw.pulp_hwpe_wrap.pulp_hwpe_wrap import pulp_hwpe_wrap
 # Packages - Top
 from templates.hw.hwpe_top_wrapper.hwpe_top_wrapper import hwpe_top_wrapper
@@ -26,9 +26,9 @@ class hwpe_wrapper:
         self.author = hwpe_specs.author
         self.email = hwpe_specs.email
 
-    def pulp_hwpe_pkg(self, hwpe_specs):
-        pulp_hwpe_pkg = pulp_cluster_hwpe_pkg(hwpe_specs)
-        return pulp_hwpe_pkg.gen()
+    def overlay_hwpe_pkg(self, hwpe_specs):
+        system_hwpe_pkg = overlay_hwpe_pkg(hwpe_specs)
+        return system_hwpe_pkg.gen()
 
     def pulp_hwpe_wrap(self, hwpe_specs):
         pulp_wrap = pulp_hwpe_wrap(hwpe_specs)

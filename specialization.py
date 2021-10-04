@@ -95,8 +95,8 @@ destination = dirname
 shutil.copytree(source, destination)
 
 # Generate hwpe package for pulp system
-dev = hwpe_wrapper.pulp_hwpe_pkg(specs)
-filename = 'pulp_cluster_hwpe_pkg.sv'
+dev = hwpe_wrapper.overlay_hwpe_pkg(specs)
+filename = 'overlay_hwpe_pkg.sv'
 dest_dir = hwpe_pulp_integration
 gen.gen_dev(dev, filename, dest_dir)
 
