@@ -5,8 +5,8 @@
 #!/usr/bin/env python3
 
 # Packages - Overlay
-from templates.hw.overlay_hwpe_pkg.top.overlay_hwpe_pkg import overlay_hwpe_pkg
-from templates.hw.pulp_hwpe_wrap.pulp_hwpe_wrap import pulp_hwpe_wrap
+from templates.hw.ov_acc_pkg.top.ov_acc_pkg import ov_acc_pkg
+from templates.hw.ov_acc_intf.top.ov_acc_intf import ov_acc_intf
 # Packages - Top
 from templates.hw.hwpe_top_wrapper.hwpe_top_wrapper import hwpe_top_wrapper
 from templates.hw.hwpe_top.hwpe_top import hwpe_top
@@ -26,13 +26,13 @@ class hwpe_wrapper:
         self.author = hwpe_specs.author
         self.email = hwpe_specs.email
 
-    def overlay_hwpe_pkg(self, hwpe_specs):
-        system_hwpe_pkg = overlay_hwpe_pkg(hwpe_specs)
+    def ov_acc_pkg(self, hwpe_specs):
+        system_hwpe_pkg = ov_acc_pkg(hwpe_specs)
         return system_hwpe_pkg.gen()
 
-    def pulp_hwpe_wrap(self, hwpe_specs):
-        pulp_wrap = pulp_hwpe_wrap(hwpe_specs)
-        return pulp_wrap.gen()
+    def ov_acc_intf(self, hwpe_specs):
+        system_hwpe_intf = ov_acc_intf(hwpe_specs)
+        return system_hwpe_intf.gen()
 
     def top_wrapper(self, hwpe_specs):
         top_wrapper = hwpe_top_wrapper(hwpe_specs)

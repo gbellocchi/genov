@@ -12,10 +12,10 @@ import sys
 
 from templates.hw.common.hwpe_common import hwpe_common
 
-from templates.hw.overlay_hwpe_pkg.modules.cluster_interco.cluster_interco import cluster_interco
+from templates.hw.ov_acc_pkg.modules.cluster_interco.cluster_interco import cluster_interco
 
 # Overlay HWPE package
-class overlay_hwpe_pkg:
+class ov_acc_pkg:
     def __init__(self, specs):
         
         # Engineer(-s)
@@ -24,7 +24,7 @@ class overlay_hwpe_pkg:
 
         # Environment
         self.destdir            = specs.dest_dir
-        self.module             = "overlay_hwpe_pkg/top/overlay_hwpe_pkg"
+        self.module             = "ov_acc_pkg/top/ov_acc_pkg"
 
         # Generic
         self.hwpe_target        = specs.hwpe_target

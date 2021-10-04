@@ -14,7 +14,7 @@ class cluster_interco:
         return self.common
 
     def module(self):
-        with open('templates/hw/overlay_hwpe_pkg/modules/cluster_interco/cluster_interco.template_sv', 'r') as f:
+        with open('templates/hw/ov_acc_pkg/modules/cluster_interco/cluster_interco.template_sv', 'r') as f:
             self.common += f.read()
             self.common += '\n'
             f.close()

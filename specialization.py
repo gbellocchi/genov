@@ -25,7 +25,14 @@ from templates.hw_management.hw_management import hw_management
 from templates.sw.sw import firmware_baremetal
 from templates.sw.sw import firmware_offloading
 
-# Generator class
+# ----------------- #
+#  Generator class  #
+# ----------------- #
+
+# TODO
+# Integrate rendering back-end functionalities 
+# defined in the body of this Python script
+
 class hwpe_gen:
     def __init__(self, specs):
         self.specs = specs
@@ -66,14 +73,14 @@ gen = hwpe_gen(specs)
 static_comps = 'static'
 
 # Create output environment
-hwpe_pulp_integration = specs.dest_dir + '/hw/pulp_integration'
+hwpe_overlay_integration = specs.dest_dir + '/hw/overlay_integration'
 hwpe_outdir = specs.dest_dir + '/hw/hwpe-' + specs.hwpe_target + '-wrapper'
 hwpe_rtl = hwpe_outdir + '/rtl'
 hwpe_engine_rtl = hwpe_rtl + '/hwpe-engine'
 hwpe_streamer_rtl = hwpe_rtl + '/hwpe-stream'
 hwpe_ctrl_rtl = hwpe_rtl + '/hwpe-ctrl'
 
-os.mkdir(hwpe_pulp_integration)
+os.mkdir(hwpe_overlay_integration)
 os.mkdir(hwpe_outdir)
 os.mkdir(hwpe_rtl)
 os.mkdir(hwpe_rtl + '/wrap')
@@ -94,16 +101,16 @@ source = 'engine_dev/rtl'
 destination = dirname
 shutil.copytree(source, destination)
 
-# Generate hwpe package for pulp system
-dev = hwpe_wrapper.overlay_hwpe_pkg(specs)
-filename = 'overlay_hwpe_pkg.sv'
-dest_dir = hwpe_pulp_integration
+# Generate packages to integrate hwpe in the overlay
+dev = hwpe_wrapper.ov_acc_pkg(specs)
+filename = 'ov_acc_pkg.sv'
+dest_dir = hwpe_overlay_integration
 gen.gen_dev(dev, filename, dest_dir)
 
-# Generate pulp hwpe wrapper
-dev = hwpe_wrapper.pulp_hwpe_wrap(specs)
-filename = 'pulp_hwpe_wrap.sv'
-dest_dir = hwpe_pulp_integration
+# Generate interface between overlay and accelerator
+dev = hwpe_wrapper.ov_acc_intf(specs)
+filename = 'ov_acc_intf.sv'
+dest_dir = hwpe_overlay_integration
 gen.gen_dev(dev, filename, dest_dir)
 
 # Generate hwpe top wrapper
@@ -170,7 +177,7 @@ gen.gen_dev(dev, filename, dest_dir)
 # Generate VSIM wave file
 dev = hw_management.vsim_wave(specs)
 filename = 'pulp_tb.wave.do'
-dest_dir = hwpe_pulp_integration
+dest_dir = hwpe_overlay_integration
 gen.gen_dev(dev, filename, dest_dir)
 
 # -------------------------------------------------- #
