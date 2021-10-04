@@ -62,7 +62,7 @@ sources:
       - rtl/hwpe-engine/${target}_fsm.sv
       - rtl/hwpe-engine/${target}_ctrl.sv
       - rtl/hwpe-engine/${target}_streamer.sv
-      - rtl/hwpe-engine/${target}_kernel_wrapper.sv
+      - rtl/hwpe-engine/${target}_kernel_adapter.sv
       - rtl/hwpe-engine/${target}_engine.sv
       - rtl/hwpe-engine/${target}_top.sv
 
