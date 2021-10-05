@@ -56,6 +56,10 @@ OUT_HW_DIR 				:= ${OUT_DIR}/hw
 OUT_PULP_INTEGR			:= ${OUT_HW_DIR}/pulp_integration
 OUT_SW_DIR 				:= ${OUT_DIR}/sw
 
+# Scripts
+
+UTILS_DIR				:= ${ROOT}/utils
+
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
 # --------------------- #
@@ -65,14 +69,14 @@ OUT_SW_DIR 				:= ${OUT_DIR}/sw
 # System-level integration
 
 OVERLAY_HW_REPO			:= ${OVERLAY_HW_EXPORT}
-PULP_SRC				:= ${OVERLAY_HW_EXPORT}/src
-HW_TEST					:= ${OVERLAY_HW_EXPORT}/test
-HW_DEPS					:= ${OVERLAY_HW_EXPORT}/deps
-OVERLAY_CLUSTER			:= ${HW_DEPS}/overlay_cluster/rtl
+OVERLAY_SRC				:= ${OVERLAY_HW_EXPORT}/src
+OVERLAY_DEPS			:= ${OVERLAY_HW_EXPORT}/deps
+OVERLAY_TEST			:= ${OVERLAY_HW_EXPORT}/test
+OVERLAY_CLUSTER			:= ${OVERLAY_DEPS}/overlay_cluster/rtl
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-.PHONY: all overlay_deps overlay_src specialization engine_dev static_rtl acc_lib init clean clean_overlay check_env
+.PHONY: all overlay_deps overlay_src specialization engine_dev static_rtl acc_lib init clean clean_overlay test_env check_env
 all: clean specialization
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
@@ -83,16 +87,16 @@ all: clean specialization
 
 overlay_deps: check_env overlay_src
 	@echo "Exporting 'hwpe-${HWPE_TARGET}-wrapper' to HERO ecosystem."
-	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
-	@cp -r ${OUT_SW_DIR} ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper/
+	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper
+	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper/
 
 overlay_src: check_env specialization
 	@echo "Exporting HWPE package for PULP cluster."
-	@cp ${OUT_PULP_INTEGR}/pulp_cluster_hwpe_pkg.sv ${PULP_SRC}/
+	@cp ${OUT_PULP_INTEGR}/pulp_cluster_hwpe_pkg.sv ${OVERLAY_SRC}/
 	@echo "Exporting PULP HWPE wrapper."
 	@cp ${OUT_PULP_INTEGR}/pulp_hwpe_wrap.sv ${OVERLAY_CLUSTER}/
 	@echo "Exporting Modelsim wave script."
-	@cp ${OUT_PULP_INTEGR}/pulp_tb.wave.do ${HW_TEST}/
+	@cp ${OUT_PULP_INTEGR}/pulp_tb.wave.do ${OVERLAY_TEST}/
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -135,9 +139,9 @@ clean: check_env
 	@find . -type d -name '__pycache__' -exec rm -rf {} +
 	@find . -name "*.pyc" -type f -delete
 
-clean_overlay: check_env
-	@rm -rf ${HW_DEPS}/hwpe-${HWPE_TARGET}-wrapper
-	@rm -f ${PULP_SRC}/pulp_cluster_hwpe_pkg.sv
+clean_overlay: test_env
+	@rm -rf ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper
+	@rm -f ${OVERLAY_SRC}/pulp_cluster_hwpe_pkg.sv
 	@rm -f ${OVERLAY_CLUSTER}/pulp_hwpe_wrap.sv
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
@@ -146,9 +150,14 @@ clean_overlay: check_env
 #  ENVIRONMENT INITIALIZATION  #
 # ---------------------------- #
 
-init: check_env
+init: test_env
 	@git submodule update --init --recursive
 	@python${PY_VER} setup.py install --user
+
+test_env: check_env
+ifndef ENV_IS_CHECKED
+	@${UTILS_DIR}/secure_paths.sh ${OVERLAY_SRC} ${OVERLAY_DEPS} ${OVERLAY_TEST}
+endif
 
 check_env:
 ifndef OVERLAY_HW_EXPORT

@@ -31,7 +31,7 @@ from templates.sw.sw import firmware_offloading
 
 # TODO
 # Integrate rendering back-end functionalities 
-# defined in the body of this Python script
+# defined in the body of this Python script (HW, HW-MGT, SW)
 
 class hwpe_gen:
     def __init__(self, specs):
