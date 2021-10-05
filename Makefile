@@ -22,7 +22,7 @@ PY_VER					:= 2.7
 
 # Choose target on those available in the application library (e.g. mmul_parallel)
 
-HWPE_TARGET				:= mmul_opt_mdc
+HWPE_TARGET				:= mmul_parallel
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -53,7 +53,7 @@ STATIC_CTRL 			:= ${STATIC_RTL_DIR}/hwpe-ctrl-fpga
 
 OUT_DIR 				:= ${ROOT}/output
 OUT_HW_DIR 				:= ${OUT_DIR}/hw
-OUT_PULP_INTEGR			:= ${OUT_HW_DIR}/pulp_integration
+OUT_OVERLAY_INTEGR		:= ${OUT_HW_DIR}/overlay_integration
 OUT_SW_DIR 				:= ${OUT_DIR}/sw
 
 # Scripts
@@ -76,7 +76,7 @@ OVERLAY_CLUSTER			:= ${OVERLAY_DEPS}/overlay_cluster/rtl
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-.PHONY: all overlay_deps overlay_src specialization engine_dev static_rtl acc_lib init clean clean_overlay test_env check_env
+.PHONY: all overlay_integration overlay_deps overlay_src specialization engine_dev static_rtl acc_lib init clean clean_overlay test_env check_env
 all: clean specialization
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
@@ -85,18 +85,21 @@ all: clean specialization
 #  PHASE 3 - SYSTEM-LEVEL INTEGRATION  #
 # ------------------------------------ #
 
+overlay_integration: clean_overlay overlay_src overlay_deps
+
 overlay_deps: check_env overlay_src
-	@echo "Exporting 'hwpe-${HWPE_TARGET}-wrapper' to HERO ecosystem."
+	@echo -e "Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay..."
 	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper
 	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper/
+	@echo -e "								...All done!"
 
 overlay_src: check_env specialization
-	@echo "Exporting HWPE package for PULP cluster."
-	@cp ${OUT_PULP_INTEGR}/pulp_cluster_hwpe_pkg.sv ${OVERLAY_SRC}/
-	@echo "Exporting PULP HWPE wrapper."
-	@cp ${OUT_PULP_INTEGR}/pulp_hwpe_wrap.sv ${OVERLAY_CLUSTER}/
-	@echo "Exporting Modelsim wave script."
-	@cp ${OUT_PULP_INTEGR}/pulp_tb.wave.do ${OVERLAY_TEST}/
+	@echo -e "Exporting accelerator package to perform system-level optimization."
+	@cp ${OUT_OVERLAY_INTEGR}/ov_acc_pkg.sv ${OVERLAY_SRC}/
+	@echo -e "Exporting accelerator interface to perform system-level integration."
+	@cp ${OUT_OVERLAY_INTEGR}/ov_acc_intf.sv ${OVERLAY_CLUSTER}/
+	@echo -e "Exporting Modelsim wave script to perform system-level testing."
+	@cp ${OUT_OVERLAY_INTEGR}/pulp_tb.wave.do ${OVERLAY_TEST}/
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
