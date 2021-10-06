@@ -9,7 +9,7 @@ from templates.hw.ov_acc_pkg.top.ov_acc_pkg import ov_acc_pkg
 from templates.hw.ov_acc_intf.top.ov_acc_intf import ov_acc_intf
 # Packages - Top
 from templates.hw.hwpe_top_wrapper.hwpe_top_wrapper import hwpe_top_wrapper
-from templates.hw.hwpe_top.hwpe_top import hwpe_top
+from templates.hw.hwpe_top.top.hwpe_top import hwpe_top
 from templates.hw.hwpe_package.top.hwpe_package import hwpe_package
 # Packages - Engine
 from templates.hw.hwpe_engine.top.hwpe_engine import hwpe_engine

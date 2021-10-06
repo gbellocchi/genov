@@ -12,6 +12,9 @@ import sys
 
 from templates.hw.common.hwpe_common import hwpe_common
 
+from templates.hw.hwpe_top.modules.streaming.streaming import streaming
+from templates.hw.hwpe_top.modules.ctrl.ctrl import ctrl
+
 # HWPE top
 class hwpe_top:
     def __init__(self, specs):
@@ -22,7 +25,7 @@ class hwpe_top:
 
         # Environment
         self.destdir            = specs.dest_dir
-        self.module             = "hwpe_top/hwpe_top"
+        self.module             = "hwpe_top/top/hwpe_top"
 
         # Generic
         self.hwpe_target        = specs.hwpe_target
@@ -37,6 +40,9 @@ class hwpe_top:
         self.n_sink                             = specs.n_sink
         self.n_source                           = specs.n_source
 
+        # HWPE standard regfiles
+        self.std_reg_num        = specs.std_reg_num
+
         # HWPE custom regfiles
         self.custom_reg_name    = [item[0] for item in specs.custom_reg]
         self.custom_reg_dtype   = [item[1] for item in specs.custom_reg]
@@ -44,19 +50,22 @@ class hwpe_top:
         self.custom_reg_isport  = [item[3] for item in specs.custom_reg]
         self.custom_reg_num     = specs.custom_reg_num
 
-        # Common template elements
-        self.common             = hwpe_common(specs).gen()
+        # Address generation
+        self.addr_gen_in_isprogr                = [item[0] for item in specs.addr_gen_in]
+        self.addr_gen_out_isprogr               = [item[0] for item in specs.addr_gen_out]
+
+        self.specs              = specs
 
         # Template
         self.template           = self.get_template()
 
     def gen(self):
-        s = self.common + self.template
+        s = self.common(self.specs) + self.modules(self.specs) + self.template
         pulp_template = Template(s)
         string = pulp_template.render(
             author                  = self.author,
             email                   = self.email,
-            target                  = self.hwpe_target, 
+            target                  = self.hwpe_target,
             n_sink                  = self.n_sink, 
             n_source                = self.n_source,
             stream_in               = self.list_sink_stream,
@@ -65,6 +74,12 @@ class hwpe_top:
             is_parallel_out         = self.source_is_parallel,
             in_parallelism_factor   = self.sink_parallelism_factor,
             out_parallelism_factor  = self.source_parallelism_factor,
+            std_reg_num             = self.std_reg_num,
+            custom_reg_name         = self.custom_reg_name, 
+            custom_reg_dim          = self.custom_reg_dim, 
+            custom_reg_num          = self.custom_reg_num,
+            addr_gen_in_isprogr     = self.addr_gen_in_isprogr,
+            addr_gen_out_isprogr    = self.addr_gen_out_isprogr,
         )
         s = re.sub(r'\s+$', '', string, flags=re.M)
         return s
@@ -74,4 +89,14 @@ class hwpe_top:
             s = f.read()
             f.close()
             return s
+
+    def common(self, specs):
+        self.c                      = hwpe_common(specs).gen()
+        return self.c
+
+    def modules(self, specs):
+        self.m                      = ''
+        self.m                      += streaming(specs).gen()
+        self.m                      += ctrl(specs).gen()
+        return self.m
 
