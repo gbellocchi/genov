@@ -153,6 +153,11 @@ clean_overlay: test_env
 #  ENVIRONMENT INITIALIZATION  #
 # ---------------------------- #
 
+test:
+	@rm -f struct_mod.txt
+	@python3 struct_mod.py
+	@code struct_mod.txt
+
 init: test_env
 	@git submodule update --init --recursive
 	@python${PY_VER} setup.py install --user

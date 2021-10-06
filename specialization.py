@@ -11,6 +11,7 @@ import struct
 import shutil
 import getpass
 import os
+from modulefinder import ModuleFinder
 
 # Design specification package
 from engine_dev.specs.hwpe_specs import hwpe_specs
@@ -29,10 +30,6 @@ from templates.sw.sw import firmware_offloading
 # ----------------- #
 #  Generator class  #
 # ----------------- #
-
-# TODO
-# Integrate rendering back-end functionalities 
-# defined in the body of this Python script (HW, HW-MGT, SW)
 
 class hwpe_gen:
     def __init__(self, specs):
@@ -56,6 +53,16 @@ class hwpe_gen:
                     destination = dest_dir
                     shutil.move(source, destination)
 
+    def struct_mod(self):
+        finder = ModuleFinder()
+        finder.run_script('specialization.py')
+        f = open("struct_mod.txt", "a")
+        for name, mod in finder.modules.items():
+            if "templates." in name: 
+                f.write(name)
+                f.write('\n')
+        f.close()
+
 
 # -------------------------------------- #
 # -------------  HARDWARE  ------------- #
@@ -66,6 +73,9 @@ specs = hwpe_specs()
 
 # Create device generator
 gen = hwpe_gen(specs)
+
+# Get a structure of python template modules 
+gen.struct_mod()
 
 # Static components (hw, sw, ..)
 static_comps = 'static'
