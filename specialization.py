@@ -16,7 +16,8 @@ import os
 from engine_dev.specs.hwpe_specs import hwpe_specs
 
 # HW packages
-from templates.hw.hwpe_wrapper import hwpe_wrapper
+from templates.hw.hwpe_wrapper.hwpe_wrapper import hwpe_wrapper
+from templates.hw.overlay.overlay import overlay
 
 # HW-management packages
 from templates.hw_management.hw_management import hw_management
@@ -63,9 +64,6 @@ class hwpe_gen:
 # Read hwpe specs
 specs = hwpe_specs()
 
-# Create hwpe wrapper
-hwpe_wrapper = hwpe_wrapper(specs)
-
 # Create device generator
 gen = hwpe_gen(specs)
 
@@ -101,17 +99,31 @@ source = 'engine_dev/rtl'
 destination = dirname
 shutil.copytree(source, destination)
 
+#
+# OVERLAY
+#
+
+# Create overlay
+overlay = overlay(specs)
+
 # Generate packages to integrate hwpe in the overlay
-dev = hwpe_wrapper.ov_acc_pkg(specs)
+dev = overlay.acc_pkg(specs)
 filename = 'ov_acc_pkg.sv'
 dest_dir = hwpe_overlay_integration
 gen.gen_dev(dev, filename, dest_dir)
 
 # Generate interface between overlay and accelerator
-dev = hwpe_wrapper.ov_acc_intf(specs)
+dev = overlay.acc_intf(specs)
 filename = 'ov_acc_intf.sv'
 dest_dir = hwpe_overlay_integration
 gen.gen_dev(dev, filename, dest_dir)
+
+#
+# HWPE
+#
+
+# Create hwpe wrapper
+hwpe_wrapper = hwpe_wrapper(specs)
 
 # Generate hwpe top wrapper
 dev = hwpe_wrapper.top_wrapper(specs)
