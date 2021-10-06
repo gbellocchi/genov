@@ -26,10 +26,10 @@ if [ -d "$OVERLAY_SRC" ]; then
   echo -e "\nIs it a correct path?"
 fi
 
-select yn in "Yes" "No" "help"; do
+select yn in "yes" "no" "help"; do
 	case $yn in
-    	Yes ) break;;
-    	No ) error_exit "Erroneous path for system-level integration! Aborting.";;
+    	yes ) break;;
+    	no ) error_exit "Erroneous path for system-level integration! Aborting.";;
 		help ) echo -e "\nContent of $OVERLAY_SRC:\n" 
 			ls -1 $OVERLAY_SRC
 			echo -e "\n";;
@@ -50,10 +50,10 @@ if [ -d "$OVERLAY_DEPS" ]; then
   echo -e "\nIs it a correct path?"
 fi
 
-select yn in "Yes" "No" "help"; do
+select yn in "yes" "no" "help"; do
 	case $yn in
-    	Yes ) break;;
-    	No ) error_exit "Erroneous path for system-level integration! Aborting.";;
+    	yes ) break;;
+    	no ) error_exit "Erroneous path for system-level integration! Aborting.";;
 		help ) echo -e "\nContent of $OVERLAY_DEPS:\n" 
 			ls -1 $OVERLAY_DEPS
 			echo -e "\n";;
@@ -74,10 +74,10 @@ if [ -d "$OVERLAY_TEST" ]; then
   echo -e "\nIs it a correct path?"
 fi
 
-select yn in "Yes" "No" "help"; do
+select yn in "yes" "no" "help"; do
 	case $yn in
-    	Yes ) break;;
-    	No ) error_exit "Erroneous path for system-level integration! Aborting.";;
+    	yes ) break;;
+    	no ) error_exit "Erroneous path for system-level integration! Aborting.";;
 		help ) echo -e "\nContent of $OVERLAY_TEST:\n" 
 			ls -1 $OVERLAY_TEST
 			echo -e "\n";;
