@@ -1,6 +1,8 @@
 /* 
- * hwpe_ctrl_regfile_latch.sv
+ * hwpe_ctrl_regfile_fpga.sv
  * Francesco Conti <fconti@iis.ee.ethz.ch>
+ *
+ * FPGA modifation:  Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
  * Copyright (C) 2014-2018 ETH Zurich, University of Bologna
  * Copyright and related rights are licensed under the Solderpad Hardware
@@ -61,14 +63,6 @@ module hwpe_ctrl_regfile_fpga
    
    genvar                                       x;
    genvar                                       y;
-   
-  //  cluster_clock_gating CG_WE_GLOBAL
-  //  (
-  //     .clk_o     ( clk_int             ),
-  //     .en_i      ( WriteEnable | clear ),
-  //     .test_en_i ( 1'b0                ),
-  //     .clk_i     ( clk                 )
-  //  );
 
    //-----------------------------------------------------------------------------
    //-- READ : Read address register
@@ -95,67 +89,6 @@ module hwpe_ctrl_regfile_fpga
      end
    assign ReadData = MemContentxDP[RAddrRegxDP];
    
-   
-   //-----------------------------------------------------------------------------
-   //-- WRITE : Write Address Decoder (WAD), combinatorial process
-   //-----------------------------------------------------------------------------
-
-  //  always_comb
-  //    begin : p_WAD
-  //       for(i=0; i<NUM_WORDS; i++)
-  //         begin : p_WordIter
-  //            for(j=0; j<NUM_BYTE; j++)
-  //              begin : p_ByteIter
-  //                 if ( (clear == 1'b0) && (WriteEnable == 1'b1 ) && (WriteBE[j] == 1'b1) && (WriteAddr == i) )
-  //                   WAddrOneHotxD[i][j] = 1'b1;
-  //                 else
-  //                   WAddrOneHotxD[i][j] = 1'b0;
-  //              end
-  //         end
-  //    end
-   
-   //-----------------------------------------------------------------------------
-   //-- WRITE : Clock gating (if integrated clock-gating cells are available)
-   //-----------------------------------------------------------------------------
-
-  //  generate
-  //     for(x=0; x<NUM_WORDS; x++)
-  //       begin : CG_CELL_WORD_ITER
-  //          for(y=0; y<NUM_BYTE; y++)
-  //            begin : CG_CELL_BYTE_ITER
-  //                cluster_clock_gating CG_Inst
-  //                 (
-  //                  .clk_o(ClocksxC[x][y]),
-  //                  .en_i(WAddrOneHotxD[x][y]),
-  //                  .test_en_i(1'b0),
-  //                  .clk_i(clk)
-  //                  );
-  //            end
-  //       end
-  //  endgenerate
-   
-   //-----------------------------------------------------------------------------
-   // WRITE : SAMPLE INPUT DATA
-   //---------------------------------------------------------------------------  
-
-  //  always_ff @(posedge clk or negedge rst_n or posedge clear)
-  //    begin : sample_waddr
-  //       for(m=0; m<NUM_BYTE; m++)
-  //         begin
-  //            if(WriteEnable & WriteBE[m])
-  //              WDataIntxD[m] <= WriteData[m];
-  //         end
-  //    end
-   
-   //-----------------------------------------------------------------------------
-   //-- WRITE : Write operation
-   //-----------------------------------------------------------------------------  
-   //-- Generate M = WORDS sequential processes, each of which describes one
-   //-- word of the memory. The processes are synchronized with the clocks
-   //-- ClocksxC(i), i = 0, 1, ..., M-1
-   //-- Use active low, i.e. transparent on low latches as storage elements
-   //-- Data is sampled on rising clock edge
-   
    always_ff @(posedge clk)
      begin : _wdata
         for(k=0; k<NUM_WORDS; k++)
@@ -180,4 +113,4 @@ module hwpe_ctrl_regfile_fpga
      end
    endgenerate
 
-endmodule // hwpe_ctrl_regfile_latch
+endmodule // hwpe_ctrl_regfile_fpga

@@ -1,6 +1,8 @@
 /* 
- * hwpe_ctrl_regfile_latch.sv
+ * hwpe_ctrl_regfile_fpga.sv
  * Francesco Conti <fconti@iis.ee.ethz.ch>
+ *
+ * FPGA modifation:  Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
  * Copyright (C) 2014-2018 ETH Zurich, University of Bologna
  * Copyright and related rights are licensed under the Solderpad Hardware
@@ -101,4 +103,4 @@ module hwpe_ctrl_regfile_fpga_wrap
       .MemContent  ( MemContent        )
    );
 
-endmodule // hwpe_ctrl_regfile_latch
+endmodule // hwpe_ctrl_regfile_fpga

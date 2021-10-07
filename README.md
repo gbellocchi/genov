@@ -124,7 +124,7 @@ The overlay and the wrapper feed the accelerator datapath exploiting **data tili
 **WORK-IN-PROGRESS**
 Python is exploited as a way of packaging a rendering environment for **templates** of different nature - RTL, C, yml, etc. To implement the functionalities required by such an environment we have decided to exploit the simple and straightfoward Mako template library [6].
 
-The back-end flow is managed by `specialization.py` in the root folder.
+The back-end flow is managed by `run_gen.py` in the root folder.
 
 ### Package Structure
 #### HWPE 

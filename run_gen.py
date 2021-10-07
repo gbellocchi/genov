@@ -55,7 +55,7 @@ class hwpe_gen:
 
     def struct_mod(self):
         finder = ModuleFinder()
-        finder.run_script('specialization.py')
+        finder.run_script('run_gen.py')
         f = open("struct_mod.txt", "a")
         for name, mod in finder.modules.items():
             if "templates." in name: 
