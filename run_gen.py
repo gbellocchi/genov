@@ -59,7 +59,8 @@ class hwpe_gen:
         f = open("struct_mod.txt", "a")
         for name, mod in finder.modules.items():
             if "templates." in name: 
-                f.write(name)
+                s = name.replace(".", "/")
+                f.write(s)
                 f.write('\n')
         f.close()
 

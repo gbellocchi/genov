@@ -25,6 +25,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 
 echo -e "\n                                                            ...done!"
+echo -e "\n"
 
 # Deactivate environment
 deactivate

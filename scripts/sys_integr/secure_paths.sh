@@ -114,7 +114,8 @@ fi
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-echo -e ">> Completed checking the overlay hardware environment.\n"
+echo -e ">> Completed checking the overlay hardware environment."
+echo -e "\n"
 
 # ------------------------------ #
 #  Completed environment check.  #

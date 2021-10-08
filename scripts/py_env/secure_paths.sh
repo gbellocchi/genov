@@ -48,7 +48,8 @@ fi
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-echo -e ">> Completed checking the python virtual environment.\n"
+echo -e ">> Completed checking the python virtual environment."
+echo -e "\n"
 
 # ------------------------------ #
 #  Completed environment check.  #

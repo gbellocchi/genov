@@ -163,9 +163,6 @@ test:
 	@python struct_mod.py
 	@code struct_mod.txt
 
-init_venv:
-	@${SCRIPTS_PY_ENV}/init_venv.sh ${PY_VENV}
-
 init_repo:
 	@git submodule update --init --recursive
 # @python setup.py install
@@ -179,6 +176,9 @@ bender: Makefile
 # -------------------- #
 #  PYTHON ENVIRONMENT  #
 # -------------------- #
+
+init_venv:
+	@${SCRIPTS_PY_ENV}/init_venv.sh ${PY_VENV}
 
 update_reqs_py_venv:
 	@${SCRIPTS_PY_ENV}/update_reqs.sh ${PY_ENV_DIR}

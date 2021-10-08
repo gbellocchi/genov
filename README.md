@@ -1,9 +1,9 @@
 
-# HWPE Wrapper Automated Specialization Tool
+# Accelerator Wrapper Generator
 
 ## Introduction
 ### Description
-The HWPE Wrapper Generator Tool consists of a set of Python packages, System Verilog templates and a Makefile that permit to speed up the integration and deployment of hardware accelerators in PULP-based systems [1]. To learn more about HWPE, take a look at [2] and [3].
+The Accelerator Wrapper Generator consists of a set of Python packages, System Verilog templates and a Makefile that permit to speed up the integration and deployment of hardware accelerators in PULP-based systems [1]. To learn more about HWPE, take a look at [2] and [3].
 
 The integration of custom accelerators is simplified by the definition of a communication/control interface in the form of a wrapper to the acceleration logic that can be instantiated multiple times within a PULP-based cluster. A wrapper encapsulates the functionality of a HWPE streamer and controller modules. Since these modules have dependencies on the specific accelerator (engine) implementation, it is necessary to distinguish between their static and variable RTL components. Once the user has defined key properties of its accelerator design, the specialization of the wrapper is simplified via template instantiation.
 
@@ -35,7 +35,7 @@ export OVERLAY_HW_EXPORT=<your_path>
 This location should comprise the following directories that are going to be targeted in the integration phase:
 
  - `src/` - This location comprises SystemVerilog source files to parametrize the PULP-based overlay system.
- - `deps/` - This location comprises SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, HWPE accelerators, etc.).
+ - `deps/` - This location comprises SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, accelerators, etc.).
  - `test/` - This location comprises a SystemVerilog testbench to simulate the hardware behavior.
 
 We also recommend to specify the Python version installed on the user machine modifying `PY_VER` constant in the top Makefile. The tool has been tested both with v2.7 and v3.
@@ -89,7 +89,7 @@ while(trans_idx < trans_size) {
 User-defined engine specifications are to be inserted in the accelerator library (`acc_lib`). There exist exemplary library items to guide the user in the phase of integration of new wrapper specifications. 
 To extend the content of the library, the best practice is to create a new library folder comprising the following sections:
 
- 1. `specs/` - This location contains the Python specification file `hwpe_specs.py`. The latter embodies the required information to specialize the interface between the HWPE wrapper and the acceleration engine, as well as additional features.
+ 1. `specs/` - This location contains the Python specification file `hwpe_specs.py`. The latter embodies the required information to specialize the interface between the accelerator wrapper and the integrated engine, as well as additional features.
  2. `rtl/` - This location contains the RTL components of the engine the user wants to wrap. To this end, the flow does not mandate any specific design methodology for the target accelerator engines.
  3. `sw/` - This location contains additional software components for the testing phase.
 
@@ -127,8 +127,9 @@ Python is exploited as a way of packaging a rendering environment for **template
 The back-end flow is managed by `run_gen.py` in the root folder.
 
 ### Package Structure
-#### HWPE 
-#### Overlay 
+#### Hardware 
+##### HWPE wrapper 
+##### Overlay 
 #### Software 
 ### How to Integrate New Functionalities
 #### Modules

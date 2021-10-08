@@ -14,6 +14,7 @@ source $GEN_VENV/bin/activate
 echo -e ">> Accelerator wrapper specialization...\n"
 python run_gen.py
 echo -e "                                     ...done!"
+echo -e "\n"
 
 # Deactivate environment
 deactivate
