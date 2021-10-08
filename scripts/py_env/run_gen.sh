@@ -11,7 +11,7 @@ readonly GEN_VENV=$1
 source $GEN_VENV/bin/activate
 
 # Run generator
-echo -e "Accelerator wrapper specialization...\n"
+echo -e ">> Accelerator wrapper specialization...\n"
 python run_gen.py
 echo -e "                                     ...done!"
 

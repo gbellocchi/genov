@@ -10,7 +10,7 @@ error_exit()
   exit 1
 }
 
-echo -e "\nChecking overlay hardware subsystem..."
+echo -e "\n>> Checking overlay hardware subsystem...\n"
 
 readonly OVERLAY_SRC=$1
 readonly OVERLAY_DEPS=$2
@@ -22,23 +22,31 @@ readonly OVERLAY_TEST=$3
 #  Check if OVERLAY_SRC exists.  #
 # ------------------------------ #
 
-if [ -d "$OVERLAY_SRC" ]; then
-  # Take action if it exists. #
-  echo -e "\n...\n"
-  echo -e "A src/ directory has been found -> $OVERLAY_SRC"
-  echo -e "This location should comprise SystemVerilog source files to parametrize the PULP-based overlay system."
-  echo -e "\nIs it a correct path?"
-fi
+echo -e "|------------------------|"
+echo -e "| OVERLAY - RTL SOURCES. |"
+echo -e "|------------------------|\n"
 
-select yn in "yes" "no" "help"; do
-	case $yn in
-    	yes ) break;;
-    	no ) error_exit "Erroneous path for system-level integration! Aborting.";;
-		help ) echo -e "\nContent of $OVERLAY_SRC:\n" 
-			ls -1 $OVERLAY_SRC
-			echo -e "\n";;
-	esac
-done
+if [ -d "$OVERLAY_SRC" ]; then
+	# Take action if it exists. #
+	echo -e ">> A src/ directory has been found -> $OVERLAY_SRC"
+	echo -e ">> This location should comprise SystemVerilog source files to parametrize the PULP-based overlay system."
+	echo -e "\n>> Is it a correct path?"
+
+	select yn in "yes" "no" "help"; do
+		case $yn in
+			yes ) 	echo -e "\n"
+					break;;
+			no ) 	error_exit ">> Erroneous path for system-level integration! Aborting.";;
+			help ) 	echo -e "\n>> Content of $OVERLAY_SRC:\n" 
+					ls -1 $OVERLAY_SRC
+					echo -e "\n"
+					echo -e "\n>> Is it a correct path?";;
+		esac
+	done
+else
+	# Take action if it does not exist. #
+	error_exit ">> No src/ directory has been found. Be sure to properly setup your $OVERLAY_HW_EXPORT environment."
+fi
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -46,23 +54,31 @@ done
 #  Check if OVERLAY_DEPS exists.  #
 # ------------------------------- #
 
-if [ -d "$OVERLAY_DEPS" ]; then
-  # Take action if it exists. #
-  echo -e "\n...\n"
-  echo -e "A deps/ directory has been found -> $OVERLAY_DEPS"
-  echo -e "This location should comprise SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, HWPE accelerators, etc.)."
-  echo -e "\nIs it a correct path?"
-fi
+echo -e "|-----------------------------|"
+echo -e "| OVERLAY - RTL DEPENDENCIES. |"
+echo -e "|-----------------------------|\n"
 
-select yn in "yes" "no" "help"; do
-	case $yn in
-    	yes ) break;;
-    	no ) error_exit "Erroneous path for system-level integration! Aborting.";;
-		help ) echo -e "\nContent of $OVERLAY_DEPS:\n" 
-			ls -1 $OVERLAY_DEPS
-			echo -e "\n";;
-	esac
-done
+if [ -d "$OVERLAY_DEPS" ]; then
+	# Take action if it exists. #
+	echo -e ">> A deps/ directory has been found -> $OVERLAY_DEPS"
+	echo -e ">> This location should comprise SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, HWPE accelerators, etc.)."
+	echo -e "\n>> Is it a correct path?"
+
+	select yn in "yes" "no" "help"; do
+		case $yn in
+			yes ) 	echo -e "\n"
+					break;;
+			no ) 	error_exit ">> Erroneous path for system-level integration! Aborting.";;
+			help ) 	echo -e "\n>> Content of $OVERLAY_DEPS:\n" 
+					ls -1 $OVERLAY_DEPS
+					echo -e "\n"
+					echo -e "\n>> Is it a correct path?";;
+		esac
+	done
+else
+	# Take action if it does not exist. #
+	error_exit ">> No deps/ directory has been found. Be sure to properly setup your $OVERLAY_HW_EXPORT environment."
+fi
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -70,25 +86,35 @@ done
 #  Check if OVERLAY_TEST exists.  #
 # ------------------------------- #
 
+echo -e "|---------------------------|"
+echo -e "| OVERLAY - RTL TEST SUITE. |"
+echo -e "|---------------------------|\n"
+
 if [ -d "$OVERLAY_TEST" ]; then
-  # Take action if it exists. #
-  echo -e "\n...\n"
-  echo -e "A test/ directory has been found -> $OVERLAY_TEST"
-  echo -e "This location comprises a SystemVerilog testbench to simulate the hardware behavior."
-  echo -e "\nIs it a correct path?"
+	# Take action if it exists. #
+	echo -e ">> A test/ directory has been found -> $OVERLAY_TEST"
+	echo -e ">> This location comprises a SystemVerilog testbench to simulate the hardware behavior."
+	echo -e "\n>> Is it a correct path?"
+
+	select yn in "yes" "no" "help"; do
+		case $yn in
+			yes ) 	echo -e "\n"
+					break;;
+			no ) 	error_exit ">> Erroneous path for system-level integration! Aborting.";;
+			help ) 	echo -e "\n>> Content of $OVERLAY_TEST:\n" 
+					ls -1 $OVERLAY_TEST
+					echo -e "\n"
+					echo -e "\n>> Is it a correct path?";;
+		esac
+	done
+else
+	# Take action if it does not exist. #
+	error_exit ">> No test/ directory has been found. Be sure to properly setup your $OVERLAY_HW_EXPORT environment."
 fi
 
-select yn in "yes" "no" "help"; do
-	case $yn in
-    	yes ) break;;
-    	no ) error_exit "Erroneous path for system-level integration! Aborting.";;
-		help ) echo -e "\nContent of $OVERLAY_TEST:\n" 
-			ls -1 $OVERLAY_TEST
-			echo -e "\n";;
-	esac
-done
-
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+
+echo -e ">> Completed checking the overlay hardware environment.\n"
 
 # ------------------------------ #
 #  Completed environment check.  #
