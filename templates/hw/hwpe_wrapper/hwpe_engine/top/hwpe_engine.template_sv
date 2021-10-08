@@ -54,10 +54,14 @@ module ${target}_engine (\
   end
 
   /* Count outputs */
+  
+  ${cnt_out_decl()}
+  ${out_track_decl()}
 
-  ${counter_out_declaration()}
-  ${counter_out_ff_impl()}
-  ${counter_out_assign_to_fsm()}
+  ${out_track_impl()}
+  ${cnt_out_ff_impl()}
+
+  ${cnt_out_assign_to_fsm()}
 
   /* Kernel adapter */
 

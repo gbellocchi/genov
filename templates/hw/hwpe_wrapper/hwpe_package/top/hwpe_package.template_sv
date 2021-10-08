@@ -48,7 +48,7 @@ package ${target}_package;
   ${standard_regs(addr_current)}
 
   <%
-    addr_top += std_reg_num
+    addr_top += (std_reg_num -1) + n_source # number of "cnt_limit" regs scale linearly with "n_source", while other std-regs are constant
     addr_current = addr_top
   %>
 
@@ -171,7 +171,14 @@ package ${target}_package;
     logic clear;
     logic enable;
     logic start;
-    logic unsigned [$clog2(${target.upper()}_CNT_LEN):0] cnt_limit;
+
+    % for j in range (n_source):
+      % if (is_parallel_out[j]):
+    logic unsigned [$clog2(${target.upper()}_CNT_LEN):0] cnt_limit_${stream_out[j]};
+      % else:
+    logic unsigned [$clog2(${target.upper()}_CNT_LEN):0] cnt_limit_${stream_out[j]};
+      % endif
+    % endfor
 
     % if custom_reg_num>0:
     // Custom registers
@@ -185,9 +192,7 @@ package ${target}_package;
 
     % for j in range (n_source):
       % if (is_parallel_out[j]):
-        % for k in range (out_parallelism_factor[j]):
-    logic unsigned [$clog2(${target.upper()}_CNT_LEN):0] cnt_${stream_out[j]}_${k};
-        % endfor
+    logic unsigned [$clog2(${target.upper()}_CNT_LEN):0] cnt_${stream_out[j]};
       % else:
     logic unsigned [$clog2(${target.upper()}_CNT_LEN):0] cnt_${stream_out[j]};
       % endif
@@ -317,7 +322,13 @@ package ${target}_package;
     % endfor
 
     // Computation
-    logic unsigned [$clog2(${target.upper()}_CNT_LEN):0] cnt_limit;
+    % for j in range (n_source):
+      % if (is_parallel_out[j]):
+    logic unsigned [$clog2(${target.upper()}_CNT_LEN):0] cnt_limit_${stream_out[j]};
+      % else:
+    logic unsigned [$clog2(${target.upper()}_CNT_LEN):0] cnt_limit_${stream_out[j]};
+      % endif
+    % endfor
 
     % if custom_reg_num>0:
     // Custom registers

@@ -13,7 +13,7 @@ import sys
 from templates.hw.common.hwpe_common import hwpe_common
 
 from templates.hw.hwpe_wrapper.hwpe_engine.modules.streaming.streaming import streaming
-from templates.hw.hwpe_wrapper.hwpe_engine.modules.counter.counter import counter
+from templates.hw.hwpe_wrapper.hwpe_engine.modules.fsm_synch.fsm_synch import fsm_synch
 
 # HWPE engine
 class hwpe_engine:
@@ -88,6 +88,6 @@ class hwpe_engine:
     def modules(self, specs):
         self.m                      = ''
         self.m                      += streaming(specs).gen()
-        self.m                      += counter(specs).gen()
+        self.m                      += fsm_synch(specs).gen()
         return self.m
 

@@ -1,0 +1,37 @@
+<%
+##################################################
+## Library of components - Engine communication ##
+##################################################
+%>
+
+<%
+##################################################
+## Engine communication - Initialize requests ##
+##################################################
+%>
+
+<%def name="engine_init_cnt_limit()">\
+\
+  % for j in range (n_source):
+    ctrl_engine_o.cnt_limit_${stream_out[j]}  = ctrl_i.cnt_limit_${stream_out[j]};
+  % endfor
+\
+</%def>\
+
+<%
+############################################
+## Engine communication - Check cnt flags ##
+############################################
+%>
+
+<%def name="engine_check_cnt_flags()">\
+
+  % for j in range (n_source):
+    % if (j is not n_source - 1):
+          flags_engine_i.cnt_${stream_out[j]} == ctrl_i.cnt_limit_${stream_out[j]} &
+    % else:
+          flags_engine_i.cnt_${stream_out[j]} == ctrl_i.cnt_limit_${stream_out[j]} \
+    % endif
+  % endfor
+
+</%def>\

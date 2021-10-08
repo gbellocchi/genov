@@ -70,9 +70,6 @@ module ${target}_ctrl
   logic unsigned [31:0] static_reg_onestride;
   logic unsigned [15:0] static_reg_shift;
 
-  // FSM
-  logic unsigned [31:0] static_reg_cnt_limit;
-
   // Address generator
   % for i in range (n_sink):
     % if (addr_gen_in_isprogr[i]):
@@ -108,6 +105,11 @@ module ${target}_ctrl
   logic unsigned [31:0] static_reg_${stream_out[j]}_step;
       % endif
     % endif
+  % endfor
+
+  // FSM
+  % for j in range (n_source):
+  logic unsigned [31:0] static_reg_cnt_limit_${stream_out[j]};
   % endfor
 
   % if custom_reg_num>0:
@@ -149,20 +151,22 @@ module ${target}_ctrl
   assign static_reg_onestride  = 4;
 
   // FSM signals
-  assign static_reg_cnt_limit = reg_file.hwpe_params[${TARGET}_REG_CNT_LIMIT] + 1;
+  % for j in range (n_source):
+  assign static_reg_cnt_limit_${stream_out[j]} = reg_file.hwpe_params[${TARGET}_REG_CNT_LIMIT_${stream_out[j].upper()}] + 1;
+  % endfor
 
   // Address generator
   % for i in range (n_sink):
     % if (addr_gen_in_isprogr[i]):
   // Mapping - ${stream_in[i]}
-  assign static_${stream_in[i]}_trans_size          = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_TRANS_SIZE];
-  assign static_${stream_in[i]}_line_stride         = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_LINE_STRIDE];
-  assign static_${stream_in[i]}_line_length         = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_LINE_LENGTH];
-  assign static_${stream_in[i]}_feat_stride         = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_FEAT_STRIDE];
-  assign static_${stream_in[i]}_feat_length         = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_FEAT_LENGTH];
-  assign static_${stream_in[i]}_feat_roll           = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_FEAT_ROLL];
-  assign static_${stream_in[i]}_loop_outer          = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_LOOP_OUTER];
-  assign static_${stream_in[i]}_realign_type        = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_REALIGN_TYPE];
+  assign static_reg_${stream_in[i]}_trans_size          = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_TRANS_SIZE];
+  assign static_reg_${stream_in[i]}_line_stride         = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_LINE_STRIDE];
+  assign static_reg_${stream_in[i]}_line_length         = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_LINE_LENGTH];
+  assign static_reg_${stream_in[i]}_feat_stride         = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_FEAT_STRIDE];
+  assign static_reg_${stream_in[i]}_feat_length         = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_FEAT_LENGTH];
+  assign static_reg_${stream_in[i]}_feat_roll           = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_FEAT_ROLL];
+  assign static_reg_${stream_in[i]}_loop_outer          = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_LOOP_OUTER];
+  assign static_reg_${stream_in[i]}_realign_type        = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_REALIGN_TYPE];
       % if (is_parallel_in[i]):
   assign static_reg_${stream_in[i]}_port_offset     = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_PORT_OFFSET];
   assign static_reg_${stream_in[i]}_step            = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_STEP];
@@ -173,14 +177,14 @@ module ${target}_ctrl
   % for j in range (n_source):
     % if (addr_gen_out_isprogr[j]):
   // Mapping - ${stream_out[j]}
-  assign static_${stream_out[j]}_trans_size         = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_TRANS_SIZE];
-  assign static_${stream_out[j]}_line_stride        = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_LINE_STRIDE];
-  assign static_${stream_out[j]}_line_length        = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_LINE_LENGTH];
-  assign static_${stream_out[j]}_feat_stride        = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_FEAT_STRIDE];
-  assign static_${stream_out[j]}_feat_length        = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_FEAT_LENGTH];
-  assign static_${stream_out[j]}_feat_roll          = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_FEAT_ROLL];
-  assign static_${stream_out[j]}_loop_outer         = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_LOOP_OUTER];
-  assign static_${stream_out[j]}_realign_type       = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_REALIGN_TYPE];
+  assign static_reg_${stream_out[j]}_trans_size         = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_TRANS_SIZE];
+  assign static_reg_${stream_out[j]}_line_stride        = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_LINE_STRIDE];
+  assign static_reg_${stream_out[j]}_line_length        = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_LINE_LENGTH];
+  assign static_reg_${stream_out[j]}_feat_stride        = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_FEAT_STRIDE];
+  assign static_reg_${stream_out[j]}_feat_length        = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_FEAT_LENGTH];
+  assign static_reg_${stream_out[j]}_feat_roll          = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_FEAT_ROLL];
+  assign static_reg_${stream_out[j]}_loop_outer         = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_LOOP_OUTER];
+  assign static_reg_${stream_out[j]}_realign_type       = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_REALIGN_TYPE];
       % if (is_parallel_out[j]):
   assign static_reg_${stream_out[j]}_port_offset    = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_PORT_OFFSET];
   assign static_reg_${stream_out[j]}_step           = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_STEP];
@@ -260,24 +264,21 @@ module ${target}_ctrl
   always_comb
   begin
 
-    /* Custom register file mappings to FSM */
-    fsm_ctrl.cnt_limit        = static_reg_cnt_limit;
-
     // Address generator
     % for i in range (n_sink):
       % if (addr_gen_in_isprogr[i]):
     // Mapping - ${stream_in[i]}
-    fsm_ctrl.${stream_in[i]}_trans_size     = static_${stream_in[i]}_trans_size;
-    fsm_ctrl.${stream_in[i]}_line_stride    = static_${stream_in[i]}_line_stride;
-    fsm_ctrl.${stream_in[i]}_line_length    = static_${stream_in[i]}_line_length;
-    fsm_ctrl.${stream_in[i]}_feat_stride    = static_${stream_in[i]}_feat_stride;
-    fsm_ctrl.${stream_in[i]}_feat_length    = static_${stream_in[i]}_feat_length;
-    fsm_ctrl.${stream_in[i]}_feat_roll      = static_${stream_in[i]}_feat_roll;
-    fsm_ctrl.${stream_in[i]}_loop_outer     = static_${stream_in[i]}_loop_outer;
-    fsm_ctrl.${stream_in[i]}_realign_type   = static_${stream_in[i]}_realign_type;
+    fsm_ctrl.${stream_in[i]}_trans_size     = static_reg_${stream_in[i]}_trans_size;
+    fsm_ctrl.${stream_in[i]}_line_stride    = static_reg_${stream_in[i]}_line_stride;
+    fsm_ctrl.${stream_in[i]}_line_length    = static_reg_${stream_in[i]}_line_length;
+    fsm_ctrl.${stream_in[i]}_feat_stride    = static_reg_${stream_in[i]}_feat_stride;
+    fsm_ctrl.${stream_in[i]}_feat_length    = static_reg_${stream_in[i]}_feat_length;
+    fsm_ctrl.${stream_in[i]}_feat_roll      = static_reg_${stream_in[i]}_feat_roll;
+    fsm_ctrl.${stream_in[i]}_loop_outer     = static_reg_${stream_in[i]}_loop_outer;
+    fsm_ctrl.${stream_in[i]}_realign_type   = static_reg_${stream_in[i]}_realign_type;
         % if (is_parallel_in[i]):
-    fsm_ctrl.${stream_in[i]}_port_offset    = static_${stream_in[i]}_port_offset;
-    fsm_ctrl.${stream_in[i]}_step           = static_${stream_in[i]}_step;
+    fsm_ctrl.${stream_in[i]}_port_offset    = static_reg_${stream_in[i]}_port_offset;
+    fsm_ctrl.${stream_in[i]}_step           = static_reg_${stream_in[i]}_step;
         % endif
       % endif
     % endfor
@@ -285,19 +286,24 @@ module ${target}_ctrl
     % for j in range (n_source):
       % if (addr_gen_out_isprogr[j]):
     // Mapping - ${stream_out[j]}
-    fsm_ctrl.${stream_out[j]}_trans_size     = static_${stream_out[j]}_trans_size;
-    fsm_ctrl.${stream_out[j]}_line_stride    = static_${stream_out[j]}_line_stride;
-    fsm_ctrl.${stream_out[j]}_line_length    = static_${stream_out[j]}_line_length;
-    fsm_ctrl.${stream_out[j]}_feat_stride    = static_${stream_out[j]}_feat_stride;
-    fsm_ctrl.${stream_out[j]}_feat_length    = static_${stream_out[j]}_feat_length;
-    fsm_ctrl.${stream_out[j]}_feat_roll      = static_${stream_out[j]}_feat_roll;
-    fsm_ctrl.${stream_out[j]}_loop_outer     = static_${stream_out[j]}_loop_outer;
-    fsm_ctrl.${stream_out[j]}_realign_type   = static_${stream_out[j]}_realign_type;
+    fsm_ctrl.${stream_out[j]}_trans_size     = static_reg_${stream_out[j]}_trans_size;
+    fsm_ctrl.${stream_out[j]}_line_stride    = static_reg_${stream_out[j]}_line_stride;
+    fsm_ctrl.${stream_out[j]}_line_length    = static_reg_${stream_out[j]}_line_length;
+    fsm_ctrl.${stream_out[j]}_feat_stride    = static_reg_${stream_out[j]}_feat_stride;
+    fsm_ctrl.${stream_out[j]}_feat_length    = static_reg_${stream_out[j]}_feat_length;
+    fsm_ctrl.${stream_out[j]}_feat_roll      = static_reg_${stream_out[j]}_feat_roll;
+    fsm_ctrl.${stream_out[j]}_loop_outer     = static_reg_${stream_out[j]}_loop_outer;
+    fsm_ctrl.${stream_out[j]}_realign_type   = static_reg_${stream_out[j]}_realign_type;
         % if (is_parallel_out[j]):
-    fsm_ctrl.${stream_out[j]}_port_offset    = static_${stream_out[j]}_port_offset;
-    fsm_ctrl.${stream_out[j]}_step           = static_${stream_out[j]}_step;
+    fsm_ctrl.${stream_out[j]}_port_offset    = static_reg_${stream_out[j]}_port_offset;
+    fsm_ctrl.${stream_out[j]}_step           = static_reg_${stream_out[j]}_step;
         % endif
       % endif
+    % endfor
+
+    /* Custom register file mappings to FSM */
+    % for j in range (n_source):
+    fsm_ctrl.cnt_limit_${stream_out[j]}             = static_reg_cnt_limit_${stream_out[j]};
     % endfor
 
     % if custom_reg_num>0:

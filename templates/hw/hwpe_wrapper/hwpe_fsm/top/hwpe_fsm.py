@@ -13,6 +13,7 @@ import sys
 from templates.hw.common.hwpe_common import hwpe_common
 
 from templates.hw.hwpe_wrapper.hwpe_fsm.modules.address_generator.address_generator import address_generator
+from templates.hw.hwpe_wrapper.hwpe_fsm.modules.engine_communication.engine_communication import engine_communication
 from templates.hw.hwpe_wrapper.hwpe_fsm.modules.streamer_communication.streamer_communication import streamer_communication
 
 # HWPE engine
@@ -98,5 +99,6 @@ class hwpe_fsm:
     def modules(self, specs):
         self.m                      = ''
         self.m                      += address_generator(specs).gen()
+        self.m                      += engine_communication(specs).gen()
         self.m                      += streamer_communication(specs).gen()
         return self.m

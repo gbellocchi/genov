@@ -11,6 +11,7 @@ import struct
 import shutil
 import getpass
 import os
+from pathlib import Path
 from modulefinder import ModuleFinder
 
 # Design specification package
@@ -55,7 +56,7 @@ class hwpe_gen:
 
     def struct_mod(self):
         finder = ModuleFinder()
-        finder.run_script('run_gen.py')
+        finder.run_script(Path(__file__).name)
         f = open("struct_mod.txt", "a")
         for name, mod in finder.modules.items():
             if "templates." in name: 
@@ -75,8 +76,8 @@ specs = hwpe_specs()
 # Create device generator
 gen = hwpe_gen(specs)
 
-# Get a structure of python template modules 
-gen.struct_mod()
+# # Get a structure of python template modules 
+# gen.struct_mod()
 
 # Static components (hw, sw, ..)
 static_comps = 'static'
@@ -100,7 +101,7 @@ source = static_comps + '/static_rtl/hwpe-stream/rtl'
 destination = hwpe_streamer_rtl
 shutil.copytree(source, destination)
 
-source = static_comps + '/static_rtl/hwpe-ctrl-fpga'
+source = static_comps + '/static_rtl/hwpe-ctrl'
 destination = hwpe_ctrl_rtl
 shutil.copytree(source, destination)
 

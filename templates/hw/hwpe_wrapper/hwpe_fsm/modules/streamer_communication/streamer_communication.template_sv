@@ -24,10 +24,10 @@
   % for j in range (n_source):
     % if (is_parallel_out[j]):
       % for k in range (out_parallelism_factor[j]):
-    ctrl_streamer_o.${stream_out[j]}_${k}_source_ctrl.req_start    = '0;
+    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.req_start    = '0;
       % endfor
     % else:
-    ctrl_streamer_o.${stream_out[j]}_source_ctrl.req_start    = '0;
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.req_start    = '0;
     % endif
   % endfor
 
@@ -54,10 +54,10 @@
   % for j in range (n_source):
     % if (is_parallel_out[j]):
       % for k in range (out_parallelism_factor[j]):
-          ctrl_streamer_o.${stream_out[j]}_${k}_source_ctrl.req_start    = '1;
+          ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.req_start    = '1;
       % endfor
     % else:
-          ctrl_streamer_o.${stream_out[j]}_source_ctrl.req_start    = '1;
+          ctrl_streamer_o.${stream_out[j]}_sink_ctrl.req_start    = '1;
     % endif
   % endfor
 

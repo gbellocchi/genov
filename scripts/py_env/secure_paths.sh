@@ -42,7 +42,7 @@ if [ -d "$GEN_VENV" ]; then
     esac
   done
 else
-  # Take action if it does not exist. #
+  # Take action if it does not exist. 
   error_exit ">> No py-venv path has been found. Be sure to initialize it with 'make init_venv'."
 fi
 

@@ -38,7 +38,17 @@
 
 <%
   # Counting standard registers
-  n_io_regs += std_reg_num
+
+  # these do not vary with the number of source streams: 
+  #     "nb_iter", "linestride", "tilestride"
+  n_io_regs += std_reg_num - 1 
+
+  # "cnt_limit" on the other side is parametrized on the number of source streams 
+  # it is used in the FSM to know how many engine "done" events terminate kernel execution
+  for j in range (n_source):
+    n_io_regs += 1 
+  endfor
+  
 %>
 
 <%

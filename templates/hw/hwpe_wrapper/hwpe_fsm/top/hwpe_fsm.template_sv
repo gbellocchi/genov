@@ -71,9 +71,9 @@ module ${target}_fsm (
     ${streamer_init()}
 
     // Engine
-    ctrl_engine_o.clear      = '1;                    // Clear counters
-    ctrl_engine_o.start      = '0;                    // Trigger execution
-    ctrl_engine_o.cnt_limit  = ctrl_i.cnt_limit;      // Length of line -> take a look at innermost loop of the address generator
+    ctrl_engine_o.clear      = '1; // Clear counters
+    ctrl_engine_o.start      = '0; // Trigger execution
+${engine_init_cnt_limit()}
 
     // Slave
     ctrl_slave_o.done = '0;
@@ -127,8 +127,13 @@ module ${target}_fsm (
 
       FSM_COMPUTE: begin
         ctrl_engine_o.clear  = 1'b0;
-        if (flags_engine_i.cnt == ctrl_i.cnt_limit)
+        if( 
+          
+          ${engine_check_cnt_flags()} 
+        
+        ) begin
           next_state = FSM_TERMINATE;
+        end
         if(flags_engine_i.ready) begin
           ctrl_engine_o.start  = 1'b1;
           ctrl_engine_o.clear  = 1'b0;

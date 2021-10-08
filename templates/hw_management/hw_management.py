@@ -6,7 +6,7 @@
 
 # Packages
 from templates.hw_management.bender.bender import bender
-from templates.hw_management.vsim_wave.vsim_wave import vsim_wave
+from templates.hw_management.vsim_wave.top.vsim_wave import vsim_wave
 
 # HWPE IPs management
 class hw_management:
