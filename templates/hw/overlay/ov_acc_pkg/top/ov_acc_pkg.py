@@ -12,7 +12,7 @@ import sys
 
 from templates.hw.common.hwpe_common import hwpe_common
 
-from templates.hw.overlay.ov_acc_pkg.modules.cluster_interco.cluster_interco import cluster_interco
+from templates.hw.overlay.ov_acc_pkg.modules.hwpe.hwpe import hwpe
 
 # Overlay HWPE package
 class ov_acc_pkg:
@@ -75,6 +75,6 @@ class ov_acc_pkg:
 
     def modules(self, specs):
         self.m                      = ''
-        self.m                      += cluster_interco(specs).gen()
+        self.m                      += hwpe(specs).gen()
         return self.m
 

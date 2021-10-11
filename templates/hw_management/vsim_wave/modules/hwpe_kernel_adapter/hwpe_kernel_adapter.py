@@ -5,11 +5,11 @@
 #!/usr/bin/env python3
 
 # Packages
-from templates.hw_management.vsim_wave.modules.kernel_adapter_wave.mdc_dataflow.mdc_dataflow import mdc_dataflow
-from templates.hw_management.vsim_wave.modules.kernel_adapter_wave.xil_ap_ctrl_hs.xil_ap_ctrl_hs import xil_ap_ctrl_hs
+from templates.hw_management.vsim_wave.modules.hwpe_kernel_adapter.mdc_dataflow.mdc_dataflow import mdc_dataflow
+from templates.hw_management.vsim_wave.modules.hwpe_kernel_adapter.xil_ap_ctrl_hs.xil_ap_ctrl_hs import xil_ap_ctrl_hs
 
-# Kernel adapter wave
-class kernel_adapter_wave:
+# HWPE kernel adapter
+class hwpe_kernel_adapter:
     def __init__(self):
         self.m = ''
     

@@ -63,7 +63,8 @@
     % endif
   % endfor
 
-  logic kernel_idle, kernel_ready;
+  logic kernel_idle;
+  // logic kernel_ready;
 
   /* Done. */
   // A done is generated for each output. These are counted and 

@@ -21,14 +21,19 @@
 
 package automatic overlay_cluster_hwpe_pkg;
 
-  localparam bit          HWPE_PRESENT = 1'b1;
-
   <%
-  ########################################################################################
-  ## Cluster interconnect parametrization - Number of ports on logarithmic interconnect ##
-  ########################################################################################
+  #######################################
+  ## System-level integration of HWPE  ##
+  #######################################
   %>
 
-  ${n_ports_log_interco()} 
+  ${hwpe_is_present()}
+  ${hwpe_master_ports()} 
+
+  <%
+  #############################################################
+  ## System-level integration of... Further can be added ;)  ##
+  #############################################################
+  %>
   
 endpackage

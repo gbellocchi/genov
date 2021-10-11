@@ -4,8 +4,8 @@
 
 #!/usr/bin/env python3
 
-# HWPE engine wave
-class hwpe_engine_wave:
+# Kernel interface - Xilinx ap_ctrl_hs (refer to UG902)
+class xil_ap_ctrl_hs:
     def __init__(self):
         self.m = ''
 
@@ -14,11 +14,7 @@ class hwpe_engine_wave:
         return self.m
 
     def get_template(self):
-        with open('templates/hw_management/vsim_wave/modules/hwpe_engine_wave/hwpe_engine_wave.template_wave_do', 'r') as f:
+        with open('templates/hw_management/vsim_wave/modules/hwpe_kernel_adapter/xil_ap_ctrl_hs/xil_ap_ctrl_hs.template_wave_do', 'r') as f:
             self.m += f.read()
             self.m += '\n'
             f.close()
-
-
-
-
