@@ -10,8 +10,13 @@ LINK := llvm-link
 COB := clang-offload-bundler
 DIS := llvm-dis
 
+TARGET_HOST = ${HERO_TOOLCHAIN_HOST_TARGET}
 TARGET_DEV = riscv32-hero-unknown-elf
+
+ARCH_HOST = host-$(TARGET_HOST)
 ARCH_DEV = openmp-$(TARGET_DEV)
+
+HOST_OBJDUMP := $(TARGET_HOST)-objdump
 DEV_OBJDUMP := $(TARGET_DEV)-objdump
 
 ifeq ($(strip $(opt)),)
@@ -21,12 +26,25 @@ endif
 .DEFAULT_GOAL = all
 DEFMK_ROOT := $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
-CFLAGS_COMMON += $(cflags) -fopenmp=libomp -O$(opt) -static -fhero-device-default-as=device
-CFLAGS_PULP += $(CFLAGS_COMMON) -target $(TARGET_DEV) -I$(HERO_HOST_INC_DIR) -I$(HERO_PULP_INC_DIR)
+# CFLAGS and LDFLAGS have three components/stages
+# 1) without suffix, they apply to heterogeneous compilation;
+# 3) with _PULP suffix, they apply only to the PULP part of compilation;
+# 4) with _COMMON suffix, they apply to both PULP and host compilation.
+CFLAGS_COMMON += $(cflags) -fopenmp=libomp -O$(opt) -static
+CFLAGS_PULP += $(CFLAGS_COMMON) -target $(TARGET_DEV) -I$(HERO_PULP_INC_DIR)
+CFLAGS += -target $(TARGET_HOST) $(CFLAGS_COMMON) -fopenmp-targets=$(TARGET_DEV)
 LDFLAGS_COMMON ?= $(ldflags) -static
+ifdef HERCULES_INSTALL
+	LDFLAGS_COMMON += -lpremnotify
+endif
 LDFLAGS_PULP += $(LDFLAGS_COMMON)
+LDFLAGS += $(LDFLAGS_COMMON) -lhero-target
+ifeq ($(TARGET_HOST),riscv64-hero-linux-gnu)
+  # FIXME: we explicitly need to embed the correct linker for riscv
+  LDFLAGS += -Wl,-dynamic-linker,/lib/ld-linux-riscv64-lp64.so.1
+endif
 
-INCPATHS += -I$(DEFMK_ROOT) -include $(COMMON_ROOT)/hero_64.h
+INCPATHS += -I$(DEFMK_ROOT) -include ${OPENMP_TESTS}/common/hero_64.h
 LIBPATHS ?=
 
 BENCHMARK = $(shell basename `pwd`)
@@ -38,9 +56,7 @@ DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 
 AS_ANNOTATE_ARGS ?=
 
-RG := $(COMMON_ROOT)/rg
-
-only ?=
+only ?= # can be set to `pulp` to compile a binary only for PULP
 
 .PHONY: all exe clean
 .PRECIOUS: %.ll
@@ -62,17 +78,17 @@ $(EXE): $(SRC:.c=.OMP.ll)
 slm: $(EXE)_l1.slm $(EXE)_l2.slm
 
 $(EXE)_l2.slm: $(EXE)
-	$(DEV_OBJDUMP) -s --start-address=0x1c000000 --stop-address=0x1cffffff $^ | $(RG) '^ ' | cut -c 2-45 \
+	$(DEV_OBJDUMP) -s --start-address=0x1c000000 --stop-address=0x1cffffff $^ | grep '^ ' | cut -c 2-45 \
       | sort \
       > $@
-	$(COMMON_ROOT)/one_word_per_line.py $@
+	$(DEFMK_ROOT)/one_word_per_line.py $@
 
 $(EXE)_l1.slm: $(EXE)
-	$(DEV_OBJDUMP) -s --start-address=0x10000000 --stop-address=0x1bffffff $^ | $(RG) '^ ' | cut -c 2-45 \
+	$(DEV_OBJDUMP) -s --start-address=0x10000000 --stop-address=0x1bffffff $^ | grep '^ ' | cut -c 2-45 \
       | perl -p -e 's/^1b/10/' \
       | sort \
       > $@
-	$(COMMON_ROOT)/one_word_per_line.py $@
+	$(DEFMK_ROOT)/one_word_per_line.py $@
 
 $(EXE).dis: $(EXE)
 	$(DEV_OBJDUMP) -d $^ > $@
@@ -86,14 +102,14 @@ $(DEPFILES):
 include $(wildcard $(DEPFILES))
 
 clean::
-	-rm -vf __hmpp* $(EXE) *~ *.bc *.dis *.i *.lh *.lk *.ll *.o *.s *.slm *.tmp
+	-rm -vf __hmpp* $(EXE) *~ *.bc *.dis *.elf *.i *.lh *.lk *.ll *.o *.s *.slm
 	-rm -rvf $(DEPDIR)
 
 init-target-host:
 ifndef HERO_TARGET_HOST
 	$(error HERO_TARGET_HOST is not set)
 endif
-	ssh -t $(HERO_TARGET_HOST) './sourceme.sh'
+# ssh -t $(HERO_TARGET_HOST) './sourceme.sh'
 	ssh -t $(HERO_TARGET_HOST) 'rmmod -f pulp'
 	ssh -t $(HERO_TARGET_HOST) 'insmod $(HERO_TARGET_PATH_DRIVER)/pulp.ko'
 
@@ -110,3 +126,7 @@ ifeq ($(call ifndef_any_of,HERO_TARGET_HOST HERO_TARGET_PATH_APPS HERO_TARGET_PA
 else
 	$(error HERO_TARGET_HOST and/or HERO_TARGET_PATH_APPS is not set)
 endif
+
+run_gbellocchi:
+	@ssh $(HERO_TARGET_HOST) "rm -f /home/root/workspace_gbellocchi/apps/$(EXE)"
+	@scp $(EXE) $(HERO_TARGET_HOST):/home/root/workspace_gbellocchi/apps

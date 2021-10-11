@@ -19,7 +19,7 @@ REPO 					:= genacc
 
 # Choose target on those available in the application library (e.g. mmul_parallel)
 
-HWPE_TARGET				:= mmul_parallel
+HWPE_TARGET				:= mmul_opt
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
