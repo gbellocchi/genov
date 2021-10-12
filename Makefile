@@ -112,15 +112,15 @@ overlay_src: check_ov_env
 #  HARDWARE WRAPPER GENERATION  #
 # ----------------------------- #
 
-run_gen: check_ov_env clean_gen engine_dev static_rtl update_reqs_py_env
+run_gen: check_ov_env clean_gen engine_dev static_rtl
 	@${SCRIPTS_GEN}/run_gen.sh ${PY_VENV} ${OUT_DIR}
-
-engine_dev: check_ov_env acc_lib
-	@ls ${ENG_DEV_RTL} >> ${HW_MNGT_DIR}/rtl_list/engine_list.log
 
 static_rtl: check_ov_env
 	@ls -R ${STATIC_STREAM} | grep '\.sv' >> ${HW_MNGT_DIR}/rtl_list/stream_list.log
 	@ls -R ${STATIC_CTRL} | grep '\.sv' >> ${HW_MNGT_DIR}/rtl_list/ctrl_list.log 
+	
+engine_dev: check_ov_env acc_lib
+	@ls ${ENG_DEV_RTL} >> ${HW_MNGT_DIR}/rtl_list/engine_list.log
 
 acc_lib: check_ov_env
 	@cd acc_lib && make -s clean all TARGET=${HWPE_TARGET} TEMPLATES=${TEMPLATES} ENG_DEV=${ENG_DEV}

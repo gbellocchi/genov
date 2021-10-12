@@ -1,0 +1,48 @@
+<%
+#######################################
+## Library of components - Basic HAL ##
+#######################################
+%>
+
+<%
+########################################################
+## Basic control registers archi - Offset declaration ##
+########################################################
+%>
+
+<%def name="basic_archi(addr_current)">\
+
+
+#define HWPE_TRIGGER                                 ${hex(addr_current)};
+
+        <%  
+          addr_current += 4
+        %>
+
+#define HWPE_ACQUIRE                                 ${hex(addr_current)};
+
+        <%  
+          addr_current += 4
+        %>
+
+#define HWPE_FINISHED                                ${hex(addr_current)};
+
+        <%  
+          addr_current += 4
+        %>
+
+#define HWPE_STATUS                                  ${hex(addr_current)};
+
+        <%  
+          addr_current += 4
+        %>
+
+#define HWPE_RUNNING_JOB                             ${hex(addr_current)};
+
+        <%  
+          addr_current += 4
+        %>
+
+#define HWPE_SOFT_CLEAR                              ${hex(addr_current)};
+
+</%def>\
