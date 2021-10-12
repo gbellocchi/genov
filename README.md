@@ -23,10 +23,12 @@ We recommed the toolchain to be cloned in the hardware subdirectory of the PULP-
 git clone https://git.hipert.unimore.it/comp4drones/HERO/hwpe-wrapper-gen-tool.git
 ```
 
-### Setup
+### Environment
+
+#### Overlay
 Most of the specialization flow is handled locally to the tool subdirectory. At a certain point the user may decide to export and integrate the specialized hardware/software products to the overlay system. This process is fully automated (and no-error-prone) as far as the tool knows how to securely interface to the overlay.
 
-Thus, we recommend to set the following environment variable to the location of the overlay hardware subsystem.
+Thus, it is recommended to set the following environment variable to the location of the overlay hardware subsystem.
 
 ```
 export OVERLAY_HW_EXPORT=<your_path>
@@ -38,16 +40,36 @@ This location should comprise the following directories that are going to be tar
  - `deps/` - This location comprises SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, accelerators, etc.).
  - `test/` - This location comprises a SystemVerilog testbench to simulate the hardware behavior.
 
-We also recommend to specify the Python version installed on the user machine modifying `PY_VER` constant in the top Makefile. The tool has been tested both with v2.7 and v3.
 
- ### External Sources
+Another environment variable that will come in useful to compile the software testbenches is:
+
+```
+export OVERLAY_OPENMP_TESTS=<your_path>
+```
+
+This variable should match the location of the 'openmp-examples' directory in the overay ecosystem.
+
+#### External Sources
 The tool uses Git submodules that have to be initialized. In order to fetch the submodules in the repository, run:
 
 ```
-make init
+make init_gen
 ```
 
-This command also manages the installation of the required Python packages (defined in `setup.py`). Indeed, the templating operation is performed taking advantage of the Mako template library [6].
+#### Python virtual environment
+To manage the project's dependencies a Python virtual environment is employed. To initialize it and download the required packages (see 'requirements.txt'), run:
+
+```
+make init_py_env
+```
+
+This command manages the installation of the required Python packages, including the Mako template library [6] that is employed for the templating operation. 
+
+In case of an update of the package requirements, it is possible to 'activate' the virtual environment, install the package and subsequently run:
+
+```
+make update_reqs_py_venv
+```
 
 ## Accelerator Integration Methodology
 
@@ -114,7 +136,7 @@ System-level optimization is enabled by propagating intra-process optimization k
 To export the generated HW/SW to the Overlay ecosystem run:
 
 ```
-make overlay_deps
+make overlay_integration
 ```
 
 ### Runtime Accelerator Control
@@ -124,7 +146,7 @@ The overlay and the wrapper feed the accelerator datapath exploiting **data tili
 **WORK-IN-PROGRESS**
 Python is exploited as a way of packaging a rendering environment for **templates** of different nature - RTL, C, yml, etc. To implement the functionalities required by such an environment we have decided to exploit the simple and straightfoward Mako template library [6].
 
-The back-end flow is managed by `run_gen.py` in the root folder.
+The back-end flow is managed by `genacc.py` in the root folder.
 
 ### Package Structure
 #### Hardware 

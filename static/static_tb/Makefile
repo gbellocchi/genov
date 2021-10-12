@@ -44,7 +44,7 @@ ifeq ($(TARGET_HOST),riscv64-hero-linux-gnu)
   LDFLAGS += -Wl,-dynamic-linker,/lib/ld-linux-riscv64-lp64.so.1
 endif
 
-INCPATHS += -I$(DEFMK_ROOT) -include ${OPENMP_TESTS}/common/hero_64.h
+INCPATHS += -I$(DEFMK_ROOT) -include ${OVERLAY_OPENMP_TESTS}/common/hero_64.h
 LIBPATHS ?=
 
 BENCHMARK = $(shell basename `pwd`)
