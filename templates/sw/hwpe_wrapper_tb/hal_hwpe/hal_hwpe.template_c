@@ -106,15 +106,15 @@ static inline uint32_t hwpe_read32(uint32_t add)
 /* uloop hal */
 
 static inline void hwpe_nb_iter_set(unsigned int value) {
-  HWPE_WRITE(value, HWPE_NB_ITER);
+  HWPE_WRITE(value, ${target.upper()}_REG_NB_ITER);
 }
 
 static inline void hwpe_linestride_set(unsigned int value) {
-  HWPE_WRITE(value, HWPE_LINESTRIDE);
+  HWPE_WRITE(value, ${target.upper()}_REG_LINESTRIDE);
 }
 
 static inline void hwpe_tilestride_set(unsigned int value) {
-  HWPE_WRITE(value, HWPE_TILESTRIDE);
+  HWPE_WRITE(value, ${target.upper()}_REG_TILESTRIDE);
 }
 
 <%
@@ -127,7 +127,7 @@ static inline void hwpe_tilestride_set(unsigned int value) {
 % if custom_reg_num>0:
 /* custom hal */
 static inline void hwpe_${custom_reg_name[i]}_set(${custom_reg_dtype[i]} value) {
-  HWPE_WRITE(value, HWPE_${custom_reg_name[i].upper()} );
+  HWPE_WRITE(value, ${target.upper()}_REG_${custom_reg_name[i].upper()} );
 }
 % endif
 
@@ -158,16 +158,16 @@ static inline void hwpe_addr_gen_${stream_in[i]}(
   unsigned int  ${stream_in[i]}_port_offset,
   unsigned int  ${stream_in[i]}_step)
 {
-  HWPE_WRITE(trans_size,    ${target.upper()}_REG_${stream_in[i].upper()}_TRANS_SIZE  );
-  HWPE_WRITE(line_stride,   ${target.upper()}_REG_${stream_in[i].upper()}_LINE_STRIDE );
-  HWPE_WRITE(line_length,   ${target.upper()}_REG_${stream_in[i].upper()}_LINE_LENGTH );
-  HWPE_WRITE(feat_stride,   ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_STRIDE );
-  HWPE_WRITE(feat_length,   ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_LENGTH );
-  HWPE_WRITE(feat_roll,     ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_ROLL   );
-  HWPE_WRITE(loop_outer,    ${target.upper()}_REG_${stream_in[i].upper()}_LOOP_OUTER  );
-  HWPE_WRITE(realign_type,  ${target.upper()}_REG_${stream_in[i].upper()}_REALIGN_TYPE);
-  HWPE_WRITE(port_offset,   ${target.upper()}_REG_${stream_in[i].upper()}_PORT_OFFSET );
-  HWPE_WRITE(step,          ${target.upper()}_REG_${stream_in[i].upper()}_STEP        );
+  HWPE_WRITE(${stream_in[i]}_trans_size,    ${target.upper()}_REG_${stream_in[i].upper()}_TRANS_SIZE  );
+  HWPE_WRITE(${stream_in[i]}_line_stride,   ${target.upper()}_REG_${stream_in[i].upper()}_LINE_STRIDE );
+  HWPE_WRITE(${stream_in[i]}_line_length,   ${target.upper()}_REG_${stream_in[i].upper()}_LINE_LENGTH );
+  HWPE_WRITE(${stream_in[i]}_feat_stride,   ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_STRIDE );
+  HWPE_WRITE(${stream_in[i]}_feat_length,   ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_LENGTH );
+  HWPE_WRITE(${stream_in[i]}_feat_roll,     ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_ROLL   );
+  HWPE_WRITE(${stream_in[i]}_loop_outer,    ${target.upper()}_REG_${stream_in[i].upper()}_LOOP_OUTER  );
+  HWPE_WRITE(${stream_in[i]}_realign_type,  ${target.upper()}_REG_${stream_in[i].upper()}_REALIGN_TYPE);
+  HWPE_WRITE(${stream_in[i]}_port_offset,   ${target.upper()}_REG_${stream_in[i].upper()}_PORT_OFFSET );
+  HWPE_WRITE(${stream_in[i]}_step,          ${target.upper()}_REG_${stream_in[i].upper()}_STEP        );
 }
     % else:
 static inline void hwpe_addr_gen_${stream_in[i]}(
@@ -180,14 +180,14 @@ static inline void hwpe_addr_gen_${stream_in[i]}(
   unsigned int ${stream_in[i]}_loop_outer,
   unsigned int ${stream_in[i]}_realign_type)
 {
-  HWPE_WRITE(trans_size,    ${target.upper()}_REG_${stream_in[i].upper()}_TRANS_SIZE  );
-  HWPE_WRITE(line_stride,   ${target.upper()}_REG_${stream_in[i].upper()}_LINE_STRIDE );
-  HWPE_WRITE(line_length,   ${target.upper()}_REG_${stream_in[i].upper()}_LINE_LENGTH );
-  HWPE_WRITE(feat_stride,   ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_STRIDE );
-  HWPE_WRITE(feat_length,   ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_LENGTH );
-  HWPE_WRITE(feat_roll,     ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_ROLL   );
-  HWPE_WRITE(loop_outer,    ${target.upper()}_REG_${stream_in[i].upper()}_LOOP_OUTER  );
-  HWPE_WRITE(realign_type,  ${target.upper()}_REG_${stream_in[i].upper()}_REALIGN_TYPE);
+  HWPE_WRITE(${stream_in[i]}_trans_size,    ${target.upper()}_REG_${stream_in[i].upper()}_TRANS_SIZE  );
+  HWPE_WRITE(${stream_in[i]}_line_stride,   ${target.upper()}_REG_${stream_in[i].upper()}_LINE_STRIDE );
+  HWPE_WRITE(${stream_in[i]}_line_length,   ${target.upper()}_REG_${stream_in[i].upper()}_LINE_LENGTH );
+  HWPE_WRITE(${stream_in[i]}_feat_stride,   ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_STRIDE );
+  HWPE_WRITE(${stream_in[i]}_feat_length,   ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_LENGTH );
+  HWPE_WRITE(${stream_in[i]}_feat_roll,     ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_ROLL   );
+  HWPE_WRITE(${stream_in[i]}_loop_outer,    ${target.upper()}_REG_${stream_in[i].upper()}_LOOP_OUTER  );
+  HWPE_WRITE(${stream_in[i]}_realign_type,  ${target.upper()}_REG_${stream_in[i].upper()}_REALIGN_TYPE);
 }
     % endif
   % endif
@@ -214,16 +214,16 @@ static inline void hwpe_addr_gen_${stream_out[j]}(
   unsigned int  ${stream_out[j]}_port_offset,
   unsigned int  ${stream_out[j]}_step)
 {
-  HWPE_WRITE(trans_size,    HWPE_${stream_out[j].upper()}_TRANS_SIZE  );
-  HWPE_WRITE(line_stride,   HWPE_${stream_out[j].upper()}_LINE_STRIDE );
-  HWPE_WRITE(line_length,   HWPE_${stream_out[j].upper()}_LINE_LENGTH );
-  HWPE_WRITE(feat_stride,   HWPE_${stream_out[j].upper()}_FEAT_STRIDE );
-  HWPE_WRITE(feat_length,   HWPE_${stream_out[j].upper()}_FEAT_LENGTH );
-  HWPE_WRITE(feat_roll,     HWPE_${stream_out[j].upper()}_FEAT_ROLL   );
-  HWPE_WRITE(loop_outer,    HWPE_${stream_out[j].upper()}_LOOP_OUTER  );
-  HWPE_WRITE(realign_type,  HWPE_${stream_out[j].upper()}_REALIGN_TYPE);
-  HWPE_WRITE(port_offset,   HWPE_${stream_out[j].upper()}_PORT_OFFSET );
-  HWPE_WRITE(step,          HWPE_${stream_out[j].upper()}_STEP        );
+  HWPE_WRITE(${stream_out[j]}_trans_size,    ${target.upper()}_REG_${stream_out[j].upper()}_TRANS_SIZE  );
+  HWPE_WRITE(${stream_out[j]}_line_stride,   ${target.upper()}_REG_${stream_out[j].upper()}_LINE_STRIDE );
+  HWPE_WRITE(${stream_out[j]}_line_length,   ${target.upper()}_REG_${stream_out[j].upper()}_LINE_LENGTH );
+  HWPE_WRITE(${stream_out[j]}_feat_stride,   ${target.upper()}_REG_${stream_out[j].upper()}_FEAT_STRIDE );
+  HWPE_WRITE(${stream_out[j]}_feat_length,   ${target.upper()}_REG_${stream_out[j].upper()}_FEAT_LENGTH );
+  HWPE_WRITE(${stream_out[j]}_feat_roll,     ${target.upper()}_REG_${stream_out[j].upper()}_FEAT_ROLL   );
+  HWPE_WRITE(${stream_out[j]}_loop_outer,    ${target.upper()}_REG_${stream_out[j].upper()}_LOOP_OUTER  );
+  HWPE_WRITE(${stream_out[j]}_realign_type,  ${target.upper()}_REG_${stream_out[j].upper()}_REALIGN_TYPE);
+  HWPE_WRITE(${stream_out[j]}_port_offset,   ${target.upper()}_REG_${stream_out[j].upper()}_PORT_OFFSET );
+  HWPE_WRITE(${stream_out[j]}_step,          ${target.upper()}_REG_${stream_out[j].upper()}_STEP        );
 }
   % else:
 static inline void hwpe_addr_gen_${stream_out[j]}(
@@ -236,14 +236,14 @@ static inline void hwpe_addr_gen_${stream_out[j]}(
   unsigned int  ${stream_out[j]}_loop_outer,
   unsigned int  ${stream_out[j]}_realign_type)
 {
-  HWPE_WRITE(trans_size,    HWPE_${stream_out[j].upper()}_TRANS_SIZE  );
-  HWPE_WRITE(line_stride,   HWPE_${stream_out[j].upper()}_LINE_STRIDE );
-  HWPE_WRITE(line_length,   HWPE_${stream_out[j].upper()}_LINE_LENGTH );
-  HWPE_WRITE(feat_stride,   HWPE_${stream_out[j].upper()}_FEAT_STRIDE );
-  HWPE_WRITE(feat_length,   HWPE_${stream_out[j].upper()}_FEAT_LENGTH );
-  HWPE_WRITE(feat_roll,     HWPE_${stream_out[j].upper()}_FEAT_ROLL   );
-  HWPE_WRITE(loop_outer,    HWPE_${stream_out[j].upper()}_LOOP_OUTER  );
-  HWPE_WRITE(realign_type,  HWPE_${stream_out[j].upper()}_REALIGN_TYPE);
+  HWPE_WRITE(${stream_out[j]}_trans_size,    ${target.upper()}_REG_${stream_out[j].upper()}_TRANS_SIZE  );
+  HWPE_WRITE(${stream_out[j]}_line_stride,   ${target.upper()}_REG_${stream_out[j].upper()}_LINE_STRIDE );
+  HWPE_WRITE(${stream_out[j]}_line_length,   ${target.upper()}_REG_${stream_out[j].upper()}_LINE_LENGTH );
+  HWPE_WRITE(${stream_out[j]}_feat_stride,   ${target.upper()}_REG_${stream_out[j].upper()}_FEAT_STRIDE );
+  HWPE_WRITE(${stream_out[j]}_feat_length,   ${target.upper()}_REG_${stream_out[j].upper()}_FEAT_LENGTH );
+  HWPE_WRITE(${stream_out[j]}_feat_roll,     ${target.upper()}_REG_${stream_out[j].upper()}_FEAT_ROLL   );
+  HWPE_WRITE(${stream_out[j]}_loop_outer,    ${target.upper()}_REG_${stream_out[j].upper()}_LOOP_OUTER  );
+  HWPE_WRITE(${stream_out[j]}_realign_type,  ${target.upper()}_REG_${stream_out[j].upper()}_REALIGN_TYPE);
 }
     % endif
   % endif
@@ -258,20 +258,20 @@ static inline void hwpe_addr_gen_${stream_out[j]}(
 /* basic hal */
 
 static inline void hwpe_trigger_job() {
-  HWPE_WRITE(0, HWPE_TRIGGER);
+  HWPE_WRITE(0, ${target.upper()}_REG_TRIGGER);
 }
 
 static inline int hwpe_acquire_job() {
-  return HWPE_READ(HWPE_ACQUIRE);
+  return HWPE_READ(${target.upper()}_REG_ACQUIRE);
 }
 
 static inline unsigned int hwpe_get_status() {
-  return HWPE_READ(HWPE_STATUS);
+  return HWPE_READ(${target.upper()}_REG_STATUS);
 }
 
 static inline void hwpe_soft_clear() {
   volatile int i;
-  HWPE_WRITE(0, HWPE_SOFT_CLEAR);
+  HWPE_WRITE(0, ${target.upper()}_REG_SOFT_CLEAR);
 }
 
 static inline void hwpe_cg_enable() {
@@ -283,7 +283,7 @@ static inline void hwpe_cg_disable() {
 }
 
 static inline void hwpe_bytecode_set(unsigned int offs, unsigned int value) {
-  HWPE_WRITE(value, HWPE_BYTECODE+offs);
+  HWPE_WRITE(value, ${target.upper()}_REG_BYTECODE+offs);
 }
 
 <%

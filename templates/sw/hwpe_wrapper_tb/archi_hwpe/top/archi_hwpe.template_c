@@ -79,7 +79,7 @@
 ###################################################
 %>
 
-/* Standard registers HAL */
+/* Standard registers archi */
 
 <%
 # Top offset - HWPE register file
@@ -97,7 +97,7 @@ addr_current = addr_top
 # controller implements 32-bit control registers.
 %>
 
-${standard_regs(addr_current)}
+${standard_archi(addr_current)}
 
 <%
 addr_top += ((std_reg_num -1) + n_source) * 4 # number of "cnt_limit" regs scale linearly with "n_source", while other std-regs are constant
@@ -110,9 +110,9 @@ addr_current = addr_top
 #################################################
 %>
 
-/* Custom registers HAL */
+/* Custom registers archi */
 
-${custom_regs(addr_current)}
+${custom_archi(addr_current)}
 
 <%
 addr_top += custom_reg_num * 4
@@ -125,9 +125,9 @@ addr_current = addr_top
 ##########################################################################
 %>
 
-/* Address generator HAL */
+/* Address generator archi */
 
-${addressgen_regs_in(addr_current)}
+${addressgen_archi_in(addr_current)}
 
 <%
 # Each data port is associated to an address generator that
@@ -161,7 +161,7 @@ addr_current = addr_top
 ###########################################################################
 %>
 
-${addressgen_regs_out(addr_current)}
+${addressgen_archi_out(addr_current)}
 
 <%
 # Each data port is associated to an address generator that

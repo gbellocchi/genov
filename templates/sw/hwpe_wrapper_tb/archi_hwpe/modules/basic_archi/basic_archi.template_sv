@@ -1,7 +1,7 @@
 <%
-#######################################
-## Library of components - Basic HAL ##
-#######################################
+#########################################
+## Library of components - Basic archi ##
+#########################################
 %>
 
 <%
@@ -13,36 +13,36 @@
 <%def name="basic_archi(addr_current)">\
 
 
-#define HWPE_TRIGGER                                 ${hex(addr_current)};
+#define ${target.upper()}_REG_TRIGGER                                 ${hex(addr_current)}
 
         <%  
           addr_current += 4
         %>
 
-#define HWPE_ACQUIRE                                 ${hex(addr_current)};
+#define ${target.upper()}_REG_ACQUIRE                                 ${hex(addr_current)}
 
         <%  
           addr_current += 4
         %>
 
-#define HWPE_FINISHED                                ${hex(addr_current)};
+#define ${target.upper()}_REG_FINISHED                                ${hex(addr_current)}
 
         <%  
           addr_current += 4
         %>
 
-#define HWPE_STATUS                                  ${hex(addr_current)};
+#define ${target.upper()}_REG_STATUS                                  ${hex(addr_current)}
 
         <%  
           addr_current += 4
         %>
 
-#define HWPE_RUNNING_JOB                             ${hex(addr_current)};
+#define ${target.upper()}_REG_RUNNING_JOB                             ${hex(addr_current)}
 
         <%  
           addr_current += 4
         %>
 
-#define HWPE_SOFT_CLEAR                              ${hex(addr_current)};
+#define ${target.upper()}_REG_SOFT_CLEAR                              ${hex(addr_current)}
 
 </%def>\

@@ -14,48 +14,48 @@
 
   /* Microcode processor */
 
-  #define HWPE_BYTECODE                                 ${hex(addr_current)}
+#define ${target.upper()}_REG_BYTECODE                                 ${hex(addr_current)}
 
         <%  
           addr_current += 4
         %>
 
-  #define HWPE_BYTECODE0_OFFS                           ${hex(addr_current)}
+#define ${target.upper()}_REG_BYTECODE0_OFFS                           ${hex(addr_current)}
 
         <%  
           addr_current += 4
         %>
 
-  #define HWPE_BYTECODE1_OFFS                           ${hex(addr_current)}
+#define ${target.upper()}_REG_BYTECODE1_OFFS                           ${hex(addr_current)}
 
         <%  
           addr_current += 4
         %>
 
-  #define HWPE_BYTECODE2_OFFS                           ${hex(addr_current)}
+#define ${target.upper()}_REG_BYTECODE2_OFFS                           ${hex(addr_current)}
 
         <%  
           addr_current += 4
         %>
 
-  #define HWPE_BYTECODE3_OFFS                           ${hex(addr_current)}
+#define ${target.upper()}_REG_BYTECODE3_OFFS                           ${hex(addr_current)}
 
         <%  
           addr_current += 4
         %>
 
-  #define HWPE_BYTECODE4_OFFS                           ${hex(addr_current)}
+#define ${target.upper()}_REG_BYTECODE4_OFFS                           ${hex(addr_current)}
 
         <%  
           addr_current += 4
         %>
 
-  #define HWPE_BYTECODE5_LOOPS0_OFFS                    ${hex(addr_current)}
+#define ${target.upper()}_REG_BYTECODE5_LOOPS0_OFFS                    ${hex(addr_current)}
 
         <%  
           addr_current += 4
         %>
 
-  #define HWPE_LOOPS1_OFFS                              ${hex(addr_current)}
+#define ${target.upper()}_REG_LOOPS1_OFFS                              ${hex(addr_current)}
 
 </%def>\
