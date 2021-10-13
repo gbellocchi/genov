@@ -45,7 +45,7 @@ if [ -d "$OVERLAY_SRC" ]; then
 	done
 else
 	# Take action if it does not exist. #
-	error_exit ">> No src/ directory has been found. Be sure to properly setup your $OVERLAY_HW_EXPORT environment."
+	error_exit ">> No src/ directory has been found. Be sure to properly setup your $HERO_OV_HW_EXPORT environment."
 fi
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
@@ -77,7 +77,7 @@ if [ -d "$OVERLAY_DEPS" ]; then
 	done
 else
 	# Take action if it does not exist. #
-	error_exit ">> No deps/ directory has been found. Be sure to properly setup your $OVERLAY_HW_EXPORT environment."
+	error_exit ">> No deps/ directory has been found. Be sure to properly setup your $HERO_OV_HW_EXPORT environment."
 fi
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
@@ -109,7 +109,7 @@ if [ -d "$OVERLAY_TEST" ]; then
 	done
 else
 	# Take action if it does not exist. #
-	error_exit ">> No test/ directory has been found. Be sure to properly setup your $OVERLAY_HW_EXPORT environment."
+	error_exit ">> No test/ directory has been found. Be sure to properly setup your $HERO_OV_HW_EXPORT environment."
 fi
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #

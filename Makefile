@@ -72,10 +72,10 @@ PY_ENV_DIR				:= ${ROOT}/${PY_VENV}
 
 # System-level integration
 
-OVERLAY_HW_REPO			:= ${OVERLAY_HW_EXPORT}
-OVERLAY_SRC				:= ${OVERLAY_HW_EXPORT}/src
-OVERLAY_DEPS			:= ${OVERLAY_HW_EXPORT}/deps
-OVERLAY_TEST			:= ${OVERLAY_HW_EXPORT}/test
+OVERLAY_HW_REPO			:= ${HERO_OV_HW_EXPORT}
+OVERLAY_SRC				:= ${HERO_OV_HW_EXPORT}/src
+OVERLAY_DEPS			:= ${HERO_OV_HW_EXPORT}/deps
+OVERLAY_TEST			:= ${HERO_OV_HW_EXPORT}/test
 OVERLAY_CLUSTER			:= ${OVERLAY_DEPS}/overlay_cluster/rtl
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
@@ -92,7 +92,7 @@ all: clean_gen run_gen
 
 overlay_integration: clean_ov_env overlay_src overlay_deps
 
-hwpe_generated_ex: check_ov_env overlay_src
+hwpe_generated_ex: test_ov_env overlay_src
 	@echo -e ">> Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay..."
 	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper/* ${OVERLAY_DEPS}/hwpe-generated-ex/
 	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-generated-ex/
@@ -148,8 +148,8 @@ ifndef ENV_IS_CHECKED
 endif
 
 check_ov_env:
-ifndef OVERLAY_HW_EXPORT
-	$(error OVERLAY_HW_EXPORT is undefined)
+ifndef HERO_OV_HW_EXPORT
+	$(error HERO_OV_HW_EXPORT is undefined)
 endif
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
