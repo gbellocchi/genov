@@ -164,10 +164,6 @@ clean_gen: check_ov_env
 init_gen:
 	@${SCRIPTS_GEN}/init_gen.sh
 
-bender: 
-	@curl --proto '=https' --tlsv1.2 -sSf https://fabianschuiki.github.io/bender/init | sh -s 0.21.0
-	@touch bender
-
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
 # -------------------- #
