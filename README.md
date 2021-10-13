@@ -25,29 +25,35 @@ git clone https://git.hipert.unimore.it/comp4drones/HERO/hwpe-wrapper-gen-tool.g
 
 ### Environment
 
-#### Overlay
-Most of the specialization flow is handled locally to the tool subdirectory. At a certain point the user may decide to export and integrate the specialized hardware/software products to the overlay system. This process is fully automated (and no-error-prone) as far as the tool knows how to securely interface to the overlay.
-
-Thus, it is recommended to set the following environment variable to the location of the overlay hardware subsystem.
+#### HERO
+We recommend to set the following environment variable to the top directory of your HERO ecosystem:
 
 ```
-export OVERLAY_HW_EXPORT=<your_path>
+export HERO_OV_HOME_DIR=<your_path> (typically something like $HOME/workspace_user/hero)
 ```
-
-This location should comprise the following directories that are going to be targeted in the integration phase:
-
- - `src/` - This location comprises SystemVerilog source files to parametrize the PULP-based overlay system.
- - `deps/` - This location comprises SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, accelerators, etc.).
- - `test/` - This location comprises a SystemVerilog testbench to simulate the hardware behavior.
-
 
 Another environment variable that will come in useful to compile the software testbenches is:
 
 ```
-export OVERLAY_OPENMP_TESTS=<your_path>
+export HERO_OV_OPENMP_TESTS=<your_path> (typically something like $HERO_HOME_DIR/openmp-examples)
 ```
 
-This variable should match the location of the 'openmp-examples' directory in the overay ecosystem.
+For building applications for the simulation, the dynamic environment can be loaded with `source $HERO_OV_HOME_DIR/env/esim.sh`.
+
+#### Hardware subsystem
+Most of the specialization flow is handled locally to the tool subdirectory. At a certain point the user may decide to export and integrate the specialized hardware/software products to the overlay system. This process is fully automated and no-error-prone as far as the tool knows how to securely interface to the overlay. 
+
+Thus, it is recommended to set the following environment variable to the location of the overlay hardware subsystem.
+
+```
+export HERO_OV_HW_EXPORT=<your_path> (typically something like $HERO_HOME_DIR/hardware)
+```
+
+This location should at least comprise the following directories that are going to be targeted in the integration phase:
+
+ - `src/` - This location comprises SystemVerilog source files to parametrize the PULP-based overlay system.
+ - `deps/` - This location comprises SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, accelerators, etc.).
+ - `test/` - This location comprises a SystemVerilog testbench to simulate the hardware behavior.
 
 #### External Sources
 The tool uses Git submodules that have to be initialized. In order to fetch the submodules in the repository, run:
