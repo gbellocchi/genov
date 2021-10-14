@@ -69,7 +69,7 @@ add wave -noupdate -group {hwpe_${target}_kernel_wrapper[0]} -group {Flags} -lab
 add wave -noupdate -group {hwpe_${target}_kernel_adapter[0]} -group {Output counters} -label {kernel_cnt_${stream_in[i]}_${k}} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/i_k_wrap/kernel_cnt_${stream_in[i]}_${k}}
       % endfor
     % else:
-add wave -noupdate -group {hwpe_${target}_kernel_adapter[0]} -group {Output counters} -label {kernel_cnt_${stream_in[i]}_${k}} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/i_k_wrap/kernel_cnt_${stream_in[i]}_${k}}
+add wave -noupdate -group {hwpe_${target}_kernel_adapter[0]} -group {Output counters} -label {kernel_cnt_${stream_in[i]}} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/i_k_wrap/kernel_cnt_${stream_in[i]}}
     % endif
   % endfor 
 
