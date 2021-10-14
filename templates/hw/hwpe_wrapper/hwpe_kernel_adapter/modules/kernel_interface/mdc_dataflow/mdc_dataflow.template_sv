@@ -73,7 +73,7 @@
 
   // FIXME: This temporarily works synch-outputs.
   // EX: What if Out_0 is provided at each input and Out_1 once per 10 inputs?
-  assign done = ${AND_kernel_done_out()} 
+  assign done = ${AND_kernel_done_out()};
 
   % for j in range (n_source):
     % if (is_parallel_out[j]):
@@ -110,7 +110,7 @@
      The latter triggers the START of accelerator. (see FSM_COMPUTE). */
   /* Driven using input counters. */
 
-  assign ready = ${AND_kernel_done_in()}
+  assign ready = ${AND_kernel_done_in()};
 
   /* Idle. */
   /* This is used in the hwpe-engine to set flags_o.ready. 
@@ -409,11 +409,11 @@ kernel_done_${stream_in[i]} & \
 \
 % if (is_parallel_in[n_sink-1]):
     % for k in range (in_parallelism_factor[n_sink-1]-1):
-kernel_done_in_${n_sink-1}_${k} & \
+kernel_done_${stream_in[n_sink-1]}_${k} & \
     % endfor
-kernel_done_in_${n_sink-1}_${in_parallelism_factor[n_sink-1]-1};\
+kernel_done_${stream_in[n_sink-1]}_${in_parallelism_factor[n_sink-1]-1};\
 % else:
-kernel_done_in_${n_sink-1};\
+kernel_done_${stream_in[n_sink-1]}\
 % endif
 \
 </%def>\
@@ -432,11 +432,11 @@ kernel_done_${stream_out[j]} & \
 \
 % if (is_parallel_out[n_source-1]):
     % for k in range (out_parallelism_factor[n_source-1]-1):
-kernel_done_out_${n_source-1}_${k} & \
+kernel_done_${stream_out[n_source-1]}_${k} & \
     % endfor
-kernel_done_out_${n_source-1}_${out_parallelism_factor[n_source-1]-1};\
+kernel_done_${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1};\
 % else:
-kernel_done_out_${n_source-1};\
+kernel_done_${stream_out[n_source-1]}\
 % endif
 \
 </%def>\
