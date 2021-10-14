@@ -1,0 +1,52 @@
+
+diff --git a/templates/sw/hwpe_wrapper_tb/hwpe_wrapper_tb.py b/templates/sw/hwpe_wrapper_tb/hwpe_wrapper_tb.py
+index e07916b..1231b2b 100755
+--- a/templates/sw/hwpe_wrapper_tb/hwpe_wrapper_tb.py
++++ b/templates/sw/hwpe_wrapper_tb/hwpe_wrapper_tb.py
+@@ -7,7 +7,7 @@
+ # Packages
+ from templates.sw.hwpe_wrapper_tb.archi_hwpe.top.archi_hwpe import archi_hwpe
+ from templates.sw.hwpe_wrapper_tb.hal_hwpe.hal_hwpe import hal_hwpe
+-from templates.sw.hwpe_wrapper_tb.tb_hwpe.tb_hwpe import tb_hwpe
++from templates.sw.hwpe_wrapper_tb.tb_hwpe.top.tb_hwpe import tb_hwpe
+ 
+ # HWPE wrapper- Software testbench components
+ class hwpe_wrapper_tb:
+@@ -25,4 +25,4 @@ class hwpe_wrapper_tb:
+ 
+     def tb(self, hwpe_specs):
+         tb = tb_hwpe(hwpe_specs)
+-        return tb.gen()
+\ No newline at end of file
++        return tb.gen()
+diff --git a/Makefile b/Makefile
+index 60a78ed..e5c8dd3 100644
+--- a/Makefile
++++ b/Makefile
+@@ -188,4 +188,4 @@ update_reqs_py_env:
+ test_py_env:
+ 	@bash ${SCRIPTS_PY_ENV}/secure_paths.sh ${PY_ENV_DIR}
+ 
+-# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+\ No newline at end of file
++# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+diff --git a/templates/sw/hwpe_wrapper_tb/hwpe_wrapper_tb.py b/templates/sw/hwpe_wrapper_tb/hwpe_wrapper_tb.py
+index e07916b..1231b2b 100755
+--- a/templates/sw/hwpe_wrapper_tb/hwpe_wrapper_tb.py
++++ b/templates/sw/hwpe_wrapper_tb/hwpe_wrapper_tb.py
+@@ -7,7 +7,7 @@
+ # Packages
+ from templates.sw.hwpe_wrapper_tb.archi_hwpe.top.archi_hwpe import archi_hwpe
+ from templates.sw.hwpe_wrapper_tb.hal_hwpe.hal_hwpe import hal_hwpe
+-from templates.sw.hwpe_wrapper_tb.tb_hwpe.tb_hwpe import tb_hwpe
++from templates.sw.hwpe_wrapper_tb.tb_hwpe.top.tb_hwpe import tb_hwpe
+ 
+ # HWPE wrapper- Software testbench components
+ class hwpe_wrapper_tb:
+@@ -25,4 +25,4 @@ class hwpe_wrapper_tb:
+ 
+     def tb(self, hwpe_specs):
+         tb = tb_hwpe(hwpe_specs)
+-        return tb.gen()
+\ No newline at end of file
++        return tb.gen()

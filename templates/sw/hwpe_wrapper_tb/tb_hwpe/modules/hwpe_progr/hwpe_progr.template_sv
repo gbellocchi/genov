@@ -45,13 +45,13 @@
   /* Micro-code processor programming */
 
   // Set up bytecode
-  hwpe_bytecode_set(HWPE_LOOPS1_OFFS,           0x00000000);
-  hwpe_bytecode_set(HWPE_BYTECODE5_LOOPS0_OFFS, 0x00000000);
-  hwpe_bytecode_set(HWPE_BYTECODE4_OFFS,        0x00000000);
-  hwpe_bytecode_set(HWPE_BYTECODE3_OFFS,        0x00000000);
-  hwpe_bytecode_set(HWPE_BYTECODE2_OFFS,        0x00000000);
-  hwpe_bytecode_set(HWPE_BYTECODE1_OFFS,        0x00000808);
-  hwpe_bytecode_set(HWPE_BYTECODE0_OFFS,        0x09e22c24);
+  hwpe_bytecode_set(${target.upper()}_REG_LOOPS1_OFFS,           0x00000000);
+  hwpe_bytecode_set(${target.upper()}_REG_BYTECODE5_LOOPS0_OFFS, 0x00000000);
+  hwpe_bytecode_set(${target.upper()}_REG_BYTECODE4_OFFS,        0x00000000);
+  hwpe_bytecode_set(${target.upper()}_REG_BYTECODE3_OFFS,        0x00000000);
+  hwpe_bytecode_set(${target.upper()}_REG_BYTECODE2_OFFS,        0x00000000);
+  hwpe_bytecode_set(${target.upper()}_REG_BYTECODE1_OFFS,        0x00000808);
+  hwpe_bytecode_set(${target.upper()}_REG_BYTECODE0_OFFS,        0x09e22c24);
 
   // Ucode parameters
   hwpe_nb_iter_set(stripe_height);
@@ -73,7 +73,7 @@
   // FSM
   
   % for j in range (n_source):
-  hwpe_len_iter_set(${stream_out[j]}_stripe_height * ${stream_out[j]}_stripe_height - 1);
+  hwpe_len_iter_set_${stream_out[j]}(${stream_out[j]}_stripe_height * ${stream_out[j]}_stripe_height - 1);
   % endfor
 
 </%def>\

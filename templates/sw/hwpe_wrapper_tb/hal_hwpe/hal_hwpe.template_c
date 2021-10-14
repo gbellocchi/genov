@@ -117,6 +117,12 @@ static inline void hwpe_tilestride_set(unsigned int value) {
   HWPE_WRITE(value, ${target.upper()}_REG_TILESTRIDE);
 }
 
+% for j in range (n_source):
+static inline void hwpe_len_iter_set_${stream_out[j]}(unsigned int value) {
+  HWPE_WRITE(value, ${TARGET}_REG_CNT_LIMIT_${stream_out[j].upper()});
+}
+% endfor
+
 <%
 #####################################################################################
 ## Hardware abstraction layer - User-specific (engine-specific) control registers  ##

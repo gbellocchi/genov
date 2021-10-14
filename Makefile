@@ -44,7 +44,7 @@ ENG_DEV_RTL 			:= ${ENG_DEV}/rtl
 STATIC 					:= ${ROOT}/static
 STATIC_RTL_DIR 			:= ${STATIC}/static_rtl
 STATIC_STREAM			:= ${STATIC_RTL_DIR}/hwpe-stream
-STATIC_CTRL 			:= ${STATIC_RTL_DIR}/hwpe-ctrl
+STATIC_CTRL 			:= ${STATIC_RTL_DIR}/hwpe-ctrl-fpga
 
 # Output content
 

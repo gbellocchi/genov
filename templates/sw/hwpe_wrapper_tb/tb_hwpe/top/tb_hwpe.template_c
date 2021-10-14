@@ -32,18 +32,13 @@
 #include "inc/hwpe_lib/archi_hwpe.h"
 #include "inc/hwpe_lib/hal_hwpe.h"
 
-// /* Event unit. */
-// #include "inc/eu/archi_eu_v3.h"
-// #include "inc/eu/hal_eu_eu_v3.h"
+/* Event unit. */
+#include "inc/eu_lib/archi_eu_v3.h"
+#include "inc/eu_lib/hal_eu_v3.h"
 
 /* Stimuli */
 // Include initialization stimuli
 // Include golden results
-
-/* 
-  Being RTL simualtion very slow, a single data stripe is processed in order
-  to assess the functionality of the cluster-couple Hardware Accelerator.
-*/
 
 /* HWPE test */
 int ${target}_tb(
@@ -74,71 +69,39 @@ int ${target}_tb(
   int i,j,k,cnt;
   int offload_id_tmp, offload_id;
 
+  <%
+  ####################################
+  ## Dataset parameters declaration ##
+  ####################################
+  %>
+
   /* Dataset parameters. */
   % for i in range (n_sink):
   // input ${stream_in[i]}
-  const unsigned ${stream_in[i]}_stim_dim             = ${stream_in[i]}_width * ${stream_in[i]}_height;
-  const unsigned ${stream_in[i]}_stripe_in_len        = ${stream_in[i]}_width * ${stream_in[i]}_stripe_height;
+  const unsigned ${stream_in[i]}_stim_dim               = ${stream_in[i]}_width * ${stream_in[i]}_height;
+  const unsigned ${stream_in[i]}_stripe_in_len          = ${stream_in[i]}_width * ${stream_in[i]}_stripe_height;
   % endfor
 
   % for j in range (n_source):
   // output ${stream_out[j]}
-  const unsigned ${stream_out[j]}_stim_dim             = ${stream_out[j]}_width * ${stream_out[j]}_height;
+  const unsigned ${stream_out[j]}_stim_dim              = ${stream_out[j]}_width * ${stream_out[j]}_height;
   const unsigned ${stream_out[j]}_stripe_out_len        = ${stream_out[j]}_width * ${stream_out[j]}_stripe_height;
   % endfor
 
-  /* Address generator - Parameters */
-  % for i in range (n_sink):
-  // input ${stream_in[i]}
-    % if (is_parallel_in[i]):
-  const unsigned ${stream_in[i]}_parallelism_factor     = 16;
-  const unsigned ${stream_in[i]}_trans_size             = (${stream_in[i]}_width * ${stream_in[i]}_stripe_height * ${stream_in[i]}_stripe_height) / ${stream_in[i]}_parallelism_factor;
-  const unsigned ${stream_in[i]}_line_stride            = 0;
-  const unsigned ${stream_in[i]}_line_length            = ${stream_in[i]}_width / ${stream_in[i]}_parallelism_factor;
-  const unsigned ${stream_in[i]}_feat_stride            = ${stream_in[i]}_width * sizeof(uint32_t);
-  const unsigned ${stream_in[i]}_feat_length            = ${stream_in[i]}_stripe_height;
-  const unsigned ${stream_in[i]}_feat_roll              = ${stream_in[i]}_stripe_height; 
-  const unsigned ${stream_in[i]}_loop_outer             = 0;
-  const unsigned ${stream_in[i]}_realign_type           = 0; 
-  const unsigned ${stream_in[i]}_step                   = ${stream_in[i]}_parallelism_factor * sizeof(uint32_t);
-  const unsigned ${stream_in[i]}_port_offset            = sizeof(uint32_t);
-    % else:
-  const unsigned ${stream_in[i]}_trans_size             = ${stream_in[i]}_width * ${stream_in[i]}_stripe_height * ${stream_in[i]}_stripe_height;
-  const unsigned ${stream_in[i]}_line_stride            = 0;
-  const unsigned ${stream_in[i]}_line_length            = ${stream_in[i]}_width;
-  const unsigned ${stream_in[i]}_feat_stride            = ${stream_in[i]}_width * sizeof(uint32_t);
-  const unsigned ${stream_in[i]}_feat_length            = ${stream_in[i]}_stripe_height;
-  const unsigned ${stream_in[i]}_feat_roll              = ${stream_in[i]}_stripe_height; 
-  const unsigned ${stream_in[i]}_loop_outer             = 0;
-  const unsigned ${stream_in[i]}_realign_type           = 0;
-    % endif
-  % endfor
+  <%
+  ##############################################
+  ## Address generator parameters declaration ##
+  ##############################################
+  %>
 
-  % for j in range (n_source):
-  // output ${stream_out[j]}
-    % if (is_parallel_out[j]):
-  const unsigned ${stream_out[j]}_parallelism_factor    = 16; 
-  const unsigned ${stream_out[j]}_trans_size            = (${stream_out[j]}_width * ${stream_out[j]}_stripe_height * ${stream_out[j]}_stripe_height) / ${stream_out[j]}_parallelism_factor;
-  const unsigned ${stream_out[j]}_line_stride           = 0;
-  const unsigned ${stream_out[j]}_line_length           = ${stream_out[j]}_width / ${stream_out[j]}_parallelism_factor;
-  const unsigned ${stream_out[j]}_feat_stride           = ${stream_out[j]}_width * sizeof(uint32_t);
-  const unsigned ${stream_out[j]}_feat_length           = ${stream_out[j]}_stripe_height;
-  const unsigned ${stream_out[j]}_feat_roll             = ${stream_out[j]}_stripe_height; 
-  const unsigned ${stream_out[j]}_loop_outer            = 0;
-  const unsigned ${stream_out[j]}_realign_type          = 0;
-  const unsigned ${stream_out[j]}_step                  = ${stream_out[j]}_parallelism_factor * sizeof(uint32_t);
-  const unsigned ${stream_out[j]}_port_offset           = sizeof(uint32_t);
-    % else:
-  const unsigned ${stream_out[j]}_trans_size            = ${stream_out[j]}_stripe_height * ${stream_out[j]}_stripe_height; // stripe_height * stripe_height;
-  const unsigned ${stream_out[j]}_line_stride           = sizeof(uint32_t);
-  const unsigned ${stream_out[j]}_line_length           = 1;
-  const unsigned ${stream_out[j]}_feat_stride           = ${stream_out[j]}_stripe_height * sizeof(uint32_t);
-  const unsigned ${stream_out[j]}_feat_length           = ${stream_out[j]}_stripe_height;
-  const unsigned ${stream_out[j]}_feat_roll             = ${stream_out[j]}_stripe_height;
-  const unsigned ${stream_out[j]}_loop_outer            = 0;
-  const unsigned ${stream_out[j]}_realign_type          = 0; // Unused.
-    % endif
-  % endfor
+  ${addressgen_in_params_decl()}
+  ${addressgen_out_params_decl()}
+
+  <%
+  ############################
+  ## L1 stimuli declaration ##
+  ############################
+  %>
   
   printf("Allocation and initialization of L1 stimuli\n");
 
@@ -155,13 +118,19 @@ int ${target}_tb(
   int32_t * ${stream_out[j]}_golden_l1 = hero_l1malloc(sizeof(int32_t)*${stream_out[j]}_stripe_out_len);
   % endfor
 
+  <%
+  ###############################
+  ## L1 stimuli initialization ##
+  ###############################
+  %>
+
   /* Initialize stimuli. */
 
   % for i in range (n_sink):
   // input ${stream_in[i]}
   for (i = 0; i < ${stream_in[i]}_stripe_height; i++){
     for (j = 0; j < ${stream_in[i]}_width; j++){
-      ${stream_in[i]}_l1[i*${stream_in[i]}_width+j] = // Insert an initialization value
+      ${stream_in[i]}_l1[i*${stream_in[i]}_width+j] = 1; // Modify the parameters with your own initialization value
     }
   }
   % endfor
@@ -170,14 +139,14 @@ int ${target}_tb(
   // output ${stream_out[j]}
   for (i = 0; i < ${stream_out[j]}_stripe_height; i++){
     for (j = 0; j < ${stream_out[j]}_width; j++){
-      ${stream_out[j]}_l1[i*${stream_out[j]}_width+j] = // Insert an initialization value
+      ${stream_out[j]}_l1[i*${stream_out[j]}_width+j] = 1; // Modify the parameters with your own initialization value
     }
   }
 
   // output golden results ${stream_out[j]}
   for (i = 0; i < ${stream_out[j]}_stripe_height; i++){
     for (j = 0; j < ${stream_out[j]}_width; j++){
-      ${stream_out[j]}_golden_l1[i*${stream_out[j]}_width+j] = // Insert an initialization value
+      ${stream_out[j]}_golden_l1[i*${stream_out[j]}_width+j] = ${stream_out[j]}_width; // Modify the parameters with your own initialization value
     }
   }
   % endfor
@@ -189,7 +158,6 @@ int ${target}_tb(
   %>
 
   ${hwpe_init()}
-  ${hwpe_uloop_progr()}
   ${hwpe_ctrl_progr()}
   ${hwpe_addressgen_progr()}
   ${hwpe_tcdm_progr()}
@@ -210,6 +178,12 @@ int ${target}_tb(
   %>
 
   ${hwpe_disable()}
+
+  <%
+  #################
+  ## Error check ##
+  #################
+  %>
 
   // // /* Error check on L2. */
   // printf("Results check");
@@ -233,21 +207,31 @@ int ${target}_tb(
 
 int main() {
 
-  /* Parameters. */
+  /* Global parameters. */
+
+  uint32_t width                  = 512; // Modify the parameters with your own value
+  uint32_t height                 = 512; // Modify the parameters with your own value
+  uint32_t stripe_height          = 8; // Modify the parameters with your own value
+
+  /* Stream-specific parameters. */
 
   % for i in range (n_sink):
-  uint32_t ${stream_in[i]}_width          = // Insert a value
-  uint32_t ${stream_in[i]}_height         = // Insert a value
-  uint32_t ${stream_in[i]}_stripe_height  = // Insert a value
+  // input ${stream_in[i]}
+  uint32_t ${stream_in[i]}_width              = width;
+  uint32_t ${stream_in[i]}_height             = height;
+  uint32_t ${stream_in[i]}_stripe_height      = stripe_height;
   % endfor
 
+  // Outputs
   % for j in range (n_source):
-  uint32_t ${stream_out[j]}_width          = // Insert a value
-  uint32_t ${stream_out[j]}_height         = // Insert a value
-  uint32_t ${stream_out[j]}_stripe_height  = // Insert a value
+  // output ${stream_out[j]}
+  uint32_t ${stream_out[j]}_width             = width;
+  uint32_t ${stream_out[j]}_height            = height;
+  uint32_t ${stream_out[j]}_stripe_height     = stripe_height;
   % endfor
 
   /* Launch application. */
+
   while(
     !${target}_tb(
       % for i in range (n_sink):

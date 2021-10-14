@@ -1,0 +1,81 @@
+<%
+######################################################################
+## Library of components - Address generator parameters declaration ##
+######################################################################
+%>
+
+<%
+######################################################
+## Address generator parameters declaration - Input ##
+######################################################
+%>
+
+<%def name="addressgen_in_params_decl()">\
+
+  /* Address generator - Parameters for input streams */
+
+  % for i in range (n_sink):
+  // input ${stream_in[i]}
+    % if (is_parallel_in[i]):
+  const unsigned ${stream_in[i]}_parallelism_factor     = 16;
+  const unsigned ${stream_in[i]}_trans_size             = (${stream_in[i]}_width * ${stream_in[i]}_stripe_height * ${stream_in[i]}_stripe_height) / ${stream_in[i]}_parallelism_factor;
+  const unsigned ${stream_in[i]}_line_stride            = 0;
+  const unsigned ${stream_in[i]}_line_length            = ${stream_in[i]}_width / ${stream_in[i]}_parallelism_factor;
+  const unsigned ${stream_in[i]}_feat_stride            = ${stream_in[i]}_width * sizeof(uint32_t);
+  const unsigned ${stream_in[i]}_feat_length            = ${stream_in[i]}_stripe_height;
+  const unsigned ${stream_in[i]}_feat_roll              = ${stream_in[i]}_stripe_height; 
+  const unsigned ${stream_in[i]}_loop_outer             = 0;
+  const unsigned ${stream_in[i]}_realign_type           = 0; 
+  const unsigned ${stream_in[i]}_step                   = ${stream_in[i]}_parallelism_factor * sizeof(uint32_t);
+  const unsigned ${stream_in[i]}_port_offset            = sizeof(uint32_t);
+    % else:
+  const unsigned ${stream_in[i]}_trans_size             = ${stream_in[i]}_width * ${stream_in[i]}_stripe_height * ${stream_in[i]}_stripe_height;
+  const unsigned ${stream_in[i]}_line_stride            = 0;
+  const unsigned ${stream_in[i]}_line_length            = ${stream_in[i]}_width;
+  const unsigned ${stream_in[i]}_feat_stride            = ${stream_in[i]}_width * sizeof(uint32_t);
+  const unsigned ${stream_in[i]}_feat_length            = ${stream_in[i]}_stripe_height;
+  const unsigned ${stream_in[i]}_feat_roll              = ${stream_in[i]}_stripe_height; 
+  const unsigned ${stream_in[i]}_loop_outer             = 0;
+  const unsigned ${stream_in[i]}_realign_type           = 0;
+    % endif
+  % endfor
+
+</%def>\
+
+<%
+#######################################################
+## Address generator parameters declaration - Output ##
+#######################################################
+%>
+
+<%def name="addressgen_out_params_decl()">\
+
+  /* Address generator - Parameters for output streams */
+
+  % for j in range (n_source):
+  // output ${stream_out[j]}
+    % if (is_parallel_out[j]):
+  const unsigned ${stream_out[j]}_parallelism_factor    = 16; 
+  const unsigned ${stream_out[j]}_trans_size            = (${stream_out[j]}_width * ${stream_out[j]}_stripe_height * ${stream_out[j]}_stripe_height) / ${stream_out[j]}_parallelism_factor;
+  const unsigned ${stream_out[j]}_line_stride           = 0;
+  const unsigned ${stream_out[j]}_line_length           = ${stream_out[j]}_width / ${stream_out[j]}_parallelism_factor;
+  const unsigned ${stream_out[j]}_feat_stride           = ${stream_out[j]}_width * sizeof(uint32_t);
+  const unsigned ${stream_out[j]}_feat_length           = ${stream_out[j]}_stripe_height;
+  const unsigned ${stream_out[j]}_feat_roll             = ${stream_out[j]}_stripe_height; 
+  const unsigned ${stream_out[j]}_loop_outer            = 0;
+  const unsigned ${stream_out[j]}_realign_type          = 0;
+  const unsigned ${stream_out[j]}_step                  = ${stream_out[j]}_parallelism_factor * sizeof(uint32_t);
+  const unsigned ${stream_out[j]}_port_offset           = sizeof(uint32_t);
+    % else:
+  const unsigned ${stream_out[j]}_trans_size            = ${stream_out[j]}_stripe_height * ${stream_out[j]}_stripe_height; // stripe_height * stripe_height;
+  const unsigned ${stream_out[j]}_line_stride           = sizeof(uint32_t);
+  const unsigned ${stream_out[j]}_line_length           = 1;
+  const unsigned ${stream_out[j]}_feat_stride           = ${stream_out[j]}_stripe_height * sizeof(uint32_t);
+  const unsigned ${stream_out[j]}_feat_length           = ${stream_out[j]}_stripe_height;
+  const unsigned ${stream_out[j]}_feat_roll             = ${stream_out[j]}_stripe_height;
+  const unsigned ${stream_out[j]}_loop_outer            = 0;
+  const unsigned ${stream_out[j]}_realign_type          = 0; // Unused.
+    % endif
+  % endfor
+
+</%def>\

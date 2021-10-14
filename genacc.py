@@ -87,7 +87,7 @@ hwpe_outdir = specs.dest_dir + '/hw/hwpe-' + specs.hwpe_target + '-wrapper'
 hwpe_rtl = hwpe_outdir + '/rtl'
 hwpe_engine_rtl = hwpe_rtl + '/hwpe-engine'
 hwpe_streamer_rtl = hwpe_rtl + '/hwpe-stream'
-hwpe_ctrl_rtl = hwpe_rtl + '/hwpe-ctrl'
+hwpe_ctrl_rtl = hwpe_rtl + '/hwpe-ctrl-fpga'
 
 os.mkdir(hwpe_overlay_integration)
 os.mkdir(hwpe_outdir)
@@ -100,7 +100,7 @@ source = static_comps + '/static_rtl/hwpe-stream/rtl'
 destination = hwpe_streamer_rtl
 shutil.copytree(source, destination)
 
-source = static_comps + '/static_rtl/hwpe-ctrl'
+source = static_comps + '/static_rtl/hwpe-ctrl-fpga/rtl'
 destination = hwpe_ctrl_rtl
 shutil.copytree(source, destination)
 
@@ -215,6 +215,7 @@ sw_outdir = specs.dest_dir + '/sw'
 sw_inc = sw_outdir + '/inc'
 sw_test_lib = sw_inc + '/test_lib'
 sw_common = sw_inc + '/common'
+sw_eu_lib = sw_inc + '/eu_lib'
 sw_stim = sw_inc + '/stim'
 sw_hwpe_lib = sw_inc + '/hwpe_lib'
 
@@ -232,6 +233,10 @@ shutil.copytree(source, destination)
 
 source = static_comps + '/static_tb/inc/common/'
 destination = sw_common
+shutil.copytree(source, destination)
+
+source = static_comps + '/static_tb/inc/eu_lib/'
+destination = sw_eu_lib
 shutil.copytree(source, destination)
 
 # Create repo for stimuli

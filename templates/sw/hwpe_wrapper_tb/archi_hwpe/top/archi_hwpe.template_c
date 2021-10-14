@@ -71,6 +71,7 @@
 #define ARCHI_CL_EVT_ACC0 0
 #define ARCHI_CL_EVT_ACC1 1
 #define ARCHI_HWPE_ADDR_BASE 0x1b201000
+#define ARCHI_HWPE_EU_OFFSET 12
 #define __builtin_bitinsert(a,b,c,d) (a | (((b << (32-c)) >> (32-c)) << d))
 
 <%

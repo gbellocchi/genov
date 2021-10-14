@@ -1,10 +1,8 @@
 ROOT := $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
-COMMON_ROOT := $(ROOT)/inc/common
 
 only = pulp
 CSRCS = $(wildcard *.c)
 
-############################ OpenMP Sources ############################
 CC := clang
 LINK := llvm-link
 COB := clang-offload-bundler
@@ -44,7 +42,7 @@ ifeq ($(TARGET_HOST),riscv64-hero-linux-gnu)
   LDFLAGS += -Wl,-dynamic-linker,/lib/ld-linux-riscv64-lp64.so.1
 endif
 
-INCPATHS += -I$(DEFMK_ROOT) -include ${OVERLAY_OPENMP_TESTS}/common/hero_64.h
+INCPATHS += -I$(DEFMK_ROOT) -include $(HERO_OV_OPENMP_TESTS)/common/hero_64.h
 LIBPATHS ?=
 
 BENCHMARK = $(shell basename `pwd`)
@@ -104,29 +102,3 @@ include $(wildcard $(DEPFILES))
 clean::
 	-rm -vf __hmpp* $(EXE) *~ *.bc *.dis *.elf *.i *.lh *.lk *.ll *.o *.s *.slm
 	-rm -rvf $(DEPDIR)
-
-init-target-host:
-ifndef HERO_TARGET_HOST
-	$(error HERO_TARGET_HOST is not set)
-endif
-# ssh -t $(HERO_TARGET_HOST) './sourceme.sh'
-	ssh -t $(HERO_TARGET_HOST) 'rmmod -f pulp'
-	ssh -t $(HERO_TARGET_HOST) 'insmod $(HERO_TARGET_PATH_DRIVER)/pulp.ko'
-
-prepare:: init-target-host $(EXE)
-ifndef HERO_TARGET_HOST
-	$(error HERO_TARGET_HOST is not set)
-endif
-	ssh $(HERO_TARGET_HOST) "mkdir -p $(HERO_TARGET_PATH_APPS)"
-	scp $(EXE) $(HERO_TARGET_HOST):$(HERO_TARGET_PATH_APPS)/.
-
-run:: prepare $(EXE)
-ifeq ($(call ifndef_any_of,HERO_TARGET_HOST HERO_TARGET_PATH_APPS HERO_TARGET_PATH_LIB),)
-	ssh -t $(HERO_TARGET_HOST) 'export LD_LIBRARY_PATH='"'$(HERO_TARGET_PATH_LIB)'"'; cd ${HERO_TARGET_PATH_APPS}; ./$(EXE) $(RUN_ARGS)'
-else
-	$(error HERO_TARGET_HOST and/or HERO_TARGET_PATH_APPS is not set)
-endif
-
-run_gbellocchi:
-	@ssh $(HERO_TARGET_HOST) "rm -f /home/root/workspace_gbellocchi/apps/$(EXE)"
-	@scp $(EXE) $(HERO_TARGET_HOST):/home/root/workspace_gbellocchi/apps

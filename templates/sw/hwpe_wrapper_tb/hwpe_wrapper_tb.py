@@ -7,7 +7,7 @@
 # Packages
 from templates.sw.hwpe_wrapper_tb.archi_hwpe.top.archi_hwpe import archi_hwpe
 from templates.sw.hwpe_wrapper_tb.hal_hwpe.hal_hwpe import hal_hwpe
-from templates.sw.hwpe_wrapper_tb.tb_hwpe.tb_hwpe import tb_hwpe
+from templates.sw.hwpe_wrapper_tb.tb_hwpe.top.tb_hwpe import tb_hwpe
 
 # HWPE wrapper- Software testbench components
 class hwpe_wrapper_tb:

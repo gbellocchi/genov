@@ -14,6 +14,9 @@
 
   /* HWPE execution */
 
+  // Being RTL simualtion very slow, a single data stripe is processed 
+  // in order to assess the functionality of the ${target} DUT.
+
   printf("HWPE execution - Start!\n");
 
   // Trigger execution
