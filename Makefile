@@ -19,7 +19,7 @@ REPO 					:= genacc
 
 # Choose target on those available in the application library (e.g. mmul_parallel)
 
-HWPE_TARGET				:= mmul_opt_mdc
+HWPE_TARGET				:= mmul_opt
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -44,7 +44,7 @@ ENG_DEV_RTL 			:= ${ENG_DEV}/rtl
 STATIC 					:= ${ROOT}/static
 STATIC_RTL_DIR 			:= ${STATIC}/static_rtl
 STATIC_STREAM			:= ${STATIC_RTL_DIR}/hwpe-stream
-STATIC_CTRL 			:= ${STATIC_RTL_DIR}/hwpe-ctrl-fpga
+STATIC_CTRL 			:= ${STATIC_RTL_DIR}/hwpe-ctrl
 
 # Output content
 

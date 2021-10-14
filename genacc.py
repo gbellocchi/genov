@@ -88,7 +88,6 @@ hwpe_rtl = hwpe_outdir + '/rtl'
 hwpe_engine_rtl = hwpe_rtl + '/hwpe-engine'
 hwpe_streamer_rtl = hwpe_rtl + '/hwpe-stream'
 hwpe_ctrl_rtl = hwpe_rtl + '/hwpe-ctrl'
-hwpe_ctrl_fpga_rtl = hwpe_rtl + '/hwpe-ctrl-fpga'
 
 os.mkdir(hwpe_overlay_integration)
 os.mkdir(hwpe_outdir)
@@ -103,10 +102,6 @@ shutil.copytree(source, destination)
 
 source = static_comps + '/static_rtl/hwpe-ctrl/rtl'
 destination = hwpe_ctrl_rtl
-shutil.copytree(source, destination)
-
-source = static_comps + '/static_rtl/hwpe-ctrl-fpga/rtl'
-destination = hwpe_ctrl_fpga_rtl
 shutil.copytree(source, destination)
 
 # Create repo for datapth
