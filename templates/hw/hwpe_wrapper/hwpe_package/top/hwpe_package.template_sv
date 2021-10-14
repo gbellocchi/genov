@@ -270,25 +270,25 @@ package ${target}_package;
         % if (is_parallel_in[i]):
     // Input stream - ${stream_in[i]} (unrolled, programmable)
     logic unsigned [31:0] ${stream_in[i]}_trans_size;  
-    logic unsigned [31:0] ${stream_in[i]}_line_stride; 
-    logic unsigned [31:0] ${stream_in[i]}_line_length; 
-    logic unsigned [31:0] ${stream_in[i]}_feat_stride; 
-    logic unsigned [31:0] ${stream_in[i]}_feat_length; 
-    logic unsigned [31:0] ${stream_in[i]}_feat_roll;   
-    logic unsigned [31:0] ${stream_in[i]}_loop_outer;  
-    logic unsigned [31:0] ${stream_in[i]}_realign_type;
+    logic unsigned [15:0] ${stream_in[i]}_line_stride; 
+    logic unsigned [15:0] ${stream_in[i]}_line_length; 
+    logic unsigned [15:0] ${stream_in[i]}_feat_stride; 
+    logic unsigned [15:0] ${stream_in[i]}_feat_length; 
+    logic unsigned [15:0] ${stream_in[i]}_feat_roll;   
+    logic unsigned ${stream_in[i]}_loop_outer;  
+    logic unsigned ${stream_in[i]}_realign_type;
     logic unsigned [31:0] ${stream_in[i]}_port_offset;        
-    logic unsigned [31:0] ${stream_in[i]}_step;
+    logic unsigned [15:0] ${stream_in[i]}_step;
       % else:
     // Input stream - ${stream_in[i]} (programmable)
     logic unsigned [31:0] ${stream_in[i]}_trans_size;  
-    logic unsigned [31:0] ${stream_in[i]}_line_stride; 
-    logic unsigned [31:0] ${stream_in[i]}_line_length; 
-    logic unsigned [31:0] ${stream_in[i]}_feat_stride; 
-    logic unsigned [31:0] ${stream_in[i]}_feat_length; 
-    logic unsigned [31:0] ${stream_in[i]}_feat_roll;   
-    logic unsigned [31:0] ${stream_in[i]}_loop_outer;  
-    logic unsigned [31:0] ${stream_in[i]}_realign_type;
+    logic unsigned [15:0] ${stream_in[i]}_line_stride; 
+    logic unsigned [15:0] ${stream_in[i]}_line_length; 
+    logic unsigned [15:0] ${stream_in[i]}_feat_stride; 
+    logic unsigned [15:0] ${stream_in[i]}_feat_length; 
+    logic unsigned [15:0] ${stream_in[i]}_feat_roll;   
+    logic unsigned ${stream_in[i]}_loop_outer;  
+    logic unsigned ${stream_in[i]}_realign_type;
         % endif
       % endif
     % endfor
@@ -298,25 +298,25 @@ package ${target}_package;
         % if (is_parallel_out[j]):
     // Output stream - ${stream_out[j]} (unrolled, programmable)
     logic unsigned [31:0] ${stream_out[j]}_trans_size;  
-    logic unsigned [31:0] ${stream_out[j]}_line_stride; 
-    logic unsigned [31:0] ${stream_out[j]}_line_length; 
-    logic unsigned [31:0] ${stream_out[j]}_feat_stride; 
-    logic unsigned [31:0] ${stream_out[j]}_feat_length; 
-    logic unsigned [31:0] ${stream_out[j]}_feat_roll;   
-    logic unsigned [31:0] ${stream_out[j]}_loop_outer;  
-    logic unsigned [31:0] ${stream_out[j]}_realign_type;
+    logic unsigned [15:0] ${stream_out[j]}_line_stride; 
+    logic unsigned [15:0] ${stream_out[j]}_line_length; 
+    logic unsigned [15:0] ${stream_out[j]}_feat_stride; 
+    logic unsigned [15:0] ${stream_out[j]}_feat_length; 
+    logic unsigned [15:0] ${stream_out[j]}_feat_roll;   
+    logic unsigned ${stream_out[j]}_loop_outer;  
+    logic unsigned ${stream_out[j]}_realign_type;
     logic unsigned [31:0] ${stream_out[j]}_port_offset;        
-    logic unsigned [31:0] ${stream_out[j]}_step;
+    logic unsigned [15:0] ${stream_out[j]}_step;
       % else:
     // Output stream - ${stream_out[j]} (programmable)
     logic unsigned [31:0] ${stream_out[j]}_trans_size;  
-    logic unsigned [31:0] ${stream_out[j]}_line_stride; 
-    logic unsigned [31:0] ${stream_out[j]}_line_length; 
-    logic unsigned [31:0] ${stream_out[j]}_feat_stride; 
-    logic unsigned [31:0] ${stream_out[j]}_feat_length; 
-    logic unsigned [31:0] ${stream_out[j]}_feat_roll;   
-    logic unsigned [31:0] ${stream_out[j]}_loop_outer;  
-    logic unsigned [31:0] ${stream_out[j]}_realign_type;
+    logic unsigned [15:0] ${stream_out[j]}_line_stride; 
+    logic unsigned [15:0] ${stream_out[j]}_line_length; 
+    logic unsigned [15:0] ${stream_out[j]}_feat_stride; 
+    logic unsigned [15:0] ${stream_out[j]}_feat_length; 
+    logic unsigned [15:0] ${stream_out[j]}_feat_roll;   
+    logic unsigned ${stream_out[j]}_loop_outer;  
+    logic unsigned ${stream_out[j]}_realign_type;
         % endif
       % endif
     % endfor

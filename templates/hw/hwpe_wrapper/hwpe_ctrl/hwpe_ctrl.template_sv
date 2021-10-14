@@ -75,16 +75,16 @@ module ${target}_ctrl
     % if (addr_gen_in_isprogr[i]):
   // Controls - ${stream_in[i]}
   logic unsigned [31:0] static_reg_${stream_in[i]}_trans_size;
-  logic unsigned [31:0] static_reg_${stream_in[i]}_line_stride;
-  logic unsigned [31:0] static_reg_${stream_in[i]}_line_length;
-  logic unsigned [31:0] static_reg_${stream_in[i]}_feat_stride;
-  logic unsigned [31:0] static_reg_${stream_in[i]}_feat_length;
-  logic unsigned [31:0] static_reg_${stream_in[i]}_feat_roll;
-  logic unsigned [31:0] static_reg_${stream_in[i]}_loop_outer;
-  logic unsigned [31:0] static_reg_${stream_in[i]}_realign_type;
+  logic unsigned [15:0] static_reg_${stream_in[i]}_line_stride;
+  logic unsigned [15:0] static_reg_${stream_in[i]}_line_length;
+  logic unsigned [15:0] static_reg_${stream_in[i]}_feat_stride;
+  logic unsigned [15:0] static_reg_${stream_in[i]}_feat_length;
+  logic unsigned [15:0] static_reg_${stream_in[i]}_feat_roll;
+  logic unsigned static_reg_${stream_in[i]}_loop_outer;
+  logic unsigned static_reg_${stream_in[i]}_realign_type;
       % if (is_parallel_in[i]):
   logic unsigned [31:0] static_reg_${stream_in[i]}_port_offset;
-  logic unsigned [31:0] static_reg_${stream_in[i]}_step;
+  logic unsigned [15:0] static_reg_${stream_in[i]}_step;
       % endif
     % endif
   % endfor
@@ -93,16 +93,16 @@ module ${target}_ctrl
     % if (addr_gen_out_isprogr[j]):
   // Controls - ${stream_out[j]}
   logic unsigned [31:0] static_reg_${stream_out[j]}_trans_size;
-  logic unsigned [31:0] static_reg_${stream_out[j]}_line_stride;
-  logic unsigned [31:0] static_reg_${stream_out[j]}_line_length;
-  logic unsigned [31:0] static_reg_${stream_out[j]}_feat_stride;
-  logic unsigned [31:0] static_reg_${stream_out[j]}_feat_length;
-  logic unsigned [31:0] static_reg_${stream_out[j]}_feat_roll;
-  logic unsigned [31:0] static_reg_${stream_out[j]}_loop_outer;
-  logic unsigned [31:0] static_reg_${stream_out[j]}_realign_type;
+  logic unsigned [15:0] static_reg_${stream_out[j]}_line_stride;
+  logic unsigned [15:0] static_reg_${stream_out[j]}_line_length;
+  logic unsigned [15:0] static_reg_${stream_out[j]}_feat_stride;
+  logic unsigned [15:0] static_reg_${stream_out[j]}_feat_length;
+  logic unsigned [15:0] static_reg_${stream_out[j]}_feat_roll;
+  logic unsigned static_reg_${stream_out[j]}_loop_outer;
+  logic unsigned static_reg_${stream_out[j]}_realign_type;
       % if (is_parallel_out[j]):
   logic unsigned [31:0] static_reg_${stream_out[j]}_port_offset;
-  logic unsigned [31:0] static_reg_${stream_out[j]}_step;
+  logic unsigned [15:0] static_reg_${stream_out[j]}_step;
       % endif
     % endif
   % endfor
