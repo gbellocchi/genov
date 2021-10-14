@@ -19,7 +19,7 @@ REPO 					:= genacc
 
 # Choose target on those available in the application library (e.g. mmul_parallel)
 
-HWPE_TARGET				:= mmul_opt
+HWPE_TARGET				:= mmul_opt_mdc
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -119,7 +119,7 @@ overlay_src: check_ov_env
 # ----------------------------- #
 
 run_gen: check_ov_env clean_gen engine_dev static_rtl
-	@${SCRIPTS_GEN}/run_gen.sh ${PY_VENV} ${OUT_DIR}
+	@bash ${SCRIPTS_GEN}/run_gen.sh ${PY_VENV} ${OUT_DIR}
 
 static_rtl: check_ov_env
 	@ls -R ${STATIC_STREAM} | grep '\.sv' >> ${HW_MNGT_DIR}/rtl_list/stream_list.log
@@ -144,7 +144,7 @@ clean_ov_env: test_ov_env
 
 test_ov_env: check_ov_env
 ifndef ENV_IS_CHECKED
-	@${SCRIPTS_SYS_INTEGR}/secure_paths.sh ${OVERLAY_SRC} ${OVERLAY_DEPS} ${OVERLAY_TEST}
+	@bash ${SCRIPTS_SYS_INTEGR}/secure_paths.sh ${OVERLAY_SRC} ${OVERLAY_DEPS} ${OVERLAY_TEST}
 endif
 
 check_ov_env:
@@ -168,7 +168,7 @@ clean_gen: check_ov_env
 	@rm -rf ${ROOT}/struct_mod.txt
 
 init_gen:
-	@${SCRIPTS_GEN}/init_gen.sh
+	@bash ${SCRIPTS_GEN}/init_gen.sh
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -180,12 +180,12 @@ clean_py_env: test_py_env
 	@rm -rf ${PY_VENV}
 
 init_py_env:
-	@${SCRIPTS_PY_ENV}/init_py_env.sh ${PY_VENV}
+	@bash ${SCRIPTS_PY_ENV}/init_py_env.sh ${PY_VENV}
 
 update_reqs_py_env:
-	@${SCRIPTS_PY_ENV}/update_reqs.sh ${PY_ENV_DIR}
+	@bash ${SCRIPTS_PY_ENV}/update_reqs.sh ${PY_ENV_DIR}
 
 test_py_env:
-	@${SCRIPTS_PY_ENV}/secure_paths.sh ${PY_ENV_DIR}
+	@bash ${SCRIPTS_PY_ENV}/secure_paths.sh ${PY_ENV_DIR}
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
