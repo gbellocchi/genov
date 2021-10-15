@@ -100,7 +100,6 @@
     ${stream_in[i]}_feat_roll,
     ${stream_in[i]}_loop_outer,
     ${stream_in[i]}_realign_type,
-    ${stream_in[i]}_parallelism_factor,
     ${stream_in[i]}_port_offset,
     ${stream_in[i]}_step
   );
@@ -120,7 +119,7 @@
 
   % for j in range (n_source):
   // Output ${stream_out[j]}
-    % if (is_parallel_in[i]):
+    % if (is_parallel_out[j]):
   hwpe_addr_gen_${stream_out[j]}(
     ${stream_out[j]}_trans_size,
     ${stream_out[j]}_line_stride,
@@ -130,7 +129,6 @@
     ${stream_out[j]}_feat_roll,
     ${stream_out[j]}_loop_outer,
     ${stream_out[j]}_realign_type,
-    ${stream_out[j]}_parallelism_factor,
     ${stream_out[j]}_port_offset,
     ${stream_out[j]}_step
   );

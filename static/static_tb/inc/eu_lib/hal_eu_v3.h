@@ -17,11 +17,9 @@
 #ifndef __HAL_EU_EU_V3_H__
 #define __HAL_EU_EU_V3_H__
 
-#include "archi/eu/eu_v3.h"
-#include "archi/pulp.h"
-#include "hal/pulp_io.h"
-
-
+#include "archi_eu_v3.h"
+#include "../bigpulp/pulp.h"
+#include "../bigpulp/pulp_io.h"
 
 /** @name Event management
  *  The following function can be used for selecting which events can wake-up the core, put the core the sleep, clear events and so on.

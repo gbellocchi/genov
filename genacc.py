@@ -218,6 +218,7 @@ sw_common = sw_inc + '/common'
 sw_eu_lib = sw_inc + '/eu_lib'
 sw_stim = sw_inc + '/stim'
 sw_hwpe_lib = sw_inc + '/hwpe_lib'
+sw_bigpulp = sw_inc + '/bigpulp'
 
 os.mkdir(sw_inc)
 os.mkdir(sw_hwpe_lib)
@@ -237,6 +238,10 @@ shutil.copytree(source, destination)
 
 source = static_comps + '/static_tb/inc/eu_lib/'
 destination = sw_eu_lib
+shutil.copytree(source, destination)
+
+source = static_comps + '/static_tb/inc/bigpulp/'
+destination = sw_bigpulp
 shutil.copytree(source, destination)
 
 # Create repo for stimuli

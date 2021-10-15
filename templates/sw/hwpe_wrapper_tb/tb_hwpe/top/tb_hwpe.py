@@ -12,7 +12,7 @@ import sys
 
 from templates.sw.common.common_c.template_c import template_c
 
-from templates.sw.hwpe_wrapper_tb.tb_hwpe.modules.addressgen_progr.addressgen_progr import addressgen_progr
+from templates.sw.hwpe_wrapper_tb.tb_hwpe.modules.addressgen_params.addressgen_params import addressgen_params
 from templates.sw.hwpe_wrapper_tb.tb_hwpe.modules.hwpe_progr.hwpe_progr import hwpe_progr
 from templates.sw.hwpe_wrapper_tb.tb_hwpe.modules.hwpe_exec.hwpe_exec import hwpe_exec
 
@@ -99,7 +99,7 @@ class tb_hwpe:
 
     def modules(self):
         self.m                      = ''
-        self.m                      += addressgen_progr(self.specs).gen()
+        self.m                      += addressgen_params(self.specs).gen()
         self.m                      += hwpe_progr(self.specs).gen()
         self.m                      += hwpe_exec(self.specs).gen()
         return self.m
