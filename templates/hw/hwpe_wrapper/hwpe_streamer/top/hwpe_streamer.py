@@ -41,6 +41,10 @@ class hwpe_streamer:
         self.n_sink                             = specs.n_sink
         self.n_source                           = specs.n_source
 
+         # Address generation
+        self.addr_gen_in_isprogr                = [item[0] for item in specs.addr_gen_in]
+        self.addr_gen_out_isprogr               = [item[0] for item in specs.addr_gen_out]
+
         self.specs                  = specs
 
         # Template
@@ -61,6 +65,8 @@ class hwpe_streamer:
             is_parallel_out         = self.source_is_parallel,
             in_parallelism_factor   = self.sink_parallelism_factor,
             out_parallelism_factor  = self.source_parallelism_factor,
+            addr_gen_in_isprogr     = self.addr_gen_in_isprogr,
+            addr_gen_out_isprogr    = self.addr_gen_out_isprogr,
         )
         s = re.sub(r'\s+$', '', string, flags=re.M)
         return s

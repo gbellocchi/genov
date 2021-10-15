@@ -50,8 +50,13 @@
     % if ( is_parallel_in[i] ):
       % for k in range ( in_parallelism_factor[i] ):
   hwpe_stream_source #(
-    .DATA_WIDTH   ( 32 ),
-    .DECOUPLED    ( 1  )
+    .DATA_WIDTH       ( 32 ),
+    .DECOUPLED        ( 1  ),
+        % if addr_gen_in_isprogr[i]:
+    .IS_PROGRAMMABLE  ( 1  )
+        % else:
+    .IS_PROGRAMMABLE  ( 0  )
+        % endif
   ) i_${ stream_in[i] }_${k}_source (
     .clk_i              ( clk_i                                       ),
     .rst_ni             ( rst_ni                                      ),
@@ -67,7 +72,12 @@
     % else:
   hwpe_stream_source #(
     .DATA_WIDTH   ( 32 ),
-    .DECOUPLED    ( 1  )
+    .DECOUPLED    ( 1  ),
+        % if addr_gen_in_isprogr[i]:
+    .IS_ADDRESSGEN_PROGR  ( 1  )
+        % else:
+    .IS_ADDRESSGEN_PROGR  ( 0  )
+        % endif
   ) i_${ stream_in[i] }_source (
     .clk_i              ( clk_i                                       ),
     .rst_ni             ( rst_ni                                      ),
@@ -88,7 +98,12 @@
     % if ( is_parallel_out[j] ):
       % for k in range ( out_parallelism_factor[j] ):
   hwpe_stream_sink #(
-    .DATA_WIDTH ( 32 )
+    .DATA_WIDTH ( 32 ),
+        % if addr_gen_out_isprogr[j]:
+    .IS_ADDRESSGEN_PROGR  ( 1  )
+        % else:
+    .IS_ADDRESSGEN_PROGR  ( 0  )
+        % endif
     // .NB_TCDM_PORTS (    )
   ) i_${ stream_out[j] }_${k}_sink (
     .clk_i              ( clk_i                                       ),
@@ -103,7 +118,12 @@
       % endfor
     % else:
   hwpe_stream_sink #(
-    .DATA_WIDTH ( 32 )
+    .DATA_WIDTH ( 32 ),
+        % if addr_gen_out_isprogr[j]:
+    .IS_PROGRAMMABLE  ( 1  )
+        % else:
+    .IS_PROGRAMMABLE  ( 0  )
+        % endif
     // .NB_TCDM_PORTS (    )
   ) i_${ stream_out[j] }_sink (
     .clk_i              ( clk_i                                       ),

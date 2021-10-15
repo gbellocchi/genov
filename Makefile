@@ -19,7 +19,7 @@ REPO 					:= genacc
 
 # Choose target on those available in the application library (e.g. mmul_parallel)
 
-HWPE_TARGET				:= mmul_opt
+HWPE_TARGET				:= mmul_parallel
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -139,8 +139,8 @@ acc_lib: check_ov_env
 
 clean_ov_env: test_ov_env
 	@rm -rf ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper
-	@rm -f ${OVERLAY_SRC}/pulp_cluster_hwpe_pkg.sv
-	@rm -f ${OVERLAY_CLUSTER}/pulp_hwpe_wrap.sv
+	@rm -f ${OVERLAY_SRC}/ov_acc_pkg.sv
+	@rm -f ${OVERLAY_CLUSTER}/ov_acc_intf.sv
 
 test_ov_env: check_ov_env
 ifndef ENV_IS_CHECKED
