@@ -83,7 +83,7 @@
   begin: fsm_done_${stream_out[j]}_${k}
     if(~rst_ni)
       kernel_done_${stream_out[j]}_${k} = 1'b0;
-    else if((o_${stream_out[j]}_${k}.valid)&(o_${stream_out[j]}_${k}.ready))
+    else if((${stream_out[j]}_${k}_o.valid)&(${stream_out[j]}_${k}_o.ready))
       kernel_done_${stream_out[j]}_${k} = 1'b1;
     else
       kernel_done_${stream_out[j]}_${k} = 1'b0;
@@ -96,7 +96,7 @@
   begin: fsm_done_${stream_out[j]}
     if(~rst_ni)
       kernel_done_${stream_out[j]} = 1'b0;
-    else if((o_${stream_out[j]}.valid)&(o_${stream_out[j]}.ready))
+    else if((${stream_out[j]}_o.valid)&(${stream_out[j]}_o.ready))
       kernel_done_${stream_out[j]} = 1'b1;
     else
       kernel_done_${stream_out[j]} = 1'b0;
@@ -169,7 +169,7 @@
     else if(kernel_start) begin
       kernel_cnt_${stream_in[i]}_${k} = 32'b0;
     end
-    else if ((i_${stream_in[i]}_${k}.valid) & (i_${stream_in[i]}_${k}.ready)) begin
+    else if ((${stream_in[i]}_${k}_i.valid) & (${stream_in[i]}_${k}_i.ready)) begin
       kernel_cnt_${stream_in[i]}_${k} = kernel_cnt_${stream_in[i]}_${k} + 1;
     end
     else begin
@@ -197,7 +197,7 @@
     else if(kernel_start) begin
       kernel_cnt_${stream_in[i]} = 32'b0;
     end
-    else if ((i_${stream_in[i]}.valid) & (i_${stream_in[i]}.ready)) begin
+    else if ((${stream_in[i]}_i.valid) & (${stream_in[i]}_i.ready)) begin
       kernel_cnt_${stream_in[i]} = kernel_cnt_${stream_in[i]} + 1;
     end
     else begin
@@ -314,14 +314,14 @@
     % for i in range (n_sink):
       % if (is_parallel_in[i]):
         % for k in range (in_parallelism_factor[i]):
-    .${stream_in[i]}_${k}_TDATA  ( i_${stream_in[i]}_${k}.data  ),
-    .${stream_in[i]}_${k}_TVALID ( i_${stream_in[i]}_${k}.valid ),
-    .${stream_in[i]}_${k}_TREADY ( i_${stream_in[i]}_${k}.ready ),
+    .${stream_in[i]}_${k}_TDATA  ( ${stream_in[i]}_${k}_i.data  ),
+    .${stream_in[i]}_${k}_TVALID ( ${stream_in[i]}_${k}_i.valid ),
+    .${stream_in[i]}_${k}_TREADY ( ${stream_in[i]}_${k}_i.ready ),
         % endfor
       % else:
-    .${stream_in[i]}_TDATA  ( i_${stream_in[i]}.data  ),
-    .${stream_in[i]}_TVALID ( i_${stream_in[i]}.valid ),
-    .${stream_in[i]}_TREADY ( i_${stream_in[i]}.ready ),
+    .${stream_in[i]}_TDATA  ( ${stream_in[i]}_i.data  ),
+    .${stream_in[i]}_TVALID ( ${stream_in[i]}_i.valid ),
+    .${stream_in[i]}_TREADY ( ${stream_in[i]}_i.ready ),
       % endif
     % endfor  
 
@@ -329,33 +329,33 @@
     % for j in range (n_source-1):
       % if (is_parallel_out[j]):
         % for k in range (out_parallelism_factor[j]):
-    .${stream_out[j]}_${k}_TDATA  ( i_${stream_out[j]}_${k}.data  ),
-    .${stream_out[j]}_${k}_TVALID ( i_${stream_out[j]}_${k}.valid ),
-    .${stream_out[j]}_${k}_TREADY ( i_${stream_out[j]}_${k}.ready ),
+    .${stream_out[j]}_${k}_TDATA  ( ${stream_out[j]}_${k}_o.data  ),
+    .${stream_out[j]}_${k}_TVALID ( ${stream_out[j]}_${k}_o.valid ),
+    .${stream_out[j]}_${k}_TREADY ( ${stream_out[j]}_${k}_o.ready ),
         % endfor
       % else:
-    .${stream_out[j]}_TDATA  ( i_${stream_out[j]}.data  ),
-    .${stream_out[j]}_TVALID ( i_${stream_out[j]}.valid ),
-    .${stream_out[j]}_TREADY ( i_${stream_out[j]}.ready ),
+    .${stream_out[j]}_TDATA  ( ${stream_out[j]}_o.data  ),
+    .${stream_out[j]}_TVALID ( ${stream_out[j]}_o.valid ),
+    .${stream_out[j]}_TREADY ( ${stream_out[j]}_o.ready ),
       % endif
     % endfor
 
     % if (is_parallel_out[n_source-1]):
       % for k in range (out_parallelism_factor[n_source-1]-1):
-    .${stream_out[n_source-1]}_${k}_TDATA  ( i_${stream_out[n_source-1]}_${k}.data  ),
-    .${stream_out[n_source-1]}_${k}_TVALID ( i_${stream_out[n_source-1]}_${k}.valid ),
-    .${stream_out[n_source-1]}_${k}_TREADY ( i_${stream_out[n_source-1]}_${k}.ready ),
+    .${stream_out[n_source-1]}_${k}_TDATA  ( ${stream_out[n_source-1]}_${k}_o.data  ),
+    .${stream_out[n_source-1]}_${k}_TVALID ( ${stream_out[n_source-1]}_${k}_o.valid ),
+    .${stream_out[n_source-1]}_${k}_TREADY ( ${stream_out[n_source-1]}_${k}_o.ready ),
       % endfor
     % else:
-    .${stream_out[n_source-1]}_TDATA  ( i_${stream_out[n_source-1]}.data  ),
-    .${stream_out[n_source-1]}_TVALID ( i_${stream_out[n_source-1]}.valid ),
-    .${stream_out[n_source-1]}_TREADY ( i_${stream_out[n_source-1]}.ready )
+    .${stream_out[n_source-1]}_TDATA  ( ${stream_out[n_source-1]}_o.data  ),
+    .${stream_out[n_source-1]}_TVALID ( ${stream_out[n_source-1]}_o.valid ),
+    .${stream_out[n_source-1]}_TREADY ( ${stream_out[n_source-1]}_o.ready )
     % endif
 
     % if (is_parallel_out[n_source-1]):
-    .${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}_TDATA  ( i_${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}.data  ),
-    .${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}_TVALID ( i_${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}.valid ),
-    .${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}_TREADY ( i_${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}.ready )
+    .${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}_TDATA  ( ${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}_o.data  ),
+    .${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}_TVALID ( ${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}_o.valid ),
+    .${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}_TREADY ( ${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}_o.ready )
     % endif
 
   );
@@ -378,10 +378,10 @@
     % for j in range (n_source):
       % if (is_parallel_out[j]):
         % for k in range (out_parallelism_factor[j]):
-    o_${stream_out[j]}_${k}.strb = '1;
+    ${stream_out[j]}_${k}_o.strb = '1;
         % endfor
       % else:
-    o_${stream_out[j]}.strb = '1;
+    ${stream_out[j]}_o.strb = '1;
       % endif
     % endfor 
   end

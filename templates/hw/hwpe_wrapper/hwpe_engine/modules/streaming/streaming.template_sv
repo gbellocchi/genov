@@ -47,20 +47,20 @@
   % for i in range (n_sink):
     % if (is_parallel_in[i]):
       % for k in range (in_parallelism_factor[i]):
-    .i_${stream_in[i]}_${k} ( ${stream_in[i]}_${k}  ),
+    .${stream_in[i]}_${k}_i ( ${stream_in[i]}_${k}  ),
       % endfor
     % else:
-    .i_${stream_in[i]} ( ${stream_in[i]}  ),
+    .${stream_in[i]}_i ( ${stream_in[i]}  ),
     % endif
   % endfor 
 
   % for j in range (n_source):
     % if (is_parallel_out[j]):
       % for k in range (out_parallelism_factor[j]):
-    .o_${stream_out[j]}_${k} ( ${stream_out[j]}_${k}  ),
+    .${stream_out[j]}_${k}_o ( ${stream_out[j]}_${k}  ),
       % endfor
     % else:
-    .o_${stream_out[j]} ( ${stream_out[j]}  ),
+    .${stream_out[j]}_o ( ${stream_out[j]}  ),
     % endif
   % endfor 
 
