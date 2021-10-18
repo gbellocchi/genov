@@ -290,8 +290,8 @@
     .clk_i   ( clk_i                                      ),
     .rst_ni  ( rst_ni                                     ),
     .clear_i ( clear_i                                    ),
-    .push_i  ( stream_fifo_${stream_in[j]}.source         ),
-    .pop_o   ( ${stream_out[j]}                           ),
+    .push_i  ( ${stream_out[j]}                           ),
+    .pop_o   ( stream_fifo_${stream_out[j]}.source         ),
     .flags_o (                                            )
   );
 
