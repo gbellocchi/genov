@@ -158,6 +158,7 @@ ${vsim_waves_hwpe_streamer_sink()}
 %>
 
 ${vsim_waves_hwpe_ctrl()}
+${vsim_waves_hwpe_ctrl_regfile()}
 ${vsim_waves_hwpe_ctrl_fsm()}
 ${vsim_waves_hwpe_ctrl_uloop()}
 

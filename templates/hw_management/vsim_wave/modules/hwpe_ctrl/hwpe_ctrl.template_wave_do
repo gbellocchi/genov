@@ -25,15 +25,27 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {slave_peri
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {slave_periph_port} -label {r_valid} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/cfg/r_valid}
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {slave_periph_port} -label {r_id} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/cfg/r_id}
 
+</%def>\
+
 <%
-# Register file
+########################
+## HWPE register file ##
+########################
 %>
 
+<%def name="vsim_waves_hwpe_ctrl_regfile()">\
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {clear_i} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/clear_i}
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {regfile/in} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/regfile_in_i}
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {regfile/out} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/regfile_out_o}
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {regfile/flags} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/flags_i}
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {regfile/ctrl} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/reg_file}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {in} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/regfile_in_i}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {out} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/regfile_out_o}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {flags} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/flags_i}
+
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {reg_file} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/reg_file}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {regfile_mem} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/regfile_mem}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {regfile_mem_mandatory} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/regfile_mem_mandatory}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {regfile_mem_generic} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/regfile_mem_generic}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {regfile_mem_dout} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/regfile_mem_dout}
+
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -label {clear_i} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/i_regfile/regfile_latch_mem}
 
 % for i in range (custom_reg_num):
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -group {${target}_static_regs} -label {${custom_reg_name[i]}} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/static_reg_${custom_reg_name[i]}}
