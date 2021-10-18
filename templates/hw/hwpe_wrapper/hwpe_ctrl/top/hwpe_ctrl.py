@@ -22,7 +22,7 @@ class hwpe_ctrl:
 
         # Environment
         self.destdir                    = specs.dest_dir
-        self.module                     = "hwpe_wrapper/hwpe_ctrl/hwpe_ctrl"
+        self.module                     = "hwpe_wrapper/hwpe_ctrl/top/hwpe_ctrl"
 
         # Generic
         self.hwpe_target                = specs.hwpe_target
@@ -55,7 +55,7 @@ class hwpe_ctrl:
         self.template           = self.get_template()
 
     def gen(self):
-        s = self.common(self.specs) + self.template
+        s = self.common(self.specs) + self.modules(self.specs) + self.template
         pulp_template = Template(s)
         string = pulp_template.render(
             author                  = self.author,
@@ -87,3 +87,7 @@ class hwpe_ctrl:
     def common(self, specs):
         self.c                      = hwpe_common(specs).gen()
         return self.c
+
+    def modules(self, specs):
+        self.m                      = ''
+        return self.m

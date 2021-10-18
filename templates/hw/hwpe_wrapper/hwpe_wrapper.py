@@ -17,7 +17,7 @@ from templates.hw.hwpe_wrapper.hwpe_kernel_adapter.top.hwpe_kernel_adapter impor
 from templates.hw.hwpe_wrapper.hwpe_streamer.top.hwpe_streamer import hwpe_streamer
 
 # Packages - Controller
-from templates.hw.hwpe_wrapper.hwpe_ctrl.hwpe_ctrl import hwpe_ctrl
+from templates.hw.hwpe_wrapper.hwpe_ctrl.top.hwpe_ctrl import hwpe_ctrl
 from templates.hw.hwpe_wrapper.hwpe_fsm.top.hwpe_fsm import hwpe_fsm
 
 # HWPE wrapper
