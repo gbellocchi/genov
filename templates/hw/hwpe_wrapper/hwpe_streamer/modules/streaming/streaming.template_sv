@@ -53,9 +53,9 @@
     .DATA_WIDTH       ( 32 ),
     .DECOUPLED        ( 1  ),
         % if addr_gen_in_isprogr[i]:
-    .IS_PROGRAMMABLE  ( 1  )
+    .IS_ADDRESSGEN_PROGR  ( 1  )
         % else:
-    .IS_PROGRAMMABLE  ( 0  )
+    .IS_ADDRESSGEN_PROGR  ( 0  )
         % endif
   ) i_${ stream_in[i] }_${k}_source (
     .clk_i              ( clk_i                                       ),
@@ -120,9 +120,9 @@
   hwpe_stream_sink #(
     .DATA_WIDTH ( 32 ),
         % if addr_gen_out_isprogr[j]:
-    .IS_PROGRAMMABLE  ( 1  )
+    .IS_ADDRESSGEN_PROGR  ( 1  )
         % else:
-    .IS_PROGRAMMABLE  ( 0  )
+    .IS_ADDRESSGEN_PROGR  ( 0  )
         % endif
     // .NB_TCDM_PORTS (    )
   ) i_${ stream_out[j] }_sink (
