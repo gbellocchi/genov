@@ -65,7 +65,7 @@ module ${target}_engine (\
 
   /* Kernel adapter */
 
-  hwpe_kernel_adapter i_${target}_adapter (
+  ${target}_kernel_adapter i_${target}_adapter (
 
     // Global signals
     .clk_i           ( clk_i            ), 
