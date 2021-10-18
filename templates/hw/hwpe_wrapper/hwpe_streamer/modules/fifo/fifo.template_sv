@@ -19,6 +19,10 @@
 
   // TCDM ready signals
 
+  <%
+  # NB - only input streams need 'ready' signal
+  %>
+
   % for i in range ( n_sink ):
     % if ( is_parallel_in[i] ):
       % for k in range ( in_parallelism_factor[i] ):
@@ -49,12 +53,12 @@
     % if (is_parallel_in[i]):
       % for k in range (in_parallelism_factor[i]):
 
-  hwpe_stream_intf_tcdm tcdm_fifo_${stream_in[i]}_${k} ( .clk (clk_i) );
+  hwpe_stream_intf_tcdm tcdm_fifo_${stream_in[i]}_${k} [0:0] ( .clk (clk_i) );
 
       % endfor
     % else:
 
-  hwpe_stream_intf_tcdm tcdm_fifo_${stream_in[i]} ( .clk (clk_i) );
+  hwpe_stream_intf_tcdm tcdm_fifo_${stream_in[i]} [0:0] ( .clk (clk_i) );
 
     % endif
   % endfor 
@@ -63,12 +67,12 @@
     % if (is_parallel_out[j]):
       % for k in range (out_parallelism_factor[j]):
 
-  hwpe_stream_intf_tcdm tcdm_fifo_${stream_out[j]}_${k} ( .clk (clk_i) );
+  hwpe_stream_intf_tcdm tcdm_fifo_${stream_out[j]}_${k} [0:0] ( .clk (clk_i) );
 
       % endfor
     % else:
 
-  hwpe_stream_intf_tcdm tcdm_fifo_${stream_out[j]} ( .clk (clk_i) );
+  hwpe_stream_intf_tcdm tcdm_fifo_${stream_out[j]} [0:0] ( .clk (clk_i) );
 
     % endif
   % endfor
@@ -101,7 +105,7 @@
     .clear_i     ( clear_i                                  ),
     .flags_o     (                                          ),
     .ready_i     ( tcdm_fifo_ready_${stream_in[i]}_${k}     ),
-    .tcdm_slave  ( tcdm_fifo_${stream_in[i]}_${k}           ),
+    .tcdm_slave  ( tcdm_fifo_${stream_in[i]}_${k}[0]        ),
     .tcdm_master ( tcdm[${tcdm_offset}]                     )
   );
         <%
@@ -117,7 +121,7 @@
     .clear_i     ( clear_i                                  ),
     .flags_o     (                                          ),
     .ready_i     ( tcdm_fifo_ready_${stream_in[i]}          ),
-    .tcdm_slave  ( tcdm_fifo_${stream_in[i]}                ),
+    .tcdm_slave  ( tcdm_fifo_${stream_in[i]}[0]             ),
     .tcdm_master ( tcdm[${tcdm_offset}]                     )
   );
         <%
@@ -139,8 +143,7 @@
     .rst_ni      ( rst_ni                                   ),
     .clear_i     ( clear_i                                  ),
     .flags_o     (                                          ),
-    .ready_i     ( tcdm_fifo_ready_${stream_out[j]}_${k}     ),
-    .tcdm_slave  ( tcdm_fifo_${stream_out[j]}_${k}           ),
+    .tcdm_slave  ( tcdm_fifo_${stream_out[j]}_${k}[0]        ),
     .tcdm_master ( tcdm[${tcdm_offset}]                     )
   );
         <%
@@ -155,8 +158,7 @@
     .rst_ni      ( rst_ni                                   ),
     .clear_i     ( clear_i                                  ),
     .flags_o     (                                          ),
-    .ready_i     ( tcdm_fifo_ready_${stream_out[j]}          ),
-    .tcdm_slave  ( tcdm_fifo_${stream_out[j]}                ),
+    .tcdm_slave  ( tcdm_fifo_${stream_out[j]}[0]             ),
     .tcdm_master ( tcdm[${tcdm_offset}]                     )
   );
         <%
