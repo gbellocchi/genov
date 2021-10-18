@@ -84,8 +84,8 @@ module ${target}_top
 
   // HWPE ctrl wrapper
   ${target}_ctrl #(
-    .N_CORES   ( 2  ),
-    .N_CONTEXT ( 2  ),
+    .N_CORES   ( N_CORES  ),
+    .N_CONTEXT ( 1  ),
     ${ctrl_n_io_regs()}
     .ID ( ID )
   ) i_ctrl (
