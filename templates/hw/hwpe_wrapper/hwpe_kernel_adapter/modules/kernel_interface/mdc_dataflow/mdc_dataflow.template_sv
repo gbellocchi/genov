@@ -159,7 +159,7 @@
     % if (is_parallel_in[i]):
       % for k in range (in_parallelism_factor[i]):
 
-  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] kernel_cnt_${stream_in[i]}_${k};
+  logic unsigned [($clog2(${target.upper()}_CNT_LEN)+1):0] kernel_cnt_${stream_in[i]}_${k};
 
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: engine_cnt_${stream_in[i]}_${k}
@@ -187,7 +187,7 @@
       % endfor
     % else:
 
-  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] kernel_cnt_${stream_in[i]};
+  logic unsigned [($clog2(${target.upper()}_CNT_LEN)+1):0] kernel_cnt_${stream_in[i]};
 
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: engine_cnt_${stream_in[i]}
@@ -230,7 +230,7 @@
     % if (is_parallel_out[j]):
       % for k in range (out_parallelism_factor[j]):
 
-  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] kernel_cnt_${stream_out[j]}_${k};
+  logic unsigned [($clog2(${target.upper()}_CNT_LEN)+1):0] kernel_cnt_${stream_out[j]}_${k};
 
   // Suggested design:
   //      ap_done = done_out0 & ... & done_outM;
@@ -257,7 +257,7 @@
       % endfor
     % else:
 
-  logic unsigned [($clog2(${target}_CNT_LEN)+1):0] kernel_cnt_${stream_out[j]};
+  logic unsigned [($clog2(${target.upper()}_CNT_LEN)+1):0] kernel_cnt_${stream_out[j]};
 
   // Suggested design:
   //      ap_done = done_out0 & ... & done_outM;
