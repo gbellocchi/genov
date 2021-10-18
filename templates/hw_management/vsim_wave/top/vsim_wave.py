@@ -13,6 +13,7 @@ import sys
 from templates.sw.common.common_c.template_c import template_c
 
 from templates.hw_management.vsim_wave.modules.hwpe_streamer.hwpe_streamer import hwpe_streamer
+from templates.hw_management.vsim_wave.modules.hwpe_ctrl.hwpe_ctrl import hwpe_ctrl
 from templates.hw_management.vsim_wave.modules.hwpe_engine.hwpe_engine import hwpe_engine
 from templates.hw_management.vsim_wave.modules.hwpe_kernel_adapter.hwpe_kernel_adapter import hwpe_kernel_adapter
 
@@ -95,6 +96,7 @@ class vsim_wave:
     def modules(self, specs):
         self.m                      = ''
         self.m                      += hwpe_streamer().gen()
+        self.m                      += hwpe_ctrl().gen()
         self.m                      += hwpe_engine().gen()
         self.m                      += hwpe_kernel_adapter().gen()
         return self.m
