@@ -38,6 +38,7 @@ module ${target}_kernel_adapter (\
 
   // Control signals
   input  logic          start,
+  input  logic          clear,
 
   // Flag signals
   output logic          done,

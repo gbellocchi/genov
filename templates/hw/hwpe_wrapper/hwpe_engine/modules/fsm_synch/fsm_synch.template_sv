@@ -82,7 +82,7 @@ track_${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}; \
     % if (is_parallel_out[j]):
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: ${stream_out[j]}_cnt
-    if((~rst_ni) | clear)
+    if((~rst_ni) | engine_clear)
       cnt_${stream_out[j]} = 32'b0;
     else if( track_${stream_out[j]}_AND )
       cnt_${stream_out[j]} = cnt_${stream_out[j]} + 1;
@@ -92,9 +92,9 @@ track_${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}; \
     % else:
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: ${stream_out[j]}_cnt
-    if((~rst_ni) | clear)
+    if((~rst_ni) | engine_clear)
       cnt_${stream_out[j]} = 32'b0;
-    else if( (${stream_out[j]}.valid) & (${stream_out[j]}.ready) & (done) )
+    else if( (${stream_out[j]}.valid) & (${stream_out[j]}.ready) & (engine_done) )
       cnt_${stream_out[j]} = cnt_${stream_out[j]} + 1;
     else
       cnt_${stream_out[j]} = cnt_${stream_out[j]};
@@ -112,9 +112,9 @@ track_${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}; \
       % for k in range (out_parallelism_factor[j]):
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: ${stream_out[j]}_${k}_tracker
-    if((~rst_ni) | clear)
+    if((~rst_ni) | engine_clear)
       track_${stream_out[j]}_${k} = 1'b0;
-    else if( (${stream_out[j]}_${k}.valid) & (${stream_out[j]}_${k}.ready) & (done) )
+    else if( (${stream_out[j]}_${k}.valid) & (${stream_out[j]}_${k}.ready) & (engine_done) )
       track_${stream_out[j]}_${k} = 1'b1;
     else
       track_${stream_out[j]}_${k} = 1'b0;

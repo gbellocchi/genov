@@ -34,20 +34,24 @@ module ${target}_engine (\
   output flags_engine_t           flags_o
 );
 
-  /* Control/flag signals */
+  /* Flag signals */
 
-  logic clear;
-  logic done, idle, ready;
+  logic engine_clear;
 
-  assign clear = ctrl_i.clear;
-  assign flags_o.done = done;
-  assign flags_o.idle = idle;
+  assign engine_clear = ctrl_i.clear;
+
+  /* Flag signals */
+
+  logic engine_done, engine_idle, engine_ready;
+
+  assign flags_o.done = engine_done;
+  assign flags_o.idle = engine_idle;
 
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: fsm_ready
     if(~rst_ni)
       flags_o.ready = 1'b0;
-    else if(~(ready | idle))
+    else if(~(engine_ready | engine_idle))
       flags_o.ready = 1'b0;
     else
       flags_o.ready = 1'b1;
@@ -86,6 +90,7 @@ module ${target}_engine (\
 
     // Control signals
     .start           ( ctrl_i.start     ),
+    .clear           ( engine_clear     ),
 
     // Flag signals
     .done            ( engine_done      ), 
