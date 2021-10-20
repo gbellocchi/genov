@@ -150,6 +150,7 @@ ${vsim_waves_hwpe_kernel_adapter_mdc_dataflow()}
 ${vsim_waves_hwpe_streamer()}
 ${vsim_waves_hwpe_streamer_source()}
 ${vsim_waves_hwpe_streamer_sink()}
+${vsim_waves_hwpe_streamer_addressgen()}
 
 <%
 #####################

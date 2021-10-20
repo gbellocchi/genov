@@ -36,10 +36,10 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {top} {
 % for i in range (n_sink):
     % if (is_parallel_in[i]):
         % for k in range (in_parallelism_factor[i]):
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stream_in[i]}_${k}_source} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_streamer/i_${stream_in[i]}_${k}_source/*}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stream_in[i]}_${k}_source} -group {source} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_streamer/i_${stream_in[i]}_${k}_source/*}
         % endfor
     % else:
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stream_in[i]}_source} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_streamer/i_${stream_in[i]}_source/*}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stream_in[i]}_source} -group {source} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_streamer/i_${stream_in[i]}_source/*}
     % endif
 % endfor 
 
@@ -61,10 +61,50 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stre
 % for j in range (n_source):
     % if (is_parallel_out[j]):
         % for k in range (out_parallelism_factor[j]):
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stream_out[j]}_${k}_sink} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_streamer/i_${stream_out[j]}_${k}_sink/*}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stream_out[j]}_${k}_sink} -group {sink} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_streamer/i_${stream_out[j]}_${k}_sink/*}
         % endfor
     % else:
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stream_out[j]}_sink} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_streamer/i_${stream_out[j]}_sink/*}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stream_out[j]}_sink} -group {sink} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_streamer/i_${stream_out[j]}_sink/*}
+    % endif
+% endfor 
+
+</%def>\
+
+
+
+<%
+####################################
+## HWPE stream address generators ##
+####################################
+%>
+
+<%def name="vsim_waves_hwpe_streamer_addressgen()">\
+
+<%
+# HWPE streamer - Address generators (source modules)
+%>
+
+% for i in range (n_sink):
+    % if (is_parallel_in[i]):
+        % for k in range (in_parallelism_factor[i]):
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stream_in[i]}_${k}_source} -group {addressgen} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_streamer/i_${stream_in[i]}_${k}_source/i_addressgen/*}
+        % endfor
+    % else:
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stream_in[i]}_source} -group {addressgen} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_streamer/i_${stream_in[i]}_source/i_addressgen/*}
+    % endif
+% endfor 
+
+<%
+# HWPE streamer - Address generators (sink modules)
+%>
+
+% for j in range (n_source):
+    % if (is_parallel_out[j]):
+        % for k in range (out_parallelism_factor[j]):
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stream_out[j]}_${k}_sink} -group {addressgen} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_streamer/i_${stream_out[j]}_${k}_sink/i_addressgen/*}
+        % endfor
+    % else:
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stream_out[j]}_sink} -group {addressgen} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_streamer/i_${stream_out[j]}_sink/i_addressgen/*}
     % endif
 % endfor 
 
