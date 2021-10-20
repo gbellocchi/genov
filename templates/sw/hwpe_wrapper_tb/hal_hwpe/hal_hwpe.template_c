@@ -184,7 +184,8 @@ static inline void hwpe_addr_gen_${stream_in[i]}(
   unsigned int ${stream_in[i]}_feat_length,
   unsigned int ${stream_in[i]}_feat_roll,
   unsigned int ${stream_in[i]}_loop_outer,
-  unsigned int ${stream_in[i]}_realign_type)
+  unsigned int ${stream_in[i]}_realign_type,
+  unsigned int ${stream_in[i]}_step)
 {
   HWPE_WRITE(${stream_in[i]}_trans_size,    ${target.upper()}_REG_${stream_in[i].upper()}_TRANS_SIZE  );
   HWPE_WRITE(${stream_in[i]}_line_stride,   ${target.upper()}_REG_${stream_in[i].upper()}_LINE_STRIDE );
@@ -194,6 +195,7 @@ static inline void hwpe_addr_gen_${stream_in[i]}(
   HWPE_WRITE(${stream_in[i]}_feat_roll,     ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_ROLL   );
   HWPE_WRITE(${stream_in[i]}_loop_outer,    ${target.upper()}_REG_${stream_in[i].upper()}_LOOP_OUTER  );
   HWPE_WRITE(${stream_in[i]}_realign_type,  ${target.upper()}_REG_${stream_in[i].upper()}_REALIGN_TYPE);
+  HWPE_WRITE(${stream_in[i]}_step,          ${target.upper()}_REG_${stream_in[i].upper()}_STEP        );
 }
     % endif
   % endif
@@ -240,7 +242,8 @@ static inline void hwpe_addr_gen_${stream_out[j]}(
   unsigned int  ${stream_out[j]}_feat_length,
   unsigned int  ${stream_out[j]}_feat_roll,
   unsigned int  ${stream_out[j]}_loop_outer,
-  unsigned int  ${stream_out[j]}_realign_type)
+  unsigned int  ${stream_out[j]}_realign_type,
+  unsigned int  ${stream_out[j]}_step)
 {
   HWPE_WRITE(${stream_out[j]}_trans_size,    ${target.upper()}_REG_${stream_out[j].upper()}_TRANS_SIZE  );
   HWPE_WRITE(${stream_out[j]}_line_stride,   ${target.upper()}_REG_${stream_out[j].upper()}_LINE_STRIDE );
@@ -250,6 +253,7 @@ static inline void hwpe_addr_gen_${stream_out[j]}(
   HWPE_WRITE(${stream_out[j]}_feat_roll,     ${target.upper()}_REG_${stream_out[j].upper()}_FEAT_ROLL   );
   HWPE_WRITE(${stream_out[j]}_loop_outer,    ${target.upper()}_REG_${stream_out[j].upper()}_LOOP_OUTER  );
   HWPE_WRITE(${stream_out[j]}_realign_type,  ${target.upper()}_REG_${stream_out[j].upper()}_REALIGN_TYPE);
+  HWPE_WRITE(${stream_out[j]}_step,          ${target.upper()}_REG_${stream_out[j].upper()}_STEP        );
 }
     % endif
   % endif
