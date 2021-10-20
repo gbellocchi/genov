@@ -75,28 +75,92 @@
 #define __builtin_bitinsert(a,b,c,d) (a | (((b << (32-c)) >> (32-c)) << d))
 
 <%
+##########################
+## Addresses definition ##
+##########################
+%>
+
+<%
+    # Top offset - HWPE register file
+    # Employed to start calculating the offset value pertaining to 
+    # a certain class of registers (standard, TCDM, and so on).
+
+addr_top = 0
+
+    # Current offset - HWPE register file
+    # Employed to calculate the offset value to assign to a register 
+    # pertaining to a certain class (standard, TCDM, and so on).
+
+addr_current = addr_top
+
+    # Notice that offsets increment with a step of 4 because HWPE
+    # controller implements 32-bit control registers.
+%>
+
+<%
+########################################################
+## Basic control registers archi - Offset declaration ##
+########################################################
+%>
+
+<%
+    # Control/flag signals for basic interaction with HWPE
+    # Do not change the positioning of these offsets definition
+    # unless the controller slave is properly updated
+%>
+
+/* Basic archi */
+
+${basic_archi(addr_current)}
+
+<%
+addr_top = 32 # let new addr_top passed to uloop be set at 0x20
+addr_current = addr_top
+%>
+
+<%
+################################################
+## ULOOP registers archi - Offset declaration ##
+################################################
+%>
+
+<%
+    # Bytecodes for microcode processor
+    # Do not change the positioning of these offsets definition
+    # unless the controller slave is properly updated
+%>
+
+/* Microcode processor registers archi */
+
+${uloop_archi(addr_current)}
+
+<%
+addr_top = 64 # let new addr_top passed to tcdm regs be set at 0x40
+addr_current = addr_top
+%>
+
+<%
+###############################################
+## TCDM registers archi - Offset declaration ##
+###############################################
+%>
+
+/* TCDM registers archi */
+
+${tcdm_archi(addr_current)}
+
+<%
+addr_top += (n_sink + n_source) * 4
+addr_current = addr_top
+%>
+
+<%
 ###################################################
 ## Standard registers archi - Offset declaration ##
 ###################################################
 %>
 
 /* Standard registers archi */
-
-<%
-# Top offset - HWPE register file
-# Employed to start calculating the offset value pertaining to 
-# a certain class of registers (standard, TCDM, and so on).
-addr_top = 0
-
-# Current offset - HWPE register file
-# Employed to calculate the offset value to assign to a register 
-# pertaining to a certain class (standard, TCDM, and so on).
-addr_current = addr_top
-
-# NB
-# Notice that offsets increment with a step of 4 because HWPE
-# controller implements 32-bit control registers.
-%>
 
 ${standard_archi(addr_current)}
 
@@ -131,15 +195,15 @@ addr_current = addr_top
 ${addressgen_archi_in(addr_current)}
 
 <%
-# Each data port is associated to an address generator that
-# maps streams to TCDM addresses. To define an address are
-# required num_regs_per_port parameters to be defined.
+    # Each data port is associated to an address generator that
+    # maps streams to TCDM addresses. To define an address are
+    # required num_regs_per_port parameters to be defined.
 
 num_regs_per_port = 8
 
-# In case interface partitioning is employed, additional
-# parameters are added up to define the partitioned ports 
-# offset and the data step. The latter is otherwise hardwired.
+    # In case interface partitioning is employed, additional
+    # parameters are added up to define the partitioned ports 
+    # offset and the data step. The latter is otherwise hardwired.
 
 num_regs_per_port_parallel = 10
 
@@ -165,15 +229,15 @@ addr_current = addr_top
 ${addressgen_archi_out(addr_current)}
 
 <%
-# Each data port is associated to an address generator that
-# maps streams to TCDM addresses. To define an address are
-# required num_regs_per_port parameters to be defined.
+    # Each data port is associated to an address generator that
+    # maps streams to TCDM addresses. To define an address are
+    # required num_regs_per_port parameters to be defined.
 
 num_regs_per_port = 8
 
-# In case interface partitioning is employed, additional
-# parameters are added up to define the partitioned ports 
-# offset and the data step. The latter is otherwise hardwired.
+    # In case interface partitioning is employed, additional
+    # parameters are added up to define the partitioned ports 
+    # offset and the data step. The latter is otherwise hardwired.
 
 num_regs_per_port_parallel = 10
 
@@ -189,47 +253,5 @@ endfor
 
 addr_current = addr_top
 %>
-
-
-<%
-########################################################
-## Basic control registers archi - Offset declaration ##
-########################################################
-%>
-
-/* Basic archi */
-
-${basic_archi(addr_current)}
-
-<%
-basic_reg_num = 6
-addr_top += basic_reg_num * 4
-addr_current = addr_top
-%>
-
-<%
-###############################################
-## TCDM registers archi - Offset declaration ##
-###############################################
-%>
-
-/* TCDM registers archi */
-
-${tcdm_archi(addr_current)}
-
-<%
-addr_top += (n_sink + n_source) * 4
-addr_current = addr_top
-%>
-
-<%
-################################################
-## ULOOP registers archi - Offset declaration ##
-################################################
-%>
-
-/* Microcode processor registers archi */
-
-${uloop_archi(addr_current)}
 
 #endif
