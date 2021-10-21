@@ -17,7 +17,7 @@
     # maps streams to TCDM addresses. To define an address are
     # required num_regs_per_port parameters to be defined.
 
-    num_regs_per_port = 8
+    num_regs_per_port = 9
 
     # In case interface partitioning is employed, additional
     # parameters are added up to define the partitioned ports 
@@ -51,6 +51,7 @@
     parameter int unsigned ${target.upper()}_REG_${stream_in[i].upper()}_FEAT_ROLL        = ${ addr_current + i * num_regs_per_port + 5 };
     parameter int unsigned ${target.upper()}_REG_${stream_in[i].upper()}_LOOP_OUTER       = ${ addr_current + i * num_regs_per_port + 6 };
     parameter int unsigned ${target.upper()}_REG_${stream_in[i].upper()}_REALIGN_TYPE     = ${ addr_current + i * num_regs_per_port + 7 };
+    parameter int unsigned ${target.upper()}_REG_${stream_in[i].upper()}_STEP             = ${ addr_current + i * num_regs_per_port + 8 };
       % endif
     % endif
   % endfor
@@ -70,7 +71,7 @@
     # maps streams to TCDM addresses. To define an address are
     # required num_regs_per_port parameters to be defined.
 
-    num_regs_per_port = 8
+    num_regs_per_port = 9
 
     # In case interface partitioning is employed, additional
     # parameters are added up to define the partitioned ports 
@@ -104,6 +105,7 @@
     parameter int unsigned ${target.upper()}_REG_${stream_out[j].upper()}_FEAT_ROLL        = ${ addr_current + j * num_regs_per_port + 5 };
     parameter int unsigned ${target.upper()}_REG_${stream_out[j].upper()}_LOOP_OUTER       = ${ addr_current + j * num_regs_per_port + 6 };
     parameter int unsigned ${target.upper()}_REG_${stream_out[j].upper()}_REALIGN_TYPE     = ${ addr_current + j * num_regs_per_port + 7 };
+    parameter int unsigned ${target.upper()}_REG_${stream_out[j].upper()}_STEP             = ${ addr_current + j * num_regs_per_port + 8 };
       % endif
     % endif
   % endfor

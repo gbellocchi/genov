@@ -78,7 +78,7 @@ package ${target}_package;
     # maps streams to TCDM addresses. To define an address are
     # required num_regs_per_port parameters to be defined.
 
-    num_regs_per_port = 8
+    num_regs_per_port = 9
 
     # In case interface partitioning is employed, additional
     # parameters are added up to define the partitioned ports 
@@ -112,7 +112,7 @@ package ${target}_package;
     # maps streams to TCDM addresses. To define an address are
     # required num_regs_per_port parameters to be defined.
 
-    num_regs_per_port = 8
+    num_regs_per_port = 9
 
     # In case interface partitioning is employed, additional
     # parameters are added up to define the partitioned ports 
@@ -270,15 +270,15 @@ package ${target}_package;
         % if (is_parallel_in[i]):
     // Input stream - ${stream_in[i]} (unrolled, programmable)
     logic unsigned [31:0] ${stream_in[i]}_trans_size;  
+    logic unsigned [31:0] ${stream_in[i]}_port_offset; 
     logic unsigned [15:0] ${stream_in[i]}_line_stride; 
     logic unsigned [15:0] ${stream_in[i]}_line_length; 
     logic unsigned [15:0] ${stream_in[i]}_feat_stride; 
     logic unsigned [15:0] ${stream_in[i]}_feat_length; 
-    logic unsigned [15:0] ${stream_in[i]}_feat_roll;   
+    logic unsigned [15:0] ${stream_in[i]}_feat_roll;        
+    logic unsigned [15:0] ${stream_in[i]}_step;  
     logic unsigned ${stream_in[i]}_loop_outer;  
     logic unsigned ${stream_in[i]}_realign_type;
-    logic unsigned [31:0] ${stream_in[i]}_port_offset;        
-    logic unsigned [15:0] ${stream_in[i]}_step;
       % else:
     // Input stream - ${stream_in[i]} (programmable)
     logic unsigned [31:0] ${stream_in[i]}_trans_size;  
@@ -287,6 +287,7 @@ package ${target}_package;
     logic unsigned [15:0] ${stream_in[i]}_feat_stride; 
     logic unsigned [15:0] ${stream_in[i]}_feat_length; 
     logic unsigned [15:0] ${stream_in[i]}_feat_roll;   
+    logic unsigned [15:0] ${stream_in[i]}_step;
     logic unsigned ${stream_in[i]}_loop_outer;  
     logic unsigned ${stream_in[i]}_realign_type;
         % endif
@@ -298,15 +299,15 @@ package ${target}_package;
         % if (is_parallel_out[j]):
     // Output stream - ${stream_out[j]} (unrolled, programmable)
     logic unsigned [31:0] ${stream_out[j]}_trans_size;  
+    logic unsigned [31:0] ${stream_out[j]}_port_offset;
     logic unsigned [15:0] ${stream_out[j]}_line_stride; 
     logic unsigned [15:0] ${stream_out[j]}_line_length; 
     logic unsigned [15:0] ${stream_out[j]}_feat_stride; 
     logic unsigned [15:0] ${stream_out[j]}_feat_length; 
     logic unsigned [15:0] ${stream_out[j]}_feat_roll;   
+    logic unsigned [15:0] ${stream_out[j]}_step;        
     logic unsigned ${stream_out[j]}_loop_outer;  
     logic unsigned ${stream_out[j]}_realign_type;
-    logic unsigned [31:0] ${stream_out[j]}_port_offset;        
-    logic unsigned [15:0] ${stream_out[j]}_step;
       % else:
     // Output stream - ${stream_out[j]} (programmable)
     logic unsigned [31:0] ${stream_out[j]}_trans_size;  
@@ -314,7 +315,8 @@ package ${target}_package;
     logic unsigned [15:0] ${stream_out[j]}_line_length; 
     logic unsigned [15:0] ${stream_out[j]}_feat_stride; 
     logic unsigned [15:0] ${stream_out[j]}_feat_length; 
-    logic unsigned [15:0] ${stream_out[j]}_feat_roll;   
+    logic unsigned [15:0] ${stream_out[j]}_feat_roll; 
+    logic unsigned [15:0] ${stream_out[j]}_step;   
     logic unsigned ${stream_out[j]}_loop_outer;  
     logic unsigned ${stream_out[j]}_realign_type;
         % endif
