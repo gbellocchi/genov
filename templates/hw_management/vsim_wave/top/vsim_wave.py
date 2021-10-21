@@ -12,10 +12,12 @@ import sys
 
 from templates.sw.common.common_c.template_c import template_c
 
+# Overlay accelerator ~ VSIM wave modules
 from templates.hw_management.vsim_wave.modules.ov_acc_intf.ov_acc_intf import ov_acc_intf
 from templates.hw_management.vsim_wave.modules.hwpe_top.hwpe_top import hwpe_top
 from templates.hw_management.vsim_wave.modules.hwpe_streamer.hwpe_streamer import hwpe_streamer
 from templates.hw_management.vsim_wave.modules.hwpe_ctrl.hwpe_ctrl import hwpe_ctrl
+from templates.hw_management.vsim_wave.modules.hwpe_fsm.hwpe_fsm import hwpe_fsm
 from templates.hw_management.vsim_wave.modules.hwpe_engine.hwpe_engine import hwpe_engine
 from templates.hw_management.vsim_wave.modules.hwpe_kernel_adapter.hwpe_kernel_adapter import hwpe_kernel_adapter
 
@@ -101,6 +103,7 @@ class vsim_wave:
         self.m                      += hwpe_top().gen()
         self.m                      += hwpe_streamer().gen()
         self.m                      += hwpe_ctrl().gen()
+        self.m                      += hwpe_fsm().gen()
         self.m                      += hwpe_engine().gen()
         self.m                      += hwpe_kernel_adapter().gen()
         return self.m
