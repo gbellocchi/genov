@@ -72,6 +72,7 @@ module ${target}_fsm (
 
     // Engine
     ctrl_engine_o.clear      = '1; // Clear counters
+    ctrl_engine_o.enable     = '1; // Enable execution
     ctrl_engine_o.start      = '0; // Trigger execution
 ${engine_init_cnt_limit()}
 
@@ -115,6 +116,7 @@ ${engine_init_cnt_limit()}
           next_state  = FSM_COMPUTE;
           ctrl_engine_o.start  = 1'b1;
           ctrl_engine_o.clear  = 1'b0;
+          ctrl_engine_o.enable = 1'b1;
 
           // Request data streaming from/to TCDM
           ${streamer_issue_req_start()}
@@ -137,6 +139,7 @@ ${engine_init_cnt_limit()}
         if(flags_engine_i.ready) begin
           ctrl_engine_o.start  = 1'b1;
           ctrl_engine_o.clear  = 1'b0;
+          ctrl_engine_o.enable = 1'b1;
         end
       end
 
@@ -157,6 +160,7 @@ ${engine_init_cnt_limit()}
 
           ctrl_engine_o.start  = 1'b1;
           ctrl_engine_o.clear  = 1'b0;
+          ctrl_engine_o.enable = 1'b1;
           
           // Request data streaming from/to TCDM
           ${streamer_issue_req_start()}
@@ -170,6 +174,7 @@ ${engine_init_cnt_limit()}
       FSM_WAIT: begin
         // wait for the flags to be ok then go back to load
         ctrl_engine_o.clear  = 1'b0;
+        ctrl_engine_o.enable = 1'b0;
         ctrl_ucode_o.enable  = 1'b0;
         if( 
           
@@ -179,6 +184,7 @@ ${engine_init_cnt_limit()}
 
           next_state = FSM_COMPUTE;
           ctrl_engine_o.start = 1'b1;
+          ctrl_engine_o.enable = 1'b1;
           
           // Request data streaming from/to TCDM
           ${streamer_issue_req_start()}
