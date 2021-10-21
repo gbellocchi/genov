@@ -80,11 +80,11 @@ module ${target}_ctrl
   logic unsigned [15:0] static_reg_${stream_in[i]}_feat_stride;
   logic unsigned [15:0] static_reg_${stream_in[i]}_feat_length;
   logic unsigned [15:0] static_reg_${stream_in[i]}_feat_roll;
+  logic unsigned [15:0] static_reg_${stream_in[i]}_step;
   logic unsigned static_reg_${stream_in[i]}_loop_outer;
   logic unsigned static_reg_${stream_in[i]}_realign_type;
       % if (is_parallel_in[i]):
   logic unsigned [31:0] static_reg_${stream_in[i]}_port_offset;
-  logic unsigned [15:0] static_reg_${stream_in[i]}_step;
       % endif
     % endif
   % endfor
@@ -98,11 +98,11 @@ module ${target}_ctrl
   logic unsigned [15:0] static_reg_${stream_out[j]}_feat_stride;
   logic unsigned [15:0] static_reg_${stream_out[j]}_feat_length;
   logic unsigned [15:0] static_reg_${stream_out[j]}_feat_roll;
+  logic unsigned [15:0] static_reg_${stream_out[j]}_step;
   logic unsigned static_reg_${stream_out[j]}_loop_outer;
   logic unsigned static_reg_${stream_out[j]}_realign_type;
       % if (is_parallel_out[j]):
   logic unsigned [31:0] static_reg_${stream_out[j]}_port_offset;
-  logic unsigned [15:0] static_reg_${stream_out[j]}_step;
       % endif
     % endif
   % endfor
@@ -165,11 +165,11 @@ module ${target}_ctrl
   assign static_reg_${stream_in[i]}_feat_stride         = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_FEAT_STRIDE];
   assign static_reg_${stream_in[i]}_feat_length         = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_FEAT_LENGTH];
   assign static_reg_${stream_in[i]}_feat_roll           = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_FEAT_ROLL];
+  assign static_reg_${stream_in[i]}_step                = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_STEP];
   assign static_reg_${stream_in[i]}_loop_outer          = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_LOOP_OUTER];
   assign static_reg_${stream_in[i]}_realign_type        = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_REALIGN_TYPE];
       % if (is_parallel_in[i]):
-  assign static_reg_${stream_in[i]}_port_offset     = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_PORT_OFFSET];
-  assign static_reg_${stream_in[i]}_step            = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_STEP];
+  assign static_reg_${stream_in[i]}_port_offset         = reg_file.hwpe_params[${TARGET}_REG_${stream_in[i].upper()}_PORT_OFFSET];
       % endif
     % endif
   % endfor
@@ -183,11 +183,11 @@ module ${target}_ctrl
   assign static_reg_${stream_out[j]}_feat_stride        = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_FEAT_STRIDE];
   assign static_reg_${stream_out[j]}_feat_length        = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_FEAT_LENGTH];
   assign static_reg_${stream_out[j]}_feat_roll          = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_FEAT_ROLL];
+  assign static_reg_${stream_out[j]}_step               = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_STEP];
   assign static_reg_${stream_out[j]}_loop_outer         = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_LOOP_OUTER];
   assign static_reg_${stream_out[j]}_realign_type       = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_REALIGN_TYPE];
       % if (is_parallel_out[j]):
-  assign static_reg_${stream_out[j]}_port_offset    = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_PORT_OFFSET];
-  assign static_reg_${stream_out[j]}_step           = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_STEP];
+  assign static_reg_${stream_out[j]}_port_offset        = reg_file.hwpe_params[${TARGET}_REG_${stream_out[j].upper()}_PORT_OFFSET];
       % endif
     % endif
   % endfor
@@ -274,11 +274,11 @@ module ${target}_ctrl
     fsm_ctrl.${stream_in[i]}_feat_stride    = static_reg_${stream_in[i]}_feat_stride;
     fsm_ctrl.${stream_in[i]}_feat_length    = static_reg_${stream_in[i]}_feat_length;
     fsm_ctrl.${stream_in[i]}_feat_roll      = static_reg_${stream_in[i]}_feat_roll;
+    fsm_ctrl.${stream_in[i]}_step           = static_reg_${stream_in[i]}_step;
     fsm_ctrl.${stream_in[i]}_loop_outer     = static_reg_${stream_in[i]}_loop_outer;
     fsm_ctrl.${stream_in[i]}_realign_type   = static_reg_${stream_in[i]}_realign_type;
         % if (is_parallel_in[i]):
     fsm_ctrl.${stream_in[i]}_port_offset    = static_reg_${stream_in[i]}_port_offset;
-    fsm_ctrl.${stream_in[i]}_step           = static_reg_${stream_in[i]}_step;
         % endif
       % endif
     % endfor
@@ -292,11 +292,11 @@ module ${target}_ctrl
     fsm_ctrl.${stream_out[j]}_feat_stride    = static_reg_${stream_out[j]}_feat_stride;
     fsm_ctrl.${stream_out[j]}_feat_length    = static_reg_${stream_out[j]}_feat_length;
     fsm_ctrl.${stream_out[j]}_feat_roll      = static_reg_${stream_out[j]}_feat_roll;
+    fsm_ctrl.${stream_out[j]}_step           = static_reg_${stream_out[j]}_step;
     fsm_ctrl.${stream_out[j]}_loop_outer     = static_reg_${stream_out[j]}_loop_outer;
     fsm_ctrl.${stream_out[j]}_realign_type   = static_reg_${stream_out[j]}_realign_type;
         % if (is_parallel_out[j]):
     fsm_ctrl.${stream_out[j]}_port_offset    = static_reg_${stream_out[j]}_port_offset;
-    fsm_ctrl.${stream_out[j]}_step           = static_reg_${stream_out[j]}_step;
         % endif
       % endif
     % endfor
