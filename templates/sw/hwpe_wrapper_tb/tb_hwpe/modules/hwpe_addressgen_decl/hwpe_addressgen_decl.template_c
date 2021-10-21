@@ -164,12 +164,12 @@
   const unsigned ${stream_out[j]}_step                   = ${stream_out[j]}_parallelism_factor * sizeof(uint32_t);
   const unsigned ${stream_out[j]}_port_offset            = sizeof(uint32_t);
       % else:
-  const unsigned ${stream_out[j]}_trans_size             = ${stream_out[j]}_width * ${stream_out[j]}_stripe_height;
-  const unsigned ${stream_out[j]}_line_stride            = 0;
-  const unsigned ${stream_out[j]}_line_length            = ${stream_out[j]}_width * ${stream_out[j]}_stripe_height;
-  const unsigned ${stream_out[j]}_feat_stride            = 0;
-  const unsigned ${stream_out[j]}_feat_length            = 1;
-  const unsigned ${stream_out[j]}_feat_roll              = 0;
+  const unsigned ${stream_out[j]}_trans_size             = ${stream_out[j]}_stripe_height * ${stream_out[j]}_stripe_height + 1;
+  const unsigned ${stream_out[j]}_line_stride            = sizeof(uint32_t);
+  const unsigned ${stream_out[j]}_line_length            = 1;
+  const unsigned ${stream_out[j]}_feat_stride            = ${stream_out[j]}_width * sizeof(uint32_t);
+  const unsigned ${stream_out[j]}_feat_length            = ${stream_out[j]}_stripe_height;
+  const unsigned ${stream_out[j]}_feat_roll              = ${stream_out[j]}_stripe_height;
   const unsigned ${stream_out[j]}_loop_outer             = 0;
   const unsigned ${stream_out[j]}_realign_type           = 0; 
   const unsigned ${stream_out[j]}_step                   = 4;
