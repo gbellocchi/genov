@@ -26,22 +26,50 @@ package ${target}_package;
 
   /* Registers */
 
-  <%
-  #############################################
-  ## Standard registers - Offset declaration ##
-  #############################################
-  %>
+<%
+##########################
+## Addresses definition ##
+##########################
+%>
 
-  <%
+<%
     # Top offset - HWPE register file
     # Employed to start calculating the offset value pertaining to 
     # a certain class of registers (standard, TCDM, and so on).
-    addr_top = 0
+    
+addr_top = 0
 
     # Current offset - HWPE register file
     # Employed to calculate the offset value to assign to a register 
     # pertaining to a certain class (standard, TCDM, and so on).
+    
+addr_current = addr_top
+
+    # HWPE parameters 
+    # At the moment, these are TCDM, standard, custom and address generator 
+    # registers. Their ordering has to match their counterpart in archi_hwpe 
+    # header file. The latter comprises the offsets of the physical memory 
+    # mapping of the HWPE registers. HWPE parameters are collected under the 
+    # 'ctrl_regfile_t' typedef defined in 'hwpe_ctrl'.
+%>
+
+  <%
+  #####################################################
+  ## TCDM registers - Master port offset declaration ##
+  #####################################################
+  %>
+  
+  ${tcdm_master_regs(addr_current)}
+
+  <%
+    addr_top += n_sink + n_source
     addr_current = addr_top
+  %>
+
+  <%
+  #############################################
+  ## Standard registers - Offset declaration ##
+  #############################################
   %>
 
   // Standard registers
@@ -130,19 +158,6 @@ package ${target}_package;
       endif
     endfor
 
-    addr_current = addr_top
-  %>
-
-  <%
-  #####################################################
-  ## TCDM registers - Master port offset declaration ##
-  #####################################################
-  %>
-  
-  ${tcdm_master_regs(addr_current)}
-
-  <%
-    addr_top += n_sink + n_source
     addr_current = addr_top
   %>
 

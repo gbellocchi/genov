@@ -93,6 +93,14 @@ addr_top = 0
 
 addr_current = addr_top
 
+    # HWPE parameters 
+    # At the moment, these are TCDM, standard, custom and address generator 
+    # registers. Their ordering has to match their counterpart in teh SystemVerilog 
+    # top package. The latter comprises the offsets of the the HWPE parameter registers. 
+    # HWPE parameters are collected under the 'ctrl_regfile_t' typedef defined in 'hwpe_ctrl'.
+    # It is really important to map the HWPE parameters after basic and uloop registers;
+    # this ordering is required by the implementation of the controller.
+
     # Notice that offsets increment with a step of 4 because HWPE
     # controller implements 32-bit control registers.
 %>
