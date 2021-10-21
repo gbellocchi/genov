@@ -38,7 +38,9 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_engine} -group
     % endif
 % endfor 
 
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_engine} -group {control} -label {ctrl_i} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/ctrl_i}
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_engine} -group {flags} -label {flags_o} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/flags_o}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_engine} -group {FSM - control} -label {ctrl_i} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/ctrl_i}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_engine} -group {FSM - flags} -label {flags_o} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/flags_o}
+
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_engine} -group {Local} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/*}
 
 </%def>\
