@@ -12,15 +12,6 @@
 
 <%def name="xil_ap_ctrl_hs_kernel_ctrl()">\
 
-  /* ${target} control signals. */
-
-  logic kernel_start;
-
-  // START is not always high. For each READY (~(engine_ready | engine_idle)) that is
-  // delivered to the FSM, a new START signal is set high and iaaued to the kernel.
-
-  assign kernel_start = start;
-
 </%def>\
 
 <%
@@ -30,23 +21,6 @@
 %>
 
 <%def name="xil_ap_ctrl_hs_kernel_flags()">\
-
-  /* ${target} flag signals. */
-
-  logic kernel_done, kernel_idle, kernel_ready;
-
-  assign done = kernel_done;
-  assign idle = kernel_idle;
-
-  always_ff @(posedge clk_i or negedge rst_ni)
-  begin: fsm_ready
-    if(~rst_ni)
-      ready = 1'b0;
-    else if(~(kernel_ready | kernel_idle))
-      ready = 1'b0;
-    else
-      ready = 1'b1;
-  end
 
 </%def>\
 
@@ -105,10 +79,10 @@
     % endif 
 
     // Control signals.
-    .ap_start      ( kernel_start            ),
-    .ap_done       ( kernel_done             ),
-    .ap_idle       ( kernel_idle             ),
-    .ap_ready      ( kernel_ready            )
+    .ap_start      ( start            ),
+    .ap_done       ( done             ),
+    .ap_idle       ( idle             ),
+    .ap_ready      ( ready            )
   );
 
 </%def>\
@@ -120,22 +94,6 @@
 %>
 
 <%def name="xil_ap_ctrl_hs_stream_strobes()">\
-
-  // At the moment output strobe is always '1
-  // All bytes of output streams are written
-  // to TCDM
-  always_comb
-  begin
-    % for j in range (n_source):
-      % if (is_parallel_out[j]):
-        % for k in range (out_parallelism_factor[j]):
-    ${stream_out[j]}_${k}_o.strb = '1;
-        % endfor
-      % else:
-    ${stream_out[j]}_o.strb = '1;
-      % endif
-    % endfor 
-  end
 
 </%def>\
 

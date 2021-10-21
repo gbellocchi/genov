@@ -370,22 +370,6 @@
 
 <%def name="mdc_dataflow_stream_strobes()">\
 
-  // At the moment output strobe is always '1
-  // All bytes of output streams are written
-  // to TCDM
-  always_comb
-  begin
-    % for j in range (n_source):
-      % if (is_parallel_out[j]):
-        % for k in range (out_parallelism_factor[j]):
-    ${stream_out[j]}_${k}_o.strb = '1;
-        % endfor
-      % else:
-    ${stream_out[j]}_o.strb = '1;
-      % endif
-    % endfor 
-  end
-
 </%def>\
 
 <%
