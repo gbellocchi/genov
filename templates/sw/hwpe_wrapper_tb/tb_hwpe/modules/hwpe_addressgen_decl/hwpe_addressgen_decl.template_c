@@ -88,7 +88,7 @@
   const unsigned ${stream_in[i]}_feat_roll              = 0;
   const unsigned ${stream_in[i]}_loop_outer             = 0;
   const unsigned ${stream_in[i]}_realign_type           = 0; 
-  const unsigned ${stream_in[i]}_step                   = ${stream_in[i]}_parallelism_factor * sizeof(uint32_t);
+  const unsigned ${stream_in[i]}_step                   = 4;
       % endif
     % endif
   % endfor
@@ -172,7 +172,7 @@
   const unsigned ${stream_out[j]}_feat_roll              = 0;
   const unsigned ${stream_out[j]}_loop_outer             = 0;
   const unsigned ${stream_out[j]}_realign_type           = 0; 
-  const unsigned ${stream_out[j]}_step                   = ${stream_out[j]}_parallelism_factor * sizeof(uint32_t);
+  const unsigned ${stream_out[j]}_step                   = 4;
       % endif
     % endif
   % endfor
