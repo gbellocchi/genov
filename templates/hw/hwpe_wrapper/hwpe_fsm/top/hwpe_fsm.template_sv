@@ -131,7 +131,7 @@ ${engine_init_cnt_limit()}
         ctrl_engine_o.clear  = 1'b0;
         if( 
           
-          ${engine_check_cnt_flags()} 
+          ${engine_check_cnt_flags_v0()} 
         
         ) begin
           next_state = FSM_TERMINATE;
