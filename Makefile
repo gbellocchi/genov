@@ -98,7 +98,7 @@ hwpe_generated_ex: test_ov_env overlay_src
 	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-generated-ex/
 	@echo -e "								...All done!"
 
-overlay_deps: check_ov_env overlay_src
+overlay_deps: test_ov_env overlay_src
 	@echo -e ">> Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay..."
 	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper
 	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper/
