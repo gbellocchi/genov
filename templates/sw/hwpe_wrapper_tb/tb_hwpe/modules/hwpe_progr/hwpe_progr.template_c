@@ -62,18 +62,16 @@
 
 <%
 ###############################################
-## HWPE programming - Controller programming ##
+## HWPE programming - FSM programming ##
 ###############################################
 %>
 
-<%def name="hwpe_ctrl_progr()">\
+<%def name="hwpe_fsm_progr()">\
 
-  /* Controller programming */
-
-  // FSM
+  /* FSM programming */
   
   % for j in range (n_source):
-  hwpe_len_iter_set_${stream_out[j]}(${stream_out[j]}_stripe_height * ${stream_out[j]}_stripe_height - 1);
+  hwpe_len_iter_set_${stream_out[j]}(engine_runs_${stream_out[j]});
   % endfor
 
 </%def>\

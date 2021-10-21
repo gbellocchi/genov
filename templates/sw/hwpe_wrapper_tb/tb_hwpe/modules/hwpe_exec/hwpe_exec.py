@@ -14,7 +14,7 @@ class hwpe_exec:
         return self.c
 
     def module(self):
-        with open('templates/sw/hwpe_wrapper_tb/tb_hwpe/modules/hwpe_exec/hwpe_exec.template_sv', 'r') as f:
+        with open('templates/sw/hwpe_wrapper_tb/tb_hwpe/modules/hwpe_exec/hwpe_exec.template_c', 'r') as f:
             self.c += f.read()
             self.c += '\n'
             f.close()
