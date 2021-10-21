@@ -39,6 +39,7 @@
     ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.feat_roll       = ctrl_i.${stream_in[i]}_feat_roll;
     ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.loop_outer      = ctrl_i.${stream_in[i]}_loop_outer; 
     ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.realign_type    = ctrl_i.${stream_in[i]}_realign_type; 
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.step            = ctrl_i.${stream_in[i]}_step;
       % endif
     % else:
       % if (is_parallel_in[i]):
@@ -66,6 +67,7 @@
     ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.feat_roll       = /* TO-BE-DONE */
     ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.loop_outer      = /* TO-BE-DONE */
     ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.realign_type    = /* TO-BE-DONE */
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.step            = /* TO-BE-DONE */
       % endif
     % endif
   % endfor
@@ -107,6 +109,7 @@
     ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.feat_roll       = ctrl_i.${stream_out[j]}_feat_roll;
     ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.loop_outer      = ctrl_i.${stream_out[j]}_loop_outer; 
     ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.realign_type    = ctrl_i.${stream_out[j]}_realign_type; 
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.step            = ctrl_i.${stream_out[j]}_step;
       % endif
     % else:
       % if (is_parallel_out[j]):
@@ -134,6 +137,7 @@
     ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.feat_roll       = /* TO-BE-DONE */
     ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.loop_outer      = /* TO-BE-DONE */
     ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.realign_type    = /* TO-BE-DONE */
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.step            = /* TO-BE-DONE */
       % endif
     % endif
   % endfor
