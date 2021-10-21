@@ -46,6 +46,11 @@ STATIC_RTL_DIR 			:= ${STATIC}/static_rtl
 STATIC_STREAM			:= ${STATIC_RTL_DIR}/hwpe-stream
 STATIC_CTRL 			:= ${STATIC_RTL_DIR}/hwpe-ctrl
 
+# Verification
+
+VERIF 					:= ${ROOT}/verif
+VERIF_HWPE 				:= ${VERIF}/hwpe-tb
+
 # Output content
 
 OUT_DIR 				:= ${ROOT}/output
@@ -111,6 +116,15 @@ overlay_src: check_ov_env
 	@cp ${OUT_OVERLAY_INTEGR}/ov_acc_intf.sv ${OVERLAY_CLUSTER}/
 	@echo -e ">> Exporting Modelsim wave script to perform system-level testing."
 	@cp ${OUT_OVERLAY_INTEGR}/pulp_tb.wave.do ${OVERLAY_TEST}/
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+
+# ------------------------------- #
+#  HARDWARE WRAPPER VERIFICATION  #
+# ------------------------------- #
+
+verif_hwpe_build_hw: check_ov_env
+	@cd ${VERIF_HWPE} && make -s update-ips build-hw
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
