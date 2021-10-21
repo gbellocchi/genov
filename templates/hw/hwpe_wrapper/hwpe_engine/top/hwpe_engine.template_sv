@@ -34,10 +34,11 @@ module ${target}_engine (\
   output flags_engine_t           flags_o
 );
 
-  /* Flag signals */
+  /* Control signals */
 
-  logic engine_clear;
+  logic engine_start, engine_clear;
 
+  assign engine_start = ctrl_i.start;
   assign engine_clear = ctrl_i.clear;
 
   /* Flag signals */
@@ -59,11 +60,11 @@ module ${target}_engine (\
 
   /* Count outputs */
   
-  ${cnt_out_decl()}
   ${out_track_decl()}
+  ${cnt_out_decl()}
 
-  ${out_track_impl()}
-  ${cnt_out_ff_impl()}
+  ${out_track_impl_DtypeFF()}
+  ${cnt_out_FF_impl()}
 
   ${cnt_out_assign_to_fsm()}
 
@@ -89,7 +90,7 @@ module ${target}_engine (\
     % endif 
 
     // Control signals
-    .start           ( ctrl_i.start     ),
+    .start           ( engine_start     ),
     .clear           ( engine_clear     ),
 
     // Flag signals
@@ -98,6 +99,22 @@ module ${target}_engine (\
     .ready           ( engine_ready     )
 
   );
+
+  // At the moment output strobe is always '1
+  // All bytes of output streams are written
+  // to TCDM
+  always_comb
+  begin
+    % for j in range (n_source):
+      % if (is_parallel_out[j]):
+        % for k in range (out_parallelism_factor[j]):
+    ${stream_out[j]}_${k}_o.strb = '1;
+        % endfor
+      % else:
+    ${stream_out[j]}_o.strb = '1;
+      % endif
+    % endfor 
+  end
 
 endmodule\
 
