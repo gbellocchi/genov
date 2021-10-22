@@ -1,2 +1,9 @@
-engine_dev/specs
+# python venv
 *py_env/
+**/__pycache__/
+
+# generated files
+engine_dev/
+**/*.log
+output/hw/
+output/sw/
