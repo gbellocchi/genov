@@ -15,6 +15,12 @@
  *
  * Module: ov_acc_intf.sv
  * 
+ * Overlay Accelerator Interface.
+ * The wrapper is generated and automatically integrated at system-level
+ * using the Accelerator Wrapper Generator (GenAcc). The latter instantiates
+ * an overlay accelerator interface (ov_acc_intf), that permits the connection 
+ * of the wrapper to the logarithmic interconnect of the overlay cluster.
+ *
  */
 
 <%
@@ -24,4 +30,7 @@
 %>
 
 ${cl_log_interco_ip_intf()}
+
+    /* HWPE-based acceleration wrapper */
+
 ${cl_log_interco_ip_body()}
