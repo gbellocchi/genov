@@ -1,3 +1,8 @@
+# track git files in output
+!output/hw/.gitkeep
+!output/sw/.gitignore
+!output/sw/.gitkeep
+
 # python venv
 *py_env/
 **/__pycache__/
@@ -7,3 +12,4 @@ engine_dev/
 **/*.log
 output/hw/
 output/sw/
+
