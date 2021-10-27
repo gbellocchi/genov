@@ -18,22 +18,70 @@ from modulefinder import ModuleFinder
 from engine_dev.specs.hwpe_specs import hwpe_specs
 
 # HW packages
-from templates.hw.hwpe_wrapper.hwpe_wrapper import hwpe_wrapper
-from templates.hw.overlay.overlay import overlay
+# from templates.hw.hwpe_wrapper.hwpe_wrapper import hwpe_wrapper
+# from templates.hw.overlay.overlay import overlay
 
-# HW-management packages
-from templates.hw_management.hw_management import hw_management
+# # HW-management packages
+# from templates.hw_management.hw_management import hw_management
 
-# SW packages
-from templates.sw.hwpe_wrapper_tb.hwpe_wrapper_tb import hwpe_wrapper_tb
+# # SW packages
+# from templates.sw.hwpe_wrapper_tb.hwpe_wrapper_tb import hwpe_wrapper_tb
 
 # ----------------- #
 #  Generator class  #
 # ----------------- #
 
-class hwpe_gen:
-    def __init__(self, specs):
-        self.specs = specs
+class Person:
+  def __init__(self, fname, lname):
+    self.firstname = fname
+    self.lastname = lname
+
+  def printname(self):
+    print("hello", self.firstname, self.lastname)
+
+class genacc(hwpe_specs):
+    def method1(self):
+
+        print(self.author)
+        # print(super().streaming)
+        # super(genacc, self).streaming
+        # self.streaming()
+        
+        # print(self.list_sink_stream)
+        # print(self.list_source_stream)
+        # print(self.sink_is_parallel)
+        # print(self.source_is_parallel)        
+        # print(self.sink_parallelism_factor)  
+        # print(self.source_parallelism_factor)
+
+        # # HWPE streaming interfaces
+        # self.list_sink_stream                   = [item[0] for item in specs.list_sink_stream]
+        # self.list_source_stream                 = [item[0] for item in specs.list_source_stream]
+        # self.sink_is_parallel                   = [item[3] for item in specs.list_sink_stream]
+        # self.source_is_parallel                 = [item[3] for item in specs.list_source_stream]
+        # self.sink_parallelism_factor            = [item[4] for item in specs.list_sink_stream]
+        # self.source_parallelism_factor          = [item[4] for item in specs.list_source_stream]
+        # self.n_sink                             = specs.n_sink
+        # self.n_source                           = specs.n_source
+
+        # # HWPE standard regfiles
+        # self.std_reg_num        = specs.std_reg_num
+
+        # # HWPE custom regfiles
+        # self.custom_reg_name    = [item[0] for item in specs.custom_reg]
+        # self.custom_reg_dtype   = [item[1] for item in specs.custom_reg]
+        # self.custom_reg_dim     = [item[2] for item in specs.custom_reg]
+        # self.custom_reg_isport  = [item[3] for item in specs.custom_reg]
+        # self.custom_reg_num     = specs.custom_reg_num
+
+        # # Address generation
+        # self.addr_gen_in_isprogr                = [item[0] for item in specs.addr_gen_in]
+        # self.addr_gen_out_isprogr               = [item[0] for item in specs.addr_gen_out]
+
+        # self.specs              = specs
+
+        # # Template
+        # self.template           = self.get_template()
     
     def gen_dev(self, dev, filename, dest_dir):
         n = filename
@@ -65,212 +113,212 @@ class hwpe_gen:
         f.close()
 
 
-# Read hwpe specs
-specs = hwpe_specs()
+# # Read hwpe specs
+# specs = hwpe_specs()
 
-# Create device generator
-gen = hwpe_gen(specs)
+# # Create device generator
+# gen = hwpe_gen(specs)
 
-# # Get a structure of python template modules 
-# gen.struct_mod()
+# # # Get a structure of python template modules 
+# # gen.struct_mod()
 
-# Static components (hw, sw, ..)
-static_comps = 'static'
+# # Static components (hw, sw, ..)
+# static_comps = 'static'
 
-# -------------------------------------- #
-# -------------  HARDWARE  ------------- #
-# -------------------------------------- #
+# # -------------------------------------- #
+# # -------------  HARDWARE  ------------- #
+# # -------------------------------------- #
 
-# Create output environment
-hwpe_overlay_integration = specs.dest_dir + '/hw/overlay_integration'
-hwpe_outdir = specs.dest_dir + '/hw/hwpe-' + specs.hwpe_target + '-wrapper'
-hwpe_rtl = hwpe_outdir + '/rtl'
-hwpe_engine_rtl = hwpe_rtl + '/hwpe-engine'
-hwpe_streamer_rtl = hwpe_rtl + '/hwpe-stream'
-hwpe_ctrl_rtl = hwpe_rtl + '/hwpe-ctrl'
+# # Create output environment
+# hwpe_overlay_integration = specs.dest_dir + '/hw/overlay_integration'
+# hwpe_outdir = specs.dest_dir + '/hw/hwpe-' + specs.hwpe_target + '-wrapper'
+# hwpe_rtl = hwpe_outdir + '/rtl'
+# hwpe_engine_rtl = hwpe_rtl + '/hwpe-engine'
+# hwpe_streamer_rtl = hwpe_rtl + '/hwpe-stream'
+# hwpe_ctrl_rtl = hwpe_rtl + '/hwpe-ctrl'
 
-os.mkdir(hwpe_overlay_integration)
-os.mkdir(hwpe_outdir)
-os.mkdir(hwpe_rtl)
-os.mkdir(hwpe_rtl + '/wrap')
-os.mkdir(hwpe_engine_rtl)
+# os.mkdir(hwpe_overlay_integration)
+# os.mkdir(hwpe_outdir)
+# os.mkdir(hwpe_rtl)
+# os.mkdir(hwpe_rtl + '/wrap')
+# os.mkdir(hwpe_engine_rtl)
 
-# Copy static components
-source = static_comps + '/static_rtl/hwpe-stream/rtl'
-destination = hwpe_streamer_rtl
-shutil.copytree(source, destination)
+# # Copy static components
+# source = static_comps + '/static_rtl/hwpe-stream/rtl'
+# destination = hwpe_streamer_rtl
+# shutil.copytree(source, destination)
 
-source = static_comps + '/static_rtl/hwpe-ctrl/rtl'
-destination = hwpe_ctrl_rtl
-shutil.copytree(source, destination)
+# source = static_comps + '/static_rtl/hwpe-ctrl/rtl'
+# destination = hwpe_ctrl_rtl
+# shutil.copytree(source, destination)
 
-# Create repo for datapth
-dirname = hwpe_engine_rtl + '/engine_dev'
-source = 'engine_dev/rtl'
-destination = dirname
-shutil.copytree(source, destination)
+# # Create repo for datapth
+# dirname = hwpe_engine_rtl + '/engine_dev'
+# source = 'engine_dev/rtl'
+# destination = dirname
+# shutil.copytree(source, destination)
 
-#
-# OVERLAY
-#
+# #
+# # OVERLAY
+# #
 
-# Create overlay
-overlay = overlay(specs)
+# # Create overlay
+# overlay = overlay(specs)
 
-# Generate packages to integrate hwpe in the overlay
-dev = overlay.acc_pkg(specs)
-filename = 'ov_acc_pkg.sv'
-dest_dir = hwpe_overlay_integration
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate packages to integrate hwpe in the overlay
+# dev = overlay.acc_pkg(specs)
+# filename = 'ov_acc_pkg.sv'
+# dest_dir = hwpe_overlay_integration
+# gen.gen_dev(dev, filename, dest_dir)
 
-# Generate interface between overlay and accelerator
-dev = overlay.acc_intf(specs)
-filename = 'ov_acc_intf.sv'
-dest_dir = hwpe_overlay_integration
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate interface between overlay and accelerator
+# dev = overlay.acc_intf(specs)
+# filename = 'ov_acc_intf.sv'
+# dest_dir = hwpe_overlay_integration
+# gen.gen_dev(dev, filename, dest_dir)
 
-#
-# HWPE
-#
+# #
+# # HWPE
+# #
 
-# Create hwpe wrapper
-hwpe_wrapper = hwpe_wrapper(specs)
+# # Create hwpe wrapper
+# hwpe_wrapper = hwpe_wrapper(specs)
 
-# Generate hwpe top wrapper
-dev = hwpe_wrapper.top_wrapper(specs)
-filename = specs.hwpe_target + '_' + 'top_wrapper.sv'
-dest_dir = hwpe_rtl + '/wrap'
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate hwpe top wrapper
+# dev = hwpe_wrapper.top_wrapper(specs)
+# filename = specs.hwpe_target + '_' + 'top_wrapper.sv'
+# dest_dir = hwpe_rtl + '/wrap'
+# gen.gen_dev(dev, filename, dest_dir)
 
-# Generate hwpe top
-dev = hwpe_wrapper.top(specs)
-filename = specs.hwpe_target + '_' + 'top.sv'
-dest_dir = hwpe_engine_rtl
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate hwpe top
+# dev = hwpe_wrapper.top(specs)
+# filename = specs.hwpe_target + '_' + 'top.sv'
+# dest_dir = hwpe_engine_rtl
+# gen.gen_dev(dev, filename, dest_dir)
 
-# Generate hwpe engine
-dev = hwpe_wrapper.engine(specs)
-filename = specs.hwpe_target + '_' + 'engine.sv'
-dest_dir = hwpe_engine_rtl
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate hwpe engine
+# dev = hwpe_wrapper.engine(specs)
+# filename = specs.hwpe_target + '_' + 'engine.sv'
+# dest_dir = hwpe_engine_rtl
+# gen.gen_dev(dev, filename, dest_dir)
 
-# Generate kernel adapter
-dev = hwpe_wrapper.kernel_adapter(specs)
-filename = specs.hwpe_target + '_' + 'kernel_adapter.sv'
-dest_dir = hwpe_engine_rtl
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate kernel adapter
+# dev = hwpe_wrapper.kernel_adapter(specs)
+# filename = specs.hwpe_target + '_' + 'kernel_adapter.sv'
+# dest_dir = hwpe_engine_rtl
+# gen.gen_dev(dev, filename, dest_dir)
 
-# Generate hwpe streamer wrapper
-dev = hwpe_wrapper.streamer(specs)
-filename = specs.hwpe_target + '_' + 'streamer.sv'
-dest_dir = hwpe_engine_rtl
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate hwpe streamer wrapper
+# dev = hwpe_wrapper.streamer(specs)
+# filename = specs.hwpe_target + '_' + 'streamer.sv'
+# dest_dir = hwpe_engine_rtl
+# gen.gen_dev(dev, filename, dest_dir)
 
-# Generate hwpe ctrl wrapper
-dev = hwpe_wrapper.ctrl(specs)
-filename = specs.hwpe_target + '_' + 'ctrl.sv'
-dest_dir = hwpe_engine_rtl
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate hwpe ctrl wrapper
+# dev = hwpe_wrapper.ctrl(specs)
+# filename = specs.hwpe_target + '_' + 'ctrl.sv'
+# dest_dir = hwpe_engine_rtl
+# gen.gen_dev(dev, filename, dest_dir)
 
-# # Generate hwpe fsm
-dev = hwpe_wrapper.fsm(specs)
-filename = specs.hwpe_target + '_' + 'fsm.sv'
-dest_dir = hwpe_engine_rtl
-gen.gen_dev(dev, filename, dest_dir)
+# # # Generate hwpe fsm
+# dev = hwpe_wrapper.fsm(specs)
+# filename = specs.hwpe_target + '_' + 'fsm.sv'
+# dest_dir = hwpe_engine_rtl
+# gen.gen_dev(dev, filename, dest_dir)
 
-# Generate hwpe package
-dev = hwpe_wrapper.package(specs)
-filename = specs.hwpe_target + '_' + 'package.sv'
-dest_dir = hwpe_engine_rtl
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate hwpe package
+# dev = hwpe_wrapper.package(specs)
+# filename = specs.hwpe_target + '_' + 'package.sv'
+# dest_dir = hwpe_engine_rtl
+# gen.gen_dev(dev, filename, dest_dir)
 
-# ------------------------------------------------ #
-# -------------  HARDWARE MANAGEMENT ------------- #
-# ------------------------------------------------ #
+# # ------------------------------------------------ #
+# # -------------  HARDWARE MANAGEMENT ------------- #
+# # ------------------------------------------------ #
 
-# Create hw management tool
-hw_management = hw_management(specs)
+# # Create hw management tool
+# hw_management = hw_management(specs)
 
-# Generate bender
-dev = hw_management.bender(specs)
-filename = 'Bender.yml'
-dest_dir = hwpe_outdir
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate bender
+# dev = hw_management.bender(specs)
+# filename = 'Bender.yml'
+# dest_dir = hwpe_outdir
+# gen.gen_dev(dev, filename, dest_dir)
 
-# Generate VSIM wave file
-dev = hw_management.vsim_wave(specs)
-filename = 'pulp_tb.wave.do'
-dest_dir = hwpe_overlay_integration
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate VSIM wave file
+# dev = hw_management.vsim_wave(specs)
+# filename = 'pulp_tb.wave.do'
+# dest_dir = hwpe_overlay_integration
+# gen.gen_dev(dev, filename, dest_dir)
 
-# -------------------------------------- #
-# -------------  SOFTWARE  ------------- #
-# -------------------------------------- #
+# # -------------------------------------- #
+# # -------------  SOFTWARE  ------------- #
+# # -------------------------------------- #
 
-# Create software components for RTL simulation
-hwpe_wrapper_tb = hwpe_wrapper_tb(specs)
+# # Create software components for RTL simulation
+# hwpe_wrapper_tb = hwpe_wrapper_tb(specs)
 
-# Create output environment
-sw_outdir = specs.dest_dir + '/sw'
-sw_inc = sw_outdir + '/inc'
-sw_test_lib = sw_inc + '/test_lib'
-sw_common = sw_inc + '/common'
-sw_eu_lib = sw_inc + '/eu_lib'
-sw_stim = sw_inc + '/stim'
-sw_hwpe_lib = sw_inc + '/hwpe_lib'
-sw_bigpulp = sw_inc + '/bigpulp'
+# # Create output environment
+# sw_outdir = specs.dest_dir + '/sw'
+# sw_inc = sw_outdir + '/inc'
+# sw_test_lib = sw_inc + '/test_lib'
+# sw_common = sw_inc + '/common'
+# sw_eu_lib = sw_inc + '/eu_lib'
+# sw_stim = sw_inc + '/stim'
+# sw_hwpe_lib = sw_inc + '/hwpe_lib'
+# sw_bigpulp = sw_inc + '/bigpulp'
 
-os.mkdir(sw_inc)
-os.mkdir(sw_hwpe_lib)
+# os.mkdir(sw_inc)
+# os.mkdir(sw_hwpe_lib)
 
-# Copy static components
-source = static_comps + '/static_tb/Makefile'
-destination = sw_outdir
-shutil.copy(source, destination)
+# # Copy static components
+# source = static_comps + '/static_tb/Makefile'
+# destination = sw_outdir
+# shutil.copy(source, destination)
 
-source = static_comps + '/static_tb/inc/test_lib/'
-destination = sw_test_lib
-shutil.copytree(source, destination)
+# source = static_comps + '/static_tb/inc/test_lib/'
+# destination = sw_test_lib
+# shutil.copytree(source, destination)
 
-source = static_comps + '/static_tb/inc/common/'
-destination = sw_common
-shutil.copytree(source, destination)
+# source = static_comps + '/static_tb/inc/common/'
+# destination = sw_common
+# shutil.copytree(source, destination)
 
-source = static_comps + '/static_tb/inc/eu_lib/'
-destination = sw_eu_lib
-shutil.copytree(source, destination)
+# source = static_comps + '/static_tb/inc/eu_lib/'
+# destination = sw_eu_lib
+# shutil.copytree(source, destination)
 
-source = static_comps + '/static_tb/inc/bigpulp/'
-destination = sw_bigpulp
-shutil.copytree(source, destination)
+# source = static_comps + '/static_tb/inc/bigpulp/'
+# destination = sw_bigpulp
+# shutil.copytree(source, destination)
 
-# Create repo for stimuli
-dirname = sw_stim
-source = 'engine_dev/sw/stim'
-destination = dirname
-shutil.copytree(source, destination)
+# # # Create repo for stimuli
+# # dirname = sw_stim
+# # source = 'engine_dev/sw/stim'
+# # destination = dirname
+# # shutil.copytree(source, destination)
 
-# Generate archi-hwpe 
-# Memory-mapped hardware accelerator registers
-dev = hwpe_wrapper_tb.archi(specs)
-filename = 'archi_hwpe.h'
-dest_dir = sw_hwpe_lib
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate archi-hwpe 
+# # Memory-mapped hardware accelerator registers
+# dev = hwpe_wrapper_tb.archi(specs)
+# filename = 'archi_hwpe.h'
+# dest_dir = sw_hwpe_lib
+# gen.gen_dev(dev, filename, dest_dir)
 
-# Generate hal-hwpe 
-# Hardware Abstraction Layer with functions that permit 
-# to create an inetaction between the RISC-V processor
-# and the hardware accelerator
-dev = hwpe_wrapper_tb.hal(specs)
-filename = 'hal_hwpe.h'
-dest_dir = sw_hwpe_lib
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate hal-hwpe 
+# # Hardware Abstraction Layer with functions that permit 
+# # to create an inetaction between the RISC-V processor
+# # and the hardware accelerator
+# dev = hwpe_wrapper_tb.hal(specs)
+# filename = 'hal_hwpe.h'
+# dest_dir = sw_hwpe_lib
+# gen.gen_dev(dev, filename, dest_dir)
 
-# Generate software testbench for HWPE wrapper
-# Software testbench of the hwpe functionality that can be
-# run in baremetal on the rv-fc commprised in the pulp system.
-# This tb can be used as a starting point for additional platform testing.
-dev = hwpe_wrapper_tb.tb(specs)
-filename = 'tb_hwpe.c'
-dest_dir = sw_outdir
-gen.gen_dev(dev, filename, dest_dir)
+# # Generate software testbench for HWPE wrapper
+# # Software testbench of the hwpe functionality that can be
+# # run in baremetal on the rv-fc commprised in the pulp system.
+# # This tb can be used as a starting point for additional platform testing.
+# dev = hwpe_wrapper_tb.tb(specs)
+# filename = 'tb_hwpe.c'
+# dest_dir = sw_outdir
+# gen.gen_dev(dev, filename, dest_dir)
