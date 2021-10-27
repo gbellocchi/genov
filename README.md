@@ -26,7 +26,7 @@ We recommend to set the following environment variable to the top directory of y
 export HERO_OV_HOME_DIR=<your_path> (typically something like $HOME/workspace_user/hero)
 ```
 
-Most of the specialization flow is handled locally to the tool subdirectory. At a certain point the user may decide to export and integrate the specialized hardware/software products to the overlay system. This process is fully automated and no-error-prone as far as the tool knows how to securely interface to the overlay.
+Most of the specialization flow is handled locally to the tool subdirectory. At a certain point the user may decide to export and integrate the generated hardware/software components to the overlay system. This process is fully automated and no-error-prone as far as the tool knows how to securely interface to the overlay.
 
 Thus, it is recommended to set the following environment variable to the location of the overlay hardware subsystem.
 
@@ -37,11 +37,11 @@ export HERO_OV_HW_EXPORT=<your_path> (typically something like $HERO_HOME_DIR/ha
 This location should at least comprise the following directories that are going to be targeted in the integration phase:
 
 -  `src/` - This location comprises SystemVerilog source files to parametrize the PULP-based overlay system.
--  `deps/` - This location comprises SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, accelerators, etc.).
+-  `deps/` - This location comprises SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, memory, etc.).
 -  `test/` - This location comprises a SystemVerilog testbench to simulate the hardware behavior.
 
 ### External Sources
-The tool uses Git submodules that have to be initialized. In order to fetch the submodules in the repository, run:
+The tool uses Git submodules that have to be initialized. To pull the required Git submodules, run:
 
 ```
 make init_gen
