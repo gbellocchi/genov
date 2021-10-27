@@ -195,7 +195,7 @@ module ${target}_ctrl
   % if custom_reg_num>0:
   // Custom registers
     % for i in range (custom_reg_num):
-  assign static_reg_${custom_reg_name[i]} = reg_file.hwpe_params[${target}_REG_${custom_reg_name[i].upper()}];
+  assign static_reg_${custom_reg_name[i]} = reg_file.hwpe_params[${target.upper()}_REG_${custom_reg_name[i].upper()}];
     % endfor 
   % endif
 

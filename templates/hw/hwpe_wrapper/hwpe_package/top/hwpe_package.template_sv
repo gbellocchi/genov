@@ -198,7 +198,7 @@ addr_current = addr_top
     % if custom_reg_num>0:
     // Custom registers
       % for i in range (custom_reg_num):
-    logic unsigned [custom_reg_dim[i]-1:0] custom_reg_name[i];
+    logic unsigned [${custom_reg_dim[i]}-1:0] ${custom_reg_name[i]};
       % endfor 
     % endif
   } ctrl_engine_t; 
@@ -350,7 +350,7 @@ addr_current = addr_top
     % if custom_reg_num>0:
     // Custom registers
       % for i in range (custom_reg_num):
-    logic unsigned [custom_reg_dim[i]-1:0] custom_reg_name[i];
+    logic unsigned [${custom_reg_dim[i]}-1:0] ${custom_reg_name[i]};
       % endfor 
     % endif
 
