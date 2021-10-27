@@ -132,10 +132,13 @@ static inline void hwpe_len_iter_set_${stream_out[j]}(unsigned int value) {
 
 % if custom_reg_num>0:
 /* custom hal */
+  % for i in range (custom_reg_num):
 static inline void hwpe_${custom_reg_name[i]}_set(${custom_reg_dtype[i]} value) {
   HWPE_WRITE(value, ${target.upper()}_REG_${custom_reg_name[i].upper()} );
 }
+  % endfor 
 % endif
+
 
 <%
 ##########################################################################
