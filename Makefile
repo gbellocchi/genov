@@ -2,8 +2,6 @@
 ## Gianluca Bellocchi <gianluca.bellocchi@unimore.it> ##
 ########################################################
 
-# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
-
 # ------- #
 #  SETUP  #
 # ------- #
@@ -19,7 +17,7 @@ REPO 					:= genacc
 
 # Choose target on those available in the application library (e.g. mmul_parallel)
 
-HWPE_TARGET				:= mmult_opt_mdc
+HWPE_TARGET				:= fir_mdc
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -97,17 +95,15 @@ all: clean_gen run_gen
 
 overlay_integration: clean_ov_env overlay_src overlay_deps
 
-hwpe_generated_ex: test_ov_env overlay_src
-	@echo -e ">> Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay..."
+hwpe_generated_ex: test_ov_env overlay_src clean_hwpe_generated_ex
+	@echo -e ">> Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay."
 	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper/* ${OVERLAY_DEPS}/hwpe-generated-ex/
 	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-generated-ex/
-	@echo -e "								...All done!"
 
 overlay_deps: test_ov_env overlay_src
-	@echo -e ">> Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay..."
+	@echo -e ">> Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay."
 	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper
 	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper/
-	@echo -e "								...All done!"
 
 overlay_src: check_ov_env
 	@echo -e ">> Exporting accelerator package to perform system-level optimization."
@@ -151,10 +147,15 @@ acc_lib: check_ov_env
 #  OVERLAY ENVIRONMENT  #
 # --------------------- #
 
-clean_ov_env: test_ov_env
+clean_ov_env: test_ov_env clean_hwpe_generated_ex
 	@rm -rf ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper
 	@rm -f ${OVERLAY_SRC}/ov_acc_pkg.sv
 	@rm -f ${OVERLAY_CLUSTER}/ov_acc_intf.sv
+
+clean_hwpe_generated_ex: test_ov_env
+	@rm -rf ${OVERLAY_DEPS}/hwpe-generated-ex/rtl
+	@rm -rf ${OVERLAY_DEPS}/hwpe-generated-ex/sw
+	@rm -rf ${OVERLAY_DEPS}/hwpe-generated-ex/Bender.yml
 
 test_ov_env: check_ov_env
 ifndef ENV_IS_CHECKED
