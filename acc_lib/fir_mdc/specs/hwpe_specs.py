@@ -17,7 +17,7 @@ class hwpe_specs:
 
     def kernel_k(self):
         # Generic
-        self.hwpe_target                        = 'fir_mdc'
+        self.target                             = 'fir_mdc'
         self.design_type                        = 'hls'
         # Kernel design [ is_ap_ctrl_hs , is_mdc_dataflow ]
         self.intf_kernel                        = [ False , True ]
@@ -37,7 +37,6 @@ class hwpe_specs:
                                                     [ 'coeff1_V' , 'uint32_t' , 32 , 1 ] ,
                                                     [ 'coeff2_V' , 'uint32_t' , 32 , 1 ] , 
                                                     [ 'coeff3_V' , 'uint32_t' , 32 , 1 ] ]
-        self.custom_reg_num                     = len(self.custom_reg)
         return self
 
     def addressgen_k(self):
@@ -50,32 +49,51 @@ class hwpe_specs:
 
     # Additional parameters
 
-    def env_d(self):
-        # Environment
-        self.dest_dir                           = 'output'
-        return self
+    def kernel_d(self):
+        # Kernel interface
+        self.is_ap_ctrl_hs                      = self.intf_kernel[0]
+        self.is_mdc_dataflow                    = self.intf_kernel[1]
 
     def streaming_d(self):    
         self.n_sink                             = len(self.list_sink_stream)
         self.n_source                           = len(self.list_source_stream)
-        self.sink_stream                        = [item[0] for item in self.list_sink_stream]
-        self.source_stream                      = [item[0] for item in self.list_source_stream]
-        self.sink_is_parallel                   = [item[3] for item in self.list_sink_stream]
-        self.source_is_parallel                 = [item[3] for item in self.list_source_stream]
-        self.sink_parallelism_factor            = [item[4] for item in self.list_sink_stream]
-        self.source_parallelism_factor          = [item[4] for item in self.list_source_stream]
+        self.stream_in                          = [item[0] for item in self.list_sink_stream]
+        self.stream_out                         = [item[0] for item in self.list_source_stream]
+        self.is_parallel_in                     = [item[3] for item in self.list_sink_stream]
+        self.is_parallel_out                    = [item[3] for item in self.list_source_stream]
+        self.in_parallelism_factor              = [item[4] for item in self.list_sink_stream]
+        self.out_parallelism_factor             = [item[4] for item in self.list_source_stream]
+        return self
+
+    def regfile_d(self):    
+        # HWPE custom regfiles
+        self.custom_reg_name                    = [item[0] for item in self.custom_reg]
+        self.custom_reg_dtype                   = [item[1] for item in self.custom_reg]
+        self.custom_reg_dim                     = [item[2] for item in self.custom_reg]
+        self.custom_reg_isport                  = [item[3] for item in self.custom_reg]
+        self.custom_reg_num                     = len(self.custom_reg)
+        return self
+
+    def addressgen_d(self):
+        # Address generation
+        self.addr_gen_in_isprogr                = [item[0] for item in self.addr_gen_in]
+        self.addr_gen_out_isprogr               = [item[0] for item in self.addr_gen_out]
         return self
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
     def __init__(self):
+        # user-defined
         self.author_k()
         self.kernel_k()
         self.streaming_k()
         self.regfile_k()
         self.addressgen_k()
-        self.env_d()
+        # derived
+        self.kernel_d()
         self.streaming_d()
+        self.regfile_d()
+        self.addressgen_d()
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 

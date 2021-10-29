@@ -53,8 +53,8 @@ VERIF_HWPE 				:= ${VERIF}/hwpe-tb
 
 OUT_DIR 				:= ${ROOT}/output
 OUT_HW_DIR 				:= ${OUT_DIR}/hw
-OUT_OVERLAY_INTEGR		:= ${OUT_HW_DIR}/overlay_integration
 OUT_SW_DIR 				:= ${OUT_DIR}/sw
+OUT_OV_INTEGR			:= ${OUT_DIR}/ov_integr
 
 # Scripts
 
@@ -107,11 +107,11 @@ overlay_deps: test_ov_env overlay_src
 
 overlay_src: check_ov_env
 	@echo -e ">> Exporting accelerator package to perform system-level optimization."
-	@cp ${OUT_OVERLAY_INTEGR}/ov_acc_pkg.sv ${OVERLAY_SRC}/
+	@cp ${OUT_OV_INTEGR}/ov_acc_pkg.sv ${OVERLAY_SRC}/
 	@echo -e ">> Exporting accelerator interface to perform system-level integration."
-	@cp ${OUT_OVERLAY_INTEGR}/ov_acc_intf.sv ${OVERLAY_CLUSTER}/
+	@cp ${OUT_OV_INTEGR}/ov_acc_intf.sv ${OVERLAY_CLUSTER}/
 	@echo -e ">> Exporting Modelsim wave script to perform system-level testing."
-	@cp ${OUT_OVERLAY_INTEGR}/pulp_tb.wave.do ${OVERLAY_TEST}/
+	@cp ${OUT_OV_INTEGR}/pulp_tb.wave.do ${OVERLAY_TEST}/
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -177,6 +177,7 @@ clean_gen: check_ov_env
 	@rm -rf ${ENG_DEV}/*
 	@rm -rf ${OUT_HW_DIR}/*
 	@rm -rf ${OUT_SW_DIR}/*
+	@rm -rf ${OUT_OV_INTEGR}/*
 	@find . -type d -name '__pycache__' -not -path "${PY_ENV_DIR}" -exec rm -rf {} +
 	@find . -name "*.pyc" -type f -delete
 	@rm -rf ${HW_MNGT_DIR}/rtl_list/*.log
@@ -184,6 +185,26 @@ clean_gen: check_ov_env
 
 init_gen:
 	@bash ${SCRIPTS_GEN}/init_gen.sh
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+
+# ----------------- #
+#  Version Control  #
+# ----------------- #
+
+flat_temp_list: bender
+	./bender script flist 
+
+# vsim/compile.tcl: bender
+# 	echo 'set ROOT [file normalize [file dirname [info script]]/..]' > $@
+# 	./bender script vsim \
+# 		--vlog-arg="$(VLOG_ARGS)" \
+# 		-t rtl -t test \
+# 		| grep -v "set ROOT" >> $@
+
+bender: Makefile
+	curl --proto '=https' --tlsv1.2 -sSf https://fabianschuiki.github.io/bender/init | sh -s 0.21.0
+	touch bender
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 

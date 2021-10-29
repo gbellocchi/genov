@@ -10,7 +10,7 @@ error_exit()
   exit 1
 }
 
-echo -e "\n>> Checking python virtual environment...\n"
+echo -e ">> Checking python virtual environment."
 
 readonly GEN_VENV=$1
 
@@ -37,7 +37,6 @@ if [ -d "$GEN_VENV" ]; then
         no )    error_exit ">> Erroneous path for python virtual environment! Aborting.";;
         help )  echo -e "\n>> Content of $GEN_VENV:\n" 
                 ls -1 $GEN_VENV
-                echo -e "\n"
                 echo -e "\n>> Is it a correct path?";;
     esac
   done
@@ -49,7 +48,6 @@ fi
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
 echo -e ">> Completed checking the python virtual environment."
-echo -e "\n"
 
 # ------------------------------ #
 #  Completed environment check.  #

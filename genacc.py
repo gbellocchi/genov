@@ -1,24 +1,8 @@
-########################################################
-## Gianluca Bellocchi <gianluca.bellocchi@unimore.it> ##
-########################################################
 
-#!/usr/bin/env python3
-
-# Packages
-import numpy as np
-import sys
-import struct
-import shutil
-import getpass
-import os
-from pathlib import Path
-from modulefinder import ModuleFinder
-
-# Design specification package
-from engine_dev.specs.hwpe_specs import hwpe_specs
+from classes import genacc, emitter
 
 # HW packages
-# from templates.hw.hwpe_wrapper.hwpe_wrapper import hwpe_wrapper
+from templates.hw.hwpe_wrapper.hwpe_wrapper import hwpe_wrapper
 # from templates.hw.overlay.overlay import overlay
 
 # # HW-management packages
@@ -27,90 +11,45 @@ from engine_dev.specs.hwpe_specs import hwpe_specs
 # # SW packages
 # from templates.sw.hwpe_wrapper_tb.hwpe_wrapper_tb import hwpe_wrapper_tb
 
-# ----------------- #
-#  Generator class  #
-# ----------------- #
 
-class Person:
-  def __init__(self, fname, lname):
-    self.firstname = fname
-    self.lastname = lname
+# -------------------------------------- #
+# -------------  HARDWARE  ------------- #
+# -------------------------------------- #
 
-  def printname(self):
-    print("hello", self.firstname, self.lastname)
+# Instantiate generator item
+genacc = genacc()
 
-class genacc(hwpe_specs):
-    def method1(self):
+# Instantiate export item
+emitter = emitter()
 
-        print(self.author)
-        # print(super().streaming)
-        # super(genacc, self).streaming
-        # self.streaming()
-        
-        # print(self.list_sink_stream)
-        # print(self.list_source_stream)
-        # print(self.sink_is_parallel)
-        # print(self.source_is_parallel)        
-        # print(self.sink_parallelism_factor)  
-        # print(self.source_parallelism_factor)
+# Create output environment
+emitter.create_out_hw_env()
+emitter.create_out_sw_env()
+emitter.create_out_ov_integr_env()
 
-        # # HWPE streaming interfaces
-        # self.list_sink_stream                   = [item[0] for item in specs.list_sink_stream]
-        # self.list_source_stream                 = [item[0] for item in specs.list_source_stream]
-        # self.sink_is_parallel                   = [item[3] for item in specs.list_sink_stream]
-        # self.source_is_parallel                 = [item[3] for item in specs.list_source_stream]
-        # self.sink_parallelism_factor            = [item[4] for item in specs.list_sink_stream]
-        # self.source_parallelism_factor          = [item[4] for item in specs.list_source_stream]
-        # self.n_sink                             = specs.n_sink
-        # self.n_source                           = specs.n_source
+# Instantiate hwpe_wrapper item
+hwpe_wrapper = hwpe_wrapper()
 
-        # # HWPE standard regfiles
-        # self.std_reg_num        = specs.std_reg_num
+# Generate design components ~ top wrapper
+template = hwpe_wrapper.top_wrapper()
+out_target = genacc.gen(template)
+filename = emitter.get_file_name(['top_wrapper', 'hw', 'rtl'])
+emitter.output(out_target, filename, emitter.out_hw_hwpe_engine)
 
-        # # HWPE custom regfiles
-        # self.custom_reg_name    = [item[0] for item in specs.custom_reg]
-        # self.custom_reg_dtype   = [item[1] for item in specs.custom_reg]
-        # self.custom_reg_dim     = [item[2] for item in specs.custom_reg]
-        # self.custom_reg_isport  = [item[3] for item in specs.custom_reg]
-        # self.custom_reg_num     = specs.custom_reg_num
+# Generate design components ~ top
+template = hwpe_wrapper.top()
+out_target = genacc.gen(template)
+filename = emitter.get_file_name(['top', 'hw', 'rtl'])
+emitter.output(out_target, filename, emitter.out_hw_hwpe_engine)
 
-        # # Address generation
-        # self.addr_gen_in_isprogr                = [item[0] for item in specs.addr_gen_in]
-        # self.addr_gen_out_isprogr               = [item[0] for item in specs.addr_gen_out]
+# Generate design components ~ engine
+template = hwpe_wrapper.engine()
+out_target = genacc.gen(template)
+filename = emitter.get_file_name(['engine', 'hw', 'rtl'])
+emitter.output(out_target, filename, emitter.out_hw_hwpe_engine)
 
-        # self.specs              = specs
 
-        # # Template
-        # self.template           = self.get_template()
-    
-    def gen_dev(self, dev, filename, dest_dir):
-        n = filename
-        with open(n, "w") as f:
-            f.write(dev)
-            try:
-                source = n
-                destination = dest_dir
-                shutil.move(source, destination)
-            except:
-                val = getpass.getpass("There already exist old HWPE versions. Would you like to clean your environment? (y/n) ")
-                while((val != "y") and (val != "n")):
-                    val = input("There already exist old HWPE versions. Would you like to clean your environment? (y/n) ")
-                if (val=="y"):
-                    os.system('make clean >/dev/null 2>&1')
-                    source = n
-                    destination = dest_dir
-                    shutil.move(source, destination)
 
-    def struct_mod(self):
-        finder = ModuleFinder()
-        finder.run_script(Path(__file__).name)
-        f = open("struct_mod.txt", "a")
-        for name, mod in finder.modules.items():
-            if "templates." in name: 
-                s = name.replace(".", "/")
-                f.write(s)
-                f.write('\n')
-        f.close()
 
 
 # # Read hwpe specs
@@ -124,24 +63,6 @@ class genacc(hwpe_specs):
 
 # # Static components (hw, sw, ..)
 # static_comps = 'static'
-
-# # -------------------------------------- #
-# # -------------  HARDWARE  ------------- #
-# # -------------------------------------- #
-
-# # Create output environment
-# hwpe_overlay_integration = specs.dest_dir + '/hw/overlay_integration'
-# hwpe_outdir = specs.dest_dir + '/hw/hwpe-' + specs.hwpe_target + '-wrapper'
-# hwpe_rtl = hwpe_outdir + '/rtl'
-# hwpe_engine_rtl = hwpe_rtl + '/hwpe-engine'
-# hwpe_streamer_rtl = hwpe_rtl + '/hwpe-stream'
-# hwpe_ctrl_rtl = hwpe_rtl + '/hwpe-ctrl'
-
-# os.mkdir(hwpe_overlay_integration)
-# os.mkdir(hwpe_outdir)
-# os.mkdir(hwpe_rtl)
-# os.mkdir(hwpe_rtl + '/wrap')
-# os.mkdir(hwpe_engine_rtl)
 
 # # Copy static components
 # source = static_comps + '/static_rtl/hwpe-stream/rtl'
@@ -184,11 +105,11 @@ class genacc(hwpe_specs):
 # # Create hwpe wrapper
 # hwpe_wrapper = hwpe_wrapper(specs)
 
-# # Generate hwpe top wrapper
-# dev = hwpe_wrapper.top_wrapper(specs)
-# filename = specs.hwpe_target + '_' + 'top_wrapper.sv'
-# dest_dir = hwpe_rtl + '/wrap'
-# gen.gen_dev(dev, filename, dest_dir)
+# # # Generate hwpe top wrapper
+# # dev = hwpe_wrapper.top_wrapper(specs)
+# # filename = specs.hwpe_target + '_' + 'top_wrapper.sv'
+# # dest_dir = hwpe_rtl + '/wrap'
+# # gen.gen_dev(dev, filename, dest_dir)
 
 # # Generate hwpe top
 # dev = hwpe_wrapper.top(specs)

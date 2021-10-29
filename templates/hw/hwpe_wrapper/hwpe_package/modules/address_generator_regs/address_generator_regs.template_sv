@@ -24,7 +24,6 @@
     # offset and the data step. The latter is otherwise hardwired.
 
     num_regs_per_port_parallel = 10
-
   %>
 
   % for i in range (n_sink):

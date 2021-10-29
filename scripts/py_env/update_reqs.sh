@@ -11,10 +11,8 @@ readonly GEN_VENV=$1
 source $GEN_VENV/bin/activate
 
 # Update required python packages
-echo -e ">> Updating required python packages...\n"
+echo -e ">> Updating required python packages."
 pip freeze > requirements.txt
-echo -e "                                    ...done!"
-echo -e "\n"
 
 # Deactivate environment
 deactivate

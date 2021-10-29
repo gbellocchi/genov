@@ -10,7 +10,7 @@ error_exit()
   exit 1
 }
 
-echo -e "\n>> Checking overlay hardware subsystem...\n"
+echo -e ">> Checking overlay hardware subsystem."
 
 readonly OVERLAY_SRC=$1
 readonly OVERLAY_DEPS=$2
@@ -115,7 +115,6 @@ fi
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
 echo -e ">> Completed checking the overlay hardware environment."
-echo -e "\n"
 
 # ------------------------------ #
 #  Completed environment check.  #

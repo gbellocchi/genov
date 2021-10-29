@@ -1,11 +1,12 @@
-
 ########################################################
 ## Gianluca Bellocchi <gianluca.bellocchi@unimore.it> ##
 ########################################################
 
-#!/bin/bash
+#!/usr/bin/env python3
 
-echo -e ">> Cloning git submodules that will come in useful."
+from classes import collector
 
-# Cloning git submodules
-git submodule update --init --recursive
+# HWPE top
+class hwpe_top_wrapper(collector):
+    def top(self):
+        return self.get_template()

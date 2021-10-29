@@ -22,13 +22,10 @@ if [ -d "$OUT_DIR/hw" ] || [ -d "$OUT_DIR/sw" ]; then
     error_exit ">> Output files do already exist. Be sure to initialize your output directory with 'make clean_gen'."
 else
     # Get source components (see Maekfile recipe deps)
-    echo -e ">> Retrieving target engine from accelerator library...\n"
-    echo -e "                                                    ...done!\n"
+    echo -e ">> Retrieving target engine from accelerator library."
     # Run generator
-    echo -e ">> Accelerator wrapper specialization...\n"
+    echo -e ">> Generation of accelerator wrapper."
     python genacc.py
-    echo -e "                                     ...done!"
-    echo -e "\n"
 fi
 
 # Deactivate environment
