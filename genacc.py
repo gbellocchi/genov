@@ -48,36 +48,46 @@ out_target = genacc.gen(template)
 filename = emitter.get_file_name(['engine', 'hw', 'rtl'])
 emitter.output(out_target, filename, emitter.out_hw_hwpe_engine)
 
+# Generate design components ~ kernel adapter
+template = hwpe_wrapper.kernel_adapter()
+out_target = genacc.gen(template)
+filename = emitter.get_file_name(['kernel_adapter', 'hw', 'rtl'])
+emitter.output(out_target, filename, emitter.out_hw_hwpe_engine)
+
+# Generate design components ~ streamer
+template = hwpe_wrapper.streamer()
+out_target = genacc.gen(template)
+filename = emitter.get_file_name(['streamer', 'hw', 'rtl'])
+emitter.output(out_target, filename, emitter.out_hw_hwpe_engine)
+
+for i in range (genacc.n_sink):
+    print(genacc.stream_in[i].upper())
+
+# Generate design components ~ ctrl
+template = hwpe_wrapper.ctrl()
+out_target = genacc.gen(template)
+filename = emitter.get_file_name(['ctrl', 'hw', 'rtl'])
+emitter.output(out_target, filename, emitter.out_hw_hwpe_engine)
+
+# # Generate design components ~ fsm
+# template = hwpe_wrapper.fsm()
+# out_target = genacc.gen(template)
+# filename = emitter.get_file_name(['fsm', 'hw', 'rtl'])
+# emitter.output(out_target, filename, emitter.out_hw_hwpe_engine)
+
+# # Generate design components ~ package
+# template = hwpe_wrapper.package()
+# out_target = genacc.gen(template)
+# filename = emitter.get_file_name(['package', 'hw', 'rtl'])
+# emitter.output(out_target, filename, emitter.out_hw_hwpe_engine)
 
 
 
 
-# # Read hwpe specs
-# specs = hwpe_specs()
 
-# # Create device generator
-# gen = hwpe_gen(specs)
 
-# # # Get a structure of python template modules 
-# # gen.struct_mod()
 
-# # Static components (hw, sw, ..)
-# static_comps = 'static'
 
-# # Copy static components
-# source = static_comps + '/static_rtl/hwpe-stream/rtl'
-# destination = hwpe_streamer_rtl
-# shutil.copytree(source, destination)
-
-# source = static_comps + '/static_rtl/hwpe-ctrl/rtl'
-# destination = hwpe_ctrl_rtl
-# shutil.copytree(source, destination)
-
-# # Create repo for datapth
-# dirname = hwpe_engine_rtl + '/engine_dev'
-# source = 'engine_dev/rtl'
-# destination = dirname
-# shutil.copytree(source, destination)
 
 # #
 # # OVERLAY
@@ -98,60 +108,28 @@ emitter.output(out_target, filename, emitter.out_hw_hwpe_engine)
 # dest_dir = hwpe_overlay_integration
 # gen.gen_dev(dev, filename, dest_dir)
 
-# #
-# # HWPE
-# #
 
-# # Create hwpe wrapper
-# hwpe_wrapper = hwpe_wrapper(specs)
 
-# # # Generate hwpe top wrapper
-# # dev = hwpe_wrapper.top_wrapper(specs)
-# # filename = specs.hwpe_target + '_' + 'top_wrapper.sv'
-# # dest_dir = hwpe_rtl + '/wrap'
-# # gen.gen_dev(dev, filename, dest_dir)
 
-# # Generate hwpe top
-# dev = hwpe_wrapper.top(specs)
-# filename = specs.hwpe_target + '_' + 'top.sv'
-# dest_dir = hwpe_engine_rtl
-# gen.gen_dev(dev, filename, dest_dir)
+# # Static components (hw, sw, ..)
+# static_comps = 'static'
 
-# # Generate hwpe engine
-# dev = hwpe_wrapper.engine(specs)
-# filename = specs.hwpe_target + '_' + 'engine.sv'
-# dest_dir = hwpe_engine_rtl
-# gen.gen_dev(dev, filename, dest_dir)
+# # Copy static components
+# source = static_comps + '/static_rtl/hwpe-stream/rtl'
+# destination = hwpe_streamer_rtl
+# shutil.copytree(source, destination)
 
-# # Generate kernel adapter
-# dev = hwpe_wrapper.kernel_adapter(specs)
-# filename = specs.hwpe_target + '_' + 'kernel_adapter.sv'
-# dest_dir = hwpe_engine_rtl
-# gen.gen_dev(dev, filename, dest_dir)
+# source = static_comps + '/static_rtl/hwpe-ctrl/rtl'
+# destination = hwpe_ctrl_rtl
+# shutil.copytree(source, destination)
 
-# # Generate hwpe streamer wrapper
-# dev = hwpe_wrapper.streamer(specs)
-# filename = specs.hwpe_target + '_' + 'streamer.sv'
-# dest_dir = hwpe_engine_rtl
-# gen.gen_dev(dev, filename, dest_dir)
+# # Create repo for datapth
+# dirname = hwpe_engine_rtl + '/engine_dev'
+# source = 'engine_dev/rtl'
+# destination = dirname
+# shutil.copytree(source, destination)
 
-# # Generate hwpe ctrl wrapper
-# dev = hwpe_wrapper.ctrl(specs)
-# filename = specs.hwpe_target + '_' + 'ctrl.sv'
-# dest_dir = hwpe_engine_rtl
-# gen.gen_dev(dev, filename, dest_dir)
 
-# # # Generate hwpe fsm
-# dev = hwpe_wrapper.fsm(specs)
-# filename = specs.hwpe_target + '_' + 'fsm.sv'
-# dest_dir = hwpe_engine_rtl
-# gen.gen_dev(dev, filename, dest_dir)
-
-# # Generate hwpe package
-# dev = hwpe_wrapper.package(specs)
-# filename = specs.hwpe_target + '_' + 'package.sv'
-# dest_dir = hwpe_engine_rtl
-# gen.gen_dev(dev, filename, dest_dir)
 
 # # ------------------------------------------------ #
 # # -------------  HARDWARE MANAGEMENT ------------- #
@@ -219,15 +197,15 @@ emitter.output(out_target, filename, emitter.out_hw_hwpe_engine)
 # # destination = dirname
 # # shutil.copytree(source, destination)
 
-# # Generate archi-hwpe 
+# # Generate archi-hwpe
 # # Memory-mapped hardware accelerator registers
 # dev = hwpe_wrapper_tb.archi(specs)
 # filename = 'archi_hwpe.h'
 # dest_dir = sw_hwpe_lib
 # gen.gen_dev(dev, filename, dest_dir)
 
-# # Generate hal-hwpe 
-# # Hardware Abstraction Layer with functions that permit 
+# # Generate hal-hwpe
+# # Hardware Abstraction Layer with functions that permit
 # # to create an inetaction between the RISC-V processor
 # # and the hardware accelerator
 # dev = hwpe_wrapper_tb.hal(specs)
