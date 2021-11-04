@@ -1,1 +1,0 @@
-templates/hw/hwpe_wrapper/hwpe_top/top/hwpe_top.template_sv
