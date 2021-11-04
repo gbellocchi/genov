@@ -18,7 +18,6 @@
  * 
  */
 
-
 import ${target}_package::*;
 import hwpe_ctrl_package::*;
 
@@ -111,6 +110,6 @@ module ${target}_top_wrap
     .periph      ( periph      )
   );
   
-  endmodule\
+  endmodule
 
 

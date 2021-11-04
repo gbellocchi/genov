@@ -4,7 +4,7 @@
 
 #!/usr/bin/env python3
 
-from classes import collector
+from collector import collector
 
 # Overlay accelerator package
 class ov_acc_pkg(collector):

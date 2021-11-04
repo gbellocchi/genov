@@ -4,7 +4,7 @@
 
 #!/usr/bin/env python3
 
-from classes import collector
+from collector import collector
 
 # HWPE ctrl
 class hwpe_ctrl(collector):
