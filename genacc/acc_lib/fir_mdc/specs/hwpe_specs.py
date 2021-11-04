@@ -33,10 +33,10 @@ class hwpe_specs:
         # HWPE standard regfiles
         self.std_reg_num                        = 4       
         # HWPE custom regfiles [ name , data-type , reg-dim , is_port ]
-        self.custom_reg                         = [ [ 'coeff0_V' , 'uint32_t' , 32 , 1 ] , 
-                                                    [ 'coeff1_V' , 'uint32_t' , 32 , 1 ] ,
-                                                    [ 'coeff2_V' , 'uint32_t' , 32 , 1 ] , 
-                                                    [ 'coeff3_V' , 'uint32_t' , 32 , 1 ] ]
+        self.custom_reg                         = [ [ 'coeff_0_V' , 'uint32_t' , 32 , 1 ] , 
+                                                    [ 'coeff_1_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'coeff_2_V' , 'uint32_t' , 32 , 1 ] , 
+                                                    [ 'coeff_3_V' , 'uint32_t' , 32 , 1 ] ]
         return self
 
     def addressgen_k(self):
