@@ -50,7 +50,7 @@
     % endif
   % endfor
 
-</%def>\
+</%def>
 
 <%def name="out_track_impl_DtypeFF()">\
 
@@ -142,7 +142,7 @@
     % endif
   % endfor 
 
-</%def>\
+</%def>
 
 <%
 ###########################################
@@ -158,7 +158,7 @@
   logic unsigned [($clog2(${TARGET}_CNT_LEN)+1):0] cnt_${stream_out[j]};
   % endfor
 
-</%def>\
+</%def>
 
 <%def name="cnt_out_FF_impl()">\
 
@@ -200,7 +200,7 @@
     % endif
   % endfor 
 
-</%def>\
+</%def>
 
 <%
 #######################################################
@@ -215,7 +215,7 @@
   assign flags_o.cnt_${stream_out[j]} = cnt_${stream_out[j]};
   % endfor
 
-</%def>\
+</%def>
 
 <%
 ####################################################
@@ -240,4 +240,4 @@ track_${stream_out[n_source-1]}_${k} & \
 track_${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1}; \
   % endif
 \
-</%def>\
+</%def>

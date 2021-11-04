@@ -71,9 +71,6 @@ class generator(hwpe_specs):
             num_engine_devs         = len(self.get_engine()),
         )
         s = re.sub(r'\s+$', '', string, flags=re.M)
-        f = open("test_tmp.txt", "a")
-        f.write(s)
-        f.close()
         return s
 
     """

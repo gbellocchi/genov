@@ -28,6 +28,6 @@
   const unsigned engine_runs_${stream_out[j]}         = 1; // ${stream_out[j]}_stripe_height * ${stream_out[j]}_stripe_height - 1
   % endfor
 
-</%def>\
+</%def>
 
 

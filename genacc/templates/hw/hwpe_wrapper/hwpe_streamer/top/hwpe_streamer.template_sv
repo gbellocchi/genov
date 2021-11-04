@@ -27,13 +27,13 @@ module ${target}_streamer
 )
 (
   // Global signals
-  ${port('clk', 'logic', 1, False)},\
-  ${port('rst', 'logic', 1, False, True)},
-  ${port('test_mode', 'logic', 1, False)},
-
+  input  logic          clk_i,
+  input  logic          rst_ni,
+  input  logic          test_mode_i,
+  
   // Local enable & clear
-  ${port('enable', 'logic', 1, False)},\
-  ${port('clear', 'logic', 1, False)},\
+  input  logic          enable_i,
+  input  logic          clear_i,
 
   <%
   ####################

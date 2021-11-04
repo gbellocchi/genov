@@ -68,4 +68,4 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_kernel_adapter
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_kernel_adapter} -group {xil_ap_ctrl_hs} -group {Flags} -label {Idle} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/i_${target}_adapter/idle}
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_kernel_adapter} -group {xil_ap_ctrl_hs} -group {Flags} -label {Ready} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/i_${target}_adapter/ready}
 
-</%def>\
+</%def>

@@ -67,4 +67,4 @@
 
 #define ${target.upper()}_REG_LOOPS1_OFFS                              ${hex(addr_current)}
 
-</%def>\
+</%def>

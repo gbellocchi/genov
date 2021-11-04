@@ -82,4 +82,4 @@ add wave -noupdate -group {HWPE ${target}} -group {ov_acc_intf} -group {hwacc_cf
 add wave -noupdate -group {HWPE ${target}} -group {ov_acc_intf} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/evt_o}
 add wave -noupdate -group {HWPE ${target}} -group {ov_acc_intf} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/busy_o}
 
-</%def>\
+</%def>

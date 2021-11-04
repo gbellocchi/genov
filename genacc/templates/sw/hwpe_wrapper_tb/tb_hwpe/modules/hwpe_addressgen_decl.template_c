@@ -54,7 +54,7 @@
     % endif
   % endfor
 
-</%def>\
+</%def>
 
 <%
 # Declaration for matrix multiplication with memcpy from TCDM to accelerator local memory.
@@ -93,7 +93,7 @@
     % endif
   % endfor
 
-</%def>\
+</%def>
 
 <%
 #######################################################
@@ -138,7 +138,7 @@
     % endif
   % endfor
 
-</%def>\
+</%def>
 
 <%
 # Declaration for matrix multiplication with memcpy from TCDM to accelerator local memory.
@@ -177,4 +177,4 @@
     % endif
   % endfor
 
-</%def>\
+</%def>

@@ -25,7 +25,7 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {slave_peri
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {slave_periph_port} -label {r_valid} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/cfg/r_valid}
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {slave_periph_port} -label {r_id} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_slave/cfg/r_id}
 
-</%def>\
+</%def>
 
 <%
 ########################
@@ -51,7 +51,7 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -group {${target}_static_regs} -label {${custom_reg_name[i]}} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/static_reg_${custom_reg_name[i]}}
 % endfor
 
-</%def>\
+</%def>
 
 <%
 ################
@@ -71,4 +71,4 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {uloop} -gr
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {uloop} -group {i/o} -label {uloop_code_i} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_uloop/uloop_code_i}
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {uloop} -group {i/o} -label {registers_read_i} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_uloop/registers_read_i}
 
-</%def>\
+</%def>

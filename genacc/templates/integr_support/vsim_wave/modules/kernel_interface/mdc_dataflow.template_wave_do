@@ -129,4 +129,4 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_kernel_adapter
 
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_kernel_adapter} -group {mdc_dataflow} -group {Kernel signals} -group {Flags} -label {kernel_idle} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/i_${target}_adapter/kernel_idle}
 
-</%def>\
+</%def>

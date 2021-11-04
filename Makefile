@@ -101,6 +101,7 @@ hwpe_generated_ex: test_ov_env overlay_src clean_hwpe_generated_ex
 	@echo -e ">> Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay."
 	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper/* ${OVERLAY_DEPS}/hwpe-generated-ex/
 	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-generated-ex/
+	@cp ${OUT_OV_INTEGR}/Bender.yml ${OVERLAY_DEPS}/hwpe-generated-ex/
 
 overlay_deps: test_ov_env overlay_src
 	@echo -e ">> Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay."

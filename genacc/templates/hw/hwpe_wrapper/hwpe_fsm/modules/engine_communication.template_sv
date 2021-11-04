@@ -16,7 +16,7 @@
     ctrl_engine_o.cnt_limit_${stream_out[j]}  = ctrl_i.cnt_limit_${stream_out[j]};
   % endfor
 \
-</%def>\
+</%def>
 
 <%
 ############################################
@@ -43,7 +43,7 @@
     % endif
   % endfor
 
-</%def>\
+</%def>
 
 <%def name="engine_check_cnt_flags_v1()">\
 
@@ -55,4 +55,4 @@
 
           flags_engine_i.done == '1
 
-</%def>\
+</%def>

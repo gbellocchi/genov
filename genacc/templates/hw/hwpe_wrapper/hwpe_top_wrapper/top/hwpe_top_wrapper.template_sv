@@ -29,8 +29,8 @@ module ${target}_top_wrap
 )
 ( 
   // Global signals
-  ${port('clk', 'logic', 1, False)},\
-  ${port('rst', 'logic', 1, False, True)},
+  input  logic          clk_i,
+  input  logic          rst_ni,
   input  logic          test_mode_i,
 
   // Events

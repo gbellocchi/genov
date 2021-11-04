@@ -17,7 +17,7 @@
   hwpe_cg_enable();
   while((offload_id_tmp = hwpe_acquire_job()) < 0)
 
-</%def>\
+</%def>
 
 <%
 #####################################
@@ -32,7 +32,7 @@
   hwpe_soft_clear();
   hwpe_cg_disable();
 
-</%def>\
+</%def>
 
 <%
 ##########################################
@@ -58,7 +58,7 @@
   hwpe_linestride_set(width*sizeof(uint32_t));
   hwpe_tilestride_set(stripe_height*sizeof(uint32_t));
 
-</%def>\
+</%def>
 
 <%
 ###############################################
@@ -74,7 +74,7 @@
   hwpe_len_iter_set_${stream_out[j]}(engine_runs_${stream_out[j]}-1);
   % endfor
 
-</%def>\
+</%def>
 
 <%
 ######################################################
@@ -150,7 +150,7 @@
     % endif
   % endfor
 
-</%def>\
+</%def>
 
 <%
 #####################################################
@@ -172,7 +172,7 @@
   hwpe_${stream_out[j]}_addr_set( ${stream_out[j]}_l1 );
   % endfor
 
-</%def>\
+</%def>
 
 <%
 #####################################################
@@ -191,4 +191,4 @@
     % endfor 
   % endif
 
-</%def>\
+</%def>

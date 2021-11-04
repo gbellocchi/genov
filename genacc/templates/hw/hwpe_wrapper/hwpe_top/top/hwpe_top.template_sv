@@ -29,9 +29,9 @@ module ${target}_top
 )
 ( 
   // Global signals
-  ${port('clk', 'logic', 1, False)},\
-  ${port('rst', 'logic', 1, False, True)},
-  input  logic                        test_mode_i,
+  input  logic          clk_i,
+  input  logic          rst_ni,
+  input  logic          test_mode_i,
 
   // Events
   output logic [N_CORES-1:0][REGFILE_N_EVT-1:0] evt_o,

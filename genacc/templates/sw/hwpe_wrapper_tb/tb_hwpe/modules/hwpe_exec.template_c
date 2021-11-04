@@ -22,7 +22,7 @@
   // Trigger execution
   hwpe_trigger_job();
 
-</%def>\
+</%def>
 
 <%
 ##########################################
@@ -40,4 +40,4 @@
 
   printf("DUT end of execution!\n");
 
-</%def>\
+</%def>

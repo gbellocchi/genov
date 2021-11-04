@@ -168,7 +168,7 @@ integr_support = integr_support()
 ''' 
 template = integr_support.bender()
 out_target = generator.render(template)
-filename = emitter.get_file_name(['integr_support', 'bender', ['integr_support', 'bender']])
+filename = emitter.get_file_name(['integr_support', 'Bender', ['integr_support', 'bender']])
 emitter.out_gen(out_target, filename, emitter.out_ov_integr)
 
 '''
@@ -195,7 +195,7 @@ hwpe_wrapper_tb = hwpe_wrapper_tb()
 ''' 
 template = hwpe_wrapper_tb.archi_hwpe()
 out_target = generator.render(template)
-filename = emitter.get_file_name(['sw', 'archi', ['sw', 'archi']])
+filename = emitter.get_file_name(['sw', 'archi_hwpe', ['sw', 'archi']])
 emitter.out_gen(out_target, filename, emitter.out_sw_hwpe_lib)
 
 '''
@@ -206,7 +206,7 @@ emitter.out_gen(out_target, filename, emitter.out_sw_hwpe_lib)
 ''' 
 template = hwpe_wrapper_tb.hal_hwpe()
 out_target = generator.render(template)
-filename = emitter.get_file_name(['sw', 'hal', ['sw', 'hal']])
+filename = emitter.get_file_name(['sw', 'hal_hwpe', ['sw', 'hal']])
 emitter.out_gen(out_target, filename, emitter.out_sw_hwpe_lib)
 
 '''

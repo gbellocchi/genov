@@ -29,4 +29,4 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_top} -group {periph} {/p
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_top} -group {periph} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/periph_r_id}
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_top} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/evt_o}
 
-</%def>\
+</%def>

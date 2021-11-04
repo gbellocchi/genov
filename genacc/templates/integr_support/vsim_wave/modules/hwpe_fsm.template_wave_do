@@ -25,4 +25,4 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {FSM} -grou
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {FSM} -group {out_ctrl} -label {ctrl_ucode_o} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_fsm/ctrl_ucode_o}
 add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {FSM} -group {out_ctrl} -label {ctrl_slave_o} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_ctrl/i_fsm/ctrl_slave_o}
 
-</%def>\
+</%def>

@@ -21,7 +21,7 @@
 
   assign kernel_start = start;
 
-</%def>\
+</%def>
 
 <%
 #####################################
@@ -143,7 +143,7 @@
     end
   end
 
-</%def>\
+</%def>
 
 <%
 #######################################
@@ -215,7 +215,7 @@
     % endif
   % endfor 
 
-</%def>\
+</%def>
 
 <%
 ########################################
@@ -284,7 +284,7 @@
     % endif
   % endfor
 
-</%def>\
+</%def>
 
 <%
 ######################################################
@@ -360,7 +360,7 @@
 
   );
 
-</%def>\
+</%def>
 
 <%
 ################################################
@@ -370,7 +370,7 @@
 
 <%def name="mdc_dataflow_stream_strobes()">\
 
-</%def>\
+</%def>
 
 <%
 #############################################
@@ -400,7 +400,7 @@ kernel_done_${stream_in[n_sink-1]}_${in_parallelism_factor[n_sink-1]-1};\
 kernel_done_${stream_in[n_sink-1]}\
 % endif
 \
-</%def>\
+</%def>
 
 <%def name="AND_kernel_done_out()">\
 \
@@ -423,5 +423,5 @@ kernel_done_${stream_out[n_source-1]}_${out_parallelism_factor[n_source-1]-1};\
 kernel_done_${stream_out[n_source-1]}\
 % endif
 \
-</%def>\
+</%def>
 
