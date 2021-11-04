@@ -21,47 +21,49 @@ HWPE_TARGET				:= fir_mdc
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-# ------------------ #
-#  TOOL ENVIRONMENT  #
-# ------------------ #
+# -------------------- #
+#  GENACC ENVIRONMENT  #
+# -------------------- #
+
+GENACC_ROOT				:= ${ROOT}/genacc
 
 # Templates
 
-TEMPLATES 				:= ${ROOT}/templates
+TEMPLATES 				:= ${GENACC_ROOT}/templates
 HW_DIR					:= ${TEMPLATES}/hw
 HW_MNGT_DIR				:= ${TEMPLATES}/integr_support
 SW_DIR					:= ${TEMPLATES}/sw
 
 # Engine
 
-ENG_DEV 				:= ${ROOT}/engine_dev
+ENG_DEV 				:= ${GENACC_ROOT}/engine_dev
 ENG_DEV_RTL 			:= ${ENG_DEV}/rtl
 
 # Static modules
 
-STATIC 					:= ${ROOT}/static
+STATIC 					:= ${GENACC_ROOT}/static
 STATIC_RTL_DIR 			:= ${STATIC}/static_rtl
 STATIC_STREAM			:= ${STATIC_RTL_DIR}/hwpe-stream
 STATIC_CTRL 			:= ${STATIC_RTL_DIR}/hwpe-ctrl
 
 # Verification
 
-VERIF 					:= ${ROOT}/verif
+VERIF 					:= ${GENACC_ROOT}/verif
 VERIF_HWPE 				:= ${VERIF}/hwpe-tb
 
 # Output content
 
-OUT_DIR 				:= ${ROOT}/output
+OUT_DIR 				:= ${GENACC_ROOT}/output
 OUT_HW_DIR 				:= ${OUT_DIR}/hw
 OUT_SW_DIR 				:= ${OUT_DIR}/sw
 OUT_OV_INTEGR			:= ${OUT_DIR}/ov_integr
 
 # Scripts
 
-TOOLS_DIR				:= ${ROOT}/tools
-TOOLS_GEN				:= ${TOOLS_DIR}/gen
-TOOLS_PY_ENV			:= ${TOOLS_DIR}/py_env
-TOOLS_SYS_INTEGR		:= ${TOOLS_DIR}/sys_integr
+SCRIPTS_DIR				:= ${ROOT}/scripts
+SCRIPTS_GEN				:= ${SCRIPTS_DIR}/gen
+SCRIPTS_PY_ENV			:= ${SCRIPTS_DIR}/py_env
+SCRIPTS_SYS_INTEGR		:= ${SCRIPTS_DIR}/sys_integr
 
 # Python virtual environment
 PY_VENV 				:= ${REPO}_py_env
@@ -129,7 +131,7 @@ verif_hwpe_build_hw: check_ov_env
 # ----------------------------- #
 
 run_gen: check_ov_env clean_gen engine_dev static_rtl
-	@bash ${TOOLS_GEN}/run_gen.sh ${PY_VENV} ${OUT_DIR}
+	@bash ${SCRIPTS_GEN}/run_gen.sh ${PY_VENV} ${OUT_DIR}
 
 static_rtl: check_ov_env
 	@ls -R ${STATIC_STREAM} | grep '\.sv' >> ${HW_MNGT_DIR}/rtl_list/stream_list.log
@@ -139,7 +141,7 @@ engine_dev: check_ov_env acc_lib
 	@ls ${ENG_DEV_RTL} >> ${HW_MNGT_DIR}/rtl_list/engine_list.log
 
 acc_lib: check_ov_env
-	@cd acc_lib && make -s clean all TARGET=${HWPE_TARGET} TEMPLATES=${TEMPLATES} ENG_DEV=${ENG_DEV}
+	@cd ${GENACC_ROOT}/acc_lib && make -s clean all TARGET=${HWPE_TARGET} TEMPLATES=${TEMPLATES} ENG_DEV=${ENG_DEV}
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -159,7 +161,7 @@ clean_hwpe_generated_ex: test_ov_env
 
 test_ov_env: check_ov_env
 ifndef ENV_IS_CHECKED
-	@bash ${TOOLS_SYS_INTEGR}/secure_paths.sh ${OVERLAY_SRC} ${OVERLAY_DEPS} ${OVERLAY_TEST}
+	@bash ${SCRIPTS_SYS_INTEGR}/secure_paths.sh ${OVERLAY_SRC} ${OVERLAY_DEPS} ${OVERLAY_TEST}
 endif
 
 check_ov_env:
@@ -181,10 +183,9 @@ clean_gen: check_ov_env
 	@find . -type d -name '__pycache__' -not -path "${PY_ENV_DIR}" -exec rm -rf {} +
 	@find . -name "*.pyc" -type f -delete
 	@rm -rf ${HW_MNGT_DIR}/rtl_list/*.log
-	@rm -rf ${ROOT}/struct_mod.txt
 
 init_gen:
-	@bash ${TOOLS_GEN}/init_gen.sh
+	@bash ${SCRIPTS_GEN}/init_gen.sh
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -216,12 +217,12 @@ clean_py_env: test_py_env
 	@rm -rf ${PY_VENV}
 
 init_py_env:
-	@bash ${TOOLS_PY_ENV}/init_py_env.sh ${PY_VENV}
+	@bash ${SCRIPTS_PY_ENV}/init_py_env.sh ${PY_VENV}
 
 update_reqs_py_env:
-	@bash ${TOOLS_PY_ENV}/update_reqs.sh ${PY_ENV_DIR}
+	@bash ${SCRIPTS_PY_ENV}/update_reqs.sh ${PY_ENV_DIR}
 
 test_py_env:
-	@bash ${TOOLS_PY_ENV}/secure_paths.sh ${PY_ENV_DIR}
+	@bash ${SCRIPTS_PY_ENV}/secure_paths.sh ${PY_ENV_DIR}
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #

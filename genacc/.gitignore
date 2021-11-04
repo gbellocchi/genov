@@ -3,4 +3,7 @@
 **/__pycache__/
 
 # generated files
+engine_dev/
 **/*.log
+output/hw/
+output/sw/

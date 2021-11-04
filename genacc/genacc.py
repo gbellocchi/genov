@@ -17,94 +17,136 @@ from templates.sw.hwpe_wrapper_tb.hwpe_wrapper_tb import hwpe_wrapper_tb
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-# Instantiate generator item
+'''
+    Generator
+    =========
+
+    Instantiate generator item
+'''
 genacc = genacc()
 
-# Instantiate export item
+'''
+    Emitter
+    =======
+
+    Instantiate export item
+'''
 emitter = emitter()
 
-# Create output environment
+'''
+    Output environment
+    ==================
+
+    Create output environment
+'''
 emitter.create_out_hw_env()
 emitter.create_out_sw_env()
 emitter.create_out_ov_integr_env()
 
-# Export static components
+'''
+    Static
+    ======
+
+    Export static components
+'''
 emitter.out_hw_static() 
 emitter.out_sw_static()
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-# Hardware
+'''
+    Hardware wrapper
+    ================
 
-#
-# HWPE Wrapper
-#
-
-# Instantiate hwpe_wrapper item
+    Instantiate HWPE wrapper item
+'''
 hwpe_wrapper = hwpe_wrapper()
 
-# Generate design components ~ top wrapper
+'''
+    Generate design components ~ Top wrapper
+'''
 template = hwpe_wrapper.top_wrapper()
 out_target = genacc.gen(template)
 filename = emitter.get_file_name(['hwpe', 'top_wrapper', ['hw', 'rtl']])
 emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 
-# Generate design components ~ top
+'''
+    Generate design components ~ Top
+'''
 template = hwpe_wrapper.top()
 out_target = genacc.gen(template)
 filename = emitter.get_file_name(['hwpe', 'top', ['hw', 'rtl']])
 emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 
-# Generate design components ~ engine
+'''
+    Generate design components ~ Engine
+'''
 template = hwpe_wrapper.engine()
 out_target = genacc.gen(template)
 filename = emitter.get_file_name(['hwpe', 'engine', ['hw', 'rtl']])
 emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 
-# Generate design components ~ kernel adapter
+'''
+    Generate design components ~ Kernel adapter
+'''
 template = hwpe_wrapper.kernel_adapter()
 out_target = genacc.gen(template)
 filename = emitter.get_file_name(['hwpe', 'kernel_adapter', ['hw', 'rtl']])
 emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 
-# Generate design components ~ streamer
+'''
+    Generate design components ~ Streamer
+'''
 template = hwpe_wrapper.streamer()
 out_target = genacc.gen(template)
 filename = emitter.get_file_name(['hwpe', 'streamer', ['hw', 'rtl']])
 emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 
-# Generate design components ~ ctrl
+'''
+    Generate design components ~ Controller
+'''
 template = hwpe_wrapper.ctrl()
 out_target = genacc.gen(template)
 filename = emitter.get_file_name(['hwpe', 'ctrl', ['hw', 'rtl']])
 emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 
-# Generate design components ~ fsm
+'''
+    Generate design components ~ FSM
+'''
 template = hwpe_wrapper.fsm()
 out_target = genacc.gen(template)
 filename = emitter.get_file_name(['hwpe', 'fsm', ['hw', 'rtl']])
 emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 
-# Generate design components ~ package
+'''
+    Generate design components ~ Package
+'''
 template = hwpe_wrapper.package()
 out_target = genacc.gen(template)
 filename = emitter.get_file_name(['hwpe', 'package', ['hw', 'rtl']])
 emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 
-#
-# Overlay
-#
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-# Instantiate overlay item
+'''
+    Accelerator integration
+    =======================
+
+    Instantiate overlay item
+''' 
 overlay = overlay()
 
-# Generate design components ~ overlay accelerator package
+'''
+    Generate design components ~ Overlay accelerator package
+''' 
 template = overlay.acc_pkg()
 out_target = genacc.gen(template)
 filename = emitter.get_file_name(['ov', 'acc_pkg', ['hw', 'rtl']])
 emitter.out_gen(out_target, filename, emitter.out_ov_integr)
 
-# Generate design components ~ overlay accelerator interface
+'''
+    Generate design components ~ Overlay accelerator interface
+''' 
 template = overlay.acc_intf()
 out_target = genacc.gen(template)
 filename = emitter.get_file_name(['ov', 'acc_intf', ['hw', 'rtl']])
@@ -112,30 +154,38 @@ emitter.out_gen(out_target, filename, emitter.out_ov_integr)
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-# Hardware support files
+'''
+    Hardware support
+    ================
 
-# Instantiate overlay item
+    Instantiate integration support item
+''' 
 integr_support = integr_support()
 
-# Generate design components ~ bender
+'''
+    Generate design components ~ Bender
+''' 
 template = integr_support.bender()
 out_target = genacc.gen(template)
 filename = emitter.get_file_name(['integr_support', 'bender', ['integr_support', 'bender']])
 emitter.out_gen(out_target, filename, emitter.out_ov_integr)
 
-# Generate design components ~ QuestaSim waves
+'''
+    Generate design components ~ QuestaSim waves
+''' 
 template = integr_support.vsim_wave()
 out_target = genacc.gen(template)
-filename = emitter.get_file_name(['integr_support', 'vsim_wave', ['integr_support', 'vsim_wave']])
+filename = emitter.get_file_name(['integr_support', 'pulp_tb', ['integr_support', 'vsim_wave']])
 emitter.out_gen(out_target, filename, emitter.out_ov_integr)
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
 '''
-    Software testbench components.
-''' 
+    Software testbench
+    ==================
 
-# Instantiate testbench item
+    Instantiate SW testbench item
+''' 
 hwpe_wrapper_tb = hwpe_wrapper_tb()
 
 '''

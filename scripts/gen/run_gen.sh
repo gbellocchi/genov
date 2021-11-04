@@ -25,7 +25,7 @@ else
     echo -e ">> Retrieving target engine from accelerator library."
     # Run generator
     echo -e ">> Generation of accelerator wrapper."
-    python genacc.py
+    cd genacc && python genacc.py
 fi
 
 # Deactivate environment
