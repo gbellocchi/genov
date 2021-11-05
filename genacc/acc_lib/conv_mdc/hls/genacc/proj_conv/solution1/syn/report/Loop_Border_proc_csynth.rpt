@@ -1,0 +1,236 @@
+
+
+================================================================
+== Vivado HLS Report for 'Loop_Border_proc'
+================================================================
+* Date:           Fri Nov  5 09:20:00 2021
+
+* Version:        2019.2.1 (Build 2724168 on Thu Dec 05 05:19:09 MST 2019)
+* Project:        proj_conv
+* Solution:       solution1
+* Product family: virtexuplus
+* Target device:  xcvu9p-flga2104-2-i
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+---------+----------+------------+
+    |  Clock |  Target | Estimated| Uncertainty|
+    +--------+---------+----------+------------+
+    |ap_clk  | 6.66 ns | 4.628 ns |   0.83 ns  |
+    +--------+---------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+-----------+-----------+-----+---------+---------+
+    |  Latency (cycles) |   Latency (absolute)  |    Interval   | Pipeline|
+    |   min   |   max   |    min    |    max    | min |   max   |   Type  |
+    +---------+---------+-----------+-----------+-----+---------+---------+
+    |        2|  2070606| 13.320 ns | 13.790 ms |    2|  2070606|   none  |
+    +---------+---------+-----------+-----------+-----+---------+---------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +------------+---------+---------+----------+-----------+-----------+-------------+----------+
+        |            |  Latency (cycles) | Iteration|  Initiation Interval  |     Trip    |          |
+        |  Loop Name |   min   |   max   |  Latency |  achieved |   target  |    Count    | Pipelined|
+        +------------+---------+---------+----------+-----------+-----------+-------------+----------+
+        |- Border_L  |        0|  2070604|         5|          1|          1| 0 ~ 2070601 |    yes   |
+        +------------+---------+---------+----------+-----------+-----------+-------------+----------+
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++---------------------+---------+-------+---------+---------+-----+
+|         Name        | BRAM_18K| DSP48E|    FF   |   LUT   | URAM|
++---------------------+---------+-------+---------+---------+-----+
+|DSP                  |        -|      -|        -|        -|    -|
+|Expression           |        -|      4|        0|      622|    -|
+|FIFO                 |        -|      -|        -|        -|    -|
+|Instance             |        -|      -|        -|        -|    -|
+|Memory               |        4|      -|        0|        0|    0|
+|Multiplexer          |        -|      -|        -|      120|    -|
+|Register             |        0|      -|      636|       96|    -|
++---------------------+---------+-------+---------+---------+-----+
+|Total                |        4|      4|      636|      838|    0|
++---------------------+---------+-------+---------+---------+-----+
+|Available SLR        |     1440|   2280|   788160|   394080|  320|
++---------------------+---------+-------+---------+---------+-----+
+|Utilization SLR (%)  |    ~0   |   ~0  |    ~0   |    ~0   |    0|
++---------------------+---------+-------+---------+---------+-----+
+|Available            |     4320|   6840|  2364480|  1182240|  960|
++---------------------+---------+-------+---------+---------+-----+
+|Utilization (%)      |    ~0   |   ~0  |    ~0   |    ~0   |    0|
++---------------------+---------+-------+---------+---------+-----+
+
++ Detail: 
+    * Instance: 
+    N/A
+
+    * DSP48E: 
+    N/A
+
+    * Memory: 
+    +-------------+----------------------+---------+---+----+-----+------+-----+------+-------------+
+    |    Memory   |        Module        | BRAM_18K| FF| LUT| URAM| Words| Bits| Banks| W*Bits*Banks|
+    +-------------+----------------------+---------+---+----+-----+------+-----+------+-------------+
+    |borderbuf_U  |Loop_Border_proc_lbW  |        4|  0|   0|    0|  1910|   32|     1|        61120|
+    +-------------+----------------------+---------+---+----+-----+------+-----+------+-------------+
+    |Total        |                      |        4|  0|   0|    0|  1910|   32|     1|        61120|
+    +-------------+----------------------+---------+---+----+-----+------+-----+------+-------------+
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +----------------------------------+----------+-------+---+----+------------+------------+
+    |           Variable Name          | Operation| DSP48E| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +----------------------------------+----------+-------+---+----+------------+------------+
+    |bound_fu_208_p2                   |     *    |      4|  0|  20|          32|          32|
+    |add_ln175_1_fu_267_p2             |     +    |      0|  0|  11|          11|           1|
+    |add_ln175_fu_261_p2               |     +    |      0|  0|  64|          64|           1|
+    |add_ln179_fu_194_p2               |     +    |      0|  0|  32|          32|           4|
+    |add_ln189_fu_182_p2               |     +    |      0|  0|  32|          32|           5|
+    |add_ln196_fu_188_p2               |     +    |      0|  0|  32|          32|           4|
+    |add_ln199_fu_408_p2               |     +    |      0|  0|  11|          11|           4|
+    |j_fu_349_p2                       |     +    |      0|  0|  11|          11|           1|
+    |and_ln179_1_fu_302_p2             |    and   |      0|  0|   2|           1|           1|
+    |and_ln179_fu_235_p2               |    and   |      0|  0|   2|           1|           1|
+    |and_ln196_fu_429_p2               |    and   |      0|  0|   2|           1|           1|
+    |ap_block_pp0_stage0_01001         |    and   |      0|  0|   2|           1|           1|
+    |ap_block_state3_pp0_stage0_iter1  |    and   |      0|  0|   2|           1|           1|
+    |ap_block_state5_io                |    and   |      0|  0|   2|           1|           1|
+    |ap_block_state6_io                |    and   |      0|  0|   2|           1|           1|
+    |ap_predicate_op58_read_state3     |    and   |      0|  0|   2|           1|           1|
+    |icmp_ln175_fu_256_p2              |   icmp   |      0|  0|  29|          64|          64|
+    |icmp_ln176_fu_251_p2              |   icmp   |      0|  0|  20|          32|          32|
+    |icmp_ln179_1_fu_224_p2            |   icmp   |      0|  0|  13|          11|           3|
+    |icmp_ln179_2_fu_230_p2            |   icmp   |      0|  0|  20|          32|          32|
+    |icmp_ln179_3_fu_285_p2            |   icmp   |      0|  0|  13|          11|           1|
+    |icmp_ln179_4_fu_291_p2            |   icmp   |      0|  0|  13|          11|           3|
+    |icmp_ln179_5_fu_297_p2            |   icmp   |      0|  0|  20|          32|          32|
+    |icmp_ln179_fu_218_p2              |   icmp   |      0|  0|  13|          11|           1|
+    |icmp_ln182_fu_334_p2              |   icmp   |      0|  0|  20|          32|          32|
+    |icmp_ln186_fu_373_p2              |   icmp   |      0|  0|  13|          11|           1|
+    |icmp_ln189_fu_339_p2              |   icmp   |      0|  0|  20|          32|          32|
+    |icmp_ln194_fu_403_p2              |   icmp   |      0|  0|  13|          11|           3|
+    |icmp_ln196_fu_344_p2              |   icmp   |      0|  0|  20|          32|          32|
+    |ap_block_pp0_stage0_11001         |    or    |      0|  0|   2|           1|           1|
+    |ap_block_state1                   |    or    |      0|  0|   2|           1|           1|
+    |or_ln179_1_fu_308_p2              |    or    |      0|  0|   2|           1|           1|
+    |or_ln179_fu_241_p2                |    or    |      0|  0|   2|           1|           1|
+    |dst_V_TDATA_int                   |  select  |      0|  0|  32|           1|          32|
+    |l_edge_pix_fu_386_p3              |  select  |      0|  0|  32|           1|          32|
+    |pix_out_8_fu_434_p3               |  select  |      0|  0|  32|           1|          32|
+    |select_ln175_1_fu_314_p3          |  select  |      0|  0|   2|           1|           1|
+    |select_ln175_2_fu_326_p3          |  select  |      0|  0|  11|           1|          11|
+    |select_ln175_fu_277_p3            |  select  |      0|  0|  11|           1|          11|
+    |select_ln186_fu_378_p3            |  select  |      0|  0|  32|           1|          32|
+    |ap_enable_pp0                     |    xor   |      0|  0|   2|           1|           2|
+    |ap_enable_reg_pp0_iter1           |    xor   |      0|  0|   2|           2|           1|
+    |xor_ln194_fu_424_p2               |    xor   |      0|  0|   2|           1|           2|
+    +----------------------------------+----------+-------+---+----+------------+------------+
+    |Total                             |          |      4|  0| 622|         570|         488|
+    +----------------------------------+----------+-------+---+----+------------+------------+
+
+    * Multiplexer: 
+    +-------------------------+----+-----------+-----+-----------+
+    |           Name          | LUT| Input Size| Bits| Total Bits|
+    +-------------------------+----+-----------+-----+-----------+
+    |ap_NS_fsm                |  21|          4|    1|          4|
+    |ap_done                  |   9|          2|    1|          2|
+    |ap_enable_reg_pp0_iter1  |   9|          2|    1|          2|
+    |ap_enable_reg_pp0_iter4  |   9|          2|    1|          2|
+    |dst_V_TDATA_blk_n        |   9|          2|    1|          2|
+    |height_blk_n             |   9|          2|    1|          2|
+    |i6_0_i_i_i_reg_160       |   9|          2|   11|         22|
+    |indvar_flatten_reg_149   |   9|          2|   64|        128|
+    |j_0_i_i_i_reg_171        |   9|          2|   11|         22|
+    |vconv_V_blk_n            |   9|          2|    1|          2|
+    |vconv_xlim_loc_blk_n     |   9|          2|    1|          2|
+    |width_blk_n              |   9|          2|    1|          2|
+    +-------------------------+----+-----------+-----+-----------+
+    |Total                    | 120|         26|   95|        192|
+    +-------------------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +------------------------------------+----+----+-----+-----------+
+    |                Name                | FF | LUT| Bits| Const Bits|
+    +------------------------------------+----+----+-----+-----------+
+    |add_ln179_reg_490                   |  32|   0|   32|          0|
+    |add_ln189_reg_480                   |  32|   0|   32|          0|
+    |add_ln196_reg_485                   |  32|   0|   32|          0|
+    |ap_CS_fsm                           |   3|   0|    3|          0|
+    |ap_done_reg                         |   1|   0|    1|          0|
+    |ap_enable_reg_pp0_iter0             |   1|   0|    1|          0|
+    |ap_enable_reg_pp0_iter1             |   1|   0|    1|          0|
+    |ap_enable_reg_pp0_iter2             |   1|   0|    1|          0|
+    |ap_enable_reg_pp0_iter3             |   1|   0|    1|          0|
+    |ap_enable_reg_pp0_iter4             |   1|   0|    1|          0|
+    |bound_reg_496                       |  64|   0|   64|          0|
+    |i6_0_i_i_i_reg_160                  |  11|   0|   11|          0|
+    |icmp_ln175_reg_501                  |   1|   0|    1|          0|
+    |icmp_ln182_reg_527                  |   1|   0|    1|          0|
+    |icmp_ln189_reg_531                  |   1|   0|    1|          0|
+    |icmp_ln189_reg_531_pp0_iter1_reg    |   1|   0|    1|          0|
+    |icmp_ln194_reg_546                  |   1|   0|    1|          0|
+    |icmp_ln196_reg_536                  |   1|   0|    1|          0|
+    |indvar_flatten_reg_149              |  64|   0|   64|          0|
+    |j_0_i_i_i_reg_171                   |  11|   0|   11|          0|
+    |pix_out_1_fu_86                     |  32|   0|   32|          0|
+    |pix_out_fu_82                       |  32|   0|   32|          0|
+    |r_edge_pix_fu_78                    |  32|   0|   32|          0|
+    |select_ln175_1_reg_518              |   1|   0|    1|          0|
+    |select_ln175_reg_510                |  11|   0|   11|          0|
+    |select_ln175_reg_510_pp0_iter1_reg  |  11|   0|   11|          0|
+    |vconv_xlim_loc_read_reg_475         |  32|   0|   32|          0|
+    |width_read_reg_470                  |  32|   0|   32|          0|
+    |icmp_ln175_reg_501                  |  64|  32|    1|          0|
+    |icmp_ln196_reg_536                  |  64|  32|    1|          0|
+    |select_ln175_1_reg_518              |  64|  32|    1|          0|
+    +------------------------------------+----+----+-----+-----------+
+    |Total                               | 636|  96|  447|          0|
+    +------------------------------------+----+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++------------------------+-----+-----+------------+------------------+--------------+
+|        RTL Ports       | Dir | Bits|  Protocol  |   Source Object  |    C Type    |
++------------------------+-----+-----+------------+------------------+--------------+
+|ap_clk                  |  in |    1| ap_ctrl_hs | Loop_Border_proc | return value |
+|ap_rst                  |  in |    1| ap_ctrl_hs | Loop_Border_proc | return value |
+|ap_start                |  in |    1| ap_ctrl_hs | Loop_Border_proc | return value |
+|ap_done                 | out |    1| ap_ctrl_hs | Loop_Border_proc | return value |
+|ap_continue             |  in |    1| ap_ctrl_hs | Loop_Border_proc | return value |
+|ap_idle                 | out |    1| ap_ctrl_hs | Loop_Border_proc | return value |
+|ap_ready                | out |    1| ap_ctrl_hs | Loop_Border_proc | return value |
+|width_dout              |  in |   32|   ap_fifo  |       width      |    pointer   |
+|width_empty_n           |  in |    1|   ap_fifo  |       width      |    pointer   |
+|width_read              | out |    1|   ap_fifo  |       width      |    pointer   |
+|height_dout             |  in |   32|   ap_fifo  |      height      |    pointer   |
+|height_empty_n          |  in |    1|   ap_fifo  |      height      |    pointer   |
+|height_read             | out |    1|   ap_fifo  |      height      |    pointer   |
+|dst_V_TDATA             | out |   32|    axis    |       dst_V      |    pointer   |
+|dst_V_TVALID            | out |    1|    axis    |       dst_V      |    pointer   |
+|dst_V_TREADY            |  in |    1|    axis    |       dst_V      |    pointer   |
+|vconv_xlim_loc_dout     |  in |   32|   ap_fifo  |  vconv_xlim_loc  |    pointer   |
+|vconv_xlim_loc_empty_n  |  in |    1|   ap_fifo  |  vconv_xlim_loc  |    pointer   |
+|vconv_xlim_loc_read     | out |    1|   ap_fifo  |  vconv_xlim_loc  |    pointer   |
+|vconv_V_dout            |  in |   32|   ap_fifo  |      vconv_V     |    pointer   |
+|vconv_V_empty_n         |  in |    1|   ap_fifo  |      vconv_V     |    pointer   |
+|vconv_V_read            | out |    1|   ap_fifo  |      vconv_V     |    pointer   |
++------------------------+-----+-----+------------+------------------+--------------+
+

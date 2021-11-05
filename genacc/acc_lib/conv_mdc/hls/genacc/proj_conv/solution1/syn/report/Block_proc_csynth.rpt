@@ -1,0 +1,154 @@
+
+
+================================================================
+== Vivado HLS Report for 'Block_proc'
+================================================================
+* Date:           Fri Nov  5 09:19:59 2021
+
+* Version:        2019.2.1 (Build 2724168 on Thu Dec 05 05:19:09 MST 2019)
+* Project:        proj_conv
+* Solution:       solution1
+* Product family: virtexuplus
+* Target device:  xcvu9p-flga2104-2-i
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+---------+----------+------------+
+    |  Clock |  Target | Estimated| Uncertainty|
+    +--------+---------+----------+------------+
+    |ap_clk  | 6.66 ns | 3.585 ns |   0.83 ns  |
+    +--------+---------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+----------+----------+-----+-----+---------+
+    |  Latency (cycles) |  Latency (absolute) |  Interval | Pipeline|
+    |   min   |   max   |    min   |    max   | min | max |   Type  |
+    +---------+---------+----------+----------+-----+-----+---------+
+    |        0|        0|   0 ns   |   0 ns   |    0|    0|   none  |
+    +---------+---------+----------+----------+-----+-----+---------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        N/A
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++---------------------+---------+-------+---------+---------+-----+
+|         Name        | BRAM_18K| DSP48E|    FF   |   LUT   | URAM|
++---------------------+---------+-------+---------+---------+-----+
+|DSP                  |        -|      -|        -|        -|    -|
+|Expression           |        -|      -|        0|       34|    -|
+|FIFO                 |        -|      -|        -|        -|    -|
+|Instance             |        -|      -|        -|        -|    -|
+|Memory               |        -|      -|        -|        -|    -|
+|Multiplexer          |        -|      -|        -|       63|    -|
+|Register             |        -|      -|        3|        -|    -|
++---------------------+---------+-------+---------+---------+-----+
+|Total                |        0|      0|        3|       97|    0|
++---------------------+---------+-------+---------+---------+-----+
+|Available SLR        |     1440|   2280|   788160|   394080|  320|
++---------------------+---------+-------+---------+---------+-----+
+|Utilization SLR (%)  |        0|      0|    ~0   |    ~0   |    0|
++---------------------+---------+-------+---------+---------+-----+
+|Available            |     4320|   6840|  2364480|  1182240|  960|
++---------------------+---------+-------+---------+---------+-----+
+|Utilization (%)      |        0|      0|    ~0   |    ~0   |    0|
++---------------------+---------+-------+---------+---------+-----+
+
++ Detail: 
+    * Instance: 
+    N/A
+
+    * DSP48E: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +------------------------+----------+-------+---+----+------------+------------+
+    |      Variable Name     | Operation| DSP48E| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +------------------------+----------+-------+---+----+------------+------------+
+    |vconv_xlim_out_out_din  |     +    |      0|  0|  32|          32|           5|
+    |ap_block_state1         |    or    |      0|  0|   2|           1|           1|
+    +------------------------+----------+-------+---+----+------------+------------+
+    |Total                   |          |      0|  0|  34|          33|           6|
+    +------------------------+----------+-------+---+----+------------+------------+
+
+    * Multiplexer: 
+    +--------------------------+----+-----------+-----+-----------+
+    |           Name           | LUT| Input Size| Bits| Total Bits|
+    +--------------------------+----+-----------+-----+-----------+
+    |ap_done                   |   9|          2|    1|          2|
+    |height_blk_n              |   9|          2|    1|          2|
+    |height_out_blk_n          |   9|          2|    1|          2|
+    |real_start                |   9|          2|    1|          2|
+    |vconv_xlim_out_out_blk_n  |   9|          2|    1|          2|
+    |width_blk_n               |   9|          2|    1|          2|
+    |width_out_blk_n           |   9|          2|    1|          2|
+    +--------------------------+----+-----------+-----+-----------+
+    |Total                     |  63|         14|    7|         14|
+    +--------------------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +----------------+---+----+-----+-----------+
+    |      Name      | FF| LUT| Bits| Const Bits|
+    +----------------+---+----+-----+-----------+
+    |ap_CS_fsm       |  1|   0|    1|          0|
+    |ap_done_reg     |  1|   0|    1|          0|
+    |start_once_reg  |  1|   0|    1|          0|
+    +----------------+---+----+-----+-----------+
+    |Total           |  3|   0|    3|          0|
+    +----------------+---+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++---------------------------+-----+-----+------------+--------------------+--------------+
+|         RTL Ports         | Dir | Bits|  Protocol  |    Source Object   |    C Type    |
++---------------------------+-----+-----+------------+--------------------+--------------+
+|ap_clk                     |  in |    1| ap_ctrl_hs |     Block__proc    | return value |
+|ap_rst                     |  in |    1| ap_ctrl_hs |     Block__proc    | return value |
+|ap_start                   |  in |    1| ap_ctrl_hs |     Block__proc    | return value |
+|start_full_n               |  in |    1| ap_ctrl_hs |     Block__proc    | return value |
+|ap_done                    | out |    1| ap_ctrl_hs |     Block__proc    | return value |
+|ap_continue                |  in |    1| ap_ctrl_hs |     Block__proc    | return value |
+|ap_idle                    | out |    1| ap_ctrl_hs |     Block__proc    | return value |
+|ap_ready                   | out |    1| ap_ctrl_hs |     Block__proc    | return value |
+|start_out                  | out |    1| ap_ctrl_hs |     Block__proc    | return value |
+|start_write                | out |    1| ap_ctrl_hs |     Block__proc    | return value |
+|width_dout                 |  in |   32|   ap_fifo  |        width       |    pointer   |
+|width_empty_n              |  in |    1|   ap_fifo  |        width       |    pointer   |
+|width_read                 | out |    1|   ap_fifo  |        width       |    pointer   |
+|height_dout                |  in |   32|   ap_fifo  |       height       |    pointer   |
+|height_empty_n             |  in |    1|   ap_fifo  |       height       |    pointer   |
+|height_read                | out |    1|   ap_fifo  |       height       |    pointer   |
+|width_out_din              | out |   32|   ap_fifo  |      width_out     |    pointer   |
+|width_out_full_n           |  in |    1|   ap_fifo  |      width_out     |    pointer   |
+|width_out_write            | out |    1|   ap_fifo  |      width_out     |    pointer   |
+|height_out_din             | out |   32|   ap_fifo  |     height_out     |    pointer   |
+|height_out_full_n          |  in |    1|   ap_fifo  |     height_out     |    pointer   |
+|height_out_write           | out |    1|   ap_fifo  |     height_out     |    pointer   |
+|vconv_xlim_out_out_din     | out |   32|   ap_fifo  | vconv_xlim_out_out |    pointer   |
+|vconv_xlim_out_out_full_n  |  in |    1|   ap_fifo  | vconv_xlim_out_out |    pointer   |
+|vconv_xlim_out_out_write   | out |    1|   ap_fifo  | vconv_xlim_out_out |    pointer   |
++---------------------------+-----+-----+------------+--------------------+--------------+
+
