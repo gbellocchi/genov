@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+#include <iostream>
+#include <fstream>
+
 #include "filter_scalar.h"
 
 void filter(data_t &x, coef_t coef[TAP], sum_t &y)

@@ -17,28 +17,43 @@ class hwpe_specs:
 
     def kernel_k(self):
         # Generic
-        self.target                             = 'mmult_opt_mdc'
+        self.target                             = 'fir'
         self.design_type                        = 'hls'
         # Kernel design [ is_ap_ctrl_hs , is_mdc_dataflow ]
-        self.intf_kernel                        = [ False , True ]
+        self.intf_kernel                        = [ True , False ]
         return self
 
     def streaming_k(self):
         # HWPE streaming interfaces [ name , data-type , reg-dim , is_parallel , parallelism_factor]
-        self.list_sink_stream                   = [ [ 'in1' , 'int32_t' , 32 , False, 1 ] , [ 'in2' , 'int32_t' , 32 , False, 1 ] ]
-        self.list_source_stream                 = [ [ 'out_r' , 'int32_t' , 32 , False, 1 ] ]
+        self.list_sink_stream                   = [ [ 'x_V' , 'int32_t' , 32 , False, 1 ] ]
+        self.list_source_stream                 = [ [ 'y_V' , 'int32_t' , 32 , False, 1 ] ]
         return self
 
     def regfile_k(self):
         # HWPE standard regfiles
         self.std_reg_num                        = 4       
         # HWPE custom regfiles [ name , data-type , reg-dim , is_port ]
-        self.custom_reg                         = [ ]
+        self.custom_reg                         = [ [ 'c_0_V' , 'uint32_t' , 32 , 1 ] , 
+                                                    [ 'c_1_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_2_V' , 'uint32_t' , 32 , 1 ] , 
+                                                    [ 'c_3_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_4_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_5_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_6_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_7_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_8_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_9_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_10_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_11_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_12_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_13_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_14_V' , 'uint32_t' , 32 , 1 ] ,
+                                                    [ 'c_15_V' , 'uint32_t' , 32 , 1 ] ]
         return self
 
     def addressgen_k(self):
         # Address generation [ is_programmable ]
-        self.addr_gen_in                        = [ [True] , [True] ]
+        self.addr_gen_in                        = [ [True] ]
         self.addr_gen_out                       = [ [True] ]
         return self
 

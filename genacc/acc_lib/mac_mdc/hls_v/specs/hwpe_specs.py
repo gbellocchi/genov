@@ -17,29 +17,29 @@ class hwpe_specs:
 
     def kernel_k(self):
         # Generic
-        self.target                             = 'mmult_opt_mdc'
+        self.target                             = 'mac_mdc'
         self.design_type                        = 'hls'
         # Kernel design [ is_ap_ctrl_hs , is_mdc_dataflow ]
-        self.intf_kernel                        = [ False , True ]
+        self.intf_kernel                        = [ False, True ]
         return self
 
     def streaming_k(self):
         # HWPE streaming interfaces [ name , data-type , reg-dim , is_parallel , parallelism_factor]
-        self.list_sink_stream                   = [ [ 'in1' , 'int32_t' , 32 , False, 1 ] , [ 'in2' , 'int32_t' , 32 , False, 1 ] ]
-        self.list_source_stream                 = [ [ 'out_r' , 'int32_t' , 32 , False, 1 ] ]
+        self.list_sink_stream                   = [ [ 'x1_V' , 'int32_t' , 32 , False, 1 ] , [ 'x2_V' , 'int32_t' , 32 , False, 1 ] ]
+        self.list_source_stream                 = [ [ 'y_mul_V' , 'int32_t' , 32 , False, 1 ] , [ 'y_mac_V' , 'int32_t' , 32 , False, 1 ] ]
         return self
 
     def regfile_k(self):
         # HWPE standard regfiles
         self.std_reg_num                        = 4       
         # HWPE custom regfiles [ name , data-type , reg-dim , is_port ]
-        self.custom_reg                         = [ ]
+        self.custom_reg                         = [ [ 'mac_par_V' , 'int32_t' , 32 , 1 ] ]
         return self
 
     def addressgen_k(self):
         # Address generation [ is_programmable ]
         self.addr_gen_in                        = [ [True] , [True] ]
-        self.addr_gen_out                       = [ [True] ]
+        self.addr_gen_out                       = [ [True] , [True] ]
         return self
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
@@ -95,4 +95,6 @@ class hwpe_specs:
         self.addressgen_d()
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+
+
 

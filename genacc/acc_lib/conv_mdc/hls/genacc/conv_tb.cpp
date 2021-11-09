@@ -15,6 +15,7 @@
  */
 
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 
 #include "conv.h"
@@ -51,10 +52,20 @@ int main(void)
     // Generate DUT convolution image
     conv_mdc(TEST_IMG_COLS, TEST_IMG_ROWS, src_img_strm, dut_img_strm);
     // Check DUT vs reference result
+    ofstream myfile;
+    std::stringstream stream;
+    myfile.open ("golden_results.txt");
     for (int i = 0; i < TEST_IMG_ROWS; i++) {
         for (int j = 0; j < TEST_IMG_COLS; j++) {
             data_t dut_val = dut_img_strm.read();
             data_t ref_val = ref_img[i * TEST_IMG_COLS + j];
+            // write results to file
+            stream << std::hex << ref_val;
+            myfile << stream.str();
+            myfile << endl;
+            stream.clear();
+            stream.str("");
+            // error check
             if (dut_val != ref_val) {
                 err_cnt++;
 #if 0
@@ -66,6 +77,7 @@ int main(void)
         }
     }
     cout << endl;
+    myfile.close();
 
     if (err_cnt == 0) {
         cout << "*** TEST PASSED ***" << endl;

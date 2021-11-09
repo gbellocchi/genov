@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+#include <iostream>
+#include <fstream>
+
 #include "fir.h"
 
 int main()
@@ -27,14 +30,26 @@ int main()
   // Save the results to a file
   FILE.open ("result.dat");
 
+  ofstream myfile;
+  std::stringstream stream;
+  myfile.open ("golden_results.txt");
+
   for (int i = 0; i < 20; i++)
   {
     fir(X[i], H, Y);
     cout << "Iter:" << setw(3) << right << i << " with x" << setw(3) << right
     << X[i] << " ###:" << setw(3) << right << Y << endl;
     FILE << Y << endl;
+    // write results to file
+    stream << std::hex << Y;
+    myfile << stream.str();
+    myfile << endl;
+    stream.clear();
+    stream.str("");
   }
+
   FILE.close();
+  myfile.close();
 
   // Compare the results file with the golden results
   retval = system("diff --brief -w result.dat result.golden.dat");
