@@ -88,6 +88,13 @@ int ${target}_tb(
   const unsigned ${stream_out[j]}_stripe_out_len        = ${stream_out[j]}_width * ${stream_out[j]}_stripe_height;
   % endfor
 
+  % if custom_reg_num>0:
+  /* Custom register parameters */
+    % for i in range (custom_reg_num):
+  const unsigned ${custom_reg_name[i]}_val =   ; /* ASSIGN A VALUE */
+    % endfor 
+  % endif
+
   <%
   ##############################################
   ## Address generator parameters declaration ##
@@ -169,6 +176,7 @@ int ${target}_tb(
   ${hwpe_fsm_progr()}
   ${hwpe_addressgen_progr()}
   ${hwpe_tcdm_progr()}
+  ${hwpe_custom_regs_progr()}
 
   <%
   ####################

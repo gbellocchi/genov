@@ -47,6 +47,16 @@ ${vsim_waves_hwpe_kernel_adapter_mdc_dataflow()}
 % endif
 
 <%
+#####################
+## HWPE kernel HLS ##
+#####################
+%>
+
+% if design_type is 'hls':
+${vsim_waves_hwpe_kernel_HLS()}
+% endif
+
+<%
 ###################
 ## HWPE streamer ##
 ###################

@@ -68,7 +68,6 @@ module ${target}_ctrl
   logic unsigned [31:0] static_reg_nb_iter;
   logic unsigned [31:0] static_reg_vectstride;
   logic unsigned [31:0] static_reg_onestride;
-  logic unsigned [15:0] static_reg_shift;
 
   // Address generator
   % for i in range (n_sink):

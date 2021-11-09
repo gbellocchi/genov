@@ -45,29 +45,29 @@
       % if (is_parallel_in[i]):
         % for k in range (in_parallelism_factor[i]):
     // Input stream - ${stream_in[i]}_${k} (unrolled, hardwired)
-    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.trans_size      = /* TO-BE-DONE */ 
-    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.line_stride     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.line_length     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.feat_stride     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.feat_length     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.base_addr       = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.feat_roll       = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.loop_outer      = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.realign_type    = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.step            = /* TO-BE-DONE */
+    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.trans_size      = /* ASSIGN A VALUE */ 
+    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.line_stride     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.line_length     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.feat_stride     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.feat_length     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.base_addr       = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.feat_roll       = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.loop_outer      = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.realign_type    = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_${k}_source_ctrl.addressgen_ctrl.step            = /* ASSIGN A VALUE */
         % endfor
       % else:
     // Input stream - ${stream_in[i]} (hardwired)
-    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.trans_size      = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.line_stride     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.line_length     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.feat_stride     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.feat_length     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.base_addr       = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.feat_roll       = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.loop_outer      = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.realign_type    = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.step            = /* TO-BE-DONE */
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.trans_size      = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.line_stride     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.line_length     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.feat_stride     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.feat_length     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.base_addr       = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.feat_roll       = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.loop_outer      = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.realign_type    = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_in[i]}_source_ctrl.addressgen_ctrl.step            = /* ASSIGN A VALUE */
       % endif
     % endif
   % endfor
@@ -115,29 +115,29 @@
       % if (is_parallel_out[j]):
         % for k in range (out_parallelism_factor[j]):
     // Output stream - ${stream_out[j]}_${k} (unrolled, hardwired)
-    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.trans_size      = /* TO-BE-DONE */ 
-    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.line_stride     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.line_length     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.feat_stride     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.feat_length     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.base_addr       = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.feat_roll       = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.loop_outer      = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.realign_type    = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.step            = /* TO-BE-DONE */
+    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.trans_size      = /* ASSIGN A VALUE */ 
+    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.line_stride     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.line_length     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.feat_stride     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.feat_length     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.base_addr       = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.feat_roll       = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.loop_outer      = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.realign_type    = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_${k}_sink_ctrl.addressgen_ctrl.step            = /* ASSIGN A VALUE */
         % endfor
       % else:
     // Output stream - ${stream_out[j]} (hardwired)
-    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.trans_size      = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.line_stride     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.line_length     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.feat_stride     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.feat_length     = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.base_addr       = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.feat_roll       = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.loop_outer      = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.realign_type    = /* TO-BE-DONE */
-    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.step            = /* TO-BE-DONE */
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.trans_size      = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.line_stride     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.line_length     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.feat_stride     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.feat_length     = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.base_addr       = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.feat_roll       = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.loop_outer      = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.realign_type    = /* ASSIGN A VALUE */
+    ctrl_streamer_o.${stream_out[j]}_sink_ctrl.addressgen_ctrl.step            = /* ASSIGN A VALUE */
       % endif
     % endif
   % endfor

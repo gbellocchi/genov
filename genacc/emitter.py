@@ -36,9 +36,10 @@ class emitter(hwpe_specs):
         # define output environment ~ HWPE wrapper
         self.out_hw_outdir = self.out_dir + '/hw'
         self.out_hw_hwpe = self.out_hw_outdir + '/hwpe-' + self.target + '-wrapper'
+        self.out_hw_hwpe_wrap = self.out_hw_hwpe + '/wrap'
         self.out_hw_hwpe_rtl = self.out_hw_hwpe + '/rtl'
-        self.out_hw_hwpe_engine = self.out_hw_hwpe_rtl + '/hwpe-engine'
-        self.out_hw_hwpe_engine_dev = self.out_hw_hwpe_engine + '/engine_dev'
+        # self.out_hw_hwpe_engine = self.out_hw_hwpe_rtl + '/hwpe-engine'
+        self.out_hw_hwpe_engine_dev = self.out_hw_hwpe_rtl + '/engine_dev'
         self.out_hw_hwpe_streamer = self.out_hw_hwpe_rtl + '/hwpe-stream'
         self.out_hw_hwpe_ctrl = self.out_hw_hwpe_rtl + '/hwpe-ctrl'
         # define output environment ~ software
@@ -59,8 +60,9 @@ class emitter(hwpe_specs):
     def create_out_hw_env(self):
         # create output directories
         os.mkdir(self.out_hw_hwpe)
+        os.mkdir(self.out_hw_hwpe_wrap)
         os.mkdir(self.out_hw_hwpe_rtl)
-        os.mkdir(self.out_hw_hwpe_engine)
+        # os.mkdir(self.out_hw_hwpe_engine)
 
     """
     Create environment for software.
@@ -119,21 +121,21 @@ class emitter(hwpe_specs):
         # static components (hw, sw, ..)
         static_comps = 'static'
         # ------------------------------------------------ #
-        # copy static components ~ streamer
-        source = static_comps + '/static_rtl/hwpe-stream/rtl'
-        destination = self.out_hw_hwpe_streamer
-        try:
-            copy_tree(source, destination)
-        except:
-            print(">> Erroneous path for static component of streamer!")
-        # ------------------------------------------------ #
-        # copy static components ~ controller
-        source = static_comps + '/static_rtl/hwpe-ctrl/rtl'
-        destination = self.out_hw_hwpe_ctrl
-        try:
-            copy_tree(source, destination)
-        except:
-            print(">> Erroneous path for static component of controller!")
+        # # copy static components ~ streamer
+        # source = static_comps + '/static_rtl/hwpe-stream/rtl'
+        # destination = self.out_hw_hwpe_streamer
+        # try:
+        #     copy_tree(source, destination)
+        # except:
+        #     print(">> Erroneous path for static component of streamer!")
+        # # ------------------------------------------------ #
+        # # copy static components ~ controller
+        # source = static_comps + '/static_rtl/hwpe-ctrl/rtl'
+        # destination = self.out_hw_hwpe_ctrl
+        # try:
+        #     copy_tree(source, destination)
+        # except:
+        #     print(">> Erroneous path for static component of controller!")
         # ------------------------------------------------ #
         # create repo for wrapped hardware kernel
         source = 'engine_dev/rtl'

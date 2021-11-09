@@ -176,18 +176,16 @@
 
 <%
 #####################################################
-## HWPE programming - TCDM master port programming ##
+## HWPE programming - Custom registers programming ##
 #####################################################
 %>
 
 <%def name="hwpe_custom_regs_progr()">\
 
-  /* Set user custom registers */
-
   % if custom_reg_num>0:
-  /* custom hal */
+  /* Set user custom registers */
     % for i in range (custom_reg_num):
-  hwpe_${custom_reg_name[i]}_set(  );
+  hwpe_${custom_reg_name[i]}_set( ${custom_reg_name[i]}_val );
     % endfor 
   % endif
 

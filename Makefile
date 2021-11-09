@@ -17,7 +17,7 @@ REPO 					:= genacc
 
 # Choose target on those available in the application library (e.g. mmul_parallel)
 
-HWPE_TARGET				:= fir_mdc
+HWPE_TARGET				:= conv_mdc
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -91,17 +91,34 @@ all: clean_gen run_gen
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
+# ---------------------------------- #
+#  SYSTEM-LEVEL INTEGRATION (v-git)  #
+# ---------------------------------- #
+
+hwpe_git_deploy:
+	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper/* ${OVERLAY_DEPS}/hwpe-gen-app/
+	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-gen-app/
+	@cp ${OUT_OV_INTEGR}/Bender.yml ${OVERLAY_DEPS}/hwpe-gen-app/
+
+hwpe_git_branch:
+	git checkout -b ov_${HWPE_TARGET}
+
+init_hwpe_git:
+	git clone git@iis-git.ee.ethz.ch:gianluca.bellocchi/hwpe-gen-app.git
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+
 # -------------------------- #
 #  SYSTEM-LEVEL INTEGRATION  #
 # -------------------------- #
 
 overlay_integration: clean_ov_env overlay_src overlay_deps
 
-hwpe_generated_ex: test_ov_env overlay_src clean_hwpe_generated_ex
+hwpe_gen_app: test_ov_env overlay_src clean_hwpe_gen_app
 	@echo -e ">> Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay."
-	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper/* ${OVERLAY_DEPS}/hwpe-generated-ex/
-	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-generated-ex/
-	@cp ${OUT_OV_INTEGR}/Bender.yml ${OVERLAY_DEPS}/hwpe-generated-ex/
+	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper/* ${OVERLAY_DEPS}/hwpe-gen-app/
+	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-gen-app/
+	@cp ${OUT_OV_INTEGR}/Bender.yml ${OVERLAY_DEPS}/hwpe-gen-app/
 
 overlay_deps: test_ov_env overlay_src
 	@echo -e ">> Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay."
@@ -131,12 +148,12 @@ verif_hwpe_build_hw: check_ov_env
 #  HARDWARE WRAPPER GENERATION  #
 # ----------------------------- #
 
-run_gen: check_ov_env clean_gen engine_dev static_rtl
+run_gen: check_ov_env clean_gen engine_dev #static_rtl
 	@bash ${SCRIPTS_GEN}/run_gen.sh ${PY_VENV} ${OUT_DIR}
 
-static_rtl: check_ov_env
-	@ls -R ${STATIC_STREAM} | grep '\.sv' >> ${HW_MNGT_DIR}/rtl_list/stream_list.log
-	@ls -R ${STATIC_CTRL} | grep '\.sv' >> ${HW_MNGT_DIR}/rtl_list/ctrl_list.log 
+# static_rtl: check_ov_env
+# @ls -R ${STATIC_STREAM} | grep '\.sv' >> ${HW_MNGT_DIR}/rtl_list/stream_list.log
+# @ls -R ${STATIC_CTRL} | grep '\.sv' >> ${HW_MNGT_DIR}/rtl_list/ctrl_list.log 
 	
 engine_dev: check_ov_env acc_lib
 	@ls ${ENG_DEV_RTL} >> ${HW_MNGT_DIR}/rtl_list/engine_list.log
@@ -150,15 +167,15 @@ acc_lib: check_ov_env
 #  OVERLAY ENVIRONMENT  #
 # --------------------- #
 
-clean_ov_env: test_ov_env clean_hwpe_generated_ex
+clean_ov_env: test_ov_env clean_hwpe_gen_app
 	@rm -rf ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper
 	@rm -f ${OVERLAY_SRC}/ov_acc_pkg.sv
 	@rm -f ${OVERLAY_CLUSTER}/ov_acc_intf.sv
 
-clean_hwpe_generated_ex: test_ov_env
-	@rm -rf ${OVERLAY_DEPS}/hwpe-generated-ex/rtl
-	@rm -rf ${OVERLAY_DEPS}/hwpe-generated-ex/sw
-	@rm -rf ${OVERLAY_DEPS}/hwpe-generated-ex/Bender.yml
+clean_hwpe_gen_app: test_ov_env
+	@rm -rf ${OVERLAY_DEPS}/hwpe-gen-app/rtl
+	@rm -rf ${OVERLAY_DEPS}/hwpe-gen-app/sw
+	@rm -rf ${OVERLAY_DEPS}/hwpe-gen-app/Bender.yml
 
 test_ov_env: check_ov_env
 ifndef ENV_IS_CHECKED
@@ -177,13 +194,7 @@ endif
 # ----------------------- #
 
 clean_gen: check_ov_env
-	@rm -rf ${ENG_DEV}/*
-	@rm -rf ${OUT_HW_DIR}/*
-	@rm -rf ${OUT_SW_DIR}/*
-	@rm -rf ${OUT_OV_INTEGR}/*
-	@find . -type d -name '__pycache__' -not -path "${PY_ENV_DIR}" -exec rm -rf {} +
-	@find . -name "*.pyc" -type f -delete
-	@rm -rf ${HW_MNGT_DIR}/rtl_list/*.log
+	@bash ${SCRIPTS_GEN}/clean_gen.sh $(ENG_DEV) $(PY_ENV_DIR) ${HW_MNGT_DIR}
 
 init_gen:
 	@bash ${SCRIPTS_GEN}/init_gen.sh

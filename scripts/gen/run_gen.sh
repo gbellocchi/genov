@@ -12,21 +12,24 @@ error_exit()
 }
 
 readonly GEN_VENV=$1
-readonly OUT_DIR=$1
+readonly OUT_DIR=$2
 
 # Activate environment
 source $GEN_VENV/bin/activate
 
-if [ -d "$OUT_DIR/hw" ] || [ -d "$OUT_DIR/sw" ]; then
-    # Take action if output files do already exist.
-    error_exit ">> Output files do already exist. Be sure to initialize your output directory with 'make clean_gen'."
-else
-    # Get source components (see Maekfile recipe deps)
-    echo -e ">> Retrieving target engine from accelerator library."
-    # Run generator
-    echo -e ">> Generation of accelerator wrapper."
-    cd genacc && python genacc.py
-fi
+# Get source components (see Makefile recipe deps)
+echo -e ">> Retrieving target engine from accelerator library."
+
+# Run generator
+echo -e ">> Generation of accelerator wrapper."
+cd genacc && python genacc.py
+
+# Creating symbolic links to output
+echo -e "\n>> Creating symbolic links to output."
+cd ../
+ln -s ${OUT_DIR}/hw out_hw
+ln -s ${OUT_DIR}/sw out_sw
+ln -s ${OUT_DIR}/ov_integr out_ov_integr
 
 # Deactivate environment
 deactivate

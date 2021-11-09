@@ -4,3 +4,8 @@
 
 # generated files
 **/*.log
+
+# sym links
+out_hw
+out_sw
+out_ov_integr

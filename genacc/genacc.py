@@ -69,7 +69,7 @@ hwpe_wrapper = hwpe_wrapper()
 template = hwpe_wrapper.top_wrapper()
 out_target = generator.render(template)
 filename = emitter.get_file_name(['hwpe', 'top_wrapper', ['hw', 'rtl']])
-emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
+emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_wrap)
 
 '''
     Generate design components ~ Top
@@ -77,7 +77,7 @@ emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 template = hwpe_wrapper.top()
 out_target = generator.render(template)
 filename = emitter.get_file_name(['hwpe', 'top', ['hw', 'rtl']])
-emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
+emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_rtl)
 
 '''
     Generate design components ~ Engine
@@ -85,7 +85,7 @@ emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 template = hwpe_wrapper.engine()
 out_target = generator.render(template)
 filename = emitter.get_file_name(['hwpe', 'engine', ['hw', 'rtl']])
-emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
+emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_rtl)
 
 '''
     Generate design components ~ Kernel adapter
@@ -93,7 +93,7 @@ emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 template = hwpe_wrapper.kernel_adapter()
 out_target = generator.render(template)
 filename = emitter.get_file_name(['hwpe', 'kernel_adapter', ['hw', 'rtl']])
-emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
+emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_rtl)
 
 '''
     Generate design components ~ Streamer
@@ -101,7 +101,7 @@ emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 template = hwpe_wrapper.streamer()
 out_target = generator.render(template)
 filename = emitter.get_file_name(['hwpe', 'streamer', ['hw', 'rtl']])
-emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
+emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_rtl)
 
 '''
     Generate design components ~ Controller
@@ -109,7 +109,7 @@ emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 template = hwpe_wrapper.ctrl()
 out_target = generator.render(template)
 filename = emitter.get_file_name(['hwpe', 'ctrl', ['hw', 'rtl']])
-emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
+emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_rtl)
 
 '''
     Generate design components ~ FSM
@@ -117,7 +117,7 @@ emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 template = hwpe_wrapper.fsm()
 out_target = generator.render(template)
 filename = emitter.get_file_name(['hwpe', 'fsm', ['hw', 'rtl']])
-emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
+emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_rtl)
 
 '''
     Generate design components ~ Package
@@ -125,7 +125,7 @@ emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
 template = hwpe_wrapper.package()
 out_target = generator.render(template)
 filename = emitter.get_file_name(['hwpe', 'package', ['hw', 'rtl']])
-emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_engine)
+emitter.out_gen(out_target, filename, emitter.out_hw_hwpe_rtl)
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
