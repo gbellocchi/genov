@@ -7,3 +7,4 @@ engine_dev/
 **/*.log
 output/hw/
 output/sw/
+output/ov_integr/
