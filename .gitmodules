@@ -8,3 +8,6 @@
 [submodule "genacc/verif/hwpe-tb"]
 	path = genacc/verif/hwpe-tb
 	url = git@github.com:gbellocchi/hwpe-tb.git
+[submodule "genacc/output/git-deploy/hwpe-gen-app"]
+	path = genacc/output/git-deploy/hwpe-gen-app
+	url = git@iis-git.ee.ethz.ch:gianluca.bellocchi/hwpe-gen-app.git
