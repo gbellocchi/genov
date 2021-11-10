@@ -23,7 +23,8 @@ if [ -L "out_hw" ]; then
 fi
 
 if [ -L "out_sw" ]; then
-    rm -rf out_sw/*
+    rm -rf out_sw/tb-ov/*
+    rm -rf out_sw/tb-standalone/*
     unlink out_sw
 fi
 

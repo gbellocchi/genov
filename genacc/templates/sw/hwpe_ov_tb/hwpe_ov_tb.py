@@ -5,20 +5,20 @@
 #!/usr/bin/env python3
 
 # Packages
-from templates.sw.hwpe_wrapper_tb.archi_hwpe.top.archi_hwpe import archi_hwpe
-from templates.sw.hwpe_wrapper_tb.hal_hwpe.top.hal_hwpe import hal_hwpe
-# from templates.sw.hwpe_wrapper_tb.tb_hwpe.top.tb_hwpe import tb_hwpe
+from templates.sw.hwpe_ov_tb.archi_hwpe.top.archi_hwpe import archi_hwpe
+from templates.sw.hwpe_ov_tb.hal_hwpe.top.hal_hwpe import hal_hwpe
+from templates.sw.hwpe_ov_tb.tb_hwpe.top.tb_hwpe import tb_hwpe
 
 # HWPE wrapper- Software testbench components
-class hwpe_wrapper_tb:
+class hwpe_ov_tb:
     def __init__(self):
-        print("\n>> HWPE wrapper testbench ~ Retrieving software components")
+        print("\n>> HWPE system-level testbench ~ Retrieving software components")
         self.path_common = 'templates/sw/common/'
 
     def archi_hwpe(self):
-        print("\n>> HWPE wrapper testbench ~ archi")
+        print("\n>> HWPE system-level testbench ~ archi")
         return archi_hwpe(
-            temp_type = 'templates/sw/hwpe_wrapper_tb/archi_hwpe/',
+            temp_type = 'templates/sw/hwpe_ov_tb/archi_hwpe/',
             temp_top = 'archi_hwpe.template_c',
             temp_modules = ['addressgen_archi.template_c', 
                             'custom_archi.template_c'  , 
@@ -30,18 +30,18 @@ class hwpe_wrapper_tb:
         ).top()
 
     def hal_hwpe(self):
-        print("\n>> HWPE wrapper testbench ~ hal")
+        print("\n>> HWPE system-level testbench ~ hal")
         return hal_hwpe(
-            temp_type = 'templates/sw/hwpe_wrapper_tb/hal_hwpe/',
+            temp_type = 'templates/sw/hwpe_ov_tb/hal_hwpe/',
             temp_top = 'hal_hwpe.template_c',
             temp_modules = [],
             path_common = self.path_common
         ).top()
 
     def tb_hwpe(self):
-        print("\n>> HWPE wrapper testbench ~ SW testbench")
-        return hal_hwpe(
-            temp_type = 'templates/sw/hwpe_wrapper_tb/tb_hwpe/',
+        print("\n>> HWPE system-level testbench ~ SW testbench")
+        return tb_hwpe(
+            temp_type = 'templates/sw/hwpe_ov_tb/tb_hwpe/',
             temp_top = 'tb_hwpe.template_c',
             temp_modules = ['hwpe/hwpe_addressgen_decl.template_c',
                             'hwpe/hwpe_exec.template_c',

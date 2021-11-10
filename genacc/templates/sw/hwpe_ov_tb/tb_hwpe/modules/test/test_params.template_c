@@ -18,14 +18,25 @@
 
   // 1. Workload
 
-  uint32_t width                  = ; // fill with a value
-  uint32_t height                 = ; // fill with a value
-  uint32_t stripe_height          = ; // fill with a value
+  uint32_t width                  = ;
+  uint32_t height                 = ;
+  uint32_t stripe_height          = ;
+
+  // 2. Accelerator execution
+
+  // Number of engine runs needed to terminate the accelerator job. 
+  // This is equivalent to the number of 'done' signals that are 
+  // produced by the engine itself.
+  
+  % for j in range (n_source):
+  const unsigned engine_runs_${stream_out[j]} = ;
+  % endfor
+
 
   % if custom_reg_num>0:
-  // 2. Custom registers
+  // 3. Custom registers
     % for i in range (custom_reg_num):
-  const unsigned ${custom_reg_name[i]}_val = ; // fill with a value
+  const unsigned ${custom_reg_name[i]}_val = ;
     % endfor 
   % endif
 
@@ -33,7 +44,7 @@
 
   omp_set_num_threads(1);
   volatile int errors = 0;
-  int i,j,k,cnt;
+  int i, j;
   int offload_id_tmp, offload_id;
 
   <%

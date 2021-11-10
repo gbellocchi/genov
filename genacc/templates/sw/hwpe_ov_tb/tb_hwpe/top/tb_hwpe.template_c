@@ -54,14 +54,6 @@ int main() {
   ${hwpe_addressgen_out_memcpy_acc_mem()}
 
   <%
-  ################################
-  ## FSM parameters declaration ##
-  ################################
-  %>
-
-  ${hwpe_fsm_engine_runs()}
-
-  <%
   ###############################
   ## Test stimuli - Allocation ##
   ###############################

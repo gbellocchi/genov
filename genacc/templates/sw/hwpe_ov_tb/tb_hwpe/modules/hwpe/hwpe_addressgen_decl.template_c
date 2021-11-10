@@ -23,10 +23,9 @@
 
 <%def name="hwpe_addressgen_in_tcdm_reuse()">\
 
-  /* Address generator - Parameters for input streams */
+  /* Address generator (input) - Parameters */
 
   % for i in range (n_sink):
-  // input ${stream_in[i]}
     % if (addr_gen_in_isprogr[i]):
       % if (is_parallel_in[i]):
   const unsigned ${stream_in[i]}_parallelism_factor     = 16;
@@ -62,10 +61,9 @@
 
 <%def name="hwpe_addressgen_in_memcpy_acc_mem()">\
 
-  /* Address generator - Parameters for input streams */
+  /* Address generator (input) - Parameters */
 
   % for i in range (n_sink):
-  // input ${stream_in[i]}
     % if (addr_gen_in_isprogr[i]):
       % if (is_parallel_in[i]):
   const unsigned ${stream_in[i]}_parallelism_factor     = 16;
@@ -107,10 +105,9 @@
 
 <%def name="hwpe_addressgen_out_tcdm_reuse()">\
 
-  /* Address generator - Parameters for output streams */
+  /* Address generator (output) - Parameters */
 
   % for j in range (n_source):
-  // output ${stream_out[j]}
     % if (addr_gen_out_isprogr[j]):
       % if (is_parallel_out[j]):
   const unsigned ${stream_out[j]}_parallelism_factor    = 16; 
@@ -146,10 +143,9 @@
 
 <%def name="hwpe_addressgen_out_memcpy_acc_mem()">\
 
-  /* Address generator - Parameters for output streams */
+  /* Address generator (output) - Parameters */
 
   % for j in range (n_source):
-  // output ${stream_out[j]}
     % if (addr_gen_out_isprogr[j]):
       % if (is_parallel_out[j]):
   const unsigned ${stream_out[j]}_parallelism_factor     = 16;

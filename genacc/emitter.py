@@ -33,26 +33,32 @@ class emitter(hwpe_specs):
         super().__init__()
         # define output environment
         self.out_dir = 'output'
-        # define output environment ~ HWPE wrapper
+        # define output environment ~ functional categories
         self.out_hw_outdir = self.out_dir + '/hw'
+        self.out_sw_outdir = self.out_dir + '/sw'
+        self.out_ov_integr = self.out_dir + '/ov_integr'
+        # define output environment ~ HWPE wrapper
         self.out_hw_hwpe = self.out_hw_outdir + '/hwpe-' + self.target + '-wrapper'
         self.out_hw_hwpe_wrap = self.out_hw_hwpe + '/wrap'
         self.out_hw_hwpe_rtl = self.out_hw_hwpe + '/rtl'
-        # self.out_hw_hwpe_engine = self.out_hw_hwpe_rtl + '/hwpe-engine'
         self.out_hw_hwpe_engine_dev = self.out_hw_hwpe_rtl + '/engine_dev'
         self.out_hw_hwpe_streamer = self.out_hw_hwpe_rtl + '/hwpe-stream'
         self.out_hw_hwpe_ctrl = self.out_hw_hwpe_rtl + '/hwpe-ctrl'
-        # define output environment ~ software
-        self.out_sw_outdir = self.out_dir + '/sw'
-        self.out_sw_inc = self.out_sw_outdir + '/inc'
-        self.out_sw_test_lib = self.out_sw_inc + '/test_lib'
-        self.out_sw_common = self.out_sw_inc + '/common'
-        self.out_sw_eu_lib = self.out_sw_inc + '/eu_lib'
-        self.out_sw_stim = self.out_sw_inc + '/stim'
-        self.out_sw_hwpe_lib = self.out_sw_inc + '/hwpe_lib'
-        self.out_sw_bigpulp = self.out_sw_inc + '/bigpulp'
+        # define output environment ~ tb HWPE + overlay
+        self.out_sw_ov = self.out_sw_outdir + '/tb-ov'
+        self.out_sw_ov_inc = self.out_sw_ov + '/inc'
+        self.out_sw_ov_stim = self.out_sw_ov_inc + '/stim'
+        self.out_sw_ov_hwpe_lib = self.out_sw_ov_inc + '/hwpe_lib'
+        # define output environment ~ tb HWPE standalone
+        self.out_sw_standalone = self.out_sw_outdir + '/tb-standalone'
+        self.out_sw_standalone_inc = self.out_sw_standalone + '/inc'
+        self.out_sw_standalone_stim = self.out_sw_standalone_inc + '/stim'
+        self.out_sw_standalone_hwpe_lib = self.out_sw_standalone_inc + '/hwpe_lib'
+        # self.out_sw_test_lib = self.out_sw_inc + '/test_lib'
+        # self.out_sw_common = self.out_sw_inc + '/common'
+        # self.out_sw_eu_lib = self.out_sw_inc + '/eu_lib'
+        # self.out_sw_bigpulp = self.out_sw_inc + '/bigpulp'
         # define output environment ~ overlay integration
-        self.out_ov_integr = self.out_dir + '/ov_integr'
 
     """
     Create environment for hardware.
@@ -69,8 +75,10 @@ class emitter(hwpe_specs):
     """
     def create_out_sw_env(self):
         # create output directories
-        os.mkdir(self.out_sw_inc)
-        os.mkdir(self.out_sw_hwpe_lib)
+        os.mkdir(self.out_sw_ov_inc)
+        os.mkdir(self.out_sw_standalone_inc)
+        os.mkdir(self.out_sw_ov_hwpe_lib)
+        os.mkdir(self.out_sw_standalone_hwpe_lib)
 
     """
     Create environment for overlay integration.
@@ -157,17 +165,33 @@ class emitter(hwpe_specs):
         # static components (hw, sw, ..)
         static_comps = 'static'
         # ------------------------------------------------ #
-        # copy static components
+        # copy static components (tb-ov)
         source = 'static/static_tb'
-        destination = self.out_sw_outdir
+        destination = self.out_sw_ov
         try:
             copy_tree(source, destination)
         except:
             print(">> Erroneous path for static component of imported hardware kernel!")
         # ------------------------------------------------ #
-        # copy static components ~ input stimuli
+        # copy static components (tb-ov) ~ input stimuli
         source = 'engine_dev/sw/stim'
-        destination = self.out_sw_stim
+        destination = self.out_sw_ov_stim
+        try:
+            copy_tree(source, destination)
+        except:
+            print(">> Erroneous path for input stimuli!")
+        # ------------------------------------------------ #
+        # copy static components (tb-standalone)
+        source = 'static/static_tb'
+        destination = self.out_sw_standalone
+        try:
+            copy_tree(source, destination)
+        except:
+            print(">> Erroneous path for static component of imported hardware kernel!")
+        # ------------------------------------------------ #
+        # copy static components (tb-standalone) ~ input stimuli
+        source = 'engine_dev/sw/stim'
+        destination = self.out_sw_standalone_stim
         try:
             copy_tree(source, destination)
         except:

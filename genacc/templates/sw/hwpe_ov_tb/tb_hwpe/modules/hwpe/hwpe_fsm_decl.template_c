@@ -19,15 +19,6 @@
 
 <%def name="hwpe_fsm_engine_runs()">\
 
-  // The following parameter is equivalent to the number of engine
-  // runs needed to terminate the accelerator job. This is compared
-  // to the number of 'done' signals that are produced by the engine 
-  // itself.
-  
-  % for j in range (n_source):
-  const unsigned engine_runs_${stream_out[j]}         = 1; // ${stream_out[j]}_stripe_height * ${stream_out[j]}_stripe_height - 1
-  % endfor
-
 </%def>
 
 

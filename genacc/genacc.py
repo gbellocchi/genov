@@ -14,7 +14,8 @@ from templates.hw.overlay.overlay import overlay
 from templates.integr_support.integr_support import integr_support
 
 # SW packages
-from templates.sw.hwpe_wrapper_tb.hwpe_wrapper_tb import hwpe_wrapper_tb
+from templates.sw.hwpe_ov_tb.hwpe_ov_tb import hwpe_ov_tb
+from templates.sw.hwpe_standalone_tb.hwpe_standalone_tb import hwpe_standalone_tb
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -182,21 +183,21 @@ emitter.out_gen(out_target, filename, emitter.out_ov_integr)
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
 '''
-    Software testbench
-    ==================
+    Software testbench - HWPE + overlay
+    ===================================
 
     Instantiate SW testbench item
 ''' 
-hwpe_wrapper_tb = hwpe_wrapper_tb()
+hwpe_ov_tb = hwpe_ov_tb()
 
 '''
     Generate design components ~ archi
     Retrieve memory-mapped hardware accelerator registers.
 ''' 
-template = hwpe_wrapper_tb.archi_hwpe()
+template = hwpe_ov_tb.archi_hwpe()
 out_target = generator.render(template)
 filename = emitter.get_file_name(['sw', 'archi_hwpe', ['sw', 'archi']])
-emitter.out_gen(out_target, filename, emitter.out_sw_hwpe_lib)
+emitter.out_gen(out_target, filename, emitter.out_sw_ov_hwpe_lib)
 
 '''
     Generate design components ~ hardware abstraction layer (HAL)
@@ -204,10 +205,10 @@ emitter.out_gen(out_target, filename, emitter.out_sw_hwpe_lib)
     to create an interaction between the RISC-V processor and the 
     hardware accelerator.
 ''' 
-template = hwpe_wrapper_tb.hal_hwpe()
+template = hwpe_ov_tb.hal_hwpe()
 out_target = generator.render(template)
 filename = emitter.get_file_name(['sw', 'hal_hwpe', ['sw', 'hal']])
-emitter.out_gen(out_target, filename, emitter.out_sw_hwpe_lib)
+emitter.out_gen(out_target, filename, emitter.out_sw_ov_hwpe_lib)
 
 '''
     Generate design components ~ software testbench 
@@ -216,7 +217,49 @@ emitter.out_gen(out_target, filename, emitter.out_sw_hwpe_lib)
     in the overlay system. This tb can be used as a starting point for 
     additional platform testing.
 ''' 
-template = hwpe_wrapper_tb.tb_hwpe()
+template = hwpe_ov_tb.tb_hwpe()
 out_target = generator.render(template)
 filename = emitter.get_file_name(['sw', 'tb_hwpe', ['sw', 'tb']])
-emitter.out_gen(out_target, filename, emitter.out_sw_outdir)
+emitter.out_gen(out_target, filename, emitter.out_sw_ov)
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+
+'''
+    Software testbench - Standalone HWPE
+    ====================================
+
+    Instantiate SW testbench item
+''' 
+hwpe_standalone_tb = hwpe_standalone_tb()
+
+'''
+    Generate design components ~ archi
+    Retrieve memory-mapped hardware accelerator registers.
+''' 
+template = hwpe_standalone_tb.archi_hwpe()
+out_target = generator.render(template)
+filename = emitter.get_file_name(['sw', 'archi_hwpe', ['sw', 'archi']])
+emitter.out_gen(out_target, filename, emitter.out_sw_standalone_hwpe_lib)
+
+'''
+    Generate design components ~ hardware abstraction layer (HAL)
+    Retrieve Hardware Abstraction Layer with functions that permit 
+    to create an interaction between the RISC-V processor and the 
+    hardware accelerator.
+''' 
+template = hwpe_standalone_tb.hal_hwpe()
+out_target = generator.render(template)
+filename = emitter.get_file_name(['sw', 'hal_hwpe', ['sw', 'hal']])
+emitter.out_gen(out_target, filename, emitter.out_sw_standalone_hwpe_lib)
+
+'''
+    Generate design components ~ software testbench 
+    Retrieve software testbench to assess HWPE functionality. This 
+    is a pure baremetal test running on the riscv proxy core commprised 
+    in the overlay system. This tb can be used as a starting point for 
+    additional platform testing.
+''' 
+template = hwpe_standalone_tb.tb_hwpe()
+out_target = generator.render(template)
+filename = emitter.get_file_name(['sw', 'tb_hwpe', ['sw', 'tb']])
+emitter.out_gen(out_target, filename, emitter.out_sw_standalone)
