@@ -94,17 +94,23 @@ all: clean_gen run_gen
 # ---------------------------------- #
 #  SYSTEM-LEVEL INTEGRATION (v-git)  #
 # ---------------------------------- #
+hwpe_git_remote_update:
+	@cd genacc/output/git-deploy/hwpe-gen-app && git push origin ov_${HWPE_TARGET}
+
+hwpe_git_commit:
+	@cd genacc/output/git-deploy/hwpe-gen-app && git add .
+	@cd genacc/output/git-deploy/hwpe-gen-app && git commit -m "update on ${HWPE_TARGET}"
 
 hwpe_git_deploy:
-	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper/* ${OVERLAY_DEPS}/hwpe-gen-app/
-	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-gen-app/
-	@cp ${OUT_OV_INTEGR}/Bender.yml ${OVERLAY_DEPS}/hwpe-gen-app/
+	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper/* genacc/output/git-deploy/hwpe-gen-app
+	@cp -r ${OUT_SW_DIR} genacc/output/git-deploy/hwpe-gen-app
+	@cp ${OUT_OV_INTEGR}/Bender.yml genacc/output/git-deploy/hwpe-gen-app
 
 hwpe_git_branch:
-	git checkout -b ov_${HWPE_TARGET}
+	@cd genacc/output/git-deploy/hwpe-gen-app && git checkout -b ov_${HWPE_TARGET}
 
 init_hwpe_git:
-	git clone git@iis-git.ee.ethz.ch:gianluca.bellocchi/hwpe-gen-app.git
+	@git clone git@iis-git.ee.ethz.ch:gianluca.bellocchi/hwpe-gen-app.git
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
