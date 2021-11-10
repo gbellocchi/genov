@@ -1,99 +1,48 @@
 
 /*
- * Copyright (C) 2019 ETH Zurich and University of Bologna
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/*
  *
  * Authors:     Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
  *
  */
 
-/* Libraries inclusion */
+// Standard libs
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 
+// System
 #include <hero-target.h>
 
-/* HWPE. */
+// HWPE
 #include "inc/hwpe_lib/archi_hwpe.h"
 #include "inc/hwpe_lib/hal_hwpe.h"
 
-/* Event unit. */
+// Event unit
 #include "inc/eu_lib/archi_eu_v3.h"
 #include "inc/eu_lib/hal_eu_v3.h"
 
-/* Stimuli */
-// Include initialization stimuli
-// Include golden results
+${include_t_libs()}
 
-/* HWPE test */
-int ${target}_tb(
-  % for i in range (n_sink):
-  ${stream_in[i]}_width,
-  ${stream_in[i]}_height,      
-  ${stream_in[i]}_stripe_height, 
-  % endfor
+/* - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / */
 
-  % for j in range (n_source-1):
-  ${stream_out[j]}_width,      
-  ${stream_out[j]}_height,    
-  ${stream_out[j]}_stripe_height, 
-  % endfor
+/*
+ *
+ *     HWPE SW test.
+ *
+ */
 
-  ${stream_out[n_source-1]}_width,        
-  ${stream_out[n_source-1]}_height,       
-  ${stream_out[n_source-1]}_stripe_height
-) {
+int main() {
 
-  printf("Testbench application - DUT: ${target}\n");
-
-  printf("Initializating test parameters\n");
-
-  /* Init */
-  omp_set_num_threads(1);
-  volatile int errors = 0;
-  int i,j,k,cnt;
-  int offload_id_tmp, offload_id;
+  printf("Software test application - DUT: ${target}\n");
 
   <%
-  ####################################
-  ## Dataset parameters declaration ##
-  ####################################
+  #############################
+  ## Declare test parameters ##
+  #############################
   %>
 
-  /* Dataset parameters. */
-  % for i in range (n_sink):
-  // input ${stream_in[i]}
-  const unsigned ${stream_in[i]}_stim_dim               = ${stream_in[i]}_width * ${stream_in[i]}_height;
-  const unsigned ${stream_in[i]}_stripe_in_len          = ${stream_in[i]}_width * ${stream_in[i]}_stripe_height;
-  % endfor
-
-  % for j in range (n_source):
-  // output ${stream_out[j]}
-  const unsigned ${stream_out[j]}_stim_dim              = ${stream_out[j]}_width * ${stream_out[j]}_height;
-  const unsigned ${stream_out[j]}_stripe_out_len        = ${stream_out[j]}_width * ${stream_out[j]}_stripe_height;
-  % endfor
-
-  % if custom_reg_num>0:
-  /* Custom register parameters */
-    % for i in range (custom_reg_num):
-  const unsigned ${custom_reg_name[i]}_val =   ; /* ASSIGN A VALUE */
-    % endfor 
-  % endif
+  ${decl_t_params()}
 
   <%
   ##############################################
@@ -113,58 +62,22 @@ int ${target}_tb(
   ${hwpe_fsm_engine_runs()}
 
   <%
-  ############################
-  ## L1 stimuli declaration ##
-  ############################
+  ###############################
+  ## Test stimuli - Allocation ##
+  ###############################
   %>
   
   printf("Allocation and initialization of L1 stimuli\n");
 
-  /* L1 init - Input stimuli */
-
-  % for i in range (n_sink):
-  // input ${stream_in[i]}
-  int32_t * ${stream_in[i]}_l1 = hero_l1malloc(sizeof(int32_t)*${stream_in[i]}_stripe_in_len);
-  % endfor
-
-  % for j in range (n_source):
-  // output ${stream_out[j]}
-  int32_t * ${stream_out[j]}_l1 = hero_l1malloc(sizeof(int32_t)*${stream_out[j]}_stripe_out_len);
-  int32_t * ${stream_out[j]}_golden_l1 = hero_l1malloc(sizeof(int32_t)*${stream_out[j]}_stripe_out_len);
-  % endfor
+  ${allocate_t_stims()}
 
   <%
-  ###############################
-  ## L1 stimuli initialization ##
-  ###############################
+  ###################################
+  ## Test stimuli - Initialization ##
+  ###################################
   %>
 
-  /* Initialize stimuli. */
-
-  % for i in range (n_sink):
-  // input ${stream_in[i]}
-  for (i = 0; i < ${stream_in[i]}_stripe_height; i++){
-    for (j = 0; j < ${stream_in[i]}_width; j++){
-      ${stream_in[i]}_l1[i*${stream_in[i]}_width+j] = 1; // Modify the parameters with your own initialization value
-    }
-  }
-  % endfor
-
-  % for j in range (n_source):
-  // output ${stream_out[j]}
-  for (i = 0; i < ${stream_out[j]}_stripe_height; i++){
-    for (j = 0; j < ${stream_out[j]}_width; j++){
-      ${stream_out[j]}_l1[i*${stream_out[j]}_width+j] = 1; // Modify the parameters with your own initialization value
-    }
-  }
-
-  // output golden results ${stream_out[j]}
-  for (i = 0; i < ${stream_out[j]}_stripe_height; i++){
-    for (j = 0; j < ${stream_out[j]}_width; j++){
-      ${stream_out[j]}_golden_l1[i*${stream_out[j]}_width+j] = ${stream_out[j]}_width; // Modify the parameters with your own initialization value
-    }
-  }
-  % endfor
+  ${init_t_stims()}
 
   <%
   ######################
@@ -219,54 +132,4 @@ int ${target}_tb(
   // printf("end\n");
 
   return errors;
-}
-
-int main() {
-
-  /* Global parameters. */
-
-  uint32_t width                  = 512; // Modify the parameters with your own value
-  uint32_t height                 = 512; // Modify the parameters with your own value
-  uint32_t stripe_height          = 8; // Modify the parameters with your own value
-
-  /* Stream-specific parameters. */
-
-  % for i in range (n_sink):
-  // input ${stream_in[i]}
-  uint32_t ${stream_in[i]}_width              = width;
-  uint32_t ${stream_in[i]}_height             = height;
-  uint32_t ${stream_in[i]}_stripe_height      = stripe_height;
-  % endfor
-
-  // Outputs
-  % for j in range (n_source):
-  // output ${stream_out[j]}
-  uint32_t ${stream_out[j]}_width             = width;
-  uint32_t ${stream_out[j]}_height            = height;
-  uint32_t ${stream_out[j]}_stripe_height     = stripe_height;
-  % endfor
-
-  /* Launch application. */
-
-  while(
-    !${target}_tb(
-      % for i in range (n_sink):
-      ${stream_in[i]}_width,
-      ${stream_in[i]}_height,      
-      ${stream_in[i]}_stripe_height, 
-      % endfor
-
-      % for j in range (n_source-1):
-      ${stream_out[j]}_width,      
-      ${stream_out[j]}_height,    
-      ${stream_out[j]}_stripe_height, 
-      % endfor
-
-      ${stream_out[n_source-1]}_width,        
-      ${stream_out[n_source-1]}_height,       
-      ${stream_out[n_source-1]}_stripe_height
-    )
-  )
-
-  return 0;
 }

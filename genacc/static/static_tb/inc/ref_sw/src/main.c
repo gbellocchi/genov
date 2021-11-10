@@ -203,12 +203,11 @@ void gen_Hfile(char* val_name, uint32_t* synth_data, uint32_t width, uint32_t he
     }
   }
 
-  fprintf(fp, "}");
+  fprintf(fp, "};");
 
   // Close file
   fclose(fp);
 }
-
 
 /* - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / */
 
@@ -223,8 +222,8 @@ int main(int argc, char *argv[])
 
   /* Allocate DRAM arrays. */
 
-  uint32_t* l3_src = (uint32_t*)malloc(width*height*sizeof(uint32_t));
-  uint32_t* l3_dst = (uint32_t*)malloc(width*height*sizeof(uint32_t)); 
+  uint32_t* src_V = (uint32_t*)malloc(width*height*sizeof(uint32_t));
+  uint32_t* dst_V = (uint32_t*)malloc(width*height*sizeof(uint32_t)); 
 
   /* Additional parameters. */
 
@@ -232,21 +231,21 @@ int main(int argc, char *argv[])
 
   /* Generate synthetic stimuli. */
 
-  gen_stim(l3_src, width, height);
+  gen_stim(src_V, width, height);
 
   /* Generate golden results. */
 
-  ref_app(l3_src, l3_dst, width, height);
+  ref_app(src_V, dst_V, width, height);
 
-  /* */
+  /* Create output header files. */
 
-  gen_Hfile("stim_src", l3_src, width, height);
-  gen_Hfile("golden_dst", l3_dst, width, height);
+  gen_Hfile("src_V", src_V, width, height);
+  gen_Hfile("dst_V", dst_V, width, height);
 
   /* Cleanup. */  
 
-  free(l3_src);
-  free(l3_dst);
+  free(src_V);
+  free(dst_V);
 
   return 0;
 }

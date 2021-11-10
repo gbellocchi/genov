@@ -43,10 +43,12 @@ class hwpe_wrapper_tb:
         return hal_hwpe(
             temp_type = 'templates/sw/hwpe_wrapper_tb/tb_hwpe/',
             temp_top = 'tb_hwpe.template_c',
-            temp_modules = ['hwpe_addressgen_decl.template_c',
-                            'hwpe_exec.template_c',
-                            'hwpe_fsm_decl.template_c',
-                            'hwpe_progr.template_c'],
+            temp_modules = ['hwpe/hwpe_addressgen_decl.template_c',
+                            'hwpe/hwpe_exec.template_c',
+                            'hwpe/hwpe_fsm_decl.template_c',
+                            'hwpe/hwpe_progr.template_c',
+                            'test/test_params.template_c',
+                            'test/test_stims.template_c'],
             path_common = self.path_common
         ).top()
 

@@ -4,7 +4,7 @@ ROOT := $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 .PHONY: build clean
 
-all: clean_build env build run
+all: clean_build env build run exp
 
 exp:
 	@cp build/*.h ./../stim
