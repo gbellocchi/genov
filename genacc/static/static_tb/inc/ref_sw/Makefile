@@ -7,7 +7,7 @@ ROOT := $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 all: clean_build env build run
 
 exp:
-	@cp build/*.h ./..
+	@cp build/*.h ./../stim
 
 run:
 	@cd build && ./ref_app

@@ -166,7 +166,7 @@ class emitter(hwpe_specs):
             print(">> Erroneous path for static component of imported hardware kernel!")
         # ------------------------------------------------ #
         # copy static components ~ input stimuli
-        source = 'engine_dev/sw'
+        source = 'engine_dev/sw/stim'
         destination = self.out_sw_stim
         try:
             copy_tree(source, destination)
