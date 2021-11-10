@@ -18,9 +18,9 @@
 
   // 1. Workload
 
-  uint32_t width                  = ;
-  uint32_t height                 = ;
-  uint32_t stripe_height          = ;
+  unsigned width                  = ;
+  unsigned height                 = ;
+  unsigned stripe_height          = ;
 
   // 2. Accelerator execution
 
@@ -29,22 +29,21 @@
   // produced by the engine itself.
   
   % for j in range (n_source):
-  const unsigned engine_runs_${stream_out[j]} = ;
+  unsigned engine_runs_${stream_out[j]} = ;
   % endfor
 
 
   % if custom_reg_num>0:
   // 3. Custom registers
     % for i in range (custom_reg_num):
-  const unsigned ${custom_reg_name[i]}_val = ;
+  unsigned ${custom_reg_name[i]}_val = ;
     % endfor 
   % endif
 
   /* General parameters. */
 
-  omp_set_num_threads(1);
-  volatile int errors = 0;
-  int i, j;
+  volatile unsigned errors = 0;
+  unsigned i, j;
   int offload_id_tmp, offload_id;
 
   <%
@@ -56,15 +55,15 @@
   /* Stream-specific parameters. */
 
   % for i in range (n_sink):
-  uint32_t ${stream_in[i]}_width              = width;
-  uint32_t ${stream_in[i]}_height             = height;
-  uint32_t ${stream_in[i]}_stripe_height      = stripe_height;
+  unsigned ${stream_in[i]}_width              = width;
+  unsigned ${stream_in[i]}_height             = height;
+  unsigned ${stream_in[i]}_stripe_height      = stripe_height;
   % endfor
 
   % for j in range (n_source):
-  uint32_t ${stream_out[j]}_width             = width;
-  uint32_t ${stream_out[j]}_height            = height;
-  uint32_t ${stream_out[j]}_stripe_height     = stripe_height;
+  unsigned ${stream_out[j]}_width             = width;
+  unsigned ${stream_out[j]}_height            = height;
+  unsigned ${stream_out[j]}_stripe_height     = stripe_height;
   % endfor
 
   <%
@@ -75,13 +74,13 @@
 
   /* Dataset parameters. */
   % for i in range (n_sink):
-  const unsigned ${stream_in[i]}_stim_dim               = ${stream_in[i]}_width * ${stream_in[i]}_height;
-  const unsigned ${stream_in[i]}_stripe_in_len          = ${stream_in[i]}_width * ${stream_in[i]}_stripe_height;
+  unsigned ${stream_in[i]}_stim_dim               = ${stream_in[i]}_width * ${stream_in[i]}_height;
+  unsigned ${stream_in[i]}_stripe_in_len          = ${stream_in[i]}_width * ${stream_in[i]}_stripe_height;
   % endfor
 
   % for j in range (n_source):
-  const unsigned ${stream_out[j]}_stim_dim              = ${stream_out[j]}_width * ${stream_out[j]}_height;
-  const unsigned ${stream_out[j]}_stripe_out_len        = ${stream_out[j]}_width * ${stream_out[j]}_stripe_height;
+  unsigned ${stream_out[j]}_stim_dim              = ${stream_out[j]}_width * ${stream_out[j]}_height;
+  unsigned ${stream_out[j]}_stripe_out_len        = ${stream_out[j]}_width * ${stream_out[j]}_stripe_height;
   % endfor
 
 </%def>

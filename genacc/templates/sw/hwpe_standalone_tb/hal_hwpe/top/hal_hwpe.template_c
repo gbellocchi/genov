@@ -83,19 +83,8 @@
 // #define HWPE_WRITE(value, offset) *(volatile int *)(ARCHI_HWPE_ADDR_BASE + offset) = value
 // #define HWPE_READ(offset) *(volatile int *)(ARCHI_HWPE_ADDR_BASE + offset)
 
-#define hwpe_write32(add, val_) (*(volatile unsigned int *)(long)(add) = val_)
-
-static inline uint32_t hwpe_read32(uint32_t add)
-{
-  __asm__ __volatile__ ("" : : : "memory");
-  uint32_t result = *(volatile uint32_t *)add;
-  asm volatile("nop;");
-  __asm__ __volatile__ ("" : : : "memory");
-  return result;
-}
-
-#define HWPE_WRITE(value, offset) hwpe_write32(ARCHI_HWPE_ADDR_BASE + (offset), (value))
-#define HWPE_READ(offset) hwpe_read32(ARCHI_HWPE_ADDR_BASE + (offset))
+#define HWPE_WRITE(value, offset) *(int *)(ARCHI_HWPE_ADDR_BASE + offset) = value
+#define HWPE_READ(offset) *(int *)(ARCHI_HWPE_ADDR_BASE + offset)
 
 <%
 #####################################################

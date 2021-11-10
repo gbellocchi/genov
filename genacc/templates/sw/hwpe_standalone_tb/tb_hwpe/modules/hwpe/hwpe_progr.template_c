@@ -164,12 +164,12 @@
 
   % for i in range (n_sink):
   // input ${stream_in[i]}
-  hwpe_${stream_in[i]}_addr_set( ${stream_in[i]}_l1 );
+  hwpe_${stream_in[i]}_addr_set( (${stream_in_dtype[i]})${stream_in[i]}_l1 );
   % endfor
 
   % for j in range (n_source):
   // output ${stream_out[j]}
-  hwpe_${stream_out[j]}_addr_set( ${stream_out[j]}_l1 );
+  hwpe_${stream_out[j]}_addr_set( (${stream_out_dtype[j]})${stream_out[j]}_l1 );
   % endfor
 
 </%def>

@@ -42,10 +42,11 @@
 
   /* General parameters. */
 
-  omp_set_num_threads(1);
   volatile int errors = 0;
   int i, j;
   int offload_id_tmp, offload_id;
+
+  omp_set_num_threads(1);
 
   <%
   ###############################################
@@ -56,15 +57,15 @@
   /* Stream-specific parameters. */
 
   % for i in range (n_sink):
-  uint32_t ${stream_in[i]}_width              = width;
-  uint32_t ${stream_in[i]}_height             = height;
-  uint32_t ${stream_in[i]}_stripe_height      = stripe_height;
+  const unsigned ${stream_in[i]}_width              = width;
+  const unsigned ${stream_in[i]}_height             = height;
+  const unsigned ${stream_in[i]}_stripe_height      = stripe_height;
   % endfor
 
   % for j in range (n_source):
-  uint32_t ${stream_out[j]}_width             = width;
-  uint32_t ${stream_out[j]}_height            = height;
-  uint32_t ${stream_out[j]}_stripe_height     = stripe_height;
+  const unsigned ${stream_out[j]}_width             = width;
+  const unsigned ${stream_out[j]}_height            = height;
+  const unsigned ${stream_out[j]}_stripe_height     = stripe_height;
   % endfor
 
   <%

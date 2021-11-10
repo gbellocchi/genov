@@ -11,16 +11,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-// System
-#include <hero-target.h>
-
 // HWPE
 #include "inc/hwpe_lib/archi_hwpe.h"
 #include "inc/hwpe_lib/hal_hwpe.h"
-
-// Event unit
-#include "inc/eu_lib/archi_eu_v3.h"
-#include "inc/eu_lib/hal_eu_v3.h"
 
 ${include_t_libs()}
 
@@ -33,8 +26,6 @@ ${include_t_libs()}
  */
 
 int main() {
-
-  printf("Software test application - DUT: ${target}\n");
 
   <%
   #############################
@@ -59,8 +50,6 @@ int main() {
   ###############################
   %>
   
-  printf("Allocation and initialization of L1 stimuli\n");
-
   ${allocate_t_stims()}
 
   <%
@@ -90,7 +79,7 @@ int main() {
   %>
 
   ${hwpe_exec()}
-  ${hwpe_eu_progr()}
+  ${hwpe_wfi()}
 
   <%
   #######################
@@ -106,22 +95,5 @@ int main() {
   #################
   %>
 
-  // // /* Error check on L2. */
-  // printf("Results check");
-
-  // for (i = 0; i < stripe_height; i++){
-  //   for (j = 0; j < stripe_height; j++){
-  //     if(y_l1[i*stripe_height+j] != y_golden[i*stripe_height+j]){ 
-  //       printf("[%d]    L1 - y_test:    %d \n",  i*stripe_height+j, y_l1[i*stripe_height+j]);
-  //       printf("[%d]    L1 - y_golden:  %d\n\n", i*stripe_height+j, y_golden[i*stripe_height+j]);
-  //       errors++;
-  //     }
-  //   }
-  // }
-
-  // /* Return errors */
-  // printf("errors: %d\n", errors);
-  // printf("end\n");
-
-  return errors;
+  ${error_check()}
 }

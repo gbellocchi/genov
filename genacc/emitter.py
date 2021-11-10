@@ -54,11 +54,6 @@ class emitter(hwpe_specs):
         self.out_sw_standalone_inc = self.out_sw_standalone + '/inc'
         self.out_sw_standalone_stim = self.out_sw_standalone_inc + '/stim'
         self.out_sw_standalone_hwpe_lib = self.out_sw_standalone_inc + '/hwpe_lib'
-        # self.out_sw_test_lib = self.out_sw_inc + '/test_lib'
-        # self.out_sw_common = self.out_sw_inc + '/common'
-        # self.out_sw_eu_lib = self.out_sw_inc + '/eu_lib'
-        # self.out_sw_bigpulp = self.out_sw_inc + '/bigpulp'
-        # define output environment ~ overlay integration
 
     """
     Create environment for hardware.
@@ -68,7 +63,6 @@ class emitter(hwpe_specs):
         os.mkdir(self.out_hw_hwpe)
         os.mkdir(self.out_hw_hwpe_wrap)
         os.mkdir(self.out_hw_hwpe_rtl)
-        # os.mkdir(self.out_hw_hwpe_engine)
 
     """
     Create environment for software.

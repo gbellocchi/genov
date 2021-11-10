@@ -48,7 +48,8 @@ class hwpe_standalone_tb:
                             'hwpe/hwpe_fsm_decl.template_c',
                             'hwpe/hwpe_progr.template_c',
                             'test/test_params.template_c',
-                            'test/test_stims.template_c'],
+                            'test/test_stims.template_c',
+                            'test/test_check.template_c'],
             path_common = self.path_common
         ).top()
 

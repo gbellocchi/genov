@@ -39,19 +39,19 @@
   // Stimuli
 
   % for i in range (n_sink):
-  int32_t * ${stream_in[i]}_l1 = hero_l1malloc(sizeof(int32_t)*${stream_in[i]}_stripe_in_len);
+  ${stream_in_dtype[i]} * ${stream_in[i]}_l1 = hero_l1malloc(sizeof(int32_t)*${stream_in[i]}_stripe_in_len);
   % endfor
 
   // Results
 
   % for j in range (n_source):
-  int32_t * ${stream_out[j]}_l1 = hero_l1malloc(sizeof(int32_t)*${stream_out[j]}_stripe_out_len);
+  ${stream_out_dtype[j]} * ${stream_out[j]}_l1 = hero_l1malloc(sizeof(int32_t)*${stream_out[j]}_stripe_out_len);
   % endfor
 
   // Golden results
 
   % for j in range (n_source):
-  int32_t * ${stream_out[j]}_golden_l1 = hero_l1malloc(sizeof(int32_t)*${stream_out[j]}_stripe_out_len);
+  ${stream_out_dtype[j]} * ${stream_out[j]}_golden_l1 = hero_l1malloc(sizeof(int32_t)*${stream_out[j]}_stripe_out_len);
   % endfor
 
 </%def>
