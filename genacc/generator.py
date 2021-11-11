@@ -85,21 +85,26 @@ class generator(hwpe_specs):
     """
     def get_engine(self):
         filename = 'templates/integr_support/rtl_list/engine_list.log'
+        l = []
         with open(filename, 'r') as f:
-            s = f.readlines()
-            f.close()
-            return s
+            for s in f.readlines():
+                re_trailws = re.compile(r'[ \t\r]+$', re.MULTILINE)
+                s = re.sub(r'\n', '', s) 
+                s = re_trailws.sub("", s)
+                l.append(s)
+        f.close()
+        return l
 
-    def get_stream(self):
-        filename = 'templates/integr_support/rtl_list/stream_list.log'
-        with open(filename, 'r') as f:
-            s = f.readlines()
-            f.close()
-            return s
+    # def get_stream(self):
+    #     filename = 'templates/integr_support/rtl_list/stream_list.log'
+    #     with open(filename, 'r') as f:
+    #         s = f.readlines()
+    #         f.close()
+    #         return s
 
-    def get_ctrl(self):
-        filename = 'templates/integr_support/rtl_list/ctrl_list.log'
-        with open(filename, 'r') as f:
-            s = f.readlines()
-            f.close()
-            return s
+    # def get_ctrl(self):
+    #     filename = 'templates/integr_support/rtl_list/ctrl_list.log'
+    #     with open(filename, 'r') as f:
+    #         s = f.readlines()
+    #         f.close()
+    #         return s

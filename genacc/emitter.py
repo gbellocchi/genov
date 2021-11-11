@@ -305,7 +305,7 @@ class emitter(hwpe_specs):
         # dictionary for file extensions
         dict_file_ext = {
             'hw'                : { "rtl": ".sv" } , 
-            'integr_support'    : { "bender": ".yml", "vsim_wave": ".wave.do" } ,
+            'integr_support'    : { "yml": ".yml", "vsim_wave": ".wave.do" } ,
             'sw'                : { "archi": ".h", "hal": ".h", "tb": ".c" }
         }
         return dict_file_ext[self.design_type[0]][self.design_type[1]]
