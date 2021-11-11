@@ -4,19 +4,19 @@
 
 #!/usr/bin/env python3
 
-# Packages - Top
+# Templates - Top
 from templates.hw.hwpe_wrapper.hwpe_top_wrapper.top.hwpe_top_wrapper import hwpe_top_wrapper
 from templates.hw.hwpe_wrapper.hwpe_top.top.hwpe_top import hwpe_top
 from templates.hw.hwpe_wrapper.hwpe_package.top.hwpe_package import hwpe_package
 
-# Packages - Engine
+# Templates - Engine
 from templates.hw.hwpe_wrapper.hwpe_engine.top.hwpe_engine import hwpe_engine
 from templates.hw.hwpe_wrapper.hwpe_kernel_adapter.top.hwpe_kernel_adapter import hwpe_kernel_adapter
 
-# Packages - Streamer
+# Templates - Streamer
 from templates.hw.hwpe_wrapper.hwpe_streamer.top.hwpe_streamer import hwpe_streamer
 
-# Packages - Controller
+# Templates - Controller
 from templates.hw.hwpe_wrapper.hwpe_ctrl.top.hwpe_ctrl import hwpe_ctrl
 from templates.hw.hwpe_wrapper.hwpe_fsm.top.hwpe_fsm import hwpe_fsm
 

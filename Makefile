@@ -153,15 +153,6 @@ overlay_src: check_ov_env
 setup_standalone:
 	@bash ${SCRIPTS_VERIF}/setup_standalone.sh ${OUT_DIR} ${VERIF_HWPE}
 
-sim_run:
-	@bash ${SCRIPTS_VERIF}/hwpe-tb/run_sim.sh ${VERIF_HWPE}
-
-sim_compile_sw:
-	@bash ${SCRIPTS_VERIF}/hwpe-tb/compile_sw.sh ${VERIF_HWPE}
-
-sim_compile_hw:
-	@bash ${SCRIPTS_VERIF}/hwpe-tb/compile_hw.sh ${VERIF_HWPE}
-
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
 # ----------------------------- #

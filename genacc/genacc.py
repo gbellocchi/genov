@@ -207,24 +207,6 @@ gencomps(
     emitter.out_hw_standalone_tb
 )
 
-'''
-    Generate design components ~ List of IP modules
-''' 
-gencomps(
-    hwpe_standalone_tb_hw.src_files(),
-    ['tb', 'src_files', ['integr_support', 'yml']],
-    emitter.out_hw_standalone_tb
-)
-
-'''
-    Generate design components ~ List of IP dependencies
-''' 
-gencomps(
-    hwpe_standalone_tb_hw.ips_list(),
-    ['tb', 'ips_list', ['integr_support', 'yml']],
-    emitter.out_hw_standalone_tb
-)
-
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
 '''
@@ -241,7 +223,25 @@ integr_support = integr_support()
 gencomps(
     integr_support.bender(),
     ['integr_support', 'Bender', ['integr_support', 'yml']],
-    emitter.out_ov_integr
+    emitter.out_hw_hwpe
+)
+
+'''
+    Generate design components ~ List of IP modules
+''' 
+gencomps(
+    integr_support.src_files(),
+    ['tb', 'src_files', ['integr_support', 'yml']],
+    emitter.out_hw_hwpe
+)
+
+'''
+    Generate design components ~ List of IP dependencies
+''' 
+gencomps(
+    integr_support.ips_list(),
+    ['tb', 'ips_list', ['integr_support', 'yml']],
+    emitter.out_hw_hwpe
 )
 
 '''

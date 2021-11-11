@@ -4,7 +4,7 @@
 
 #!/usr/bin/env python3
 
-# Packages - Overlay
+# Templates
 from templates.hw.overlay.ov_acc_pkg.top.ov_acc_pkg import ov_acc_pkg
 from templates.hw.overlay.ov_acc_intf.top.ov_acc_intf import ov_acc_intf
 

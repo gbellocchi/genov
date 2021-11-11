@@ -13,6 +13,8 @@
  *
  * overlay_cluster_hwpe_pkg
  *
+ * HWPE specialization tool: Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
+ *
  * This package is to configure for PULP cluster OOC stub. Here are collected the 
  * HWPE design features that need to be shared with the higher-level (with respect 
  * to the HWPE module) hardware modules of the PULP system.

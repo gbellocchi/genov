@@ -1,17 +1,14 @@
-
 ########################################################
 ## Gianluca Bellocchi <gianluca.bellocchi@unimore.it> ##
 ########################################################
 
-#!/bin/bash
+#!/usr/bin/env python3
 
-error_exit()
-{
-  echo -e "\n$1\n" 1>&2
-  exit 1
-}
+from collector import collector
 
-readonly VERIF_HWPE=$1
+# src_files
+class src_files(collector):
+    def top(self):
+        return self.get_template()
 
-# update and compile hw
-cd $VERIF_HWPE && make -s update-ips build-hw
+    

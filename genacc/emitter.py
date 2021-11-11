@@ -172,7 +172,7 @@ class emitter(hwpe_specs):
         static_comps = 'static'
         # ------------------------------------------------ #
         # copy static components (tb-ov)
-        source = 'static/static_tb'
+        source = 'static/static_tb/hwpe_ov_tb_sw'
         destination = self.out_sw_ov
         try:
             copy_tree(source, destination)
@@ -188,7 +188,7 @@ class emitter(hwpe_specs):
             print(">> Erroneous path for input stimuli!")
         # ------------------------------------------------ #
         # copy static components (tb-standalone)
-        source = 'static/static_tb'
+        source = 'static/static_tb/hwpe_standalone_tb'
         destination = self.out_sw_standalone
         try:
             copy_tree(source, destination)

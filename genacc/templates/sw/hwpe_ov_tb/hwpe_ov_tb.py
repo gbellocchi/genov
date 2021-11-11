@@ -4,12 +4,12 @@
 
 #!/usr/bin/env python3
 
-# Packages
+# Templates
 from templates.sw.hwpe_ov_tb.archi_hwpe.top.archi_hwpe import archi_hwpe
 from templates.sw.hwpe_ov_tb.hal_hwpe.top.hal_hwpe import hal_hwpe
 from templates.sw.hwpe_ov_tb.tb_hwpe.top.tb_hwpe import tb_hwpe
 
-# HWPE wrapper- Software testbench components
+# HWPE wrapper - Software components for system-level testbench
 class hwpe_ov_tb:
     def __init__(self):
         print("\n>> HWPE system-level testbench ~ Retrieving software components")
