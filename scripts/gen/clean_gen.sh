@@ -18,17 +18,19 @@ find . -name "*.pyc" -type f -delete
 rm -rf ${dir_templ_integr_support}/rtl_list/*.log
 
 if [ -L "out_hw" ]; then
-    rm -rf out_hw/*
+    rm -rf out_hw/hwpe_standalone_tb/*
+    rm -rf out_hw/hwpe_wrapper/*
+    rm -rf out_hw/overlay/*
     unlink out_hw
 fi
 
 if [ -L "out_sw" ]; then
-    rm -rf out_sw/tb-ov/*
-    rm -rf out_sw/tb-standalone/*
+    rm -rf out_sw/hwpe_ov_tb/*
+    rm -rf out_sw/hwpe_standalone_tb/*
     unlink out_sw
 fi
 
-if [ -L "out_ov_integr" ]; then
-    rm -rf out_ov_integr/*
-    unlink out_ov_integr
+if [ -L "out_integr_support" ]; then
+    rm -rf out_integr_support/*
+    unlink out_integr_support
 fi

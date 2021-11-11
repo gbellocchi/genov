@@ -29,7 +29,7 @@ echo -e "\n>> Creating symbolic links to output."
 cd ../
 ln -s ${OUT_DIR}/hw out_hw
 ln -s ${OUT_DIR}/sw out_sw
-ln -s ${OUT_DIR}/ov_integr out_ov_integr
+ln -s ${OUT_DIR}/integr_support out_integr_support
 
 # Deactivate environment
 deactivate
