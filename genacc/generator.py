@@ -70,8 +70,12 @@ class generator(hwpe_specs):
             engine_devs             = self.get_engine(),
             num_engine_devs         = len(self.get_engine()),
         )
-        s = re.sub(r'\s+$', '', string, flags=re.M)
-        return s
+        # Compile a regex to trim trailing whitespaces on lines
+        # and multiple consecutive new lines.
+        re_trailws = re.compile(r'[ \t\r]+$', re.MULTILINE)
+        string = re.sub(r'\n\s*\n', '\n\n', string) 
+        string = re_trailws.sub("", string)
+        return string
 
     """
     Methods used to retrieve lists of files to feed the scripts 

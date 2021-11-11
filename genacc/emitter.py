@@ -26,31 +26,49 @@ class emitter(hwpe_specs):
     to assemble the associated repository, as well as its file components.
 
     The '__init__' method imports the input specification parameters from its
-    parent class 'hwpe_specs' and defines a set of directory names.
+    parent class 'hwpe_specs'. Other than the latter, the paths to the output
+    environment are specified. The output directory has the same structure of 
+    the template one. However, the former comprises no more templates, but 
+    rendered HW/SW items.
     """
     def __init__(self):
         # inherit
         super().__init__()
+
         # define output environment
         self.out_dir = 'output'
+
         # define output environment ~ functional categories
         self.out_hw_outdir = self.out_dir + '/hw'
+        self.out_ov_integr = self.out_dir + '/integr_support'
         self.out_sw_outdir = self.out_dir + '/sw'
-        self.out_ov_integr = self.out_dir + '/ov_integr'
+
+        # Hardware
+
         # define output environment ~ HWPE wrapper
-        self.out_hw_hwpe = self.out_hw_outdir + '/hwpe-' + self.target + '-wrapper'
+        self.out_hw_hwpe = self.out_hw_outdir + '/hwpe_wrapper'
         self.out_hw_hwpe_wrap = self.out_hw_hwpe + '/wrap'
         self.out_hw_hwpe_rtl = self.out_hw_hwpe + '/rtl'
         self.out_hw_hwpe_engine_dev = self.out_hw_hwpe_rtl + '/engine_dev'
-        self.out_hw_hwpe_streamer = self.out_hw_hwpe_rtl + '/hwpe-stream'
-        self.out_hw_hwpe_ctrl = self.out_hw_hwpe_rtl + '/hwpe-ctrl'
-        # define output environment ~ tb HWPE + overlay
-        self.out_sw_ov = self.out_sw_outdir + '/tb-ov'
+        # self.out_hw_hwpe_streamer = self.out_hw_hwpe_rtl + '/hwpe-stream'
+        # self.out_hw_hwpe_ctrl = self.out_hw_hwpe_rtl + '/hwpe-ctrl'
+
+        # define output environment ~ HWPE standalone tb (HW)
+        self.out_hw_standalone_tb = self.out_hw_outdir + '/hwpe_standalone_tb'
+
+        # define output environment ~ Overlay
+        self.out_hw_ov = self.out_hw_outdir + '/overlay'
+
+        # Software
+
+        # define output environment ~ HWPE system-level tb (SW)
+        self.out_sw_ov = self.out_sw_outdir + '/hwpe_ov_tb'
         self.out_sw_ov_inc = self.out_sw_ov + '/inc'
         self.out_sw_ov_stim = self.out_sw_ov_inc + '/stim'
         self.out_sw_ov_hwpe_lib = self.out_sw_ov_inc + '/hwpe_lib'
-        # define output environment ~ tb HWPE standalone
-        self.out_sw_standalone = self.out_sw_outdir + '/tb-standalone'
+
+        # define output environment ~ HWPE standalone tb (SW)
+        self.out_sw_standalone = self.out_sw_outdir + '/hwpe_standalone_tb'
         self.out_sw_standalone_inc = self.out_sw_standalone + '/inc'
         self.out_sw_standalone_stim = self.out_sw_standalone_inc + '/stim'
         self.out_sw_standalone_hwpe_lib = self.out_sw_standalone_inc + '/hwpe_lib'
@@ -60,7 +78,6 @@ class emitter(hwpe_specs):
     """
     def create_out_hw_env(self):
         # create output directories
-        os.mkdir(self.out_hw_hwpe)
         os.mkdir(self.out_hw_hwpe_wrap)
         os.mkdir(self.out_hw_hwpe_rtl)
 
@@ -240,6 +257,7 @@ class emitter(hwpe_specs):
         dict_file_ext = {
             'hwpe'            : self.hwpe_file_name(),
             'ov'              : self.ov_file_name(),
+            'tb'              : self.tb_file_name(),
             'integr_support'  : self.integr_support_file_name(),
             'sw'              : self.sw_file_name()
         }
@@ -257,6 +275,13 @@ class emitter(hwpe_specs):
     '''
     def ov_file_name(self):
         file_name = 'ov_' + self.design_name + self.file_ext
+        return file_name
+
+    '''
+    Constructor of file names targeting the testbench.
+    '''
+    def tb_file_name(self):
+        file_name = self.design_name + self.file_ext
         return file_name
 
     '''
