@@ -114,21 +114,16 @@ class emitter(hwpe_specs):
     """
     def out_gen(self, out_target, filename, filedir):
         print("\nExporting generated item (", filename, ") to target destination (", filedir, ")")
-        with open(filename, "w") as f:
-            f.write(out_target)
-            try:
-                source = filename
-                destination = filedir
-                shutil.move(source, destination)
-            except:
-                val = ""
-                while((val != "y") and (val != "n")):
-                    val = input(">> Trying to move generated components to output, but older versions have been found. Would you like to clean your environment? (y/n) ")
-                if (val=="y"):
-                    os.system('make clean >/dev/null 2>&1')
-                    source = filename
-                    destination = filedir
-                    shutil.move(source, destination)
+        if(os.path.isdir(filename)):
+            source = filename
+            destination = filedir
+            shutil.copytree(source, destination)
+        else:
+            with open(filename, "w") as f:
+                f.write(out_target)
+            source = filename
+            destination = filedir
+            shutil.move(source, destination)
 
     """
     The 'out_hw_static' method is in charge of physically setting up the output 

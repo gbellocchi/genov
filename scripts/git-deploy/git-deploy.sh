@@ -19,7 +19,7 @@ source $GEN_VENV/bin/activate
 
 # Run generator
 echo -e ">> Deployment of hardware accelerator to Git."
-cd scripts/git-deploy && python git-deploy.py $OUT_DIR
+cd genacc && python git-deploy.py $OUT_DIR
 
 # Deactivate environment
 deactivate

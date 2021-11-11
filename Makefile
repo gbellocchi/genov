@@ -62,8 +62,10 @@ OUT_OV_INTEGR			:= ${OUT_DIR}/ov_integr
 
 SCRIPTS_DIR				:= ${ROOT}/scripts
 SCRIPTS_GEN				:= ${SCRIPTS_DIR}/gen
+SCRIPTS_VERIF			:= ${SCRIPTS_DIR}/verif
 SCRIPTS_PY_ENV			:= ${SCRIPTS_DIR}/py_env
 SCRIPTS_SYS_INTEGR		:= ${SCRIPTS_DIR}/sys_integr
+SCRIPTS_GIT				:= ${SCRIPTS_DIR}/git-deploy
 
 # Python virtual environment
 PY_VENV 				:= ${REPO}_py_env
@@ -112,6 +114,9 @@ hwpe_git_branch:
 init_hwpe_git:
 	@git clone git@iis-git.ee.ethz.ch:gianluca.bellocchi/hwpe-gen-app.git
 
+git_deploy:
+	@bash ${SCRIPTS_GIT}/git-deploy.sh ${PY_VENV} ${OUT_DIR}
+
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
 # -------------------------- #
@@ -145,8 +150,17 @@ overlay_src: check_ov_env
 #  HARDWARE WRAPPER VERIFICATION  #
 # ------------------------------- #
 
-verif_hwpe_build_hw: check_ov_env
-	@cd ${VERIF_HWPE} && make -s update-ips build-hw
+setup_standalone:
+	@bash ${SCRIPTS_VERIF}/setup_standalone.sh ${OUT_DIR} ${VERIF_HWPE}
+
+sim_run:
+	@bash ${SCRIPTS_VERIF}/hwpe-tb/run_sim.sh ${VERIF_HWPE}
+
+sim_compile_sw:
+	@bash ${SCRIPTS_VERIF}/hwpe-tb/compile_sw.sh ${VERIF_HWPE}
+
+sim_compile_hw:
+	@bash ${SCRIPTS_VERIF}/hwpe-tb/compile_hw.sh ${VERIF_HWPE}
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
