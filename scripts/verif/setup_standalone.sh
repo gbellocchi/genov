@@ -19,10 +19,8 @@ readonly VERIF_HWPE=$2
 
 # update dut
 cp -rf $OUT_DIR/hw/hwpe_wrapper $VERIF_HWPE/hw/ips/
-cp -rf $OUT_DIR/hw/hwpe_standalone_tb/ips_list.yml $VERIF_HWPE/hw/ips/hwpe_wrapper
-cp -rf $OUT_DIR/hw/hwpe_standalone_tb/src_files.yml $VERIF_HWPE/hw/ips/hwpe_wrapper
 
 # update tb
-# cd $VERIF_HWPE
+cp -rf $OUT_DIR/sw/hwpe_standalone_tb/* $VERIF_HWPE/sw/
 
 # update sw app
