@@ -1,16 +1,10 @@
 <%
-#######################################
-## Library of components - Streaming ##
-#######################################
+##########################################
+## Kernel adapter interface - Streaming ##
+##########################################
 %>
 
-<%
-##################################
-## Streaming - Kernel interface ##
-##################################
-%>
-
-<%def name="streaming_kernel_intf()">\
+<%def name="streaming_kernel_adapter_intf()">\
 
   // Sink ports
   % for i in range (n_sink):

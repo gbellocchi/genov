@@ -214,9 +214,24 @@ addr_current = addr_top
     % endfor
 
     logic done;
-    logic idle;
     logic ready;
   } flags_engine_t;
+
+  <%
+  ###############################
+  ## Typedefs - Kernel adapter ##
+  ###############################
+  %>
+
+  typedef struct packed {
+    logic start;
+  } ctrl_kernel_adapter_t; 
+
+  typedef struct packed {
+    logic done;
+    logic idle;
+    logic ready;
+  } flags_kernel_adapter_t;
 
   <%
   #########################

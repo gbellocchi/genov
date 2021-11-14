@@ -81,7 +81,7 @@
       % for k in range (out_parallelism_factor[j]):
   always_comb
   begin: ${stream_out[j]}_${k}_track_q
-    if(~rst_ni | engine_clear) begin
+    if(~rst_ni | ctrl_i.clear) begin
       track_${stream_out[j]}_${k}_d = '0;
     end 
     else if(${stream_out[j]}_${k}_o.valid & ${stream_out[j]}_${k}_o.ready) begin
@@ -97,7 +97,7 @@
     if(~rst_ni) begin
       track_${stream_out[j]}_${k}_q <= '0;
     end
-    else if(engine_clear) begin
+    else if(ctrl_i.clear) begin
       track_${stream_out[j]}_${k}_q <= '0;
     end
     else begin
@@ -115,7 +115,7 @@
 
   always_comb
   begin: ${stream_out[j]}_track_q
-    if(~rst_ni | engine_clear) begin
+    if(~rst_ni | ctrl_i.clear) begin
       track_${stream_out[j]}_d = '0;
     end 
     else if(${stream_out[j]}_o.valid & ${stream_out[j]}_o.ready) begin
@@ -131,7 +131,7 @@
     if(~rst_ni) begin
       track_${stream_out[j]}_q <= '0;
     end
-    else if(engine_clear) begin
+    else if(ctrl_i.clear) begin
       track_${stream_out[j]}_q <= '0;
     end
     else begin
@@ -173,9 +173,9 @@
 
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: ${stream_out[j]}_cnt
-    if((~rst_ni) | engine_clear)
+    if((~rst_ni) | ctrl_i.clear)
       cnt_${stream_out[j]} = 32'b0;
-    else if( track_${stream_out[j]}_AND & engine_done )
+    else if( track_${stream_out[j]}_AND & flags_o.done )
       cnt_${stream_out[j]} = cnt_${stream_out[j]} + 1;
     else
       cnt_${stream_out[j]} = cnt_${stream_out[j]};
@@ -190,9 +190,9 @@
 
   always_ff @(posedge clk_i or negedge rst_ni)
   begin: ${stream_out[j]}_cnt
-    if((~rst_ni) | engine_clear)
+    if((~rst_ni) | ctrl_i.clear)
       cnt_${stream_out[j]} = 32'b0;
-    else if( track_${stream_out[j]}_q & engine_done )
+    else if( track_${stream_out[j]}_q & flags_o.done )
       cnt_${stream_out[j]} = cnt_${stream_out[j]} + 1;
     else
       cnt_${stream_out[j]} = cnt_${stream_out[j]};

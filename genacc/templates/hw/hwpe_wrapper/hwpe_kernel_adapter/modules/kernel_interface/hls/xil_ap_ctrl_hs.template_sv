@@ -79,10 +79,10 @@
     % endif 
 
     // Control signals.
-    .ap_start      ( start            ),
-    .ap_done       ( done             ),
-    .ap_idle       ( idle             ),
-    .ap_ready      ( ready            )
+    .ap_start      ( ctrl_i.start             ),
+    .ap_done       ( flags_o.done             ),
+    .ap_idle       ( flags_o.idle             ),
+    .ap_ready      ( flags_o.ready            )
   );
 
 </%def>

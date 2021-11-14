@@ -19,7 +19,7 @@
   // START is not always high. For each READY (~(engine_ready | engine_idle)) that is
   // delivered to the FSM, a new START signal is set high and iaaued to the kernel.
 
-  assign kernel_start = start;
+  assign kernel_start = ctrl_i.start;
 
 </%def>
 
@@ -73,7 +73,7 @@
 
   // FIXME: This temporarily works synch-outputs.
   // EX: What if Out_0 is provided at each input and Out_1 once per 10 inputs?
-  assign done = ${AND_kernel_done_out()};
+  assign flags_o.done = ${AND_kernel_done_out()};
 
   % for j in range (n_source):
     % if (is_parallel_out[j]):
@@ -110,14 +110,14 @@
      The latter triggers the START of accelerator. (see FSM_COMPUTE). */
   /* Driven using input counters. */
 
-  assign ready = ${AND_kernel_done_in()};
+  assign flags_o.ready = ${AND_kernel_done_in()};
 
   /* Idle. */
   /* This is used in the hwpe-engine to set flags_o.ready. 
      The latter triggers the START of accelerator. (see FSM_COMPUTE). */
   /* For more infos refer to UG902. */
 
-  assign idle = kernel_idle;
+  assign flags_o.idle = kernel_idle;
 
   /* The Idle signal indicates when the design is idle and not operating. */
   always_ff @(posedge clk_i or negedge rst_ni)

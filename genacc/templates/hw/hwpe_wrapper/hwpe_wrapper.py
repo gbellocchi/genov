@@ -51,7 +51,12 @@ class hwpe_wrapper:
         return hwpe_engine(
             temp_type = 'templates/hw/hwpe_wrapper/hwpe_engine/',
             temp_top = 'hwpe_engine.template_sv',
-            temp_modules = ['fsm_synch.template_sv', 'streaming.template_sv'],
+            temp_modules = ['fsm_synch.template_sv', 
+                            'streaming.template_sv',
+                            'map_ctrl_flags.template_sv',
+                            'kernel_adapter_interface/hdl/' + 'pulp_std.template_sv', 
+                            'kernel_adapter_interface/hls/' + 'xil_ap_ctrl_hs.template_sv', 
+                            'kernel_adapter_interface/hls/' + 'mdc_dataflow.template_sv'],
             path_common = self.path_common
         ).top()
 
@@ -60,7 +65,13 @@ class hwpe_wrapper:
         return hwpe_kernel_adapter(
             temp_type = 'templates/hw/hwpe_wrapper/hwpe_kernel_adapter/',
             temp_top = 'hwpe_kernel_adapter.template_sv',
-            temp_modules = ['kernel_interface/xil_ap_ctrl_hs.template_sv', 'kernel_interface/mdc_dataflow.template_sv', 'streaming.template_sv'],
+            temp_modules = ['kernel_adapter_interface/streaming.template_sv',
+                            'kernel_adapter_interface/hdl/' + 'pulp_std.template_sv', 
+                            'kernel_adapter_interface/hls/' + 'xil_ap_ctrl_hs.template_sv', 
+                            'kernel_adapter_interface/hls/' + 'mdc_dataflow.template_sv',
+                            'kernel_interface/hdl/' + 'pulp_std.template_sv', 
+                            'kernel_interface/hls/' + 'xil_ap_ctrl_hs.template_sv', 
+                            'kernel_interface/hls/' + 'mdc_dataflow.template_sv'],
             path_common = self.path_common
         ).top()
 
