@@ -58,14 +58,12 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_kernel_adapter
 # Control signals
 %>
 
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_kernel_adapter} -group {xil_ap_ctrl_hs} -group {Control} -label {Start} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/i_${target}_adapter/start}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_kernel_adapter} -group {xil_ap_ctrl_hs} -label {ctrl_i} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/i_${target}_adapter/ctrl_i}
 
 <%
 # Flag signals
 %>
 
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_kernel_adapter} -group {xil_ap_ctrl_hs} -group {Flags} -label {Done} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/i_${target}_adapter/done}
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_kernel_adapter} -group {xil_ap_ctrl_hs} -group {Flags} -label {Idle} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/i_${target}_adapter/idle}
-add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_kernel_adapter} -group {xil_ap_ctrl_hs} -group {Flags} -label {Ready} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/i_${target}_adapter/ready}
+add wave -noupdate -group {HWPE ${target}} -group {hwpe_${target}_kernel_adapter} -group {xil_ap_ctrl_hs} -label {flags_o} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/hwpe_gen/hwpe_wrap_i/i_hwpe_top_wrap/i_${target}_top/i_engine/i_${target}_adapter/flags_o}
 
 </%def>
