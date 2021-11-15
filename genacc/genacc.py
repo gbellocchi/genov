@@ -92,7 +92,6 @@ gencomps(
     emitter.out_hw_hwpe_wrap
 )
 
-
 '''
     Generate design components ~ Top
 '''
