@@ -1,0 +1,4 @@
+generate_req_local
+regslice_core
+generate_req
+traffic_gen

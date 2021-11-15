@@ -1,6 +1,18 @@
-########################################################
-## Gianluca Bellocchi <gianluca.bellocchi@unimore.it> ##
-########################################################
+'''
+ =====================================================================
+ Project:      Traffic Generator
+ Title:        hwpe_specs.py
+ Description:  Specification file to guide the generation of HW/SW
+	           components for hardware wrappers.
+
+ Date:        12.11.2021
+ ===================================================================== */
+
+ Copyright (C) 2021 University of Modena and Reggio Emilia..
+
+ Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+
+'''
 
 #!/usr/bin/env python3
 
@@ -17,30 +29,29 @@ class hwpe_specs:
 
     def kernel_k(self):
         # Generic
-        self.target                             = 'mac_mdc'
-        self.design_type                        = 'hdl'
+        self.target                             = 'traffic_gen'
+        self.design_type                        = 'hls'
         # Kernel design [ is_ap_ctrl_hs , is_mdc_dataflow ]
-        self.intf_kernel                        = [ False, True ]
+        self.intf_kernel                        = [ True , False ]
         return self
 
     def streaming_k(self):
         # HWPE streaming interfaces [ name , data-type , reg-dim , is_parallel , parallelism_factor]
-        self.list_sink_stream                   = [ [ 'a' , 'int32_t' , 32 , False, 1 ] , [ 'b' , 'int32_t' , 32 , False, 1 ] , [ 'c' , 'int32_t' , 32 , False, 1 ] ]
-        self.list_source_stream                 = [ [ 'd' , 'int32_t' , 32 , False, 1 ] ]
+        self.list_sink_stream                   = [ [ 'stream_in_V' , 'int32_t' , 32 , False , 1] ]
+        self.list_source_stream                 = [ [ 'stream_out_V' , 'int32_t' , 32 , False , 1] ]
         return self
 
     def regfile_k(self):
         # HWPE standard regfiles
         self.std_reg_num                        = 4       
         # HWPE custom regfiles [ name , data-type , reg-dim , is_port ]
-        self.custom_reg                         = [ [ 'simple_mul' , 'int'     , 1  , 1 ] ,
-                                                    [ 'shift'      , 'int8_t'  , 8  , 1 ] ,
-                                                    [ 'len'        , 'int16_t' , 16 , 1 ] ]
+        self.custom_reg                         = [ [ 'n_trans' , 'int32_t' , 32 , 1 ] ,
+                                                    [ 'prob_req' , 'int32_t' , 32 , 1 ] ]
         return self
 
     def addressgen_k(self):
         # Address generation [ is_programmable ]
-        self.addr_gen_in                        = [ [True] , [True] , [True] ]
+        self.addr_gen_in                        = [ [True] ]
         self.addr_gen_out                       = [ [True] ]
         return self
 
@@ -97,6 +108,4 @@ class hwpe_specs:
         self.addressgen_d()
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
-
-
 
