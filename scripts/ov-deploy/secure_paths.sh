@@ -4,12 +4,6 @@
 
 #!/bin/bash
 
-error_exit()
-{
-  echo -e "\n$1\n" 1>&2
-  exit 1
-}
-
 echo -e ">> Checking overlay hardware subsystem."
 
 readonly OVERLAY_SRC=$1
