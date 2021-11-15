@@ -17,7 +17,7 @@ REPO 					:= genacc
 
 # Choose target on those available in the application library (e.g. mmul_parallel)
 
-HWPE_TARGET				:= conv_mdc
+HWPE_TARGET				:= traffic_gen
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -56,16 +56,16 @@ VERIF_HWPE 				:= ${VERIF}/hwpe-tb
 OUT_DIR 				:= ${GENACC_ROOT}/output
 OUT_HW_DIR 				:= ${OUT_DIR}/hw
 OUT_SW_DIR 				:= ${OUT_DIR}/sw
-OUT_OV_INTEGR			:= ${OUT_DIR}/ov_integr
+OUT_INTEGR_SUPPORT		:= ${OUT_DIR}/integr_support
 
 # Scripts
 
 SCRIPTS_DIR				:= ${ROOT}/scripts
 SCRIPTS_GEN				:= ${SCRIPTS_DIR}/gen
 SCRIPTS_VERIF			:= ${SCRIPTS_DIR}/verif
-SCRIPTS_PY_ENV			:= ${SCRIPTS_DIR}/py_env
-SCRIPTS_SYS_INTEGR		:= ${SCRIPTS_DIR}/sys_integr
-SCRIPTS_GIT				:= ${SCRIPTS_DIR}/git-deploy
+SCRIPTS_PY_ENV			:= ${SCRIPTS_DIR}/py-env
+SCRIPTS_OV_DEPLOY		:= ${SCRIPTS_DIR}/ov-deploy
+SCRIPTS_GIT_DEPLOY		:= ${SCRIPTS_DIR}/git-deploy
 
 # Python virtual environment
 PY_VENV 				:= ${REPO}_py_env
@@ -106,7 +106,7 @@ hwpe_git_commit:
 hwpe_git_deploy:
 	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper/* genacc/output/git-deploy/hwpe-gen-app
 	@cp -r ${OUT_SW_DIR} genacc/output/git-deploy/hwpe-gen-app
-	@cp ${OUT_OV_INTEGR}/Bender.yml genacc/output/git-deploy/hwpe-gen-app
+	@cp ${OUT_HW_DIR}/hwpe_wrapper/Bender.yml genacc/output/git-deploy/hwpe-gen-app
 
 hwpe_git_branch:
 	@cd genacc/output/git-deploy/hwpe-gen-app && git checkout -b ov_${HWPE_TARGET}
@@ -115,7 +115,7 @@ init_hwpe_git:
 	@git clone git@iis-git.ee.ethz.ch:gianluca.bellocchi/hwpe-gen-app.git
 
 git_deploy:
-	@bash ${SCRIPTS_GIT}/git-deploy.sh ${PY_VENV} ${OUT_DIR}
+	@bash ${SCRIPTS_GIT_DEPLOY}/git-deploy.sh ${PY_VENV} ${OUT_DIR}
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -126,23 +126,18 @@ git_deploy:
 overlay_integration: clean_ov_env overlay_src overlay_deps
 
 hwpe_gen_app: test_ov_env overlay_src clean_hwpe_gen_app
-	@echo -e ">> Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay."
-	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper/* ${OVERLAY_DEPS}/hwpe-gen-app/
+	@echo -e ">> Connecting HWPE wrapper to the overlay."
+	@cp -r ${OUT_HW_DIR}/hwpe_wrapper/* ${OVERLAY_DEPS}/hwpe-gen-app/
 	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-gen-app/
-	@cp ${OUT_OV_INTEGR}/Bender.yml ${OVERLAY_DEPS}/hwpe-gen-app/
+	@cp ${OUT_HW_DIR}/hwpe_wrapper/Bender.yml ${OVERLAY_DEPS}/hwpe-gen-app/
 
 overlay_deps: test_ov_env overlay_src
-	@echo -e ">> Connecting 'hwpe-${HWPE_TARGET}-wrapper' to the overlay."
-	@cp -r ${OUT_HW_DIR}/hwpe-${HWPE_TARGET}-wrapper ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper
-	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper/
+	@echo -e ">> Connecting HWPE wrapper to the overlay."
+	@cp -r ${OUT_HW_DIR}/hwpe_wrapper ${OVERLAY_DEPS}/hwpe_${HWPE_TARGET}
+	@cp -r ${OUT_SW_DIR} ${OVERLAY_DEPS}/hwpe_${HWPE_TARGET}/
 
 overlay_src: check_ov_env
-	@echo -e ">> Exporting accelerator package to perform system-level optimization."
-	@cp ${OUT_OV_INTEGR}/ov_acc_pkg.sv ${OVERLAY_SRC}/
-	@echo -e ">> Exporting accelerator interface to perform system-level integration."
-	@cp ${OUT_OV_INTEGR}/ov_acc_intf.sv ${OVERLAY_CLUSTER}/
-	@echo -e ">> Exporting Modelsim wave script to perform system-level testing."
-	@cp ${OUT_OV_INTEGR}/pulp_tb.wave.do ${OVERLAY_TEST}/
+	@bash ${SCRIPTS_OV_DEPLOY}/ov-deploy.sh ${OUT_DIR} ${OVERLAY_SRC} ${OVERLAY_CLUSTER} ${OVERLAY_TEST}
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -150,7 +145,10 @@ overlay_src: check_ov_env
 #  HARDWARE WRAPPER VERIFICATION  #
 # ------------------------------- #
 
-setup_standalone:
+gen_standalone:
+	@bash ${SCRIPTS_VERIF}/gen_standalone.sh ${OUT_DIR} ${VERIF_HWPE}
+
+setup_standalone: common
 	@bash ${SCRIPTS_VERIF}/setup_standalone.sh ${OUT_DIR} ${VERIF_HWPE}
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
@@ -185,12 +183,13 @@ clean_ov_env: test_ov_env clean_hwpe_gen_app
 
 clean_hwpe_gen_app: test_ov_env
 	@rm -rf ${OVERLAY_DEPS}/hwpe-gen-app/rtl
+	@rm -rf ${OVERLAY_DEPS}/hwpe-gen-app/wrap
 	@rm -rf ${OVERLAY_DEPS}/hwpe-gen-app/sw
 	@rm -rf ${OVERLAY_DEPS}/hwpe-gen-app/Bender.yml
 
-test_ov_env: check_ov_env
+test_ov_env: common check_ov_env
 ifndef ENV_IS_CHECKED
-	@bash ${SCRIPTS_SYS_INTEGR}/secure_paths.sh ${OVERLAY_SRC} ${OVERLAY_DEPS} ${OVERLAY_TEST}
+	@bash ${SCRIPTS_OV_DEPLOY}/secure_paths.sh ${OVERLAY_SRC} ${OVERLAY_DEPS} ${OVERLAY_TEST}
 endif
 
 check_ov_env:
@@ -205,7 +204,7 @@ endif
 # ----------------------- #
 
 clean_gen: check_ov_env
-	@bash ${SCRIPTS_GEN}/clean_gen.sh $(ENG_DEV) $(PY_ENV_DIR) ${HW_MNGT_DIR}
+	@bash ${SCRIPTS_GEN}/clean_gen.sh $(ENG_DEV) $(PY_ENV_DIR) ${HW_MNGT_DIR} ${OUT_DIR}
 
 init_gen:
 	@bash ${SCRIPTS_GEN}/init_gen.sh
@@ -245,7 +244,10 @@ init_py_env:
 update_reqs_py_env:
 	@bash ${SCRIPTS_PY_ENV}/update_reqs.sh ${PY_ENV_DIR}
 
-test_py_env:
+test_py_env: common
 	@bash ${SCRIPTS_PY_ENV}/secure_paths.sh ${PY_ENV_DIR}
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+
+common:
+	@bash ${SCRIPTS_DIR}/common.sh
