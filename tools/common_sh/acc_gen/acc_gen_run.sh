@@ -1,7 +1,17 @@
-
-########################################################
-## Gianluca Bellocchi <gianluca.bellocchi@unimore.it> ##
-########################################################
+# =====================================================================
+# Project:      Scripts - Generation environment
+# Title:        run_gen.sh
+# Description:  Generate target accelerator wrapper.
+#
+# $Date:        23.11.2021
+#
+# =====================================================================
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+#
+# =====================================================================
 
 #!/bin/bash
 
