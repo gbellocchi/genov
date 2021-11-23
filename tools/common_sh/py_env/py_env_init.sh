@@ -1,7 +1,17 @@
-
-########################################################
-## Gianluca Bellocchi <gianluca.bellocchi@unimore.it> ##
-########################################################
+# =====================================================================
+# Project:      Scripts - Python virtual environment
+# Title:        init_py_env.sh
+# Description:  Initialize python environment
+#
+# $Date:        23.11.2021
+#
+# =====================================================================
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+#
+# =====================================================================
 
 #!/bin/bash
 

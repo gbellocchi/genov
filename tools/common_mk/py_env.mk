@@ -14,14 +14,14 @@
 #
 # =====================================================================
 
-clean_py_env: test_py_env
+py_env_update_reqs:
+	@bash ${SCRIPTS_PY_ENV}/$@.sh ${PY_ENV_DIR}
+
+py_env_init:
+	@bash ${SCRIPTS_PY_ENV}/$@.sh ${PY_VENV}
+
+py_env_test: common_sh
+	@bash ${SCRIPTS_PY_ENV}/$@.sh ${PY_ENV_DIR}
+
+py_env_clean: py_env_test
 	@rm -rf ${PY_VENV}
-
-init_py_env:
-	@bash ${SCRIPTS_PY_ENV}/init_py_env.sh ${PY_VENV}
-
-update_reqs_py_env:
-	@bash ${SCRIPTS_PY_ENV}/update_reqs.sh ${PY_ENV_DIR}
-
-test_py_env: common_sh
-	@bash ${SCRIPTS_PY_ENV}/secure_paths.sh ${PY_ENV_DIR}

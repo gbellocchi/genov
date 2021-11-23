@@ -1,5 +1,5 @@
 # python venv
-*py_env/
+local_py_env/
 **/__pycache__/
 
 # generated files
