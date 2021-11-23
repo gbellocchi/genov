@@ -3,7 +3,6 @@
 **/__pycache__/
 
 # generated files
-engine_dev/*
 **/*.log
 output/hw/hwpe_standalone_tb/
 output/hw/hwpe_wrapper/
