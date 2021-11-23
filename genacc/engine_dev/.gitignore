@@ -1,0 +1,7 @@
+*.sv
+*.v
+rtl/
+hls/
+specs/
+sw/
+__init__.py
