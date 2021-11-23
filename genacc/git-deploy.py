@@ -1,11 +1,17 @@
-
-########################################################
-## Gianluca Bellocchi <gianluca.bellocchi@unimore.it> ##
-########################################################
-
 '''
-    Modules
-    =======
+ =====================================================================
+ Project:      GenAcc
+ Title:        git-deploy.py
+ Description:  Automatic deployment of generated accelerators to Git.
+
+ Date:         22.11.2021
+ =====================================================================
+
+ Copyright (C) 2021 University of Modena and Reggio Emilia..
+
+ Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+
+ Modules:
     - GitPython ~ Reference documentation: https://gitpython.readthedocs.io/en/stable/index.html
 '''
 
@@ -94,7 +100,8 @@ git_repos = {
 }
 
 '''
-   Variables declaration.
+   Variables declaration
+   =====================
 '''
 
 name_user       =   user["user"]
@@ -109,111 +116,106 @@ is_ssh_url      =   1
 remote_url      =   ssh_repo if is_ssh_url else https_repo
 
 '''
-    Instantiate Git repo item.
+    Instantiate Git repo item
 '''
 
+git_g           = git.Git()
 git_target      = git.Repo
 git_author      = git.Actor(user["author"], user["email"])
 git_committer   = git_author
 
 '''
-    Search for remote repository, otherwise initialize a new repository and create remote.
+    Clone remote repository
 '''
 
 repo_exists     = 1
 res_remote      = lsremote(remote_url)
 
 if(not path.exists(local_git_repo)):
+
+    # ============================ #
+    # remote exists, local not exist
+    # ============================ #
+
     if(res_remote is repo_exists):
+
         print('>> Cloning remote repository for at:\n\t', local_git_repo)
-        try:
-            git_target.clone_from(remote_url, local_git_repo)
-        except:
-            pass
-    else:
-        try:
-            print('>> Initializing local repository for', name_repo, 'at:\n\t', local_git_repo)
-            repo = git_target.init(local_git_repo)
 
-            print('Create new remote at:\n\t', remote_url)
-            origin = repo.create_remote('origin', remote_url)
-            assert origin.exists()
-            assert origin == repo.remotes.origin == repo.remotes['origin']  
+        # try cloning application-specific branch
+        try:
+            git_target.clone_from(
+                remote_url, 
+                local_git_repo,
+                branch=app["kernel"]
+            )
 
-            print('Fetch from origin')
-            origin.fetch()                                                          # assure we actually have data. fetch() returns useful information
-            print('Create master HEAD')                                                             
-            repo.create_head('master', origin.refs.master)                          # create local branch "master" from remote "master"
-            repo.heads.master.set_tracking_branch(origin.refs.master)               # set local "master" to track remote "master
-            repo.heads.master.checkout()                                            # checkout local "master" to working tree
+        # otherwise clone the master
         except:
-            pass
+            git_target.clone_from(
+                remote_url, 
+                local_git_repo,
+                branch="master"
+            )
+
+    # ========================= #
+    # remote exists, local exists
+    # ========================= #
+
 else:
     print('A local repository for', name_repo, 'already exists at:\n\t' ,local_git_repo)
 
 '''
-    Search for remote (or local) application-specific branch, 
-    otherwise create a new one, then checkout to it.
+    Search for remote (or local) application-specific branch, otherwise create a new one
 '''
 
-if(origin.refs is None):
-    print('Create application-specific branch and checkout')
-    repo.git.checkout(origin.refs, b=app["kernel"]) 
-    # origin.fetch()
-else:
-    for ref in origin.refs:
-        if(ref is not app["kernel"]):
-            print('Create application-specific branch and checkout')
-            repo.git.checkout(origin.refs, b=app["kernel"]) 
-            origin.fetch()
-        else:
-            print('Branch', ref.name, 'already exists')
+print(git_target.active_branch)
 
-'''
-    Emitter
-    =======
 
-    Instantiate export item
-'''
-emitter         = emitter()
+# '''
+#     Emitter
+#     =======
 
-'''
-    Search for existing files, otherwise deploy the generated ones.
-'''
+#     Instantiate export item
+# '''
+# emitter         = emitter()
 
-print('>> Git deployment')
+# '''
+#     Search for existing files, otherwise deploy the generated ones.
+# '''
 
-source          = emitter.out_hw_outdir
-destination     = local_git_repo + '/hw'
-shutil.copytree(source, destination)
+# print('>> Git deployment')
 
-source          = emitter.out_ov_integr
-destination     = local_git_repo + '/integr_support'
-shutil.copytree(source, destination)
+# source          = emitter.out_hw_outdir
+# destination     = local_git_repo + '/hw'
+# shutil.copytree(source, destination)
 
-source          = emitter.out_sw_outdir
-destination     = local_git_repo + '/sw'
-shutil.copytree(source, destination)
+# source          = emitter.out_ov_integr
+# destination     = local_git_repo + '/integr_support'
+# shutil.copytree(source, destination)
 
-'''
-    Commit generated wrapper.
-'''
+# source          = emitter.out_sw_outdir
+# destination     = local_git_repo + '/sw'
+# shutil.copytree(source, destination)
 
-index = repo.index
+# '''
+#     Commit generated wrapper.
+# '''
 
-# print('>> Adding untracked files')
-# repo.index.add([
-#     local_git_repo + '/hw',
-#     local_git_repo + '/integr_support',
-#     local_git_repo + '/sw'
-# ])
+# index = repo.index
 
-repo.git.add(all=True)
+# # print('>> Adding untracked files')
+# # repo.index.add([
+# #     local_git_repo + '/hw',
+# #     local_git_repo + '/integr_support',
+# #     local_git_repo + '/sw'
+# # ])
 
-print('>> First commit')
-index.commit("First commit.", author=git_author, committer=git_committer)
+# repo.git.add(all=True)
 
-# # # puskh and pull behaves similarly to `git push|pull`
-# origin.pull()
-# origin.push()
-# # assert not empty_repo.delete_remote(origin).exists()     # create and delete remotes
+# print('>> First commit')
+# index.commit("First commit.", author=git_author, committer=git_committer)
+
+# # # # puskh and pull behaves similarly to `git push|pull`
+# # origin.pull()
+# # origin.push()
+# # # assert not empty_repo.delete_remote(origin).exists()     # create and delete remotes

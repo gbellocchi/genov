@@ -11,4 +11,4 @@ output/hw/overlay/
 output/sw/hwpe_ov_tb/
 output/sw/hwpe_standalone_tb/
 output/integr_support/
-output/git-deploy/
+output/git-deploy/*
