@@ -1,1 +1,10 @@
 hw/hwpe_standalone_tb/*
+hw/hwpe_wrapper/*
+hw/overlay/*
+
+integr_support/*
+
+git-deploy/*
+
+sw/hwpe_ov_tb/*
+sw/hwpe_standalone_tb/*
