@@ -95,7 +95,7 @@ class generator(hwpe_specs):
     then these are used to generate the scripts for the 'bender' tool.
     """
     def get_engine(self):
-        filename = 'templates/integr_support/rtl_list/engine_list.log'
+        filename = 'templates/acc_templ/integr_support/rtl_list/engine_list.log'
         l = []
         with open(filename, 'r') as f:
             for s in f.readlines():

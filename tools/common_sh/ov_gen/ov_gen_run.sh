@@ -15,11 +15,11 @@
 
 #!/bin/bash
 
-readonly dir_py_env=$1
+readonly dir_py_venv=$1
 readonly dir_out=$2
 
 # Activate environment
-source $dir_py_env/bin/activate
+source $dir_py_venv/bin/activate
 
 # Get source components (see Makefile recipe deps)
 echo -e ">> Retrieving target engine from accelerator library"

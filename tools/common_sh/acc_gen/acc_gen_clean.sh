@@ -18,26 +18,26 @@
 echo -e ">> Cleaning generated files"
 
 readonly dir_eng_dev="$1"
-readonly dir_py_env="$2"
-readonly dir_templ_integr_support="$3"
-readonly dir_out="$4"
+readonly dir_py_venv="$2"
+readonly dir_templ_acc="$3"
+readonly dir_out_acc="$4"
 
 # Cleaning repo
 rm -rf ${dir_eng_dev}/*
-find . -type d -name '__pycache__' -not -path "${dir_py_env}" -exec rm -rf {} +
+find . -type d -name '__pycache__' -not -path "${dir_py_venv}" -exec rm -rf {} +
 find . -name "*.pyc" -type f -delete
-rm -rf ${dir_templ_integr_support}/rtl_list/*.log
+rm -rf ${dir_templ_acc}/integr_support/rtl_list/*.log
 
 # Cleaning generated hardware
-rm -rf ${dir_out}/hw/hwpe_standalone_tb/*
-rm -rf ${dir_out}/hw/hwpe_wrapper/*
+rm -rf ${dir_out_acc}/hw/hwpe_standalone_tb/*
+rm -rf ${dir_out_acc}/hw/hwpe_wrapper/*
 
 if [ -L "acc_gen_hw" ]; then
     unlink acc_gen_hw
 fi
 
 # Cleaning generated verification software
-rm -rf ${dir_out}/sw/hwpe_standalone_tb/*
+rm -rf ${dir_out_acc}/sw/hwpe_standalone_tb/*
 
 if [ -L "acc_gen_sw" ]; then
     unlink acc_gen_sw

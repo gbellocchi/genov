@@ -17,10 +17,17 @@ GEN_ROOT					:= ${ROOT}/genov
 
 # Templates
 
-TEMPLATES 					:= ${GEN_ROOT}/templates
-HW_DIR						:= ${TEMPLATES}/hw
-HW_MNGT_DIR					:= ${TEMPLATES}/integr_support
-SW_DIR						:= ${TEMPLATES}/sw
+TEMPL 						:= ${GEN_ROOT}/templates
+
+TEMPL_ACC					:= ${TEMPL}/acc_templ
+TEMPL_ACC_HW_DIR			:= ${TEMPL_ACC}/hw
+TEMPL_ACC_SW_DIR			:= ${TEMPL_ACC}/sw
+TEMPL_ACC_HW_MNGT_DIR		:= ${TEMPL_ACC}/integr_support
+
+TEMPL_OV					:= ${TEMPL}/ov_templ
+TEMPL_OV_HW_DIR				:= ${TEMPL_OV}/hw
+TEMPL_OV_SW_DIR				:= ${TEMPL_OV}/sw
+TEMPL_OV_HW_MNGT_DIR		:= ${TEMPL_OV}/integr_support
 
 # Engine
 
@@ -44,14 +51,14 @@ VERIF_HWPE 					:= ${VERIF}/hwpe-tb
 OUT_DIR 					:= ${GEN_ROOT}/output
 
 OUT_ACC_GEN					:= ${OUT_DIR}/acc_gen
-ACC_GEN_HW_DIR 				:= ${OUT_ACC_GEN}/hw
-ACC_GEN_SW_DIR 				:= ${OUT_ACC_GEN}/sw
-ACC_GEN_DEPLOY				:= ${OUT_ACC_GEN}/acc_deploy
+OUT_ACC_GEN_HW_DIR 			:= ${OUT_ACC_GEN}/hw
+OUT_ACC_GEN_SW_DIR 			:= ${OUT_ACC_GEN}/sw
+OUT_ACC_GEN_DEPLOY			:= ${OUT_ACC_GEN}/acc_deploy
 
 OUT_OV_GEN					:= ${OUT_DIR}/ov_gen
-OV_GEN_HW_DIR 				:= ${OUT_OV_GEN}/ov_gen/hw
-OV_GEN_SW_DIR 				:= ${OUT_OV_GEN}/ov_gen/sw
-OV_GEN_INTEGR_SUPPORT		:= ${OUT_OV_GEN}/ov_gen/integr_support
+OUT_OV_GEN_HW_DIR 			:= ${OUT_OV_GEN}/ov_gen/hw
+OUT_OV_GEN_SW_DIR 			:= ${OUT_OV_GEN}/ov_gen/sw
+OUT_OV_GEN_INTEGR_SUPPORT	:= ${OUT_OV_GEN}/ov_gen/integr_support
 
 # Tools
 
@@ -70,7 +77,7 @@ SCRIPTS_VERIF				:= ${SCRIPTS_DIR}/verif
 # Python virtual environment
 
 PY_VENV 					:= local_py_env
-PY_ENV_DIR					:= ${ROOT}/${PY_VENV}
+PY_VENV_DIR					:= ${ROOT}/${PY_VENV}
 
 # System-level integration
 

@@ -17,11 +17,11 @@
 
 echo -e ">> Cleaning generated files"
 
-readonly dir_py_env="$1"
+readonly dir_py_venv="$1"
 readonly dir_out="$2"
 
 # Cleaning repo
-find . -type d -name '__pycache__' -not -path "${dir_py_env}" -exec rm -rf {} +
+find . -type d -name '__pycache__' -not -path "${dir_py_venv}" -exec rm -rf {} +
 find . -name "*.pyc" -type f -delete
 
 # Cleaning generated hardware

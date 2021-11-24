@@ -22,13 +22,13 @@ acc_gen_run: acc_gen_get_engine acc_gen_init
 	@bash ${SCRIPTS_ACC_GEN}/$@.sh ${PY_VENV} ${OUT_ACC_GEN}
 	
 acc_gen_get_engine: acc_gen_lib
-	@ls ${ENG_DEV_RTL} >> ${HW_MNGT_DIR}/rtl_list/engine_list.log
+	@ls ${ENG_DEV_RTL} >> ${TEMPL_ACC_HW_MNGT_DIR}/rtl_list/engine_list.log
 
 acc_gen_lib:
-	@cd ${GEN_ROOT}/acc_lib && make -s clean all TARGET=${HWPE_TARGET} TEMPLATES=${TEMPLATES} ENG_DEV=${ENG_DEV}
+	@cd ${GEN_ROOT}/acc_lib && make -s clean all TARGET=${HWPE_TARGET} TEMPLATES=${TEMPL} ENG_DEV=${ENG_DEV}
 
 acc_gen_init:
 	@bash ${SCRIPTS_ACC_GEN}/$@.sh ${PY_VENV}
 
 acc_gen_clean: check_ov_env
-	@bash ${SCRIPTS_ACC_GEN}/$@.sh ${ENG_DEV} ${PY_ENV_DIR} ${HW_MNGT_DIR} ${OUT_ACC_GEN}
+	@bash ${SCRIPTS_ACC_GEN}/$@.sh ${ENG_DEV} ${PY_VENV_DIR} ${TEMPL_ACC} ${OUT_ACC_GEN}

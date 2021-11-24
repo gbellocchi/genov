@@ -17,13 +17,13 @@
 py_env: py_env_init
 
 py_env_update_reqs: common_sh
-	@bash ${SCRIPTS_PY_ENV}/$@.sh ${PY_ENV_DIR}
+	@bash ${SCRIPTS_PY_ENV}/$@.sh ${PY_VENV_DIR}
 
 py_env_init: common_sh
 	@bash ${SCRIPTS_PY_ENV}/$@.sh ${PY_VENV}
 
 py_env_test: common_sh
-	@bash ${SCRIPTS_PY_ENV}/$@.sh ${PY_ENV_DIR}
+	@bash ${SCRIPTS_PY_ENV}/$@.sh ${PY_VENV_DIR}
 
 py_env_clean: py_env_test
 	@rm -rf ${PY_VENV}

@@ -24,14 +24,14 @@ from emitter import emitter
 '''
 
 # HW packages
-from templates.hw.hwpe_wrapper.hwpe_wrapper import hwpe_wrapper
-from templates.hw.hwpe_standalone_tb.hwpe_standalone_tb import hwpe_standalone_tb as hwpe_standalone_tb_hw
+from templates.acc_templ.hw.hwpe_wrapper.hwpe_wrapper import hwpe_wrapper
+from templates.acc_templ.hw.hwpe_standalone_tb.hwpe_standalone_tb import hwpe_standalone_tb as hwpe_standalone_tb_hw
 
 # Integration support packages
-from templates.integr_support.integr_support import integr_support
+from templates.acc_templ.integr_support.integr_support import integr_support
 
 # SW packages
-from templates.sw.hwpe_standalone_tb.hwpe_standalone_tb import hwpe_standalone_tb as hwpe_standalone_tb_sw
+from templates.acc_templ.sw.hwpe_standalone_tb.hwpe_standalone_tb import hwpe_standalone_tb as hwpe_standalone_tb_sw
 
 '''
     ====================

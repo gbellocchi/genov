@@ -16,10 +16,10 @@
 
 #!/bin/bash                                                                       
 
-readonly dir_py_env=$1
+readonly dir_py_venv=$1
 
 # Activate environment
-source $dir_py_env/bin/activate
+source $dir_py_venv/bin/activate
 
 # Update required python packages
 echo -e ">> Updating required python packages."

@@ -23,13 +23,13 @@ from emitter import emitter
 '''
 
 # HW packages
-from templates.hw.overlay.overlay import overlay
+from templates.ov_templ.hw.overlay.overlay import overlay
 
 # Integration support packages
-from templates.integr_support.integr_support import integr_support
+from templates.ov_templ.integr_support.integr_support import integr_support
 
 # SW packages
-from templates.sw.hwpe_ov_tb.hwpe_ov_tb import hwpe_ov_tb as hwpe_ov_tb_sw
+from templates.ov_templ.sw.hwpe_ov_tb.hwpe_ov_tb import hwpe_ov_tb as hwpe_ov_tb_sw
 
 '''
     ====================

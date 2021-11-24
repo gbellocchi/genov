@@ -15,11 +15,11 @@
 
 #!/bin/bash
 
-readonly dir_py_env=$1
-readonly dir_out=$2
+readonly dir_py_venv=$1
+readonly dir_out_acc=$2
 
 # Activate environment
-source $dir_py_env/bin/activate
+source $dir_py_venv/bin/activate
 
 # Get source components (see Makefile recipe deps)
 echo -e ">> Retrieving target engine from accelerator library"
@@ -31,8 +31,8 @@ cd genov && python genacc.py
 # Creating symbolic links to output
 echo -e "\n>> Creating symbolic links to output"
 cd ../
-ln -s ${dir_out}/hw acc_gen_hw
-ln -s ${dir_out}/sw acc_gen_sw
+ln -s ${dir_out_acc}/hw acc_gen_hw
+ln -s ${dir_out_acc}/sw acc_gen_sw
 
 # Deactivate environment
 deactivate

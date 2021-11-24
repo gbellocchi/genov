@@ -27,7 +27,7 @@ acc_deploy_get_remote_repo:
 	@bash ${SCRIPTS_ACC_DEPLOY}/$@.sh
 
 acc_deploy_set_local:
-	@bash ${SCRIPTS_ACC_DEPLOY}/$@.sh ${ACC_GEN_DEPLOY}
+	@bash ${SCRIPTS_ACC_DEPLOY}/$@.sh ${OUT_ACC_GEN_DEPLOY}
 
 acc_deploy_clean:
-	@bash ${SCRIPTS_ACC_DEPLOY}/$@.sh ${ACC_GEN_DEPLOY}
+	@bash ${SCRIPTS_ACC_DEPLOY}/$@.sh ${OUT_ACC_GEN_DEPLOY}

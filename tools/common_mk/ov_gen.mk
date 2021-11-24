@@ -25,4 +25,4 @@ ov_gen_init:
 	@bash ${SCRIPTS_OV_GEN}/$@.sh ${PY_VENV}
 
 ov_gen_clean: check_ov_env
-	@bash ${SCRIPTS_OV_GEN}/$@.sh ${PY_ENV_DIR} ${OUT_OV_GEN}
+	@bash ${SCRIPTS_OV_GEN}/$@.sh ${PY_VENV_DIR} ${OUT_OV_GEN}

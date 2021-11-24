@@ -5,10 +5,10 @@
 #!/usr/bin/env python3
 
 # Templates
-from templates.integr_support.bender.top.bender import bender
-from templates.integr_support.ips_list.top.ips_list import ips_list
-from templates.integr_support.src_files.top.src_files import src_files
-from templates.integr_support.vsim_wave.top.vsim_wave import vsim_wave
+from templates.ov_templ.integr_support.bender.top.bender import bender
+from templates.ov_templ.integr_support.ips_list.top.ips_list import ips_list
+from templates.ov_templ.integr_support.src_files.top.src_files import src_files
+from templates.ov_templ.integr_support.vsim_wave.top.vsim_wave import vsim_wave
 
 # Integration support
 class integr_support:
@@ -19,7 +19,7 @@ class integr_support:
     def bender(self):
         print("\n>> Integration support ~ bender")
         return bender(
-            temp_type = 'templates/integr_support/bender/',
+            temp_type = 'templates/ov_templ/integr_support/bender/',
             temp_top = 'bender.template_yml',
             temp_modules = [],
             path_common = self.path_common
@@ -28,7 +28,7 @@ class integr_support:
     def src_files(self):
         print("\n>> HWPE standalone testbench ~ src_files")
         return src_files(
-            temp_type = 'templates/integr_support/src_files/',
+            temp_type = 'templates/ov_templ/integr_support/src_files/',
             temp_top = 'src_files.template_yml',
             temp_modules = [],
             path_common = self.path_common
@@ -37,7 +37,7 @@ class integr_support:
     def ips_list(self):
         print("\n>> HWPE standalone testbench ~ ips_list")
         return ips_list(
-            temp_type = 'templates/integr_support/ips_list/',
+            temp_type = 'templates/ov_templ/integr_support/ips_list/',
             temp_top = 'ips_list.template_yml',
             temp_modules = [],
             path_common = self.path_common
@@ -46,7 +46,7 @@ class integr_support:
     def vsim_wave(self):
         print("\n>> Integration support ~ QuestaSim waves")
         return bender(
-            temp_type = 'templates/integr_support/vsim_wave/',
+            temp_type = 'templates/ov_templ/integr_support/vsim_wave/',
             temp_top = 'vsim_wave.template_wave_do',
             temp_modules = ['hwpe_ctrl.template_wave_do', 
                             'hwpe_engine.template_wave_do', 
