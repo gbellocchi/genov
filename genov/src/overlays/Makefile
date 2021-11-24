@@ -1,10 +1,8 @@
 # =====================================================================
-# Project:      Accelerator source library
-# Description: 	Recipes to extract accelerator source specifications to
-#				guide application-level integration of acceleration kernels
-#				into target hardware wrappers. The latter are to aid the
-#				integration of acceleration kernels inside the target 
-#				system architecture.
+# Project:      Overlay source library
+# Description: 	Recipes to extract overlay source specifications to
+#				guide system-level design and exploration of 
+#				accelerator-rich architectures.
 #
 # $Date:        24.11.2021
 #
@@ -20,8 +18,8 @@ ROOT 				:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 .PHONY: all clean
 all:
-	@cp -rf ${TARGET_ACC} ${DEV_DIR}/
+	@cp -rf ${TARGET_OV} ${DEV_DIR}/ov_dev
 
 clean:
-	@rm -rf ${DEV_DIR}/*
+	@rm -rf ${DEV_DIR}/ov_dev
 	
