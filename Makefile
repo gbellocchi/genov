@@ -3,10 +3,11 @@
 # Title:        Makefile
 # Description: 	Root Makefile. 
 #
-#				It reads recipes from sub-mk files to:
+#				Recipes are read from sub-mk-files to:
 #
 #					>> Set up the tool environment;
 #					>> Generate accelerator HW/SW components;
+#					>> Generate overlay HW/SW components;
 #					>> Guide system-level integration.
 #
 # $Date:        23.11.2021
@@ -19,16 +20,38 @@
 #
 # =====================================================================
 
-ROOT 					:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
-REPO 					:= genacc
+ROOT 			:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
+REPO 			:= genacc
 
-# Choose target on those available in the application library (e.g. mmult_parallel)
+# =====================================================================
+# Description:  Choose a target accelerator configuration to be generated.
+#
+# Source: 		Specification files are kept under genov/src/accelerators.
+#
+# Extensions	To add new versions, create a new configuration, insert
+#				among the sources and target it using this Makefile. 
+#				Configuration examples have been included to guide the 
+#				user through this.
+# =====================================================================
 
-TARGET_ACC				:= conv_mdc
+TARGET_ACC		:= conv_mdc
 
-# Choose target on those available in the application library (e.g. mmult_parallel)
+# =====================================================================
+# Description:  Choose a target overlay configuration to be generated.
+#
+# Source: 		Specification files are kept under genov/src/overlays.
+#
+# Extensions	To add new versions, create a new configuration, insert
+#				among the sources and target it using this Makefile. 
+#				Configuration examples have been included to guide the 
+#				user through this.
+# =====================================================================
 
-TARGET_OV				:= conv_mdc
+TARGET_OV		:= ov_a
+
+# =====================================================================
+# Description:  Basic recipes and inclusion of sub-mk-files.
+# =====================================================================
 
 -include tools/common_mk/*.mk
 
