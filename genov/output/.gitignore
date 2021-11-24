@@ -1,0 +1,22 @@
+
+#######################
+# accelerator wrapper #
+#######################
+
+# hwpe wrapper
+acc_gen/hw/hwpe_wrapper/*
+
+# standalone tb
+acc_gen/hw/hwpe_standalone_tb/*
+acc_gen/sw/hwpe_standalone_tb/*
+
+# git deployment
+acc_gen/acc_deploy/*
+
+###########
+# overlay #
+###########
+
+ov_gen/hw/overlay/*
+ov_gen/integr_support/*
+ov_gen/sw/hwpe_ov_tb/*
