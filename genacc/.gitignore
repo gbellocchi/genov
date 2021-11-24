@@ -1,6 +1,0 @@
-# python venv
-*py_env/
-**/__pycache__/
-
-# generated files
-**/*.log
