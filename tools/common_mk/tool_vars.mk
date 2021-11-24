@@ -15,6 +15,17 @@
 
 GEN_ROOT					:= ${ROOT}/genov
 
+# Sources
+
+SRC_DIR 					:= ${GEN_ROOT}/src
+SRC_ACC 					:= ${SRC_DIR}/accelerators
+SRC_OV 						:= ${SRC_DIR}/overlays
+
+# Engine
+
+ENG_DEV 					:= ${GEN_ROOT}/engine_dev
+ENG_DEV_RTL 				:= ${ENG_DEV}/rtl
+
 # Templates
 
 TEMPL 						:= ${GEN_ROOT}/templates
@@ -29,17 +40,9 @@ TEMPL_OV_HW_DIR				:= ${TEMPL_OV}/hw
 TEMPL_OV_SW_DIR				:= ${TEMPL_OV}/sw
 TEMPL_OV_HW_MNGT_DIR		:= ${TEMPL_OV}/integr_support
 
-# Engine
-
-ENG_DEV 					:= ${GEN_ROOT}/engine_dev
-ENG_DEV_RTL 				:= ${ENG_DEV}/rtl
-
 # Static modules
 
 STATIC 						:= ${GEN_ROOT}/static
-# STATIC_RTL_DIR 			:= ${STATIC}/static_rtl
-# STATIC_STREAM				:= ${STATIC_RTL_DIR}/hwpe-stream
-# STATIC_CTRL 				:= ${STATIC_RTL_DIR}/hwpe-ctrl
 
 # Verification
 
