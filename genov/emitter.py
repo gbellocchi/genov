@@ -13,7 +13,7 @@ from distutils.dir_util import copy_tree
 import os
 
 # Design specification package
-from engine_dev.specs.hwpe_specs import hwpe_specs
+from dev.acc_dev.specs.hwpe_specs import hwpe_specs
 
 '''
     Emitter class
@@ -53,7 +53,7 @@ class emitter(hwpe_specs):
         self.out_hw_hwpe                    = self.acc_gen_hw + '/hwpe_wrapper'
         self.out_hw_hwpe_wrap               = self.out_hw_hwpe + '/wrap'
         self.out_hw_hwpe_rtl                = self.out_hw_hwpe + '/rtl'
-        self.out_hw_hwpe_engine_dev         = self.out_hw_hwpe_rtl + '/engine_dev'
+        self.out_hw_hwpe_acc_kernel         = self.out_hw_hwpe_rtl + '/acc_kernel'
 
         # Hardware ~ HWPE standalone tb (HW)
         self.out_hw_standalone_tb           = self.acc_gen_hw + '/hwpe_standalone_tb'
@@ -197,8 +197,8 @@ class emitter(hwpe_specs):
         # static components (hw, sw, ..)
         static_comps = 'static'
         # create repo for wrapped hardware kernel
-        source = 'engine_dev/rtl'
-        destination = self.out_hw_hwpe_engine_dev
+        source = 'dev/acc_dev/rtl'
+        destination = self.out_hw_hwpe_acc_kernel
         try:
             copy_tree(source, destination)
         except:
@@ -224,7 +224,7 @@ class emitter(hwpe_specs):
             print(">> Erroneous path for static component of imported hardware kernel!")
         # ------------------------------------------------ #
         # copy static components (tb-ov) ~ input stimuli
-        source = 'engine_dev/sw/stim'
+        source = 'dev/acc_dev/sw/stim'
         destination = self.out_sw_ov_stim
         try:
             copy_tree(source, destination)
@@ -245,7 +245,7 @@ class emitter(hwpe_specs):
             print(">> Erroneous path for static component of imported hardware kernel!")
         # ------------------------------------------------ #
         # copy static components (tb-standalone) ~ input stimuli
-        source = 'engine_dev/sw/stim'
+        source = 'dev/acc_dev/sw/stim'
         destination = self.out_sw_standalone_stim
         try:
             copy_tree(source, destination)

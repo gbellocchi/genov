@@ -20,8 +20,8 @@ ROOT 				:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 .PHONY: all clean
 all:
-	@cp -rf ${TARGET_ACC} ${DEV_DIR}/acc_dev
+	@cp -rf ${TARGET_ACC} ${DEV_DIR}/
 
 clean:
-	@rm -rf ${DEV_DIR}/acc_dev
+	@rm -rf ${DEV_DIR}/*
 	

@@ -22,9 +22,13 @@
 ROOT 					:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 REPO 					:= genacc
 
-# Choose target on those available in the application library (e.g. mmul_parallel)
+# Choose target on those available in the application library (e.g. mmult_parallel)
 
-HWPE_TARGET				:= conv_mdc
+TARGET_ACC				:= conv_mdc
+
+# Choose target on those available in the application library (e.g. mmult_parallel)
+
+TARGET_OV				:= conv_mdc
 
 -include tools/common_mk/*.mk
 

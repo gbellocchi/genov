@@ -21,10 +21,9 @@ SRC_DIR 					:= ${GEN_ROOT}/src
 SRC_ACC 					:= ${SRC_DIR}/accelerators
 SRC_OV 						:= ${SRC_DIR}/overlays
 
-# Engine
+# Device (extracted from source)
 
-ENG_DEV 					:= ${GEN_ROOT}/engine_dev
-ENG_DEV_RTL 				:= ${ENG_DEV}/rtl
+DEV_DIR 					:= ${GEN_ROOT}/dev
 
 # Templates
 

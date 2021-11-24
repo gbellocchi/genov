@@ -19,8 +19,8 @@
 from mako.template import Template
 import re
 
-# Design specification package
-from engine_dev.specs.hwpe_specs import hwpe_specs
+# Design specification packages
+from dev.acc_dev.specs.hwpe_specs import hwpe_specs
 
 '''
     Generator class
