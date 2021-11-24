@@ -17,28 +17,30 @@
 
 echo -e ">> Cleaning generated files"
 
-readonly dir_eng_dev="$1"
-readonly dir_py_env="$2"
-readonly dir_templ_integr_support="$3"
-readonly dir_out="$4"
+readonly dir_py_env="$1"
+readonly dir_out="$2"
 
 # Cleaning repo
-rm -rf ${dir_eng_dev}/*
 find . -type d -name '__pycache__' -not -path "${dir_py_env}" -exec rm -rf {} +
 find . -name "*.pyc" -type f -delete
-rm -rf ${dir_templ_integr_support}/rtl_list/*.log
 
 # Cleaning generated hardware
-rm -rf ${dir_out}/hw/hwpe_standalone_tb/*
-rm -rf ${dir_out}/hw/hwpe_wrapper/*
+rm -rf ${dir_out}/hw/overlay/*
 
-if [ -L "acc_gen_hw" ]; then
-    unlink acc_gen_hw
+if [ -L "ov_gen_hw" ]; then
+    unlink ov_gen_hw
 fi
 
 # Cleaning generated verification software
-rm -rf ${dir_out}/sw/hwpe_standalone_tb/*
+rm -rf ${dir_out}/sw/hwpe_ov_tb/*
 
-if [ -L "acc_gen_sw" ]; then
-    unlink acc_gen_sw
+if [ -L "ov_gen_sw" ]; then
+    unlink ov_gen_sw
+fi
+
+# Cleaning generated integration support files
+rm -rf ${dir_out}/integr_support/*
+
+if [ -L "ov_gen_integr" ]; then
+    unlink ov_gen_integr
 fi

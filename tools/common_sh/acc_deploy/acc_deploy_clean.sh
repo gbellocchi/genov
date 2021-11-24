@@ -1,6 +1,6 @@
 # =====================================================================
 # Project:      Scripts - Git Deployment
-# Title:        git_clean_repo_hwpe.sh
+# Title:        acc_deploy_clean.sh
 # Description:  Clean local HWPE repository.
 #
 # $Date:        23.11.2021
@@ -17,11 +17,11 @@
 
 echo -e ">> Cleaning HWPE git"
 
-readonly OUT_DIR=$1
+readonly dir_acc_deploy=$1
 repo_name='hwpe-gen-app'
 
-rm -rf ${OUT_DIR}/git-deploy/${repo_name}
+rm -rf ${dir_acc_deploy}/${repo_name}
 
 if [ -L "git_repo_hwpe" ]; then
-    unlink git_repo_hwpe
+    unlink git_acc
 fi

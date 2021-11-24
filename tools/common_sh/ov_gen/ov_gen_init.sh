@@ -1,7 +1,7 @@
 # =====================================================================
 # Project:      Scripts - Generation environment
-# Title:        acc_gen_run.sh
-# Description:  Generate target accelerator wrapper.
+# Title:        acc_gen_init.sh
+# Description:  Initialize generation environment.
 #
 # $Date:        23.11.2021
 #
@@ -21,18 +21,13 @@ readonly dir_out=$2
 # Activate environment
 source $dir_py_env/bin/activate
 
-# Get source components (see Makefile recipe deps)
-echo -e ">> Retrieving target engine from accelerator library"
+# Cloning git submodules
+echo -e ">> Cloning git submodules that will come in useful"
+git submodule update --init --recursive
 
-# Run generator
-echo -e ">> Generation of accelerator wrapper"
-cd genov && python genacc.py
-
-# Creating symbolic links to output
-echo -e "\n>> Creating symbolic links to output"
-cd ../
-ln -s ${dir_out}/hw acc_gen_hw
-ln -s ${dir_out}/sw acc_gen_sw
+# Creating output environment
+echo -e ">> Creating output environment for accelerator-rich overlay"
+cd genov && python genov_env.py
 
 # Deactivate environment
 deactivate

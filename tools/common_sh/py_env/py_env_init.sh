@@ -15,14 +15,14 @@
 
 #!/bin/bash
 
-readonly GEN_VENV=$1
+readonly dir_py_env=$1
 
 # Create virtual python environment
 echo -e ">> Creating virtual environment to generate a specialized accelerator wrapper."
-python3 -m venv $GEN_VENV
+python3 -m venv $dir_py_env
 
 # Activate environment
-source $GEN_VENV/bin/activate
+source $dir_py_env/bin/activate
 
 echo -e ">> Installing some Python packages that will come in useful."
 

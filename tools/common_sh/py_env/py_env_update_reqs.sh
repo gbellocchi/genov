@@ -16,10 +16,10 @@
 
 #!/bin/bash                                                                       
 
-readonly GEN_VENV=$1
+readonly dir_py_env=$1
 
 # Activate environment
-source $GEN_VENV/bin/activate
+source $dir_py_env/bin/activate
 
 # Update required python packages
 echo -e ">> Updating required python packages."

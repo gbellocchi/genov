@@ -1,12 +1,31 @@
-
-########################################################
-## Gianluca Bellocchi <gianluca.bellocchi@unimore.it> ##
-########################################################
+# =====================================================================
+# Project:      Scripts - Common
+# Title:        common.sh
+# Description:  Collection of shell variables and functions shared by 
+#               the tool scripts.
+#
+# $Date:        23.11.2021
+#
+# =====================================================================
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+#
+# =====================================================================
 
 #!/bin/bash
 
 : '
-  Collection of shell functions used by the tool scripts.
+  Shell variables
+'
+
+hwpe_target=$1
+repo_name='hwpe-gen-app'
+repo_ssh='git@github.com:gbellocchi/hwpe-gen-app.git'
+
+: '
+  Shell functions
 '
 
 error_exit()

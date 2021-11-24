@@ -1,7 +1,7 @@
 # =====================================================================
 # Project:      Scripts - Git Deployment
-# Title:        git_set_repo_hwpe.sv
-# Description:  Add remote HWPE repository.
+# Title:        acc_deploy_get_remote_repo.sv
+# Description:  Get remote HWPE repository.
 #
 # $Date:        23.11.2021
 #

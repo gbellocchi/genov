@@ -1,7 +1,7 @@
 # =====================================================================
 # Project:      Scripts - Git Deployment
-# Title:        git_set_branch_hwpe.sh
-# Description:  Set up HWPE application-specific branch.
+# Title:        acc_deploy_push_remote_branch.sh
+# Description:  Set up HWPE application-specific branch and push to remote.
 #
 # $Date:        23.11.2021
 #
@@ -19,7 +19,7 @@ update_remote()
 {
     remote_info=$1
 
-    echo -e "\n>> Updating remote branch. Are the following information concerning the remote correct?"
+    echo -e ">> Updating remote branch. Are the following remote information correct?"
     echo -e "\t- HWPE target:       ${remote_info[1]}"
     echo -e "\t- Repository:        ${remote_info[2]}"
     echo -e "\t- SSH URL:           ${remote_info[3]}"
@@ -99,7 +99,7 @@ remote_info[4]=$remote_br_name
 
 # Take action whether remote branch exists or not
 if [[ $is_remote == 1 ]]; then
-    echo -e ">> Remote branch already exists: ${remote_info[3]}"
+    echo -e ">> Remote branch already exists: ${remote_info[4]}"
     q_remote_exists remote_info
 else
     echo ">> No remote branch has been found, so a new one will be created"

@@ -1,7 +1,17 @@
-
-########################################################
-## Gianluca Bellocchi <gianluca.bellocchi@unimore.it> ##
-########################################################
+# =====================================================================
+# Project:      Scripts - Overlay environment
+# Title:        ov_deploy.sh
+# Description:  Deploy components to generate overlay.
+#
+# $Date:        23.11.2021
+#
+# =====================================================================
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+#
+# =====================================================================
 
 #!/bin/bash
 

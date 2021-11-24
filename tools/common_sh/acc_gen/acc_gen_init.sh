@@ -1,6 +1,6 @@
 # =====================================================================
 # Project:      Scripts - Generation environment
-# Title:        init_gen.sh
+# Title:        acc_gen_init.sh
 # Description:  Initialize generation environment.
 #
 # $Date:        23.11.2021
@@ -15,7 +15,18 @@
 
 #!/bin/bash
 
-echo -e ">> Cloning git submodules that will come in useful."
+readonly dir_py_env=$1
+
+# Activate environment
+source $dir_py_env/bin/activate
 
 # Cloning git submodules
+echo -e ">> Cloning git submodules that will come in useful"
 git submodule update --init --recursive
+
+# Creating output environment
+echo -e ">> Creating output environment for hardware accelerator wrapper"
+cd genov && python genacc_env.py
+
+# Deactivate environment
+deactivate
