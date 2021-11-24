@@ -19,6 +19,8 @@ echo -e ">> Checking python virtual environment."
 
 readonly dir_py_env=$1
 
+source tools/common_sh/common.sh
+
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
 # --------------------------------------------- #

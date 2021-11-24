@@ -15,11 +15,7 @@
 
 #!/bin/bash
 
-error_exit()
-{
-  echo -e "\n$1\n" 1>&2
-  exit 1
-}
+source ../common.sh
 
 readonly dir_out=$1
 readonly dir_verif=$2

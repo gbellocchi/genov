@@ -14,7 +14,7 @@
 #
 # =====================================================================
 
-test_ov_env: common_sh check_ov_env
+test_ov_env: check_ov_env
 ifndef ENV_IS_CHECKED
 	@bash ${SCRIPTS_OV_DEPLOY}/secure_paths.sh ${OVERLAY_SRC} ${OVERLAY_DEPS} ${OVERLAY_TEST}
 endif

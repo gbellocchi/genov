@@ -17,6 +17,8 @@
 
 echo -e ">> Checking overlay hardware subsystem."
 
+source tools/common_sh/common.sh
+
 readonly OVERLAY_SRC=$1
 readonly OVERLAY_DEPS=$2
 readonly OVERLAY_TEST=$3
