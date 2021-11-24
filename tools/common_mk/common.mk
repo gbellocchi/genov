@@ -14,4 +14,4 @@
 # =====================================================================
 
 common_sh:
-	@bash ${SCRIPTS_DIR}/common.sh
+	@bash ${SCRIPTS_DIR}/common.sh ${HWPE_TARGET}

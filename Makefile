@@ -28,5 +28,17 @@ HWPE_TARGET				:= conv_mdc
 
 -include tools/common_mk/*.mk
 
-.PHONY: all
-all: clean_gen run_gen
+.PHONY: all clean
+
+all: \
+	acc_gen \
+	ov_gen
+
+init: \
+	py_env
+
+clean: \
+	py_env_clean \
+	acc_gen_clean \
+	acc_deploy_clean \
+	ov_gen_clean

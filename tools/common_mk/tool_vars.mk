@@ -13,60 +13,69 @@
 #
 # =====================================================================
 
-GENACC_ROOT				:= ${ROOT}/genacc
+GEN_ROOT					:= ${ROOT}/genov
 
 # Templates
 
-TEMPLATES 				:= ${GENACC_ROOT}/templates
-HW_DIR					:= ${TEMPLATES}/hw
-HW_MNGT_DIR				:= ${TEMPLATES}/integr_support
-SW_DIR					:= ${TEMPLATES}/sw
+TEMPLATES 					:= ${GEN_ROOT}/templates
+HW_DIR						:= ${TEMPLATES}/hw
+HW_MNGT_DIR					:= ${TEMPLATES}/integr_support
+SW_DIR						:= ${TEMPLATES}/sw
 
 # Engine
 
-ENG_DEV 				:= ${GENACC_ROOT}/engine_dev
-ENG_DEV_RTL 			:= ${ENG_DEV}/rtl
+ENG_DEV 					:= ${GEN_ROOT}/engine_dev
+ENG_DEV_RTL 				:= ${ENG_DEV}/rtl
 
 # Static modules
 
-STATIC 					:= ${GENACC_ROOT}/static
-STATIC_RTL_DIR 			:= ${STATIC}/static_rtl
-STATIC_STREAM			:= ${STATIC_RTL_DIR}/hwpe-stream
-STATIC_CTRL 			:= ${STATIC_RTL_DIR}/hwpe-ctrl
+STATIC 						:= ${GEN_ROOT}/static
+# STATIC_RTL_DIR 			:= ${STATIC}/static_rtl
+# STATIC_STREAM				:= ${STATIC_RTL_DIR}/hwpe-stream
+# STATIC_CTRL 				:= ${STATIC_RTL_DIR}/hwpe-ctrl
 
 # Verification
 
-VERIF 					:= ${GENACC_ROOT}/verif
-VERIF_HWPE 				:= ${VERIF}/hwpe-tb
+VERIF 						:= ${GEN_ROOT}/verif
+VERIF_HWPE 					:= ${VERIF}/hwpe-tb
 
 # Output content
 
-OUT_DIR 				:= ${GENACC_ROOT}/output
-OUT_HW_DIR 				:= ${OUT_DIR}/hw
-OUT_SW_DIR 				:= ${OUT_DIR}/sw
-OUT_INTEGR_SUPPORT		:= ${OUT_DIR}/integr_support
+OUT_DIR 					:= ${GEN_ROOT}/output
+
+OUT_ACC_GEN					:= ${OUT_DIR}/acc_gen
+ACC_GEN_HW_DIR 				:= ${OUT_ACC_GEN}/hw
+ACC_GEN_SW_DIR 				:= ${OUT_ACC_GEN}/sw
+ACC_GEN_DEPLOY				:= ${OUT_ACC_GEN}/acc_deploy
+
+OUT_OV_GEN					:= ${OUT_DIR}/ov_gen
+OV_GEN_HW_DIR 				:= ${OUT_OV_GEN}/ov_gen/hw
+OV_GEN_SW_DIR 				:= ${OUT_OV_GEN}/ov_gen/sw
+OV_GEN_INTEGR_SUPPORT		:= ${OUT_OV_GEN}/ov_gen/integr_support
 
 # Tools
 
-TOOLS_DIR				:= ${ROOT}/tools
+TOOLS_DIR					:= ${ROOT}/tools
 
 # Scripts
 
-SCRIPTS_DIR				:= ${TOOLS_DIR}/common_sh
-SCRIPTS_GEN				:= ${SCRIPTS_DIR}/gen
-SCRIPTS_VERIF			:= ${SCRIPTS_DIR}/verif
-SCRIPTS_PY_ENV			:= ${SCRIPTS_DIR}/py-env
-SCRIPTS_OV_DEPLOY		:= ${SCRIPTS_DIR}/ov-deploy
-SCRIPTS_GIT_DEPLOY		:= ${SCRIPTS_DIR}/git-deploy
+SCRIPTS_DIR					:= ${TOOLS_DIR}/common_sh
+SCRIPTS_ACC_GEN				:= ${SCRIPTS_DIR}/acc_gen
+SCRIPTS_ACC_DEPLOY			:= ${SCRIPTS_DIR}/acc_deploy
+SCRIPTS_OV_GEN				:= ${SCRIPTS_DIR}/ov_gen
+SCRIPTS_OV_DEPLOY			:= ${SCRIPTS_DIR}/ov_deploy
+SCRIPTS_PY_ENV				:= ${SCRIPTS_DIR}/py_env
+SCRIPTS_VERIF				:= ${SCRIPTS_DIR}/verif
 
 # Python virtual environment
-PY_VENV 				:= ${REPO}_py_env
-PY_ENV_DIR				:= ${ROOT}/${PY_VENV}
+
+PY_VENV 					:= local_py_env
+PY_ENV_DIR					:= ${ROOT}/${PY_VENV}
 
 # System-level integration
 
-OVERLAY_HW_REPO			:= ${HERO_OV_HW_EXPORT}
-OVERLAY_SRC				:= ${HERO_OV_HW_EXPORT}/src
-OVERLAY_DEPS			:= ${HERO_OV_HW_EXPORT}/deps
-OVERLAY_TEST			:= ${HERO_OV_HW_EXPORT}/test
-OVERLAY_CLUSTER			:= ${OVERLAY_DEPS}/overlay_cluster/rtl
+OVERLAY_HW_REPO				:= ${HERO_OV_HW_EXPORT}
+OVERLAY_SRC					:= ${HERO_OV_HW_EXPORT}/src
+OVERLAY_DEPS				:= ${HERO_OV_HW_EXPORT}/deps
+OVERLAY_TEST				:= ${HERO_OV_HW_EXPORT}/test
+OVERLAY_CLUSTER				:= ${OVERLAY_DEPS}/overlay_cluster/rtl

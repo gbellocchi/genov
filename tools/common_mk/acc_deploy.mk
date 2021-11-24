@@ -1,6 +1,6 @@
 # =====================================================================
 # Project:      Makefile
-# Title:        ov_integr_git.mk
+# Title:        acc_deploy.mk
 # Description: 	Recipes to guide git deployment of hardware wrapper. 
 #              	Variables are fed by the root Makefile.
 #
@@ -14,14 +14,20 @@
 #
 # =====================================================================
 
-git_acc_deploy_branch:
-	@bash ${SCRIPTS_GIT_DEPLOY}/$@.sh ${HWPE_TARGET}
+acc_deploy: \
+	acc_deploy_clean \
+	acc_deploy_set_local \
+	acc_deploy_get_remote_repo \
+	acc_deploy_push_remote_branch
 
-git_acc_get_remote_repo:
-	@bash ${SCRIPTS_GIT_DEPLOY}/$@.sh
+acc_deploy_push_remote_branch:
+	@bash ${SCRIPTS_ACC_DEPLOY}/$@.sh ${HWPE_TARGET}
 
-git_acc_set_local:
-	@bash ${SCRIPTS_GIT_DEPLOY}/$@.sh ${OUT_DIR}
+acc_deploy_get_remote_repo:
+	@bash ${SCRIPTS_ACC_DEPLOY}/$@.sh
 
-git_acc_clean_repo:
-	@bash ${SCRIPTS_GIT_DEPLOY}/$@.sh ${OUT_DIR}
+acc_deploy_set_local:
+	@bash ${SCRIPTS_ACC_DEPLOY}/$@.sh ${ACC_GEN_DEPLOY}
+
+acc_deploy_clean:
+	@bash ${SCRIPTS_ACC_DEPLOY}/$@.sh ${ACC_GEN_DEPLOY}

@@ -14,6 +14,8 @@
 #
 # =====================================================================
 
+py_env: py_env_clean py_env_init
+
 py_env_update_reqs:
 	@bash ${SCRIPTS_PY_ENV}/$@.sh ${PY_ENV_DIR}
 

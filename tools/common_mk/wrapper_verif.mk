@@ -15,7 +15,7 @@
 # =====================================================================
 
 gen_standalone:
-	@bash ${SCRIPTS_VERIF}/gen_standalone.sh ${OUT_DIR} ${VERIF_HWPE}
+	@bash ${SCRIPTS_VERIF}/gen_standalone.sh ${OUT_ACC_GEN} ${VERIF_HWPE}
 
 setup_standalone: common_sh
-	@bash ${SCRIPTS_VERIF}/setup_standalone.sh ${OUT_DIR} ${VERIF_HWPE}
+	@bash ${SCRIPTS_VERIF}/setup_standalone.sh ${OUT_ACC_GEN} ${VERIF_HWPE}
