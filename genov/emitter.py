@@ -62,6 +62,7 @@ class emitter(hwpe_specs):
         self.out_sw_standalone              = self.acc_gen_sw + '/hwpe_standalone_tb'
         self.out_sw_standalone_inc          = self.out_sw_standalone + '/inc'
         self.out_sw_standalone_stim         = self.out_sw_standalone_inc + '/stim'
+        self.out_sw_standalone_ref_sw       = self.out_sw_standalone_inc + '/ref_sw'
         self.out_sw_standalone_hwpe_lib     = self.out_sw_standalone_inc + '/hwpe_lib'
 
         '''
@@ -251,6 +252,14 @@ class emitter(hwpe_specs):
             copy_tree(source, destination)
         except:
             print(">> Erroneous path for input stimuli!")
+        # ------------------------------------------------ #
+        # copy static components (tb-standalone) ~ reference software
+        source = 'dev/acc_dev/sw/ref_sw'
+        destination = self.out_sw_standalone_ref_sw
+        try:
+            copy_tree(source, destination)
+        except:
+            print(">> Erroneous path for reference software!")
 
     """
     The 'get_file_name' method gets information about the features of the
