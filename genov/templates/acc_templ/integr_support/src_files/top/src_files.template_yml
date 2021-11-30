@@ -3,8 +3,19 @@ hwpe_wrapper:
     rtl
   ]
   files: [
+    
+    <%
+    # HLS typically generates .dat files. These are used to initialize IPs
+    # with pre-defined values. Since the standalone TB and its source management
+    # tool fatigue to process these files, they are not sourced together with the 
+    # other accelerator kernel modules. To succesfully make ModelSim process these 
+    # files, they should be placed in the top ModelSim working directory.
+    %>
+
     % for i in range (num_engine_devs):
-    rtl/engine_dev/${engine_devs[i]},
+      % if ".dat" not in engine_devs[i]:
+    rtl/acc_kernel/${engine_devs[i]},
+      % endif
     % endfor
     rtl/${target}_package.sv,
     rtl/${target}_fsm.sv,

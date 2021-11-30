@@ -6,7 +6,7 @@ sources:
       - rtl/hwpe-engine
     files:
       % for i in range (num_engine_devs):
-      - rtl/engine_dev/${engine_devs[i]}
+      - rtl/acc_kernel/${engine_devs[i]}
       % endfor 
       - rtl/${target}_package.sv
       - rtl/${target}_fsm.sv
