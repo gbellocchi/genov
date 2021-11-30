@@ -24,9 +24,5 @@ source $dir_py_venv/bin/activate
 echo -e ">> Cloning git submodules that will come in useful"
 git submodule update --init --recursive
 
-# Creating output environment
-echo -e ">> Creating output environment for hardware accelerator wrapper"
-cd genov && python genacc_env.py
-
 # Deactivate environment
 deactivate

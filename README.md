@@ -1,9 +1,9 @@
 
-# Accelerator Wrapper Generator (GenAcc)
+# Accelerator-Rich Overlay Generator (AROG)
 
 ## Introduction
 ### Description
-The HWPE Wrapper Generator Tool consists of a set of Python packages, System Verilog templates and a Makefile that permit to speed up the integration and deployment of hardware accelerators in PULP-based systems [1]. To learn more about HWPE, take a look at [2] and [3].
+The Accelerator-Rich Overlay Generator Tool embodies a methodology to simplify the design of accelerator-rich architectures [1]. To learn more about HWPE, take a look at [2] and [3].
 
 The integration of custom accelerators is simplified by the definition of a communication/control interface in the form of a wrapper to the acceleration logic that can be instantiated multiple times within a PULP-based cluster. A wrapper encapsulates the functionality of a HWPE streamer and controller modules. Since these modules have dependencies on the specific accelerator (engine) implementation, it is necessary to distinguish between their static and variable RTL components. Once the user has defined key properties of its accelerator design, the specialization of the wrapper is simplified via template instantiation.
 
@@ -18,24 +18,20 @@ We recommed the toolchain to be cloned in the hardware subdirectory of the PULP-
 git clone https://git.hipert.unimore.it/comp4drones/HERO/hwpe-wrapper-gen-tool.git
 ```
 
+Be sure to be on the branch 'mdc_stable'.
+
 ### Overlay Environment
-
 We recommend to set the following environment variable to the top directory of your HERO ecosystem:
-
 ```
 export HERO_OV_HOME_DIR=<your_path> (typically something like $HOME/workspace_user/hero)
 ```
-
 Most of the specialization flow is handled locally to the tool subdirectory. At a certain point the user may decide to export and integrate the generated hardware/software components to the overlay system. This process is fully automated and no-error-prone as far as the tool knows how to securely interface to the overlay.
 
 Thus, it is recommended to set the following environment variable to the location of the overlay hardware subsystem.
-
 ```
 export HERO_OV_HW_EXPORT=<your_path> (typically something like $HERO_HOME_DIR/hardware)
 ```
-
 This location should at least comprise the following directories that are going to be targeted in the integration phase:
-
 -  `src/` - This location comprises SystemVerilog source files to parametrize the PULP-based overlay system.
 -  `deps/` - This location comprises SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, memory, etc.).
 -  `test/` - This location comprises a SystemVerilog testbench to simulate the hardware behavior.
@@ -44,14 +40,14 @@ This location should at least comprise the following directories that are going 
 The tool uses Git submodules that have to be initialized. To pull the required Git submodules, run:
 
 ```
-make init_gen
+make ov_gen_init
 ```
 
 ### Python Virtual Environment
 To manage the project's dependencies a Python virtual environment is employed. To initialize it and download the required packages (see 'requirements.txt'), run:
 
 ```
-make init_py_env
+make py_env_init
 ```
 
 This command manages the installation of the required Python packages, including the Mako template library [6] that is employed for the templating operation.
@@ -59,7 +55,7 @@ This command manages the installation of the required Python packages, including
 In case of an update of the package requirements, it is possible to 'activate' the virtual environment, install the package and subsequently run:
 
 ```
-make update_reqs_py_venv
+make py_env_update_reqs
 ```
 
 ## Accelerator Integration Methodology
@@ -98,7 +94,6 @@ while(trans_idx < trans_size) {
 }
 ```
 
-
 #### Accelerator Library
 
 User-defined engine specifications are to be inserted in the accelerator library (`acc_lib`). There exist exemplary library items to guide the user in the phase of integration of new wrapper specifications.
@@ -110,29 +105,35 @@ To extend the content of the library, the best practice is to create a new libra
   
 An `__init__.py` is always required to properly propagate information from the accelerator library throughout the template library. The content of the former has to be interpretable and accessible by Python as part of the tool package.
 
-
 ### Wrapper Specialization
 Once the accelerator library has been updated, return back to the top folder. Here is a Makefile comprising all the recipes that are necessary to manage the specialization environment and export HW/SW products to the overlay system.
 
 The first required step is to open the Makefile and modify the value of the macro `HWPE_TARGET` specifying the name of the accelerator the user wants to wrap. This has to match the name of an accelerator library component. As an example:
 
 ```
-HWPE_TARGET = mmult_parallel
+TARGET_ACC= conv_mdc
 ```
 
-Subsequently, to specialize the wrapper is required to just run `make`.
+Subsequently, to specialize the wrapper is required to just run `make all`.
   
-This way, the Python template libraries will process the SystemVerilog wrapper templates on the basis of the information the input Python specification file has been compiled with. This permits the wrapping of the specified accelerator engine design. The generated files are exported to the `output` folder.
+This way, the Python template libraries will process the SystemVerilog wrapper templates on the basis of the information the input Python specification file has been compiled with. This permits the generation of overlay configurations and accelerator wrappers. The generated files are exported to the `output` folder.
 
 ### System-Level Optimization
 System-level optimization is enabled by propagating intra-process optimization knobs across the overlay infrastructure. The latter is possible since the tool renders SystemVerilog templates too. These templates deal with the different architectural blocks composing the overlay infrastructure, e.g. the accelerator interconnect, memory, DMA. Automated parametrization of this set of components is possible by exploiting the information comprised in the input Python specification file.
 
-### System-Level Integration
-To export the generated HW/SW to the overlay ecosystem run:
+### Git deployment
+The integration method relies on Git. Since most of source management tool employed together with Pulp are using Git deployment strategies, this solution is the suggested one. It is also the safest since generated components will not be moved, but rather cloned from theit target branches.
 
-```
-make overlay_integration
-```
+Create an empty repository. We suggest a GitHub one to avoid problem of permissions. 
+
+Open `genov/tools/common_sh/local.cfg` and insert the following information:
+
+1. `GIT_REPO_NAME` - Name of the user Git repository (e.g. 'hwpe-gen-app');
+2. `GIT_REPO_URL_SSH` - SSH URL associated with the Git repository (e.g. 'git@github.com:gbellocchi/hwpe-gen-app.git')
+
+Once generation terminates and new files are to be pushed to the remote repository, the user can run `make acc_deploy`
+
+### System-Level Integration
 
 ### Runtime Accelerator Control
 The overlay and the wrapper feed the accelerator datapath exploiting **data tiling**. Complex control routines, data management policies and accelerator programming are all managed in software taking advantage of the overlay proxy core.

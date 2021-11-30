@@ -18,8 +18,11 @@ acc_gen: \
 	acc_gen_clean \
 	acc_gen_run
 
-acc_gen_run: acc_gen_get_engine acc_gen_init
+acc_gen_run: acc_gen_get_engine acc_gen_out_env
 	@bash ${SCRIPTS_ACC_GEN}/$@.sh ${PY_VENV} ${OUT_ACC_GEN}
+	
+acc_gen_out_env:
+	@bash ${SCRIPTS_ACC_GEN}/$@.sh ${PY_VENV}
 	
 acc_gen_get_engine: acc_gen_lib
 	@ls ${DEV_DIR}/acc_dev/rtl >> ${TEMPL_ACC_HW_MNGT_DIR}/rtl_list/engine_list.log

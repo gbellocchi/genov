@@ -32,13 +32,13 @@ rm -rf ${dir_templ_acc}/integr_support/rtl_list/*.log
 rm -rf ${dir_out_acc}/hw/hwpe_standalone_tb/*
 rm -rf ${dir_out_acc}/hw/hwpe_wrapper/*
 
-if [ -L "acc_gen_hw" ]; then
-    unlink acc_gen_hw
-fi
+# if [ -L "acc_gen_hw" ]; then
+#     unlink acc_gen_hw
+# fi
 
 # Cleaning generated verification software
 rm -rf ${dir_out_acc}/sw/hwpe_standalone_tb/*
 
-if [ -L "acc_gen_sw" ]; then
-    unlink acc_gen_sw
-fi
+# if [ -L "acc_gen_sw" ]; then
+#     unlink acc_gen_sw
+# fi

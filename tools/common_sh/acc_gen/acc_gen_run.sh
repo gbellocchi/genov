@@ -31,8 +31,8 @@ cd genov && python genacc.py
 # Creating symbolic links to output
 echo -e "\n>> Creating symbolic links to output"
 cd ../
-ln -s ${dir_out_acc}/hw acc_gen_hw
-ln -s ${dir_out_acc}/sw acc_gen_sw
+# ln -s ${dir_out_acc}/hw acc_gen_hw
+# ln -s ${dir_out_acc}/sw acc_gen_sw
 
 # Deactivate environment
 deactivate

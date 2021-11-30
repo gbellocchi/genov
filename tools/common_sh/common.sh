@@ -21,8 +21,6 @@
 '
 
 hwpe_target=$1
-repo_name='hwpe-gen-app'
-repo_ssh='git@github.com:gbellocchi/hwpe-gen-app.git'
 
 : '
   Shell functions
@@ -32,4 +30,17 @@ error_exit()
 {
   echo -e "\n$1\n" 1>&2
   exit 1
+}
+
+q_correctness()
+{
+    remote_info=$1
+
+    echo -e "\n>> Are these information correct?" 
+    select yn in "yes" "no"; do
+      case $yn in
+        yes ) 	break;;
+        no ) 	  error_exit "Environment error!";;
+      esac
+    done
 }

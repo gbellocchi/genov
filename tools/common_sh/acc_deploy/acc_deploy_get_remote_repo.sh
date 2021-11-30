@@ -15,19 +15,45 @@
 
 #!/bin/bash
 
-repo_name='hwpe-gen-app'
-repo_ssh='git@github.com:gbellocchi/hwpe-gen-app.git'
+echo -e ""
+echo "# ========================== #"
+echo "# Get remote HWPE repository #"
+echo "# ========================== #"
+echo -e ""
 
-# Move to local
-cd git_repo_hwpe/$repo_name
+THIS_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+source $THIS_DIR/../common.sh
 
-# Initialize repository
-echo -e ">> Initializing git repository -> $repo_name"
-git init
-git add .
-git commit -m 'Initial commit'
+# Read user-defined configuration file
+CONFIG_FILE=$THIS_DIR/../local.cfg
 
-# Add remote origin
-echo -e ">> Adding remote origin"
-git remote add origin $repo_ssh
-echo -e ">> Origin set at -> $(git config --get remote.origin.url)"
+if [ -f ${CONFIG_FILE} ] && grep -q GIT_REPO_NAME ${CONFIG_FILE} && grep -q GIT_REPO_URL_SSH ${CONFIG_FILE}; then
+    # Get repository name
+    eval git_repo_name=$(grep GIT_REPO_NAME ${CONFIG_FILE} | sed 's/.*=//' | tr -d '"')
+
+    # Get repository SSH URL
+    eval git_repo_ssh=$(grep GIT_REPO_URL_SSH ${CONFIG_FILE} | sed 's/.*=//' | tr -d '"')
+
+    echo -e ">> Set local repository for accelerator wrapper:"
+    echo -e "- Name -> $git_repo_name"
+    echo -e "- SSH URL-> $git_repo_ssh"
+
+    # Check data correctness
+    q_correctness
+
+    # Move to local
+    cd git_acc
+
+    # Initialize repository
+    echo -e ">> Initializing git repository -> $repo_name"
+    git init
+    git add .
+    git commit -m 'Initial commit'
+
+    # Add remote origin
+    echo -e ">> Adding remote origin"
+    git remote add origin $git_repo_ssh
+    echo -e ">> Origin set at -> $(git config --get remote.origin.url)"
+else
+    echo "Deployment repository -> Not found"
+fi

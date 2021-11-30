@@ -1,7 +1,7 @@
 # =====================================================================
 # Project:      Scripts - Generation environment
-# Title:        ov_gen_init.sh
-# Description:  Initialize generation environment.
+# Title:        ov_gen_out_env.sh
+# Description:  Create output environment for generated overlay configuration.
 #
 # $Date:        23.11.2021
 #
@@ -20,9 +20,9 @@ readonly dir_py_venv=$1
 # Activate environment
 source $dir_py_venv/bin/activate
 
-# Cloning git submodules
-echo -e ">> Cloning git submodules that will come in useful"
-git submodule update --init --recursive
+# Creating output environment
+echo -e ">> Creating output environment for accelerator-rich overlay"
+cd genov && python genov_env.py
 
 # Deactivate environment
 deactivate

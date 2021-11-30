@@ -59,6 +59,4 @@ TARGET_OV		:= ov_a
 
 all: acc_gen ov_gen
 
-init: py_env
-
 clean: py_env_clean acc_gen_clean acc_deploy_clean ov_gen_clean

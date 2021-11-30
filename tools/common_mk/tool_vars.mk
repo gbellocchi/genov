@@ -46,7 +46,7 @@ STATIC 						:= ${GEN_ROOT}/static
 # Verification
 
 VERIF 						:= ${GEN_ROOT}/verif
-VERIF_HWPE 					:= ${VERIF}/hwpe-tb
+VERIF_ACC 					:= ${VERIF}/hwpe-tb
 
 # Output content
 
@@ -71,10 +71,10 @@ TOOLS_DIR					:= ${ROOT}/tools
 SCRIPTS_DIR					:= ${TOOLS_DIR}/common_sh
 SCRIPTS_ACC_GEN				:= ${SCRIPTS_DIR}/acc_gen
 SCRIPTS_ACC_DEPLOY			:= ${SCRIPTS_DIR}/acc_deploy
+SCRIPTS_ACC_VERIF			:= ${SCRIPTS_DIR}/acc_verif
 SCRIPTS_OV_GEN				:= ${SCRIPTS_DIR}/ov_gen
 SCRIPTS_OV_DEPLOY			:= ${SCRIPTS_DIR}/ov_deploy
 SCRIPTS_PY_ENV				:= ${SCRIPTS_DIR}/py_env
-SCRIPTS_VERIF				:= ${SCRIPTS_DIR}/verif
 
 # Python virtual environment
 

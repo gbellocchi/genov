@@ -1,6 +1,6 @@
 # =====================================================================
 # Project:      Scripts - Verification environment
-# Title:        gen_standalone.sh
+# Title:        acc_verif_gen_standalone.sh
 # Description:  Generate standalone verification environment.
 #
 # $Date:        23.11.2021
@@ -18,11 +18,11 @@
 readonly dir_out=$1
 readonly dir_verif=$2
 
-# update hw dut
-cp -rf $dir_out/hw/hwpe_wrapper $dir_verif/hw/ips/
+# Get source components (see Makefile recipe deps)
+echo -e ">> Retrieving generated TB components to validate accelerator wrapper"
 
 # update hw tb
-cp -rf $dir_out/hw/hwpe_standalone_tb/* $dir_verif/hw/rtl/
+cp -rf $dir_out/hw/hwpe_standalone_tb/tb_hwpe.sv $dir_verif/hw/rtl/
 
-# update sw app
+# update sw tb
 cp -rf $dir_out/sw/hwpe_standalone_tb/* $dir_verif/sw/

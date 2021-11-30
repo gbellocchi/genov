@@ -17,7 +17,8 @@
 
 echo -e ">> Checking overlay hardware subsystem."
 
-source tools/common_sh/common.sh
+THIS_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+source $THIS_DIR/../common.sh
 
 readonly OVERLAY_SRC=$1
 readonly OVERLAY_DEPS=$2

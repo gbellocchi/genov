@@ -1,8 +1,7 @@
 # =====================================================================
-# Project:      Makefile
-# Title:        wrapper_verif.mk
-# Description: 	Recipes to guide hardware wrapper verification. 
-#              	Variables are fed by the root Makefile.
+# Project:      Scripts - Verification environment
+# Title:        acc_verif_setup_standalone.sh
+# Description:  Set up standalone verification environment.
 #
 # $Date:        23.11.2021
 #
@@ -14,8 +13,13 @@
 #
 # =====================================================================
 
-gen_standalone:
-	@bash ${SCRIPTS_VERIF}/gen_standalone.sh ${OUT_ACC_GEN} ${VERIF_HWPE}
+#!/bin/bash
 
-setup_standalone: common_sh
-	@bash ${SCRIPTS_VERIF}/setup_standalone.sh ${OUT_ACC_GEN} ${VERIF_HWPE}
+THIS_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+source $THIS_DIR/../common.sh
+
+readonly dir_out=$1
+readonly dir_verif=$2
+
+echo -e ">> VSIM path -> $dir_verif/hw/sim"
+export VSIM_PATH=$dir_verif/hw/sim

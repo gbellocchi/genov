@@ -1,7 +1,7 @@
 # =====================================================================
 # Project:      Scripts - Verification environment
-# Title:        setup_standalone.sh
-# Description:  Set up standalone verification environment.
+# Title:        acc_verif_clean.sh
+# Description:  Clean standalone verification environment.
 #
 # $Date:        23.11.2021
 #
@@ -15,7 +15,16 @@
 
 #!/bin/bash
 
-source ../common.sh
+THIS_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+source $THIS_DIR/../common.sh
 
 readonly dir_out=$1
 readonly dir_verif=$2
+
+echo -e ">> Cleaning standalone verification environment"
+
+# clean hw tb
+rm -f $dir_verif/hw/rtl/tb_hwpe.sv
+
+# clean sw tb
+rm -rf $dir_verif/sw/*
