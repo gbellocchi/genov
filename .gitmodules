@@ -1,3 +1,0 @@
-[submodule "genov/verif/hwpe-tb"]
-	path = genov/verif/hwpe-tb
-	url = git@github.com:gbellocchi/hwpe-tb.git
