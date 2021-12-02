@@ -24,6 +24,8 @@ SRC_OV 						:= ${SRC_DIR}/overlays
 # Device (extracted from source)
 
 DEV_DIR 					:= ${GEN_ROOT}/dev
+DEV_ACC_DIR 				:= ${GEN_ROOT}/acc_dev
+DEV_OV_DIR 					:= ${GEN_ROOT}/ov_dev
 
 # Templates
 

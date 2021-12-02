@@ -28,17 +28,11 @@ find . -type d -name '__pycache__' -not -path "${dir_py_venv}" -exec rm -rf {} +
 find . -name "*.pyc" -type f -delete
 rm -rf ${dir_templ_acc}/integr_support/rtl_list/*.log
 
-# Cleaning generated hardware
-rm -rf ${dir_out_acc}/hw/hwpe_standalone_tb/*
-rm -rf ${dir_out_acc}/hw/hwpe_wrapper/*
+# Cleaning directory for generated hardware
+rm -rf ${dir_out_acc}/hw
 
-# if [ -L "acc_gen_hw" ]; then
-#     unlink acc_gen_hw
-# fi
+# Cleaning directory for generated verification software
+rm -rf ${dir_out_acc}/sw
 
-# Cleaning generated verification software
-rm -rf ${dir_out_acc}/sw/hwpe_standalone_tb/*
-
-# if [ -L "acc_gen_sw" ]; then
-#     unlink acc_gen_sw
-# fi
+# Cleaning directory for Git accelerator depoyment
+rm -rf ${dir_out_acc}/acc_deploy

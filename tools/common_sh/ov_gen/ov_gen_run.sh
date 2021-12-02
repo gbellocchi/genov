@@ -28,12 +28,5 @@ echo -e ">> Retrieving target engine from accelerator library"
 echo -e ">> Generation of accelerator-rich overlay"
 cd genov && python genov.py
 
-# Creating symbolic links to output
-echo -e "\n>> Creating symbolic links to output"
-cd ../
-ln -s ${dir_out}/hw ov_gen_hw
-ln -s ${dir_out}/sw ov_gen_sw
-ln -s ${dir_out}/integr_support ov_gen_integr
-
 # Deactivate environment
 deactivate

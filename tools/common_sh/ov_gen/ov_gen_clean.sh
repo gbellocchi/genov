@@ -18,29 +18,20 @@
 echo -e ">> Cleaning generated files"
 
 readonly dir_py_venv="$1"
-readonly dir_out="$2"
+readonly dir_out_ov="$2"
 
 # Cleaning repo
 find . -type d -name '__pycache__' -not -path "${dir_py_venv}" -exec rm -rf {} +
 find . -name "*.pyc" -type f -delete
 
 # Cleaning generated hardware
-rm -rf ${dir_out}/hw/overlay/*
-
-if [ -L "ov_gen_hw" ]; then
-    unlink ov_gen_hw
-fi
+rm -rf ${dir_out_ov}/hw
 
 # Cleaning generated verification software
-rm -rf ${dir_out}/sw/hwpe_ov_tb/*
-
-if [ -L "ov_gen_sw" ]; then
-    unlink ov_gen_sw
-fi
+rm -rf ${dir_out_ov}/sw
 
 # Cleaning generated integration support files
-rm -rf ${dir_out}/integr_support/*
+rm -rf ${dir_out_ov}/integr_support
 
-if [ -L "ov_gen_integr" ]; then
-    unlink ov_gen_integr
-fi
+# Cleaning directory for Git accelerator depoyment
+rm -rf ${dir_out_ov}/ov_deploy
