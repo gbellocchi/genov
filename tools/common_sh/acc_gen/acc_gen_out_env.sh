@@ -87,8 +87,8 @@ cp -f ${dir_dev_acc}/acc_dev/rtl/* ${dir_out_acc}/hw/hwpe_wrapper/rtl/acc_kernel
 echo -e ">> Retrieving reference software-mapped application and stimuli/golden results generator"
 
 # Copy TB generator for input stimuli and golden results
-cp -rf ${dir_dev_acc}/acc_dev/sw/ref_sw ${dir_out_acc}/sw/inc
-cp -rf ${dir_dev_acc}/acc_dev/sw/stim ${dir_out_acc}/sw/inc
+cp -rf ${dir_dev_acc}/acc_dev/sw/ref_sw ${dir_out_acc}/sw/hwpe_standalone_tb/inc/
+cp -rf ${dir_dev_acc}/acc_dev/sw/stim ${dir_out_acc}/sw/hwpe_standalone_tb/inc/
 
 # ============================================================================= #
 # Retrieve static software components 

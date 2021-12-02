@@ -45,9 +45,9 @@ if [ -f ${CONFIG_FILE} ] && grep -q GIT_REPO_NAME ${CONFIG_FILE}; then
     
     # File directory for Git deployment
     echo -e ">> Creating local repository for Git deployment"
-    cp -r ${dir_out_acc}/hw/hwpe_wrapper/* ${dir_git_repo}
-    cp -r ${dir_out_acc}/sw ${dir_git_repo}
-    cp ${dir_out_acc}/hw/hwpe_wrapper/Bender.yml ${dir_git_repo}
+    cp -r ${dir_out_acc}/hw/hwpe_wrapper/* ${dir_git_repo}/
+    cp -r ${dir_out_acc}/sw ${dir_git_repo}/
+    cp ${dir_out_acc}/hw/hwpe_wrapper/Bender.yml ${dir_git_repo}/
 
     # Creating symbolic links to output
     echo -e ">> Creating symbolic links to HWPE local"
