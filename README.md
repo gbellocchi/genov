@@ -116,7 +116,7 @@ TARGET_ACC= conv_mdc
 
 Subsequently, to specialize the wrapper is required to just run `make all`.
   
-This way, the Python template libraries will process the SystemVerilog wrapper templates on the basis of the information the input Python specification file has been compiled with. This permits the generation of overlay configurations and accelerator wrappers. The generated files are exported to the `output` folder.
+This way, the Python template libraries will process the SystemVerilog wrapper templates on the basis of the information the input Python specification file has been compiled with. This permits the generation of overlay configurations and accelerator wrappers. The generated files are exported to the `genov/genov/output/acc_gen` folder.
 
 ### System-Level Optimization
 System-level optimization is enabled by propagating intra-process optimization knobs across the overlay infrastructure. The latter is possible since the tool renders SystemVerilog templates too. These templates deal with the different architectural blocks composing the overlay infrastructure, e.g. the accelerator interconnect, memory, DMA. Automated parametrization of this set of components is possible by exploiting the information comprised in the input Python specification file.

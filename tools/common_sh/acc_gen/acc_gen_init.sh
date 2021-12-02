@@ -15,14 +15,6 @@
 
 #!/bin/bash
 
-readonly dir_py_venv=$1
-
-# Activate environment
-source $dir_py_venv/bin/activate
-
 # Cloning git submodules
 echo -e ">> Cloning git submodules that will come in useful"
 git submodule update --init --recursive
-
-# Deactivate environment
-deactivate
