@@ -36,13 +36,6 @@ This location should at least comprise the following directories that are going 
 -  `deps/` - This location comprises SystemVerilog dependencies. Basically, the overlay IPs (RISC-V core, DMA, memory, etc.).
 -  `test/` - This location comprises a SystemVerilog testbench to simulate the hardware behavior.
 
-### External Sources
-The tool uses Git submodules that have to be initialized. To pull the required Git submodules, run:
-
-```
-make ov_gen_init
-```
-
 ### Python Virtual Environment
 To manage the project's dependencies a Python virtual environment is employed. To initialize it and download the required packages (see 'requirements.txt'), run:
 
@@ -56,6 +49,13 @@ In case of an update of the package requirements, it is possible to 'activate' t
 
 ```
 make py_env_update_reqs
+```
+
+### External Sources
+The tool uses Git submodules that have to be initialized. To pull the required Git submodules, run:
+
+```
+make ov_gen_init
 ```
 
 ## Accelerator Integration Methodology
