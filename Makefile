@@ -21,20 +21,7 @@
 # =====================================================================
 
 ROOT 			:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
-REPO 			:= genacc
-
-# =====================================================================
-# Description:  Choose a target accelerator configuration to be generated.
-#
-# Source: 		Specification files are kept under genov/src/accelerators.
-#
-# Extensions	To add new versions, create a new configuration, insert
-#				among the sources and target it using this Makefile. 
-#				Configuration examples have been included to guide the 
-#				user through this.
-# =====================================================================
-
-TARGET_ACC		:= conv_mdc
+REPO 			:= genov
 
 # =====================================================================
 # Description:  Choose a target overlay configuration to be generated.
@@ -57,6 +44,6 @@ TARGET_OV		:= ov_a
 
 .PHONY: all clean
 
-all: acc_gen ov_gen
+all: ov_gen
 
-clean: acc_gen_clean ov_gen_clean
+clean: ov_gen_clean
