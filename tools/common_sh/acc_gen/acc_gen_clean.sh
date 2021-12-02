@@ -28,9 +28,5 @@ find . -type d -name '__pycache__' -not -path "${dir_py_venv}" -exec rm -rf {} +
 find . -name "*.pyc" -type f -delete
 rm -rf ${dir_templ_acc}/integr_support/rtl_list/*.log
 
-<<<<<<< HEAD
 # Cleaning generated accelerator wrapper
-=======
-# Clean generated accelerator wrapper
->>>>>>> changed order of init operations in README. slight mod to out-env.
 rm -rf ${dir_out_acc}
