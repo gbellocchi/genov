@@ -5,11 +5,5 @@ local_py_env/
 # generated files
 **/*.log
 
-# sym links ~ genacc
-acc_gen_hw
-acc_gen_sw
-
-# sym links ~ genov
-ov_gen_hw
-ov_gen_sw
-ov_gen_integr
+# sym links
+git_acc
