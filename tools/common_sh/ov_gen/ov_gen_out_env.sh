@@ -19,11 +19,13 @@ readonly dir_out_ov=$1
 readonly dir_dev_ov=$2
 readonly dir_static=$3
 
+echo -e ">> Creating filesystem for generated overlay hardware"
+
+mkdir ${dir_out_ov}
+
 # ======================================== #
 # Create filesystem for generated hardware #
 # ======================================== #
-
-echo -e ">> Creating filesystem for generated overlay hardware"
 
 mkdir ${dir_out_ov}/hw
 

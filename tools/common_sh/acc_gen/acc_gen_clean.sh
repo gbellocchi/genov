@@ -15,7 +15,7 @@
 
 #!/bin/bash
 
-echo -e ">> Cleaning generated files"
+echo -e ">> Cleaning generated accelerator wrapper"
 
 readonly dir_eng_dev="$1"
 readonly dir_py_venv="$2"
@@ -28,11 +28,5 @@ find . -type d -name '__pycache__' -not -path "${dir_py_venv}" -exec rm -rf {} +
 find . -name "*.pyc" -type f -delete
 rm -rf ${dir_templ_acc}/integr_support/rtl_list/*.log
 
-# Cleaning directory for generated hardware
-rm -rf ${dir_out_acc}/hw
-
-# Cleaning directory for generated verification software
-rm -rf ${dir_out_acc}/sw
-
-# Cleaning directory for Git accelerator depoyment
-rm -rf ${dir_out_acc}/acc_deploy
+# Cleaning generated accelerator wrapper
+rm -rf ${dir_out_acc}

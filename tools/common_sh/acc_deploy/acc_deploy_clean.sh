@@ -45,8 +45,6 @@ if [ -f ${CONFIG_FILE} ] && grep -q GIT_REPO_NAME ${CONFIG_FILE}; then
     # Clean repo
     if [ -d ${dir_git_repo} ]; then
         rm -rf $dir_git_repo/*
-    else
-        mkdir $dir_git_repo
     fi
 else
     echo "Deployment repository -> Not found"

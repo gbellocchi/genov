@@ -19,11 +19,13 @@ readonly dir_out_acc=$1
 readonly dir_dev_acc=$2
 readonly dir_static=$3
 
+echo -e ">> Creating filesystem for generated accelerator hardware"
+
+mkdir ${dir_out_acc}
+
 # ======================================== #
 # Create filesystem for generated hardware #
 # ======================================== #
-
-echo -e ">> Creating filesystem for generated accelerator hardware"
 
 mkdir ${dir_out_acc}/hw
 
