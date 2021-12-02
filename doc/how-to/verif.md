@@ -108,11 +108,18 @@ Return to the top root of the standalone TB (`genov/genov/verif/hwpe-tb`) and ru
 make clean all
 ```
 
+### Run Simulation
+To run the simulation with no GUI:
+
+```bash
+make run
+```
+
 
 ## Standalone Overlay Testbench 
 
 ### RTL sim
-GenAcc supports the generation of a simple test routine for the instantiation of HWPE in a standalone PULP-based overlay system. The routine is a software test that is run in bare-metal and generated through templating (as is the RTL).
+GenOv supports the generation of a simple test routine for the instantiation of HWPE in a standalone overlay-based overlay system. The routine is a software test that is run in bare-metal and generated through templating (as is the RTL).
 Together with the latter are generated also: 
 
 -  `archi.h` - This C header file comprises the definition of the base address of the HWPE slave port, as well as its register offsets.
