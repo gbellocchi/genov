@@ -14,24 +14,36 @@
 #
 # =====================================================================
 
-acc_gen: \
-	acc_gen_clean \
-	acc_gen_run
+acc_gen_config:
+	@bash ${SCRIPTS_ACC_GEN}/$@.sh \
+		${ROOT} \
+		${DEV_DIR} \
+		${PY_VENV_DIR} \
+		${SRC_ACC}
 
-acc_gen_run: acc_gen_get_engine acc_gen_out_env
-	@bash ${SCRIPTS_ACC_GEN}/$@.sh ${PY_VENV} ${OUT_ACC_GEN}
+acc_gen_run:
+	@bash ${SCRIPTS_ACC_GEN}/$@.sh \
+		${TARGET_ACC} \
+		${PY_VENV} \
+		${OUT_ACC_GEN}
 	
 acc_gen_out_env:
-	@bash ${SCRIPTS_ACC_GEN}/$@.sh ${OUT_ACC_GEN} ${DEV_DIR} ${STATIC}
-	
-acc_gen_get_engine: acc_gen_lib
-	@ls ${DEV_DIR}/acc_dev/rtl >> ${TEMPL_ACC_HW_MNGT_DIR}/rtl_list/engine_list.log
+	@bash ${SCRIPTS_ACC_GEN}/$@.sh \
+		${TARGET_ACC} \
+		${DEV_DIR}/acc_dev \
+		${STATIC} \
+		${OUT_ACC_GEN}
 
-acc_gen_lib:
-	@cd ${SRC_ACC} && make -s clean all TARGET_ACC=${TARGET_ACC} DEV_DIR=${DEV_DIR}
+acc_gen_get_engine:
+	@ls ${DEV_DIR}/acc_dev/${TARGET_ACC}/rtl >> ${TEMPL_ACC_HW_MNGT_DIR}/rtl_list/engine_list.log
 
 acc_gen_init:
-	@bash ${SCRIPTS_ACC_GEN}/$@.sh ${PY_VENV}
+	@bash ${SCRIPTS_ACC_GEN}/$@.sh \
+		${PY_VENV}
 
 acc_gen_clean: check_ov_env
-	@bash ${SCRIPTS_ACC_GEN}/$@.sh ${DEV_DIR} ${PY_VENV_DIR} ${TEMPL_ACC} ${OUT_ACC_GEN}
+	@bash ${SCRIPTS_ACC_GEN}/$@.sh \
+		${DEV_DIR}/acc_dev \
+		${PY_VENV_DIR} \
+		${TEMPL_ACC} \
+		${OUT_ACC_GEN}

@@ -15,8 +15,9 @@
 
 #!/bin/bash
 
-readonly dir_py_venv=$1
-readonly dir_out_acc=$2
+readonly target_acc=$1
+readonly dir_py_venv=$2
+readonly dir_out_acc=$3
 
 # Activate environment
 source $dir_py_venv/bin/activate
@@ -26,7 +27,8 @@ echo -e ">> Retrieving target engine from accelerator library"
 
 # Run generator
 echo -e ">> Generation of accelerator wrapper"
-cd genov && python genacc.py
+cd genov && python genacc.py $target_acc
+python emitter.py
 
 # Deactivate environment
 deactivate

@@ -1,6 +1,6 @@
 # =====================================================================
 # Project:      Scripts - Generation environment
-# Title:        acc_gen_run.sh
+# Title:        ov_gen_run.sh
 # Description:  Generate target accelerator wrapper.
 #
 # $Date:        23.11.2021

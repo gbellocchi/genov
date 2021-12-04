@@ -17,10 +17,12 @@
 
 echo -e ">> Cleaning generated overlay"
 
-readonly dir_py_venv="$1"
-readonly dir_out_ov="$2"
+readonly dir_ov_dev="$1"
+readonly dir_py_venv="$2"
+readonly dir_out_ov="$3"
 
 # Cleaning repo
+rm -rf ${dir_ov_dev}/*
 find . -type d -name '__pycache__' -not -path "${dir_py_venv}" -exec rm -rf {} +
 find . -name "*.pyc" -type f -delete
 

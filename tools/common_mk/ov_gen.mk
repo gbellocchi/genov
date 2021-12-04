@@ -18,17 +18,26 @@ ov_gen: \
 	ov_gen_clean \
 	ov_gen_run
 
-ov_gen_run: ov_gen_out_env
-	@bash ${SCRIPTS_OV_GEN}/$@.sh ${PY_VENV} ${OUT_OV_GEN}
+ov_gen_run: ov_gen_lib ov_gen_out_env
+	@bash ${SCRIPTS_OV_GEN}/$@.sh \
+		${PY_VENV} \
+		${OUT_OV_GEN}
 
 ov_gen_out_env:
-	@bash ${SCRIPTS_OV_GEN}/$@.sh ${OUT_OV_GEN} ${DEV_DIR} ${STATIC}
+	@bash ${SCRIPTS_OV_GEN}/$@.sh \
+		${OUT_OV_GEN} \
+		${DEV_DIR} \
+		${STATIC}
 
 ov_gen_lib:
 	@cd ${SRC_OV} && make -s clean all TARGET_OV=${TARGET_OV} DEV_DIR=${DEV_DIR}
 
 ov_gen_init:
-	@bash ${SCRIPTS_OV_GEN}/$@.sh ${PY_VENV}
+	@bash ${SCRIPTS_OV_GEN}/$@.sh \
+		${PY_VENV}
 
 ov_gen_clean: check_ov_env
-	@bash ${SCRIPTS_OV_GEN}/$@.sh ${PY_VENV_DIR} ${OUT_OV_GEN}
+	@bash ${SCRIPTS_OV_GEN}/$@.sh \
+		${DEV_DIR}/ov_dev \
+		${PY_VENV_DIR} \
+		${OUT_OV_GEN}
