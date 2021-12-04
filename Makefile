@@ -34,6 +34,7 @@ REPO 			:= genov
 #				user through this.
 # =====================================================================
 
+TARGET_ACC		:= traffic_gen
 TARGET_OV		:= ov_a
 
 # =====================================================================
@@ -44,6 +45,6 @@ TARGET_OV		:= ov_a
 
 .PHONY: all clean
 
-all: ov_gen
+all: ov_gen acc_gen_config
 
 clean: ov_gen_clean
