@@ -17,7 +17,7 @@
 #!/usr/bin/env python3
 
 # HWPE attributes
-class hwpe_specs:
+class acc_specs:
 
     # User knobs
 

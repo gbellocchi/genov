@@ -19,7 +19,6 @@ ROOT 				:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 .PHONY: all clean
 all:
 	@cp -rf ${TARGET_OV} ${DEV_DIR}/ov_dev
-
 clean:
 	@rm -rf ${DEV_DIR}/ov_dev
 	

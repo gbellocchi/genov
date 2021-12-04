@@ -34,6 +34,14 @@ class ov_specs:
         return self
 
     '''
+        System
+    '''
+
+    def system_k(self):
+        self.n_acc                              = 3
+        return self
+
+    '''
         Accelerator #0
             >> Target name:         Traffic generator
             >> Connectionn type:    Logarithmic interconnect
@@ -85,8 +93,11 @@ class ov_specs:
 
     def __init__(self):
         # user-defined
-        self.author()
-        self.accelerators()
+        self.author_k()
+        self.system_k()
+        self.acc_0()
+        self.acc_1()
+        self.acc_2()
         # derived
         # self.kernel_d()
 
