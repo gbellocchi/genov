@@ -1,7 +1,7 @@
 # =====================================================================
 # Project:      Scripts - Generation environment
 # Title:        ov_gen_run.sh
-# Description:  Generate target accelerator wrapper.
+# Description:  Generate target overlay configuration.
 #
 # $Date:        23.11.2021
 #
@@ -22,10 +22,10 @@ readonly dir_out=$2
 source $dir_py_venv/bin/activate
 
 # Get source components (see Makefile recipe deps)
-echo -e ">> Retrieving target engine from accelerator library"
+echo -e "[sh] >> Retrieving target engine from accelerator library"
 
 # Run generator
-echo -e ">> Generation of accelerator-rich overlay"
+echo -e "[sh] >> Generation of accelerator-rich overlay"
 cd genov && python genov.py
 
 # Deactivate environment

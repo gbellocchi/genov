@@ -21,5 +21,5 @@ source $THIS_DIR/../common.sh
 readonly dir_out=$1
 readonly dir_verif=$2
 
-echo -e ">> VSIM path -> $dir_verif/hw/sim"
+echo -e "[sh] >> VSIM path -> $dir_verif/hw/sim"
 export VSIM_PATH=$dir_verif/hw/sim

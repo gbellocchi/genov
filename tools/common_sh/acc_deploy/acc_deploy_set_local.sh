@@ -36,7 +36,7 @@ if [ -f ${CONFIG_FILE} ] && grep -q GIT_REPO_NAME ${CONFIG_FILE}; then
     eval git_repo_name=$(grep GIT_REPO_NAME ${CONFIG_FILE} | sed 's/.*=//' | tr -d '"')
     readonly dir_git_repo=${dir_acc_deploy}/${git_repo_name}
 
-    echo -e ">> Set local repository for accelerator wrapper:"
+    echo -e "[sh] >> Set local repository for accelerator wrapper:"
     echo -e "- Name -> $git_repo_name"
     echo -e "- Location-> $dir_git_repo"
 
@@ -44,13 +44,13 @@ if [ -f ${CONFIG_FILE} ] && grep -q GIT_REPO_NAME ${CONFIG_FILE}; then
     q_correctness
     
     # File directory for Git deployment
-    echo -e ">> Creating local repository for Git deployment"
+    echo -e "[sh] >> Creating local repository for Git deployment"
     cp -r ${dir_out_acc}/hw/hwpe_wrapper/* ${dir_git_repo}/
     cp -r ${dir_out_acc}/sw ${dir_git_repo}/
     cp ${dir_out_acc}/hw/hwpe_wrapper/Bender.yml ${dir_git_repo}/
 
     # Creating symbolic links to output
-    echo -e ">> Creating symbolic links to HWPE local"
+    echo -e "[sh] >> Creating symbolic links to HWPE local"
     ln -s ${dir_git_repo} git_acc
 else
     echo "Deployment repository -> Not found"

@@ -34,7 +34,7 @@ if [ -f ${CONFIG_FILE} ] && grep -q GIT_REPO_NAME ${CONFIG_FILE} && grep -q GIT_
     # Get repository SSH URL
     eval git_repo_ssh=$(grep GIT_REPO_URL_SSH ${CONFIG_FILE} | sed 's/.*=//' | tr -d '"')
 
-    echo -e ">> Set local repository for accelerator wrapper:"
+    echo -e "[sh] >> Set local repository for accelerator wrapper:"
     echo -e "- Name -> $git_repo_name"
     echo -e "- SSH URL-> $git_repo_ssh"
 
@@ -45,15 +45,15 @@ if [ -f ${CONFIG_FILE} ] && grep -q GIT_REPO_NAME ${CONFIG_FILE} && grep -q GIT_
     cd git_acc
 
     # Initialize repository
-    echo -e ">> Initializing git repository -> $repo_name"
+    echo -e "[sh] >> Initializing git repository -> $repo_name"
     git init
     git add .
     git commit -m 'Initial commit'
 
     # Add remote origin
-    echo -e ">> Adding remote origin"
+    echo -e "[sh] >> Adding remote origin"
     git remote add origin $git_repo_ssh
-    echo -e ">> Origin set at -> $(git config --get remote.origin.url)"
+    echo -e "[sh] >> Origin set at -> $(git config --get remote.origin.url)"
 else
     echo "Deployment repository -> Not found"
 fi

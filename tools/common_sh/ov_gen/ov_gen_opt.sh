@@ -1,9 +1,9 @@
 # =====================================================================
 # Project:      Scripts - Generation environment
-# Title:        acc_gen_run.sh
-# Description:  Generate target accelerator wrapper.
+# Title:        ov_gen_opt.sh
+# Description:  Optimize overlay specification with application-specific informations.
 #
-# $Date:        23.11.2021
+# $Date:        7.12.2021
 #
 # =====================================================================
 #
@@ -15,20 +15,13 @@
 
 #!/bin/bash
 
-readonly target_acc=$1
-readonly dir_py_venv=$2
-readonly dir_out_acc=$3
+readonly dir_py_venv=$1
 
 # Activate environment
 source $dir_py_venv/bin/activate
 
-# Get source components (see Makefile recipe deps)
-echo -e "[sh] >> Retrieving target engine from accelerator library"
-
-# Run generator
-echo -e "[sh] >> Generation of accelerator wrapper"
-cd genov && python genacc.py $target_acc
-python emitter.py
+# Run optimizer
+cd genov && python optimizer.py
 
 # Deactivate environment
 deactivate

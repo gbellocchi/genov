@@ -32,7 +32,7 @@ update_remote()
 {
     remote_info=$1
 
-    echo -e ">> Updating remote branch. Are the following remote information correct?"
+    echo -e "[sh] >> Updating remote branch. Are the following remote information correct?"
     echo -e "\t- Target accelerator:        ${remote_info[1]}"
     echo -e "\t- Repository:                ${remote_info[2]}"
     echo -e "\t- SSH URL:                   ${remote_info[3]}"
@@ -88,7 +88,7 @@ if [ -f ${CONFIG_FILE} ] && grep -q GIT_REPO_NAME ${CONFIG_FILE} && grep -q GIT_
     # Get repository SSH URL
     eval git_repo_ssh=$(grep GIT_REPO_URL_SSH ${CONFIG_FILE} | sed 's/.*=//' | tr -d '"')
 
-    echo -e ">> Set local repository for accelerator wrapper:"
+    echo -e "[sh] >> Set local repository for accelerator wrapper:"
     echo -e "- Name -> $git_repo_name"
     echo -e "- SSH URL-> $git_repo_ssh"
 
@@ -99,11 +99,11 @@ if [ -f ${CONFIG_FILE} ] && grep -q GIT_REPO_NAME ${CONFIG_FILE} && grep -q GIT_
     cd git_acc
 
     # Fetch remote branches
-    echo -e ">> Fetch remote branches" 
+    echo -e "[sh] >> Fetch remote branches" 
     git fetch origin
 
     # declare an array variable
-    echo -e ">> Searching for remote branch: $hwpe_target" 
+    echo -e "[sh] >> Searching for remote branch: $hwpe_target" 
     declare -a br_arr=($(git branch -a))
 
     # Loop through the array of branches and 
@@ -129,10 +129,10 @@ if [ -f ${CONFIG_FILE} ] && grep -q GIT_REPO_NAME ${CONFIG_FILE} && grep -q GIT_
 
     # Take action whether remote branch exists or not
     if [[ $is_remote == 1 ]]; then
-        echo -e ">> Remote branch already exists: ${remote_info[4]}"
+        echo -e "[sh] >> Remote branch already exists: ${remote_info[4]}"
         q_remote_exists remote_info
     else
-        echo ">> No remote branch has been found, so a new one will be created"
+        echo "[sh] >> No remote branch has been found, so a new one will be created"
         update_remote remote_info
     fi
 

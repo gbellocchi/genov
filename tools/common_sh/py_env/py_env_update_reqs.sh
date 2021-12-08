@@ -22,7 +22,7 @@ readonly dir_py_venv=$1
 source $dir_py_venv/bin/activate
 
 # Update required python packages
-echo -e ">> Updating required python packages."
+echo -e "[sh] >> Updating required python packages."
 pip freeze > requirements.txt
 
 # Deactivate environment

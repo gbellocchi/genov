@@ -21,7 +21,7 @@ source $THIS_DIR/../common.sh
 readonly dir_out=$1
 readonly dir_verif=$2
 
-echo -e ">> Cleaning standalone verification environment"
+echo -e "[sh] >> Cleaning standalone verification environment"
 
 # clean hw tb
 rm -f $dir_verif/hw/rtl/tb_hwpe.sv

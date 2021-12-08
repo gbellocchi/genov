@@ -1,9 +1,10 @@
 # =====================================================================
 # Project:      Scripts - Generation environment
 # Title:        acc_gen_init.sh
-# Description:  Initialize generation environment.
+# Description:  Preliminary operation to let the generation process proceed
+#               with all the required information about the input specifications.
 #
-# $Date:        23.11.2021
+# $Date:        7.12.2021
 #
 # =====================================================================
 #
@@ -15,6 +16,14 @@
 
 #!/bin/bash
 
-# Cloning git submodules
-echo -e ">> Cloning git submodules that will come in useful"
-git submodule update --init --recursive
+readonly dir_py_venv=$1
+
+# Activate environment
+source $dir_py_venv/bin/activate
+
+# Run optimizer
+cd genov && python initializer.py
+
+# Deactivate environment
+deactivate
+

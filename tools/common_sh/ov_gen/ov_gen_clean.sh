@@ -15,7 +15,7 @@
 
 #!/bin/bash
 
-echo -e ">> Cleaning generated overlay"
+echo -e "[sh] >> Cleaning generated overlay"
 
 readonly dir_ov_dev="$1"
 readonly dir_py_venv="$2"

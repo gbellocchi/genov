@@ -18,13 +18,13 @@
 readonly dir_py_venv=$1
 
 # Create virtual python environment
-echo -e ">> Creating virtual environment to generate a specialized accelerator wrapper."
+echo -e "[sh] >> Creating virtual environment to generate a specialized accelerator wrapper."
 python3 -m venv $dir_py_venv
 
 # Activate environment
 source $dir_py_venv/bin/activate
 
-echo -e ">> Installing some Python packages that will come in useful."
+echo -e "[sh] >> Installing some Python packages that will come in useful."
 
 # Install most updated pip version
 python -m pip install --upgrade pip

@@ -19,7 +19,7 @@ readonly dir_out=$1
 readonly dir_verif=$2
 
 # Get source components (see Makefile recipe deps)
-echo -e ">> Retrieving generated TB components to validate accelerator wrapper"
+echo -e "[sh] >> Retrieving generated TB components to validate accelerator wrapper"
 
 # update hw tb
 cp -rf $dir_out/hw/hwpe_standalone_tb/tb_hwpe.sv $dir_verif/hw/rtl/

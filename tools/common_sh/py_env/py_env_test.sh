@@ -15,7 +15,7 @@
 
 #!/bin/bash
 
-echo -e ">> Checking python virtual environment."
+echo -e "[sh] >> Checking python virtual environment."
 
 readonly dir_py_venv=$1
 
@@ -34,15 +34,15 @@ echo -e "|-----------------------------------------|\n"
 
 if [ -d "$dir_py_venv" ]; then
   # Take action if it exists. #
-  echo -e ">> A py-venv path has been found -> $dir_py_venv"
-  echo -e ">> This location should correespond to the local python virtual environment for the generator."
+  echo -e "[sh] >> A py-venv path has been found -> $dir_py_venv"
+  echo -e "[sh] >> This location should correespond to the local python virtual environment for the generator."
   echo -e "\n>> Is it a correct path?"
 
   select yn in "yes" "no" "help"; do
     case $yn in
         yes )   echo -e "\n"
 					      break;;
-        no )    error_exit ">> Erroneous path for python virtual environment! Aborting.";;
+        no )    error_exit "[sh] >> Erroneous path for python virtual environment! Aborting.";;
         help )  echo -e "\n>> Content of $dir_py_venv:\n" 
                 ls -1 $dir_py_venv
                 echo -e "\n>> Is it a correct path?";;
@@ -50,12 +50,12 @@ if [ -d "$dir_py_venv" ]; then
   done
 else
   # Take action if it does not exist. 
-  error_exit ">> No py-venv path has been found. Be sure to initialize it with 'make init_venv'."
+  error_exit "[sh] >> No py-venv path has been found. Be sure to initialize it with 'make init_venv'."
 fi
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-echo -e ">> Completed checking the python virtual environment."
+echo -e "[sh] >> Completed checking the python virtual environment."
 
 # ------------------------------ #
 #  Completed environment check.  #

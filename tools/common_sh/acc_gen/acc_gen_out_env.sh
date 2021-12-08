@@ -15,7 +15,7 @@
 
 #!/bin/bash
 
-echo ">> Generating output accelerator filesystem"
+echo "[sh] >> Generating output accelerator filesystem"
 
 # Read Makefile arguments
 readonly target_acc=$1
@@ -27,15 +27,15 @@ readonly dir_dev_target_acc=$dir_dev_acc/$target_acc
 readonly dir_out_target_acc=$dir_out_acc/$target_acc
 
 if [ -d "$dir_out_acc" ]; then
-    echo -e ">> Output accelerator targets collection already exists"
+    echo -e "[sh] >> Output accelerator targets collection already exists"
 else
     mkdir $dir_out_acc
 fi
 
 if [ -d "$dir_out_target_acc" ]; then
-    echo -e ">> Output target <$target_acc> already exists"
+    echo -e "[sh] >> Output target <$target_acc> already exists"
 else
-    echo -e ">> Creating filesystem for generated <$target_acc>"
+    echo -e "[sh] >> Creating filesystem for generated <$target_acc>"
     mkdir $dir_out_target_acc
 
     # ======================================== #
@@ -60,7 +60,7 @@ else
     # Create filesystem for generated software #
     # ======================================== #
 
-    echo -e ">> Creating filesystem for <$target_acc> software"
+    echo -e "[sh] >> Creating filesystem for <$target_acc> software"
 
     mkdir $dir_out_target_acc/sw
 
@@ -83,7 +83,7 @@ else
     # user can exploit both HLS-compiled and hand-crafted HDL modules.
     # ============================================================================= #
 
-    echo -e ">> Retrieving RTL of <$target_acc> kernel"
+    echo -e "[sh] >> Retrieving RTL of <$target_acc> kernel"
 
     cp -rf $dir_dev_target_acc/rtl/* $dir_out_target_acc/hw/hwpe_wrapper/rtl/acc_kernel
 
@@ -99,7 +99,7 @@ else
     # in the documentation pertaining to verification (in 'doc/how-to/verif.md').
     # ============================================================================= #
 
-    echo -e ">> Retrieving reference software-mapped application and stimuli/golden results generator"
+    echo -e "[sh] >> Retrieving reference software-mapped application and stimuli/golden results generator"
 
     # Copy TB generator for input stimuli and golden results
     cp -rf $dir_dev_target_acc/sw/ref_sw $dir_out_target_acc/sw/hwpe_standalone_tb/inc/
@@ -114,7 +114,7 @@ else
     # defined within the repository, or cloned as external sources. 
     # ============================================================================= #
 
-    echo -e ">> Retrieving static software components"
+    echo -e "[sh] >> Retrieving static software components"
 
     # Copy TB generator for compilation support files for software TB
     cp -rf $dir_static/static_tb/hwpe_standalone_tb/* $dir_out_target_acc/sw/hwpe_standalone_tb

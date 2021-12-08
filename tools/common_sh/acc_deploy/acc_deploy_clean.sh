@@ -35,7 +35,7 @@ if [ -f ${CONFIG_FILE} ] && grep -q GIT_REPO_NAME ${CONFIG_FILE}; then
     eval git_repo_name=$(grep GIT_REPO_NAME ${CONFIG_FILE} | sed 's/.*=//' | tr -d '"')
     readonly dir_git_repo=${dir_acc_deploy}/${git_repo_name}
 
-    echo -e ">> Set local repository for accelerator wrapper:"
+    echo -e "[sh] >> Set local repository for accelerator wrapper:"
     echo -e "- Name -> $git_repo_name"
     echo -e "- Location-> $dir_git_repo"
 

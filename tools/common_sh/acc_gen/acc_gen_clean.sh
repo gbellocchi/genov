@@ -15,7 +15,7 @@
 
 #!/bin/bash
 
-echo -e ">> Cleaning accelerator generation environment"
+echo -e "[sh] >> Cleaning accelerator generation environment"
 
 readonly dir_acc_dev="$1"
 readonly dir_py_venv="$2"
