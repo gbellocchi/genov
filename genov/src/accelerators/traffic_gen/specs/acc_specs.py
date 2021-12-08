@@ -1,14 +1,14 @@
 '''
  =====================================================================
- Project:      Traffic Generator
- Title:        hwpe_specs.py
- Description:  Specification file to guide the generation of HW/SW
+ Project:       Traffic Generator
+ Title:         acc_specs.py
+ Description:   Specification file to guide the generation of HW/SW
 	           components for hardware wrappers.
 
- Date:        12.11.2021
+ Date:          12.11.2021
  ===================================================================== */
 
- Copyright (C) 2021 University of Modena and Reggio Emilia..
+ Copyright (C) 2021 University of Modena and Reggio Emilia.
 
  Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
 
@@ -16,53 +16,103 @@
 
 #!/usr/bin/env python3
 
-# HWPE attributes
 class acc_specs:
 
-    # User knobs
+    '''
+        ==========
+        User knobs
+        ==========
+    '''
 
-    def author_k(self):
-        # Engineer(-s)
+    '''
+        Author information
+    '''
+
+    def author(self):
         self.author                             = 'Gianluca Bellocchi'    
         self.email                              = '<gianluca.bellocchi@unimore.it>'
         return self
 
-    def kernel_k(self):
-        # Generic
+    '''
+        Kernel information:
+
+        - 'target' ~ Acceleration kernel. This the target of the hardware wrapper generator.
+
+        - 'design_type' ~ Design methodology employed to construct the acceleration kernel. 
+        Handcrafted HDL (set 'hdl') and HLS-compiled (set 'hls') methods are supported.
+
+        - 'intf_kernel' ~ Selection of interface between acceleration kernel and wrapper. Set 
+        the desired interface as 'True', while leaving the others set to 'False'. Now the proposed
+        methodology supports:
+            
+            > Xilinx ap_ctrl_hs (refer to UG902)
+            > MDC dataflow
+    '''
+
+    def kernel(self):
         self.target                             = 'traffic_gen'
         self.design_type                        = 'hls'
-        # Kernel design [ is_ap_ctrl_hs , is_mdc_dataflow ]
         self.intf_kernel                        = [ True , False ]
         return self
 
-    def streaming_k(self):
-        # HWPE streaming interfaces [ name , data-type , reg-dim , is_parallel , parallelism_factor]
+    '''
+        Streaming interface information:
+
+        - 'list_sink_stream' ~ [ name , data-type , reg-dim , is_parallel , parallelism_factor]
+
+        - 'list_source_stream' ~ [ name , data-type , reg-dim , is_parallel , parallelism_factor]
+    '''
+
+    def streaming(self):
         self.list_sink_stream                   = [ [ 'stream_in_V' , 'int32_t' , 32 , False , 1] ]
         self.list_source_stream                 = [ [ 'stream_out_V' , 'int32_t' , 32 , False , 1] ]
         return self
 
-    def regfile_k(self):
-        # HWPE standard regfiles
+    '''
+        Custom register file information:
+
+        - 'std_reg_num' ~ Number of standard registers. Do not modify this unless you have specific
+        templates of HWPE that support a different number of standard registers.
+
+        - 'custom_reg' ~ [ name , data-type , reg-dim , is_port ]
+    '''
+
+    def regfile(self):
         self.std_reg_num                        = 4       
-        # HWPE custom regfiles [ name , data-type , reg-dim , is_port ]
         self.custom_reg                         = [ [ 'n_trans' , 'int32_t' , 32 , 1 ] ,
                                                     [ 'prob_req' , 'int32_t' , 32 , 1 ] ]
         return self
 
-    def addressgen_k(self):
-        # Address generation [ is_programmable ]
+    '''
+        Address generator registers information:
+
+        - 'addr_gen_in' ~ Set to 'True' if you want a programmable  address generator for input streams.
+
+        - 'addr_gen_out' ~ Set to 'True' if you want a programmable  address generator for output streams.
+    '''
+
+    def addressgen(self):
         self.addr_gen_in                        = [ [True] ]
         self.addr_gen_out                       = [ [True] ]
         return self
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-    # Additional parameters
+    '''
+        Additional parameters taht are derived from the user-defined ones. Do not modify this part.
+    '''
+
+    '''
+        Derived kernel information
+    '''
 
     def kernel_d(self):
-        # Kernel interface
         self.is_ap_ctrl_hs                      = self.intf_kernel[0]
         self.is_mdc_dataflow                    = self.intf_kernel[1]
+
+    '''
+        Derived streaming interface information
+    '''
 
     def streaming_d(self):    
         self.n_sink                             = len(self.list_sink_stream)
@@ -77,8 +127,11 @@ class acc_specs:
         self.out_parallelism_factor             = [item[4] for item in self.list_source_stream]
         return self
 
+    '''
+        Derived custom register file information
+    '''
+
     def regfile_d(self):    
-        # HWPE custom regfiles
         self.custom_reg_name                    = [item[0] for item in self.custom_reg]
         self.custom_reg_dtype                   = [item[1] for item in self.custom_reg]
         self.custom_reg_dim                     = [item[2] for item in self.custom_reg]
@@ -86,8 +139,11 @@ class acc_specs:
         self.custom_reg_num                     = len(self.custom_reg)
         return self
 
+    '''
+        Derived address generator registers information
+    '''
+
     def addressgen_d(self):
-        # Address generation
         self.addr_gen_in_isprogr                = [item[0] for item in self.addr_gen_in]
         self.addr_gen_out_isprogr               = [item[0] for item in self.addr_gen_out]
         return self
@@ -96,11 +152,11 @@ class acc_specs:
 
     def __init__(self):
         # user-defined
-        self.author_k()
-        self.kernel_k()
-        self.streaming_k()
-        self.regfile_k()
-        self.addressgen_k()
+        self.author()
+        self.kernel()
+        self.streaming()
+        self.regfile()
+        self.addressgen()
         # derived
         self.kernel_d()
         self.streaming_d()

@@ -43,51 +43,62 @@ class ov_specs:
 
     '''
         Accelerator #0
-            >> Target name:         Traffic generator
-            >> Connectionn type:    Logarithmic interconnect
-            >> Protocol type:       Hardware processing engine (HWPE)
+            >> Target name:                 Traffic generator
+            >> Protocol type:               Hardware processing engine (HWPE)
+            >> Interconnection method:      Shared logarithmic interconnect
     '''
 
     def acc_0(self):
         self.target                             = 'traffic_gen'
-        self.connection_type                    = 'lic'
         self.protocol_type                      = 'hwpe'
+        self.connection_type                    = 'shared_lic'
+        self.offset                             = 0
         return self
 
     '''
         Accelerator #1
-            >> Target name:         Traffic generator
-            >> Connectionn type:    Logarithmic interconnect
-            >> Protocol type:       Hardware processing engine (HWPE)
+            >> Target name:                 2D convolution
+            >> Protocol type:               Hardware processing engine (HWPE)
+            >> Interconnection method:      Shared logarithmic interconnect
     '''
 
     def acc_1(self):
-        self.target                             = 'traffic_gen'
-        self.connection_type                    = 'lic'
+        self.target                             = 'conv_mdc'
         self.protocol_type                      = 'hwpe'
+        self.connection_type                    = 'shared_lic'
+        self.offset                             = 1
         return self
 
     '''
         Accelerator #2
-            >> Target name:         Traffic generator
-            >> Connectionn type:    Logarithmic interconnect
-            >> Protocol type:       Hardware processing engine (HWPE)
+            >> Target name:                 Traffic generator
+            >> Protocol type:               Hardware processing engine (HWPE)
+            >> Interconnection method:      Shared logarithmic interconnect
     '''
 
     def acc_2(self):
         self.target                             = 'traffic_gen'
-        self.connection_type                    = 'lic'
         self.protocol_type                      = 'hwpe'
+        self.connection_type                    = 'shared_lic'
+        self.offset                             = 2
         return self
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-    # Additional parameters
+    '''
+        Additional parameters taht are derived from the user-defined ones. Do not modify this part.
+    '''
 
-    # def kernel_d(self):
-    #     # Kernel interface
-    #     self.is_ap_ctrl_hs                      = self.intf_kernel[0]
-    #     self.is_mdc_dataflow                    = self.intf_kernel[1]
+    '''
+        Derived accelerator targets list
+    '''
+
+    def targets_list(self):
+        self.targets_list = []
+        for attribute in dir(ov_specs):
+            if "acc_" in attribute:
+                method = getattr(self, attribute)
+                self.targets_list.append(method)
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -95,11 +106,11 @@ class ov_specs:
         # user-defined
         self.author_k()
         self.system_k()
-        self.acc_0()
-        self.acc_1()
-        self.acc_2()
+        # self.acc_0()
+        # self.acc_1()
+        # self.acc_2()
         # derived
-        # self.kernel_d()
+        self.targets_list()
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 

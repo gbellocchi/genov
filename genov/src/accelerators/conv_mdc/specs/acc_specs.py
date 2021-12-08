@@ -5,17 +5,17 @@
 #!/usr/bin/env python3
 
 # HWPE attributes
-class hwpe_specs:
+class acc_specs:
 
     # User knobs
 
-    def author_k(self):
+    def author(self):
         # Engineer(-s)
         self.author                             = 'Gianluca Bellocchi'    
         self.email                              = '<gianluca.bellocchi@unimore.it>'
         return self
 
-    def kernel_k(self):
+    def kernel(self):
         # Generic
         self.target                             = 'conv_mdc'
         self.design_type                        = 'hls'
@@ -23,13 +23,13 @@ class hwpe_specs:
         self.intf_kernel                        = [ False , True ]
         return self
 
-    def streaming_k(self):
+    def streaming(self):
         # HWPE streaming interfaces [ name , data-type , reg-dim , is_parallel , parallelism_factor]
         self.list_sink_stream                   = [ [ 'src_V' , 'int32_t' , 32 , False , 1] ]
         self.list_source_stream                 = [ [ 'dst_V' , 'int32_t' , 32 , False , 1] ]
         return self
 
-    def regfile_k(self):
+    def regfile(self):
         # HWPE standard regfiles
         self.std_reg_num                        = 4       
         # HWPE custom regfiles [ name , data-type , reg-dim , is_port ]
@@ -48,7 +48,7 @@ class hwpe_specs:
                                                     # [ 'filter_coeffs_10' , 'int32_t' , 32 , 1 ] ]
         return self
 
-    def addressgen_k(self):
+    def addressgen(self):
         # Address generation [ is_programmable ]
         self.addr_gen_in                        = [ [True] ]
         self.addr_gen_out                       = [ [True] ]
@@ -95,11 +95,11 @@ class hwpe_specs:
 
     def __init__(self):
         # user-defined
-        self.author_k()
-        self.kernel_k()
-        self.streaming_k()
-        self.regfile_k()
-        self.addressgen_k()
+        self.author()
+        self.kernel()
+        self.streaming()
+        self.regfile()
+        self.addressgen()
         # derived
         self.kernel_d()
         self.streaming_d()
