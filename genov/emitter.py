@@ -24,7 +24,7 @@ try:
     target_acc = os.environ['TARGET_ACC']
     module_name = "dev.acc_dev." + target_acc + ".specs.acc_specs"
     acc_specs = importlib.import_module(module_name)
-except ImportError:
+except:
     acc_specs = None
 
 '''
@@ -147,20 +147,12 @@ if ov_specs is not None:
         def construct_file_name(self):
             # dictionary for file extensions
             dict_file_ext = {
-                'hwpe'            : self.hwpe_file_name(),
                 'ov'              : self.ov_file_name(),
                 'tb'              : self.tb_file_name(),
                 'integr_support'  : self.integr_support_file_name(),
                 'sw'              : self.sw_file_name()
             }
             return dict_file_ext[self.device_type]
-
-        '''
-        Constructor of file names targeting HWPE devices.
-        '''
-        def hwpe_file_name(self):
-            file_name = self.target + '_' + self.design_name + self.file_ext
-            return file_name
 
         '''
         Constructor of file names targeting the overlay.
@@ -332,7 +324,6 @@ if acc_specs is not None:
             # dictionary for file extensions
             dict_file_ext = {
                 'hwpe'            : self.hwpe_file_name(),
-                'ov'              : self.ov_file_name(),
                 'tb'              : self.tb_file_name(),
                 'integr_support'  : self.integr_support_file_name(),
                 'sw'              : self.sw_file_name()
@@ -344,13 +335,6 @@ if acc_specs is not None:
         '''
         def hwpe_file_name(self):
             file_name = self.target + '_' + self.design_name + self.file_ext
-            return file_name
-
-        '''
-        Constructor of file names targeting the overlay.
-        '''
-        def ov_file_name(self):
-            file_name = 'ov_' + self.design_name + self.file_ext
             return file_name
 
         '''
