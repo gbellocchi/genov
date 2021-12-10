@@ -30,7 +30,7 @@ ov_gen_opt:
 		${PY_VENV}
 
 ov_gen_lib:
-	@cd ${SRC_OV} && make -s clean all TARGET_OV=${TARGET_OV} DEV_DIR=${DEV_DIR}
+	@cd ${SRC_OV} && make -s clean all DEV_DIR=${DEV_DIR} TARGET_OV=${TARGET_OV}
 
 ov_gen_init:
 	@bash ${SCRIPTS_OV_GEN}/$@.sh \

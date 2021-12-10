@@ -55,7 +55,12 @@ fetch_ov_config()
     done
 
     # Check data correctness
-    q_correctness
+    if [ ${#acc_targets[@]} -eq 0 ]; then
+        echo -e "\nOops, something went wrong, no targets have been found... \n"
+        exit 1
+    else
+        q_correctness
+    fi
 }
 
 # =====================================================================
