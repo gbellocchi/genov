@@ -47,4 +47,4 @@ TARGET_OV		:= ov_a
 
 all: ov_gen_init ov_gen_lib acc_gen_config
 
-clean: ov_gen_clean
+clean: ov_gen_clean acc_gen_clean
