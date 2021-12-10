@@ -77,9 +77,7 @@ class optimizer(ov_specs):
         for t in self.get_targets_list():
             if str(self.offset) in t.__name__:
                 if acc_target is t().target:
-                    # specs = getattr(t(), t().targets_list[self.offset])
-                    # print(t().target)
-                    return t
+                    return t()
 
     '''
         Data interface information:
@@ -88,64 +86,76 @@ class optimizer(ov_specs):
         
     '''
 
-    def opt_data_intf(self, ov_acc_specs, standalone_acc_specs):
-        if(ov_acc_specs.connection_type is 'shared_lic'):
+    def opt_data_intf(self, overlay_acc_specs, standalone_acc_specs):
+        # extract specifications concerning system-level accelerator interconnection
+        acc_interco_type = overlay_acc_specs.connection_type
+        # extract specifications concerning accelerator data interface
+        acc_n_sink = standalone_acc_specs.n_sink
+        acc_n_source = standalone_acc_specs.n_source
+        # collect information to guide interconnect design
+        if(acc_interco_type is 'shared_lic'):
             print("[py] >> Interconnection method ~  Shared LIC")
-            self.list_shared_lic = []
-        elif(ov_acc_specs.connection_type is 'dedicated_lic'):
+            self.list_shared_lic.append([acc_n_sink, acc_n_source])
+        elif(acc_interco_type is 'dedicated_lic'):
             print("[py] >> Interconnection method ~  Dedicated LIC")
-            self.list_dedicated_lic = []
-        elif(ov_acc_specs.connection_type is 'shared_hci'):
+            self.list_dedicated_lic.append([acc_n_sink, acc_n_source])
+        elif(acc_interco_type is 'shared_hci'):
             print("[py] >> Interconnection method ~  Shared HCI")
-            self.list_shared_hci = []
+            self.list_shared_hci.append([acc_n_sink, acc_n_source])
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  #
 
 '''
-    ===================
-    Optimizer chekpoint
-    ===================
+    ========================
+    Open optimizer chekpoint
+    ========================
 '''
 
-def optimizer_checkpoints(filename):
+def get_checkpoint(filename):
 
     if os.path.isfile(filename):
-
-        '''
-            Open optimization checkpoint.
-        '''
-
-        opt_checkpoint = open(filename, 'rb')
 
         '''
             Resume optimizer.
         '''
 
-        obj_opt = pickle.load(opt_checkpoint)
+        print("[py] >> Resuming optimizer state")
+        with open(filename, 'rb') as inp:
+            obj_opt = pickle.load(inp)
 
     else:
         
         '''
-            Invoke optimizer.
+            Invoke optimizer for the first time.
         '''
 
+        print("[py] >> First invocation of optimizer state")
         obj_opt = optimizer()
 
-        '''
-            Save optimizer state.
-        '''
-
-        opt_checkpoint = open(filename, 'wb') 
-        pickle.dump(obj_opt, opt_checkpoint)
-
     return obj_opt
+
+'''
+    ========================
+    Save optimizer chekpoint
+    ========================
+'''
+
+def save_checkpoint(filename, obj_opt):
+    
+    '''
+        Save optimizer state.
+    '''
+
+    print("[py] >> Saving optimizer state")
+    with open(filename, 'wb') as outp:
+        pickle.dump(obj_opt, outp, pickle.HIGHEST_PROTOCOL)
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  #
 
 '''
-    =========================================
-    Application-specific optimization routine
-    =========================================
+    ====================
+    Optimization routine
+    ====================
 '''
 
 '''
@@ -155,6 +165,7 @@ def optimizer_checkpoints(filename):
 '''
 
 acc_offset = os.environ['OFFSET_ACC']
+acc_number = os.environ['N_ACC']
 
 '''
     File where to save optimizer state.
@@ -163,37 +174,46 @@ acc_offset = os.environ['OFFSET_ACC']
 filename = 'state_optimizer.obj'
 
 '''
-    Obtain standalone accelerator wrapper specifications.
-'''
-
-standalone_acc_specs = acc_specs.acc_specs()
-
-'''
     Initialize or resume optimization from checkpoint.
 '''
 
-optimizer = optimizer_checkpoints(filename)
+obj_optimizer = get_checkpoint(filename)
 
 '''
     Update optimizer offset.
 '''
 
-optimizer.offset = int(acc_offset)
+obj_optimizer.offset = int(acc_offset)
+
+'''
+    Obtain accelerator wrapper specification.
+'''
+
+print("[py] >> Fetching wrapper specification of target", obj_optimizer.offset + 1, "out of", acc_number)
+standalone_acc_specs = acc_specs.acc_specs()
 
 '''
     Obtain system-level accelerator specification.
 '''
 
-overlay_acc_specs = optimizer.get_acc_specs_method(standalone_acc_specs.target)
-
-print(overlay_acc_specs().target)
+print("[py] >> Fetching system specification of target", obj_optimizer.offset + 1, "out of", acc_number)
+overlay_acc_specs = obj_optimizer.get_acc_specs_method(standalone_acc_specs.target)
 
 '''
     Update accelerator interface information.
 '''
 
-# optimizer.opt_data_intf(ov_acc_specs, standalone_acc_specs)
+obj_optimizer.opt_data_intf(overlay_acc_specs, standalone_acc_specs)
 
+print(obj_optimizer.list_shared_lic)
+print(obj_optimizer.list_dedicated_lic)
+print(obj_optimizer.list_shared_hci)
+
+'''
+    Save optimization checkpoint.
+'''
+
+save_checkpoint(filename, obj_optimizer)
 
 
 

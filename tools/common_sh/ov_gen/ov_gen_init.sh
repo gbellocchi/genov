@@ -16,5 +16,5 @@
 #!/bin/bash
 
 # Cloning git submodules
-echo -e "[sh] >> Cloning git submodules that will come in useful"
+echo -e "[sh] >> Cloning external sources"
 git submodule update --init --recursive
