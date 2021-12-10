@@ -93,12 +93,13 @@ class ov_specs:
         Derived accelerator targets list
     '''
 
-    def targets_list(self):
-        self.targets_list = []
+    def get_targets_list(self):
+        targets_list = []
         for attribute in dir(ov_specs):
             if "acc_" in attribute:
                 method = getattr(self, attribute)
-                self.targets_list.append(method)
+                targets_list.append(method)
+        return targets_list
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
@@ -110,7 +111,7 @@ class ov_specs:
         # self.acc_1()
         # self.acc_2()
         # derived
-        self.targets_list()
+        self.get_targets_list()
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 

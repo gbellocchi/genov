@@ -17,8 +17,13 @@
 ROOT 				:= $(patsubst %/,%, $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 .PHONY: all clean
-all:
+all: lib_info
+	@echo "[sh] >> Building runtime overlay device environment"
 	@cp -rf ${TARGET_OV} ${DEV_DIR}/ov_dev
+lib_info:
+	@echo -e "[sh] >> Runtime overlay device environment:\n"
+	@echo -e "\t- Location -> ${DEV_DIR}/ov_dev\n"
 clean:
+	@echo "[sh] >> Cleaning runtime overlay device environment"
 	@rm -rf ${DEV_DIR}/ov_dev
 	

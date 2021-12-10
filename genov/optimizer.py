@@ -59,7 +59,13 @@ class optimizer(ov_specs):
     def __init__(self):
         super().__init__()
 
+        # kernel offset
         self.offset = 0
+
+        # output parameters
+        self.list_shared_lic = []
+        self.list_dedicated_lic = []
+        self.list_shared_hci = []
 
     '''
         Obtain user-defined system-level specification concerning the target accelerator kernel.
@@ -67,15 +73,13 @@ class optimizer(ov_specs):
         - 'acc_target' ~ Name of target accelerator kernel. 
     '''
 
-    def ov_acc_specs(self, acc_target):
-        self.opt_data_ports = []
-
-        for m in self.targets_list:
-            if str(self.offset) in m().attributes_list[self.offset]:
-                if m().target is acc_target:
-                    specs = getattr(m(), m().attributes_list[self.offset])
-
-        return specs()
+    def get_acc_specs_method(self, acc_target):
+        for t in self.get_targets_list():
+            if str(self.offset) in t.__name__:
+                if acc_target is t().target:
+                    # specs = getattr(t(), t().targets_list[self.offset])
+                    # print(t().target)
+                    return t
 
     '''
         Data interface information:
@@ -87,10 +91,13 @@ class optimizer(ov_specs):
     def opt_data_intf(self, ov_acc_specs, standalone_acc_specs):
         if(ov_acc_specs.connection_type is 'shared_lic'):
             print("[py] >> Interconnection method ~  Shared LIC")
+            self.list_shared_lic = []
         elif(ov_acc_specs.connection_type is 'dedicated_lic'):
             print("[py] >> Interconnection method ~  Dedicated LIC")
+            self.list_dedicated_lic = []
         elif(ov_acc_specs.connection_type is 'shared_hci'):
             print("[py] >> Interconnection method ~  Shared HCI")
+            self.list_shared_hci = []
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  #
 
@@ -103,8 +110,6 @@ class optimizer(ov_specs):
 def optimizer_checkpoints(filename):
 
     if os.path.isfile(filename):
-
-        # print("[py] >> Old optimizer state exists - Loading")
 
         '''
             Open optimization checkpoint.
@@ -119,8 +124,6 @@ def optimizer_checkpoints(filename):
         obj_opt = pickle.load(opt_checkpoint)
 
     else:
-
-        # print("[py] >> No old optimizer state has been found - New definition")
         
         '''
             Invoke optimizer.
@@ -181,13 +184,15 @@ optimizer.offset = int(acc_offset)
     Obtain system-level accelerator specification.
 '''
 
-ov_acc_specs = optimizer.ov_acc_specs(standalone_acc_specs.target)
+overlay_acc_specs = optimizer.get_acc_specs_method(standalone_acc_specs.target)
+
+print(overlay_acc_specs().target)
 
 '''
     Update accelerator interface information.
 '''
 
-optimizer.opt_data_intf(ov_acc_specs, standalone_acc_specs)
+# optimizer.opt_data_intf(ov_acc_specs, standalone_acc_specs)
 
 
 

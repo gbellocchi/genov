@@ -40,8 +40,7 @@ f.write("N_ACC=" + str(ov_specs.n_acc) + "\n")
 
 # - Accelerator targets 
 i = 0
-for acc_methods in ov_specs.targets_list:
-    acc_methods()
-    f.write("TARGET_ACC_" + str(i) + "=" + ov_specs.target + "\n")
+for t in ov_specs.get_targets_list():
+    f.write("TARGET_ACC_" + str(i) + "=" + t().target + "\n")
     i += 1
 f.close()
