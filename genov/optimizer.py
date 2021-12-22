@@ -62,10 +62,19 @@ class optimizer(ov_specs):
         # kernel offset
         self.offset = 0
 
-        # output parameters
-        self.list_shared_lic = []
-        self.list_dedicated_lic = []
-        self.list_shared_hci = []
+        # list of clusters
+        self.list_clusters = []
+
+        # number of clusters
+        self.n_clusters = 0
+
+    def log(self):
+        print("Optimizer has derived the following system specifications:")
+        print("\t- Number of clusters:", self.n_clusters)
+        for cl in self.list_clusters:
+            print("\t- Cluster #", self.list_clusters.index(cl), ":")
+            print("\t\tInterconnect topology:", cl[0])
+            print("\t\tNumber of data ports:", cl[1])
 
     '''
         Obtain user-defined system-level specification concerning the target accelerator kernel.
@@ -80,28 +89,93 @@ class optimizer(ov_specs):
                     return t()
 
     '''
-        Data interface information:
-
-        - 'acc_data_ports' ~ Number of data ports of each hardware accelerator.
-        
+        Scan list of clusters in search for shared interconnect topologies.
     '''
 
-    def opt_data_intf(self, overlay_acc_specs, standalone_acc_specs):
+    def is_first_shared_cl(self, acc_interco_type):
+        for cl in self.list_clusters:
+            if(cl[0] == acc_interco_type):
+                return [False, cl]
+        return [True, '']
+
+    '''
+        Calculate required number of accelerator data ports.
+    '''
+
+    def calc_data_ports(self, standalone_acc_specs):
+
+        # get list of sink/source data ports
+        n_sink = standalone_acc_specs.n_sink                  
+        n_source = standalone_acc_specs.n_source
+
+        # calculate number of required data ports
+        n_data_ports = 0
+
+        # scan sink ports
+        for s in range(n_sink):
+            if standalone_acc_specs.is_parallel_in[s] is True:
+                n_data_ports += standalone_acc_specs.in_parallelism_factor[s]
+            else:
+                n_data_ports += 1
+
+        # scan source ports
+        for s in range(n_source):
+            if standalone_acc_specs.is_parallel_out[s] is True:
+                n_data_ports += standalone_acc_specs.out_parallelism_factor[s]
+            else:
+                n_data_ports += 1
+
+        return n_data_ports
+
+    '''
+        Optimize accelerator clustering.
+    '''
+
+    def opt_clustering(self, overlay_acc_specs, standalone_acc_specs):
+
         # extract specifications concerning system-level accelerator interconnection
-        acc_interco_type = overlay_acc_specs.connection_type
-        # extract specifications concerning accelerator data interface
-        acc_n_sink = standalone_acc_specs.n_sink
-        acc_n_source = standalone_acc_specs.n_source
-        # collect information to guide interconnect design
+        acc_interco_type        = overlay_acc_specs.connection_type
+
+        # calculate number of required data ports
+        n_data_ports            = self.calc_data_ports(standalone_acc_specs)
+
+        # derive how many clusters are needed
+
+        # 1) shared LIC clusters
         if(acc_interco_type is 'shared_lic'):
+
             print("[py] >> Interconnection method ~  Shared LIC")
-            self.list_shared_lic.append([acc_n_sink, acc_n_source])
-        elif(acc_interco_type is 'dedicated_lic'):
+            [is_first, shared_cl] = self.is_first_shared_cl(acc_interco_type)
+
+            if(is_first is False):
+                shared_cl[1] += n_data_ports
+            else:
+                self.list_clusters.append([acc_interco_type, n_data_ports])
+
+        # 2) private LIC clusters
+        elif(acc_interco_type is 'private_lic'):
+
             print("[py] >> Interconnection method ~  Dedicated LIC")
-            self.list_dedicated_lic.append([acc_n_sink, acc_n_source])
+            self.list_clusters.append([acc_interco_type, n_data_ports])
+
+        # 3) shared HCI clusters
         elif(acc_interco_type is 'shared_hci'):
+
             print("[py] >> Interconnection method ~  Shared HCI")
-            self.list_shared_hci.append([acc_n_sink, acc_n_source])
+            [is_first, shared_cl] = self.is_first_shared_cl(acc_interco_type)
+
+            if(is_first is False):
+                shared_cl[1] += n_data_ports
+            else:
+                self.list_clusters.append([acc_interco_type, n_data_ports])
+
+        # 4) unknown topology
+        else:
+
+            print("[py] >> Interconnection method ~  NOT KNOWN")
+
+        # count number of clusters
+        self.n_clusters = len(self.list_clusters)
 
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  #
 
@@ -189,25 +263,31 @@ obj_optimizer.offset = int(acc_offset)
     Obtain accelerator wrapper specification.
 '''
 
-print("[py] >> Fetching wrapper specification of target", obj_optimizer.offset + 1, "out of", acc_number)
+print("\n[py] >> ACCELERATOR TARGET", obj_optimizer.offset + 1, "OUT OF", acc_number)
+
+print("[py] >> Fetching user-defined wrapper specification")
 standalone_acc_specs = acc_specs.acc_specs()
 
 '''
     Obtain system-level accelerator specification.
 '''
 
-print("[py] >> Fetching system specification of target", obj_optimizer.offset + 1, "out of", acc_number)
+print("[py] >> Fetching user-defined and partially optimized system specification")
 overlay_acc_specs = obj_optimizer.get_acc_specs_method(standalone_acc_specs.target)
 
 '''
-    Update accelerator interface information.
+    Optimizing accelerator clustering. This optimization phase permits
+    to gather:
+
+        1) A list of clusters with attached information about:
+
+            - Interconnect topology
+            - Number of data ports (hp: 32b)
+
+        2) Overall number of clusters
 '''
 
-obj_optimizer.opt_data_intf(overlay_acc_specs, standalone_acc_specs)
-
-print(obj_optimizer.list_shared_lic)
-print(obj_optimizer.list_dedicated_lic)
-print(obj_optimizer.list_shared_hci)
+obj_optimizer.opt_clustering(overlay_acc_specs, standalone_acc_specs)
 
 '''
     Save optimization checkpoint.
@@ -215,7 +295,10 @@ print(obj_optimizer.list_shared_hci)
 
 save_checkpoint(filename, obj_optimizer)
 
+'''
+    Final log.
+'''
 
-
-
-
+if obj_optimizer.offset is (int(acc_number)-1):
+    print("\n[py] >> END OF OPTIMIZATION ")
+    obj_optimizer.log()
