@@ -45,6 +45,6 @@ TARGET_OV		:= ov_a
 
 .PHONY: all clean
 
-all: ov_gen_init ov_gen_lib acc_gen_config
+all: ov_gen
 
 clean: ov_gen_clean acc_gen_clean

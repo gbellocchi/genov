@@ -65,7 +65,7 @@ class ov_specs:
     def acc_1(self):
         self.target                             = 'conv_mdc'
         self.protocol_type                      = 'hwpe'
-        self.connection_type                    = 'dedicated_lic'
+        self.connection_type                    = 'private_lic'
         self.offset                             = 1
         return self
 
@@ -77,7 +77,7 @@ class ov_specs:
     '''
 
     def acc_2(self):
-        self.target                             = 'traffic_gen'
+        self.target                             = 'mmult_opt'
         self.protocol_type                      = 'hwpe'
         self.connection_type                    = 'shared_hci'
         self.offset                             = 2

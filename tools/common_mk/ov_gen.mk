@@ -14,23 +14,33 @@
 #
 # =====================================================================
 
-ov_gen_run: ov_gen_lib ov_gen_out_env
+ov_gen:
+	@bash ${SCRIPTS_OV_GEN}/$@.sh \
+		${ROOT} \
+		${DEV_DIR} \
+		${PY_VENV_DIR} \
+		${SRC_OV} \
+		${OUT_OV_GEN}
+ov_gen_run: ov_gen_out_env
 	@bash ${SCRIPTS_OV_GEN}/$@.sh \
 		${PY_VENV} \
 		${OUT_OV_GEN}
+
+ov_gen_opt:
+	@bash ${SCRIPTS_OV_GEN}/$@.sh \
+		${PY_VENV}
+
+ov_gen_fetch_specs:
+	@bash ${SCRIPTS_OV_GEN}/$@.sh \
+		${SRC_OV} \
+		${DEV_DIR} \
+		${TARGET_OV}
 
 ov_gen_out_env:
 	@bash ${SCRIPTS_OV_GEN}/$@.sh \
 		${OUT_OV_GEN} \
 		${DEV_DIR} \
 		${STATIC}
-
-ov_gen_opt:
-	@bash ${SCRIPTS_OV_GEN}/$@.sh \
-		${PY_VENV}
-
-ov_gen_lib:
-	@cd ${SRC_OV} && make -s clean all DEV_DIR=${DEV_DIR} TARGET_OV=${TARGET_OV}
 
 ov_gen_init:
 	@bash ${SCRIPTS_OV_GEN}/$@.sh \

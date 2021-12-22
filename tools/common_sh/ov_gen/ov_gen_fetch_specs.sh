@@ -1,9 +1,9 @@
 # =====================================================================
 # Project:      Scripts - Generation environment
-# Title:        ov_gen_init.sh
-# Description:  Initialize generation environment.
+# Title:        ov_gen_fetch_specs.sh
+# Description:  Fetching overlay input specifications.
 #
-# $Date:        23.11.2021
+# $Date:        22.12.2021
 #
 # =====================================================================
 #
@@ -15,6 +15,8 @@
 
 #!/bin/bash
 
-# Cloning git submodules
-echo -e "[sh] >> Getting external sources"
-git submodule update --init --recursive
+readonly dir_ov_src=$1
+readonly dir_dev=$2
+readonly ov_target=$3
+
+cd ${dir_ov_src} && make -s clean all DEV_DIR=${dir_dev} TARGET_OV=${ov_target}

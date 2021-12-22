@@ -47,8 +47,6 @@ update_remote()
 			no ) 	break;;
 		esac
 	done
-    # git push
-    exit 0
 }
 
 q_remote_exists()
@@ -67,7 +65,6 @@ q_remote_exists()
                     echo -e "\n>> Would you like to update this remote?" ;;
 		esac
 	done
-    exit 0
 }
 
 # ======= #
