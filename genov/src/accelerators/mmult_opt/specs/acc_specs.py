@@ -1,11 +1,11 @@
 '''
  =====================================================================
- Project:       Traffic Generator
+ Project:       Matrix Multiplication
  Title:         acc_specs.py
  Description:   Specification file to guide the generation of HW/SW
 	            components for hardware wrappers.
 
- Date:          12.11.2021
+ Date:          17.12.2021
  ===================================================================== */
 
  Copyright (C) 2021 University of Modena and Reggio Emilia.
@@ -29,10 +29,10 @@ class acc_specs:
     '''
 
     def author(self):
-        self.author                             = 'Gianluca Bellocchi'    
+        self.author                             = 'Gianluca Bellocchi'
         self.email                              = '<gianluca.bellocchi@unimore.it>'
         return self
-
+    
     '''
         Kernel information:
 
@@ -50,7 +50,7 @@ class acc_specs:
     '''
 
     def kernel(self):
-        self.target                             = 'traffic_gen'
+        self.target                             = 'mmult_opt'
         self.design_type                        = 'hls'
         self.intf_kernel                        = [ True , False ]
         return self
@@ -64,8 +64,8 @@ class acc_specs:
     '''
 
     def streaming(self):
-        self.list_sink_stream                   = [ [ 'stream_in_V' , 'int32_t' , 32 , False , 1] ]
-        self.list_source_stream                 = [ [ 'stream_out_V' , 'int32_t' , 32 , False , 1] ]
+        self.list_sink_stream   = [ [ 'in1' , 'int32_t' , 32 , False, 1 ] , [ 'in2' , 'int32_t' , 32 , False, 1 ] ]
+        self.list_source_stream = [ [ 'out_r' , 'int32_t' , 32 , False, 1 ] ]
         return self
 
     '''
@@ -78,9 +78,8 @@ class acc_specs:
     '''
 
     def regfile(self):
-        self.std_reg_num                        = 4       
-        self.custom_reg                         = [ [ 'n_trans' , 'int32_t' , 32 , 1 ] ,
-                                                    [ 'prob_req' , 'int32_t' , 32 , 1 ] ]
+        self.std_reg_num        = 4
+        self.custom_reg         = [ ]
         return self
 
     '''
@@ -92,8 +91,8 @@ class acc_specs:
     '''
 
     def addressgen(self):
-        self.addr_gen_in                        = [ [True] ]
-        self.addr_gen_out                       = [ [True] ]
+        self.addr_gen_in        = [ [True] , [True] ]
+        self.addr_gen_out       = [ [True] ]
         return self
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
