@@ -38,7 +38,7 @@ class ov_specs:
     '''
 
     def system_k(self):
-        self.n_acc                              = 3
+        # self.n_acc                      = 3
         return self
 
     '''
@@ -63,9 +63,9 @@ class ov_specs:
     '''
 
     def acc_1(self):
-        self.target                             = 'conv_mdc'
+        self.target                             = 'traffic_gen'
         self.protocol_type                      = 'hwpe'
-        self.connection_type                    = 'private_lic'
+        self.connection_type                    = 'shared_lic'
         self.offset                             = 1
         return self
 
@@ -77,7 +77,7 @@ class ov_specs:
     '''
 
     def acc_2(self):
-        self.target                             = 'mmult_opt'
+        self.target                             = 'traffic_gen'
         self.protocol_type                      = 'hwpe'
         self.connection_type                    = 'shared_hci'
         self.offset                             = 2
@@ -86,11 +86,7 @@ class ov_specs:
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
     '''
-        Additional parameters taht are derived from the user-defined ones. Do not modify this part.
-    '''
-
-    '''
-        Derived accelerator targets list
+        Derive accelerator targets list
     '''
 
     def get_targets_list(self):
@@ -101,17 +97,36 @@ class ov_specs:
                 targets_list.append(method)
         return targets_list
 
+    '''
+        Format user-defined parameters in a simplified form to ease the templating stage. Do not modify this part.
+    '''
+
+    '''
+        Format accelerators information.
+    '''
+
+    def accelerators_formatted(self):
+        # methods
+        acc_methods = self.get_targets_list()
+        # extract parameters from methods
+        self.n_acc = len(acc_methods)
+        self.acc_names = []
+        self.acc_protocol = []
+        self.acc_connection = []
+        for t in acc_methods:
+            self.acc_names.append(t().target)
+            self.acc_protocol.append(t().protocol_type)
+            self.acc_connection.append(t().connection_type)
+
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
     def __init__(self):
         # user-defined
         self.author_k()
         self.system_k()
-        # self.acc_0()
-        # self.acc_1()
-        # self.acc_2()
-        # derived
+        # formatted
         self.get_targets_list()
+        self.accelerators_formatted()
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 

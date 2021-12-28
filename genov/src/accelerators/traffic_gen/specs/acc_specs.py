@@ -99,22 +99,22 @@ class acc_specs:
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
     '''
-        Additional parameters taht are derived from the user-defined ones. Do not modify this part.
+        Format user-defined parameters in a simplified form to ease the templating stage. Do not modify this part.
     '''
 
     '''
-        Derived kernel information
+        Format kernel information.
     '''
 
-    def kernel_d(self):
+    def kernel_formatted(self):
         self.is_ap_ctrl_hs                      = self.intf_kernel[0]
         self.is_mdc_dataflow                    = self.intf_kernel[1]
 
     '''
-        Derived streaming interface information
+        Format streaming interface information
     '''
 
-    def streaming_d(self):    
+    def streaming_formatted(self):    
         self.n_sink                             = len(self.list_sink_stream)
         self.n_source                           = len(self.list_source_stream)
         self.stream_in                          = [item[0] for item in self.list_sink_stream]
@@ -128,10 +128,10 @@ class acc_specs:
         return self
 
     '''
-        Derived custom register file information
+        Format custom register file information
     '''
 
-    def regfile_d(self):    
+    def regfile_formatted(self):    
         self.custom_reg_name                    = [item[0] for item in self.custom_reg]
         self.custom_reg_dtype                   = [item[1] for item in self.custom_reg]
         self.custom_reg_dim                     = [item[2] for item in self.custom_reg]
@@ -140,10 +140,10 @@ class acc_specs:
         return self
 
     '''
-        Derived address generator registers information
+        Format address generator registers information
     '''
 
-    def addressgen_d(self):
+    def addressgen_formatted(self):
         self.addr_gen_in_isprogr                = [item[0] for item in self.addr_gen_in]
         self.addr_gen_out_isprogr               = [item[0] for item in self.addr_gen_out]
         return self
@@ -157,11 +157,11 @@ class acc_specs:
         self.streaming()
         self.regfile()
         self.addressgen()
-        # derived
-        self.kernel_d()
-        self.streaming_d()
-        self.regfile_d()
-        self.addressgen_d()
+        # formatted
+        self.kernel_formatted()
+        self.streaming_formatted()
+        self.regfile_formatted()
+        self.addressgen_formatted()
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
