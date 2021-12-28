@@ -14,7 +14,7 @@
 #
 # =====================================================================
 
-# ov_deploy: 
+ov_deploy: ov_deploy_src
 
 # # overlay_integration: clean_ov_env overlay_src overlay_deps
 
@@ -29,8 +29,8 @@
 # 	@cp -r ${OV_GEN_HW_DIR}/hwpe_wrapper ${OVERLAY_DEPS}/hwpe_${HWPE_TARGET}
 # 	@cp -r ${OV_GEN_SW_DIR} ${OVERLAY_DEPS}/hwpe_${HWPE_TARGET}/
 
-# overlay_src: check_ov_env
-# 	@bash ${SCRIPTS_OV_DEPLOY}/ov-deploy.sh ${OV_GEN_DIR} ${OVERLAY_SRC} ${OVERLAY_CLUSTER} ${OVERLAY_TEST}
+ov_deploy_src: ov_deploy_test
+	@bash ${SCRIPTS_OV_DEPLOY}/$@.sh ${OUT_OV_GEN} ${OVERLAY_SRC} ${OVERLAY_CLUSTER} ${OVERLAY_TEST}
 
 # clean_ov_env: test_ov_env clean_hwpe_gen_app
 # 	@rm -rf ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper
@@ -42,3 +42,9 @@
 # # 	@rm -rf ${OVERLAY_DEPS}/hwpe-gen-app/wrap
 # # 	@rm -rf ${OVERLAY_DEPS}/hwpe-gen-app/sw
 # # 	@rm -rf ${OVERLAY_DEPS}/hwpe-gen-app/Bender.yml
+
+ov_deploy_test: common_sh
+	@bash ${SCRIPTS_OV_DEPLOY}/$@.sh ${OVERLAY_SRC} ${OVERLAY_CLUSTER} ${OVERLAY_TEST}
+
+# ov_deploy_clean: ov_deploy_test
+# 	@bash ${SCRIPTS_OV_DEPLOY}/$@.sh ${OVERLAY_SRC} ${OVERLAY_CLUSTER} ${OVERLAY_TEST}

@@ -21,7 +21,7 @@ ov_gen:
 		${PY_VENV_DIR} \
 		${SRC_OV} \
 		${OUT_OV_GEN}
-ov_gen_run: ov_gen_out_env
+ov_gen_run:
 	@bash ${SCRIPTS_OV_GEN}/$@.sh \
 		${PY_VENV} \
 		${OUT_OV_GEN}
