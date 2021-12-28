@@ -1,0 +1,41 @@
+<%
+##################
+## Python tools ##
+##################
+%>
+
+<%
+######################################################
+## Print names of accelerators inside CL[cl_offset] ##
+######################################################
+%>
+
+<%def name="print_cl_acc_names(cl_offset)">\
+<%
+    str_acc = ""
+    acc_names = cl_acc_names[cl_offset]
+    for i in range(len(acc_names)-1):
+        str_acc += acc_names[i] + ", "
+    str_acc += acc_names[len(acc_names)-1] 
+%>\
+${str_acc}\
+</%def>\
+
+<%
+##################################################################################
+## Print number of data ports associated with accelerators inside CL[cl_offset] ##
+##################################################################################
+%>
+
+<%def name="print_cl_acc_n_data_ports(cl_offset)">\
+<%
+    str_acc = ""
+    acc_n_data_ports = cl_acc_n_data_ports[cl_offset]
+    for i in range(len(acc_n_data_ports)-1):
+        str_acc += str(acc_n_data_ports[i]) + ", "
+    str_acc += str(acc_n_data_ports[len(acc_n_data_ports)-1])
+%>\
+${str_acc}\
+</%def>\
+
+    

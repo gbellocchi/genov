@@ -7,6 +7,6 @@
 from collector import collector
 
 # Overlay accelerator package
-class ov_acc_pkg(collector):
+class ov_cl_pkg(collector):
     def top(self):
         return self.get_template()
