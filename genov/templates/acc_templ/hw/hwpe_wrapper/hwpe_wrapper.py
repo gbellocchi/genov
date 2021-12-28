@@ -25,11 +25,11 @@ from collector import collector
 # HWPE wrapper
 class hwpe_wrapper:
     def __init__(self):
-        print("\n>> HWPE wrapper ~ Retrieving hardware components")
+        print("\n[py] >>  HWPE wrapper ~ Retrieving hardware components")
         self.path_common = 'templates/acc_templ/hw/common/'
 
     def top_wrapper(self):
-        print("\n>> HWPE wrapper ~ top wrapper")
+        print("\n[py] >>  HWPE wrapper ~ top wrapper")
         return hwpe_top_wrapper(
             temp_type = 'templates/acc_templ/hw/hwpe_wrapper/hwpe_top_wrapper/',
             temp_top = 'hwpe_top_wrapper.template_sv',
@@ -38,7 +38,7 @@ class hwpe_wrapper:
         ).top()
 
     def top(self):
-        print("\n>> HWPE wrapper ~ top")
+        print("\n[py] >>  HWPE wrapper ~ top")
         return hwpe_top(
             temp_type = 'templates/acc_templ/hw/hwpe_wrapper/hwpe_top/',
             temp_top = 'hwpe_top.template_sv',
@@ -47,7 +47,7 @@ class hwpe_wrapper:
         ).top()
 
     def engine(self):
-        print("\n>> HWPE wrapper ~ engine")
+        print("\n[py] >>  HWPE wrapper ~ engine")
         return hwpe_engine(
             temp_type = 'templates/acc_templ/hw/hwpe_wrapper/hwpe_engine/',
             temp_top = 'hwpe_engine.template_sv',
@@ -61,7 +61,7 @@ class hwpe_wrapper:
         ).top()
 
     def kernel_adapter(self):
-        print("\n>> HWPE wrapper ~ kernel adapter")
+        print("\n[py] >>  HWPE wrapper ~ kernel adapter")
         return hwpe_kernel_adapter(
             temp_type = 'templates/acc_templ/hw/hwpe_wrapper/hwpe_kernel_adapter/',
             temp_top = 'hwpe_kernel_adapter.template_sv',
@@ -76,7 +76,7 @@ class hwpe_wrapper:
         ).top()
 
     def streamer(self):
-        print("\n>> HWPE wrapper ~ streamer")
+        print("\n[py] >>  HWPE wrapper ~ streamer")
         return hwpe_streamer(
             temp_type = 'templates/acc_templ/hw/hwpe_wrapper/hwpe_streamer/',
             temp_top = 'hwpe_streamer.template_sv',
@@ -85,7 +85,7 @@ class hwpe_wrapper:
         ).top()
 
     def ctrl(self):
-        print("\n>> HWPE wrapper ~ ctrl")
+        print("\n[py] >>  HWPE wrapper ~ ctrl")
         return hwpe_ctrl(
             temp_type = 'templates/acc_templ/hw/hwpe_wrapper/hwpe_ctrl/',
             temp_top = 'hwpe_ctrl.template_sv',
@@ -94,7 +94,7 @@ class hwpe_wrapper:
         ).top()
 
     def fsm(self):
-        print("\n>> HWPE wrapper ~ fsm")
+        print("\n[py] >>  HWPE wrapper ~ fsm")
         return hwpe_fsm(
             temp_type = 'templates/acc_templ/hw/hwpe_wrapper/hwpe_fsm/',
             temp_top = 'hwpe_fsm.template_sv',
@@ -103,7 +103,7 @@ class hwpe_wrapper:
         ).top()
 
     def package(self):
-        print("\n>> HWPE wrapper ~ package")
+        print("\n[py] >>  HWPE wrapper ~ package")
         return hwpe_package(
             temp_type = 'templates/acc_templ/hw/hwpe_wrapper/hwpe_package/',
             temp_top = 'hwpe_package.template_sv',

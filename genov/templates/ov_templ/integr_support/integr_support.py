@@ -13,11 +13,11 @@ from templates.ov_templ.integr_support.vsim_wave.top.vsim_wave import vsim_wave
 # Integration support
 class integr_support:
     def __init__(self):
-        print("\n>> Integration support ~ Retrieving components")
+        print("\n[py] >> Integration support ~ Retrieving components")
         self.path_common = ''
 
     def bender(self):
-        print("\n>> Integration support ~ bender")
+        print("\n[py] >> Integration support ~ bender")
         return bender(
             temp_type = 'templates/ov_templ/integr_support/bender/',
             temp_top = 'bender.template_yml',
@@ -26,7 +26,7 @@ class integr_support:
         ).top()
 
     def src_files(self):
-        print("\n>> HWPE standalone testbench ~ src_files")
+        print("\n[py] >> HWPE standalone testbench ~ src_files")
         return src_files(
             temp_type = 'templates/ov_templ/integr_support/src_files/',
             temp_top = 'src_files.template_yml',
@@ -35,7 +35,7 @@ class integr_support:
         ).top()
 
     def ips_list(self):
-        print("\n>> HWPE standalone testbench ~ ips_list")
+        print("\n[py] >> HWPE standalone testbench ~ ips_list")
         return ips_list(
             temp_type = 'templates/ov_templ/integr_support/ips_list/',
             temp_top = 'ips_list.template_yml',
@@ -44,7 +44,7 @@ class integr_support:
         ).top()
 
     def vsim_wave(self):
-        print("\n>> Integration support ~ QuestaSim waves")
+        print("\n[py] >> Integration support ~ QuestaSim waves")
         return bender(
             temp_type = 'templates/ov_templ/integr_support/vsim_wave/',
             temp_top = 'vsim_wave.template_wave_do',

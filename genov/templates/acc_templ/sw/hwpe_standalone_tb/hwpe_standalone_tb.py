@@ -12,11 +12,11 @@ from templates.acc_templ.sw.hwpe_standalone_tb.tb_hwpe.top.tb_hwpe import tb_hwp
 # HWPE wrapper - Software components for standalone testbench
 class hwpe_standalone_tb:
     def __init__(self):
-        print("\n>> HWPE standalone testbench ~ Retrieving software components")
+        print("\n[py] >>  HWPE standalone testbench ~ Retrieving software components")
         self.path_common = 'templates/acc_templ/sw/common/'
 
     def archi_hwpe(self):
-        print("\n>> HWPE standalone testbench ~ archi")
+        print("\n[py] >>  HWPE standalone testbench ~ archi")
         return archi_hwpe(
             temp_type = 'templates/acc_templ/sw/hwpe_standalone_tb/archi_hwpe/',
             temp_top = 'archi_hwpe.template_c',
@@ -30,7 +30,7 @@ class hwpe_standalone_tb:
         ).top()
 
     def hal_hwpe(self):
-        print("\n>> HWPE standalone testbench ~ hal")
+        print("\n[py] >>  HWPE standalone testbench ~ hal")
         return hal_hwpe(
             temp_type = 'templates/acc_templ/sw/hwpe_standalone_tb/hal_hwpe/',
             temp_top = 'hal_hwpe.template_c',
@@ -39,7 +39,7 @@ class hwpe_standalone_tb:
         ).top()
 
     def tb_hwpe(self):
-        print("\n>> HWPE standalone testbench ~ SW testbench")
+        print("\n[py] >>  HWPE standalone testbench ~ SW testbench")
         return tb_hwpe(
             temp_type = 'templates/acc_templ/sw/hwpe_standalone_tb/tb_hwpe/',
             temp_top = 'tb_hwpe.template_c',

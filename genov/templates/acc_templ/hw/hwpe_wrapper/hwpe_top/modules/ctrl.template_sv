@@ -63,7 +63,7 @@
   # maps streams to TCDM addresses. To define an address are
   # required num_regs_per_port parameters to be defined.
 
-  num_regs_per_port = 8
+  num_regs_per_port = 9
 
   # In case interface partitioning is employed, additional
   # parameters are added up to define the partitioned ports 
@@ -89,7 +89,7 @@
   # maps streams to TCDM addresses. To define an address are
   # required num_regs_per_port parameters to be defined.
 
-  num_regs_per_port = 8
+  num_regs_per_port = 9
 
   # In case interface partitioning is employed, additional
   # parameters are added up to define the partitioned ports 

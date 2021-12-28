@@ -1,14 +1,19 @@
+/* =====================================================================
+ * Project:      Overlay accelerator interface
+ * Title:        ov_acc_intf.sv
+ * Description:  The accelerator wrapper is generated and automatically 
+ *               integrated at system-level by means of an overlay accelerator 
+ *               interface (ov_acc_intf), that permits various different 
+ *               interconnection of the wrapper to the overlay infrastructure.
+ *
+ * $Date:        15.09.2021
+ *
+ * Target Processor: PULP cores
+ * ===================================================================== */
 /*
+ * Copyright (C) 2021 University of Modena and Reggio Emilia.
  *
- * HWPE specialization tool: Gianluca Bellocchi <gianluca.bellocchi@unimore.it>
- *
- * Module: ov_acc_intf.sv
- * 
- * Overlay Accelerator Interface.
- * The wrapper is generated and automatically integrated at system-level
- * using the Accelerator Wrapper Generator (GenAcc). The latter instantiates
- * an overlay accelerator interface (ov_acc_intf), that permits the connection 
- * of the wrapper to the logarithmic interconnect of the overlay cluster.
+ * Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
  *
  */
 
