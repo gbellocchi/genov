@@ -40,7 +40,19 @@ q_correctness()
     select yn in "yes" "no"; do
       case $yn in
         yes ) 	break;;
-        no ) 	  error_exit "Environment error!";;
+        no ) 	  error_exit "[sh] >> Environment error!";;
       esac
     done
+}
+
+check_env_var()
+{
+    variable_name=$1
+    variable_value=$2
+
+    if [[ -z "$variable_value" ]]; then
+      error_exit "[sh] >> $variable_name is not defined yet. Please correct this!\n"
+    else
+      echo "[sh] >> $variable_name defined at $variable_value"
+    fi
 }

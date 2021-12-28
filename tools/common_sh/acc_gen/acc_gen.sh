@@ -190,7 +190,7 @@ gen_acc_configs()
         check_acc_out
 
         if [ "$is_gen" == "false" ]; then
-            # Generate target
+            # Generate target accelerator wrapper
             make --silent acc_gen_get_engine TARGET_ACC=${acc_targets[$c]}
             make --silent acc_gen_out_env TARGET_ACC=${acc_targets[$c]}
             make --silent acc_gen_run TARGET_ACC=${acc_targets[$c]}
@@ -236,7 +236,7 @@ if [ -f ${CONFIG_FILE} ]; then
     optimize_ov_specs
 
     # Generate accelerator wrappers
-    # gen_acc_configs
+    gen_acc_configs
 else
     echo "No accelerator configuration found in $dir_ov_dev"
 fi

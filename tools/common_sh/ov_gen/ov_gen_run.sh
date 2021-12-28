@@ -21,11 +21,7 @@ readonly dir_out=$2
 # Activate environment
 source $dir_py_venv/bin/activate
 
-# Get source components (see Makefile recipe deps)
-echo -e "[sh] >> Retrieving target engine from accelerator library"
-
 # Run generator
-echo -e "[sh] >> Generation of accelerator-rich overlay"
 cd genov && python genov.py
 
 # Deactivate environment

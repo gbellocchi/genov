@@ -92,10 +92,19 @@ gen_acc_wrappers()
 #               on the basis of the application needs.
 # =====================================================================
 
-# gen_overlay()
-# {
+gen_overlay()
+{
+    echo -e ""
+    echo "# ====================================== #"
+    echo "# Generation of accelerator-rich overlay #"
+    echo "# ====================================== #"
+    echo -e ""
 
-# }
+    # Generate target overlay
+    cd $dir_root
+    make --silent ov_gen_out_env
+    make --silent ov_gen_run
+}
 
 # ======= #
 # Program #
@@ -125,6 +134,9 @@ fetch_ov_specs
 
 # Generate accelerator wrappers
 gen_acc_wrappers
+
+# Generate overlay
+gen_overlay
 
 # Deactivate environment
 deactivate

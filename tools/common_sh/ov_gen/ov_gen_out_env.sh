@@ -28,6 +28,8 @@ mkdir ${dir_out_ov}
 # ======================================== #
 
 mkdir ${dir_out_ov}/hw
+mkdir ${dir_out_ov}/hw/overlay
+mkdir ${dir_out_ov}/hw/overlay_tb
 
 # ========================================================= #
 # Create filesystem for generated integration support files #

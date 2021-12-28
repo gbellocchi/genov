@@ -23,11 +23,17 @@ readonly OVERLAY_SRC=$2
 readonly OVERLAY_CLUSTER=$3
 readonly OVERLAY_TEST=$4
 
-echo -e ">> Exporting accelerator package to perform system-level optimization."
+# echo "$OUT_DIR"
+# echo "$OVERLAY_SRC"
+# echo "$OVERLAY_CLUSTER"
+# echo "$OVERLAY_TEST"
+
+echo -e "[sh] >> Exporting accelerator package to perform system-level optimization."
 cp ${OUT_DIR}/hw/overlay/ov_acc_pkg.sv ${OVERLAY_SRC}/
 
-echo -e ">> Exporting accelerator interface to perform system-level integration."
-cp ${OUT_DIR}/hw/overlay/ov_acc_intf.sv ${OVERLAY_CLUSTER}/
+# echo -e "[sh] >> Exporting accelerator interface to perform system-level integration."
+# cp ${OUT_DIR}/hw/overlay/ov_acc_intf.sv ${OVERLAY_CLUSTER}/
 
-echo -e ">> Exporting Modelsim wave script to perform system-level testing."
-cp ${OUT_DIR}/integr_support/pulp_tb.wave.do ${OVERLAY_TEST}/
+echo -e "[sh] >> Exporting Modelsim wave script to perform system-level testing."
+cp ${OUT_DIR}/hw/overlay_tb/tb_ov.sv ${OVERLAY_TEST}/
+# cp ${OUT_DIR}/integr_support/pulp_tb.wave.do ${OVERLAY_TEST}/
