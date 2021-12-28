@@ -2,13 +2,9 @@
  =====================================================================
  Project:      Accelerator-Rich Overlay Generator (AROG)
  Title:        optimizer.py
- Description:  This routine is invoked during generation of application-specific
+ Description:  The Optimizer class is invoked during generation of application-specific
                accelerators to extract system-level optimization parameters from 
-               the kernel specifications. The derived parameters are iteratively 
-               saved into an "optimizer" class that gets saved (see use of package
-               "pickle") and re-invoked at each routine invocation. Once all
-               kernels are investigated, the overlay specification class is updated
-               with the derived parameters.
+               the kernel specifications. 
 
  Date:         7.12.2021
  ===================================================================== */
@@ -30,24 +26,15 @@ import os.path
 from dev.ov_dev.specs.ov_specs import ov_specs
 
 '''
-    Import application-specific accelerator specification.
-    'TARGET_ACC' is a shell variable defined by the script "acc_gen_config.sh".
-'''
-
-acc_target = os.environ['TARGET_ACC']
-module_name = "dev.acc_dev." + acc_target + ".specs.acc_specs"
-acc_specs = import_module(module_name)
-
-'''
     ===============
     Optimizer class
     ===============
 '''
 
-class optimizer(ov_specs):
+class Optimizer(ov_specs):
 
     """
-        The optimizer class is responsible of deriving system-level optimization
+        The Optimizer class is responsible of deriving system-level optimization
         parameters on the basis of the accelerator kernel specifications. This
         process is transparent to the user that defines the accelerator and overlay
         specifications themselves. At the end, derived system-level parameters are
@@ -69,12 +56,13 @@ class optimizer(ov_specs):
         self.n_clusters = 0
 
     def log(self):
-        print("Optimizer has derived the following system specifications:")
         print("\t- Number of clusters:", self.n_clusters)
         for cl in self.list_clusters:
             print("\t- Cluster #", self.list_clusters.index(cl), ":")
             print("\t\tInterconnect topology:", cl[0])
-            print("\t\tNumber of data ports:", cl[1])
+            print("\t\tAccelerator names:", cl[2])
+            print("\t\tAccelerator data ports:", cl[3])
+            print("\t\tAccelerator data ports (total):", cl[1])
 
     '''
         Obtain user-defined system-level specification concerning the target accelerator kernel.
@@ -134,10 +122,11 @@ class optimizer(ov_specs):
     def opt_clustering(self, overlay_acc_specs, standalone_acc_specs):
 
         # extract specifications concerning system-level accelerator interconnection
+        acc_to_cluster          = overlay_acc_specs.target
         acc_interco_type        = overlay_acc_specs.connection_type
 
         # calculate number of required data ports
-        n_data_ports            = self.calc_data_ports(standalone_acc_specs)
+        acc_n_data_ports        = self.calc_data_ports(standalone_acc_specs)
 
         # derive how many clusters are needed
 
@@ -148,15 +137,17 @@ class optimizer(ov_specs):
             [is_first, shared_cl] = self.is_first_shared_cl(acc_interco_type)
 
             if(is_first is False):
-                shared_cl[1] += n_data_ports
+                shared_cl[1] += acc_n_data_ports
+                shared_cl[2].append(acc_to_cluster)
+                shared_cl[3].append(acc_n_data_ports)
             else:
-                self.list_clusters.append([acc_interco_type, n_data_ports])
+                self.list_clusters.append([acc_interco_type, acc_n_data_ports, [acc_to_cluster], [acc_n_data_ports]])
 
         # 2) private LIC clusters
         elif(acc_interco_type is 'private_lic'):
 
             print("[py] >> Interconnection method ~  Dedicated LIC")
-            self.list_clusters.append([acc_interco_type, n_data_ports])
+            self.list_clusters.append([acc_interco_type, acc_n_data_ports, [acc_to_cluster], [acc_n_data_ports]])
 
         # 3) shared HCI clusters
         elif(acc_interco_type is 'shared_hci'):
@@ -165,9 +156,11 @@ class optimizer(ov_specs):
             [is_first, shared_cl] = self.is_first_shared_cl(acc_interco_type)
 
             if(is_first is False):
-                shared_cl[1] += n_data_ports
+                shared_cl[1] += acc_n_data_ports
+                shared_cl[2].append(acc_to_cluster)
+                shared_cl[3].append(acc_n_data_ports)
             else:
-                self.list_clusters.append([acc_interco_type, n_data_ports])
+                self.list_clusters.append([acc_interco_type, acc_n_data_ports, [acc_to_cluster], [acc_n_data_ports]])
 
         # 4) unknown topology
         else:
@@ -177,128 +170,34 @@ class optimizer(ov_specs):
         # count number of clusters
         self.n_clusters = len(self.list_clusters)
 
-# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  #
-
-'''
-    ========================
-    Open optimizer chekpoint
-    ========================
-'''
-
-def get_checkpoint(filename):
-
-    if os.path.isfile(filename):
-
-        '''
-            Resume optimizer.
-        '''
-
-        print("[py] >> Resuming optimizer state")
-        with open(filename, 'rb') as inp:
-            obj_opt = pickle.load(inp)
-
-    else:
-        
-        '''
-            Invoke optimizer for the first time.
-        '''
-
-        print("[py] >> First invocation of optimizer state")
-        obj_opt = optimizer()
-
-    return obj_opt
-
-'''
-    ========================
-    Save optimizer chekpoint
-    ========================
-'''
-
-def save_checkpoint(filename, obj_opt):
-    
     '''
-        Save optimizer state.
+        Format optimized specifications in a simplified form to ease the templating stage.
     '''
 
-    print("[py] >> Saving optimizer state")
-    with open(filename, 'wb') as outp:
-        pickle.dump(obj_opt, outp, pickle.HIGHEST_PROTOCOL)
+    def formatting(self):
+        self.clusters_formatted()
 
-# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  #
+    '''
+        Format cluster information.
+    '''
 
-'''
-    ====================
-    Optimization routine
-    ====================
-'''
-
-'''
-    Obtain accelerator offset.
-    'OFFSET_ACC' is a shell variable defined by the script "acc_gen_config.sh".
-    it is the pointer to the i-th accelerator in the generation process.
-'''
-
-acc_offset = os.environ['OFFSET_ACC']
-acc_number = os.environ['N_ACC']
-
-'''
-    File where to save optimizer state.
-'''
- 
-filename = 'state_optimizer.obj'
-
-'''
-    Initialize or resume optimization from checkpoint.
-'''
-
-obj_optimizer = get_checkpoint(filename)
-
-'''
-    Update optimizer offset.
-'''
-
-obj_optimizer.offset = int(acc_offset)
-
-'''
-    Obtain accelerator wrapper specification.
-'''
-
-print("\n[py] >> ACCELERATOR TARGET", obj_optimizer.offset + 1, "OUT OF", acc_number)
-
-print("[py] >> Fetching user-defined wrapper specification")
-standalone_acc_specs = acc_specs.acc_specs()
-
-'''
-    Obtain system-level accelerator specification.
-'''
-
-print("[py] >> Fetching user-defined and partially optimized system specification")
-overlay_acc_specs = obj_optimizer.get_acc_specs_method(standalone_acc_specs.target)
-
-'''
-    Optimizing accelerator clustering. This optimization phase permits
-    to gather:
-
-        1) A list of clusters with attached information about:
-
-            - Interconnect topology
-            - Number of data ports (hp: 32b)
-
-        2) Overall number of clusters
-'''
-
-obj_optimizer.opt_clustering(overlay_acc_specs, standalone_acc_specs)
-
-'''
-    Save optimization checkpoint.
-'''
-
-save_checkpoint(filename, obj_optimizer)
-
-'''
-    Final log.
-'''
-
-if obj_optimizer.offset is (int(acc_number)-1):
-    print("\n[py] >> END OF OPTIMIZATION ")
-    obj_optimizer.log()
+    def clusters_formatted(self):
+        '''
+            Each of the following elements refer to a different cluster.
+            This is achieved with lists where element offsets are associated
+            to different clusters.
+        '''
+        # interconnect type 
+        self.cl_interco = []
+        # overall number of accelerator data ports 
+        self.cl_n_data_ports = []
+        # names associated with single clustered accelerators 
+        self.cl_acc_names = []
+        # number of data ports of clustered accelerators
+        self.cl_acc_n_data_ports = []
+        # extract parameters from methods
+        for t in self.list_clusters:
+            self.cl_interco.append(t[0])
+            self.cl_n_data_ports.append(t[1])
+            self.cl_acc_names.append(t[2])
+            self.cl_acc_n_data_ports.append(t[3])
