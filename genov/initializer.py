@@ -35,12 +35,15 @@ f = open("dev/ov_dev/acc_config.cfg", "w")
 
 # Extract information from overlay specification 
 
+acc_methods = ov_specs.get_targets_list()
+
 # - Number of accelerators
-f.write("N_ACC=" + str(ov_specs.n_acc) + "\n")
+f.write("N_ACC=" + str(len(acc_methods)) + "\n")
 
 # - Accelerator targets 
 i = 0
-for t in ov_specs.get_targets_list():
+for t in acc_methods:
     f.write("TARGET_ACC_" + str(i) + "=" + t().target + "\n")
     i += 1
+
 f.close()

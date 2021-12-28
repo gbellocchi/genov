@@ -143,9 +143,9 @@ def gencomps(temp_obj, descr, out_dir):
     emitter.out_gen(out_target, filename, out_dir)
 
 '''
-    =========
-    Generator
-    =========
+    =============================
+    Accelerator wrapper generator
+    =============================
 
     Instantiate generator item
 '''
@@ -312,7 +312,7 @@ hwpe_standalone_tb_hw = hwpe_standalone_tb_hw()
 gencomps(
     hwpe_standalone_tb_hw.tb_hwpe(),
     ['tb', 'tb_hwpe', ['hw', 'rtl']],
-    emitter.out_hw_standalone_tb
+    emitter.out_hw_tb_standalone
 )
 
 '''
@@ -336,7 +336,7 @@ hwpe_standalone_tb_sw = hwpe_standalone_tb_sw()
 gencomps(
     hwpe_standalone_tb_sw.archi_hwpe(),
     ['sw', 'archi_hwpe', ['sw', 'archi']],
-    emitter.out_sw_standalone_hwpe_lib
+    emitter.out_sw_tb_standalone_hwpe_lib
 )
 
 '''
@@ -348,7 +348,7 @@ gencomps(
 gencomps(
     hwpe_standalone_tb_sw.hal_hwpe(),
     ['sw', 'hal_hwpe', ['sw', 'hal']],
-    emitter.out_sw_standalone_hwpe_lib
+    emitter.out_sw_tb_standalone_hwpe_lib
 )
 
 '''
@@ -362,5 +362,5 @@ gencomps(
 gencomps(
     hwpe_standalone_tb_sw.tb_hwpe(),
     ['sw', 'tb_hwpe', ['sw', 'tb']],
-    emitter.out_sw_standalone
+    emitter.out_sw_tb_standalone
 )

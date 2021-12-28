@@ -65,12 +65,17 @@ if ov_specs is not None:
 
             # Hardware ~ Overlay
             self.out_hw_ov                      = self.ov_gen_hw + '/overlay'
+            self.out_hw_ov_rtl                  = self.out_hw_ov + '/rtl'
+            self.out_hw_ov_wrap                 = self.out_hw_ov + '/include'
 
-            # Software ~ HWPE system-level tb (SW)
-            self.out_sw_ov                      = self.ov_gen_sw + '/hwpe_ov_tb'
-            self.out_sw_ov_inc                  = self.out_sw_ov + '/inc'
-            self.out_sw_ov_stim                 = self.out_sw_ov_inc + '/stim'
-            self.out_sw_ov_hwpe_lib             = self.out_sw_ov_inc + '/hwpe_lib'
+            # Hardware ~ Overlay tb (HW)
+            self.out_hw_tb_ov                   = self.ov_gen_hw + '/overlay_tb'
+
+            # Software ~ Overlay tb (SW)
+            self.out_sw_tb_ov                   = self.ov_gen_sw + '/hwpe_ov_tb'
+            self.out_sw_tb_ov_inc               = self.out_sw_tb_ov + '/inc'
+            self.out_sw_tb_ov_stim              = self.out_sw_tb_ov_inc + '/stim'
+            self.out_sw_tb_ov_hwpe_lib          = self.out_sw_tb_ov_inc + '/hwpe_lib'
 
         """
         The 'out_gen' method is in charge of physically setting up the output 
@@ -236,14 +241,14 @@ if acc_specs is not None:
             self.out_hw_hwpe_acc_kernel         = self.out_hw_hwpe_rtl + '/acc_kernel'
 
             # Hardware ~ HWPE standalone tb (HW)
-            self.out_hw_standalone_tb           = self.acc_gen_hw + '/hwpe_standalone_tb'
+            self.out_hw_tb_standalone           = self.acc_gen_hw + '/hwpe_standalone_tb'
 
             # Software ~ HWPE standalone tb (SW)
-            self.out_sw_standalone              = self.acc_gen_sw + '/hwpe_standalone_tb'
-            self.out_sw_standalone_inc          = self.out_sw_standalone + '/inc'
-            self.out_sw_standalone_stim         = self.out_sw_standalone_inc + '/stim'
-            self.out_sw_standalone_ref_sw       = self.out_sw_standalone_inc + '/ref_sw'
-            self.out_sw_standalone_hwpe_lib     = self.out_sw_standalone_inc + '/hwpe_lib'
+            self.out_sw_tb_standalone           = self.acc_gen_sw + '/hwpe_standalone_tb'
+            self.out_sw_tb_standalone_inc       = self.out_sw_tb_standalone + '/inc'
+            self.out_sw_tb_standalone_stim      = self.out_sw_tb_standalone_inc + '/stim'
+            self.out_sw_tb_standalone_ref_sw    = self.out_sw_tb_standalone_inc + '/ref_sw'
+            self.out_sw_tb_standalone_hwpe_lib  = self.out_sw_tb_standalone_inc + '/hwpe_lib'
 
         """
         The 'out_gen' method is in charge of physically setting up the output 
