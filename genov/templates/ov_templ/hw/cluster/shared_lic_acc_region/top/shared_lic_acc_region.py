@@ -1,6 +1,6 @@
 '''
  =====================================================================
- Project:       Shared LIC accelerator region
+ Project:       Overlay templates
  Title:         shared_lic_acc_region.py
  Description:   The accelerator region is connected to the overlay 
                 infrastructure by means of a shared logarithmic 
@@ -20,6 +20,6 @@
 
 from collector import collector
 
-class shared_lic_acc_region(collector):
+class SharedLicAccRegion(collector):
     def top(self):
         return self.get_template()

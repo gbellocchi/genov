@@ -1,6 +1,6 @@
 <%
 # =====================================================================
-# Project:      Overlay templates
+# Project:      Shared LIC accelerator region
 # Title:        ov_shared_lic_acc_region.template_sv
 # Description:  Definition of accelerator region module through the 
 #               template API "def_acc_region_module". The module interfaces
@@ -49,5 +49,5 @@
         cl_offset = cl_interco.index(interco)
 %>
 
-${def_ip_acc_region_module(cl_offset)}
-${insert_ip_hwpe_acc_intf(cl_offset)}
+${def_ip_acc_region(cl_offset)}
+${insert_ip_hwpe_intf(cl_offset)}

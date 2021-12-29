@@ -1,6 +1,6 @@
 <%
 # =====================================================================
-# Project:      Overlay templates
+# Project:      Shared LIC accelerator region
 # Title:        acc_region.template_sv
 # Description:  Accelerator region (Shared LCI)
 #
@@ -18,7 +18,7 @@
 
 <%
 # =====================================================================
-# Title:        def_ip_acc_region_module
+# Title:        def_ip_acc_region
 # Type:         Template API
 # Description:  Interface to PULP-based overlay cluster. Definition of 
 #               module interface to the shared LIC inside an overlay 
@@ -26,7 +26,7 @@
 # =====================================================================
 %>
 
-<%def name="def_ip_acc_region_module(cl_offset)">\
+<%def name="def_ip_acc_region(cl_offset)">\
 
   <%
     # Count number of wrappers

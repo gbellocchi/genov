@@ -1,7 +1,7 @@
 <%
 # =====================================================================
-# Project:      Overlay templates
-# Title:        hwpe_acc_intf.template_sv
+# Project:      Shared LIC accelerator region
+# Title:        hwpe_intf.template_sv
 # Description:  HWPE-based accelerator interface (Shared LCI)
 #
 # $Date:        29.12.2021
@@ -18,7 +18,7 @@
 
 <%
 # =====================================================================
-# Title:        insert_ip_hwpe_acc_intf
+# Title:        insert_ip_hwpe_intf
 # Type:         Template API
 # Description:  Interface to HWPE-based accelerator wrapper. Instantiation 
 #               of HWPE-based accelerator wrapper(-s) connected to the 
@@ -26,7 +26,7 @@
 # =====================================================================
 %>
 
-<%def name="insert_ip_hwpe_acc_intf(cl_offset)">\
+<%def name="insert_ip_hwpe_intf(cl_offset)">\
 
   <%
     # Count number of wrappers
@@ -34,7 +34,7 @@
     n_acc_cl = len(cl_acc_names[cl_offset])
   %>
 
-    logic [NB_HWPE-1:0] busy_acc;
+  logic [NB_HWPE-1:0] busy_acc;
 
   % for i in range(n_acc_cl):
     % if cl_acc_protocols[cl_offset][i] == "hwpe":
@@ -45,36 +45,36 @@
         acc_offset = i
       %>
 
-    /* ---------------------------------------------------------- */
+  /* ---------------------------------------------------------- */
 
-    /* Interface to accelerator #${acc_offset}. */
+  /* Interface to accelerator #${acc_offset}. */
 
-    ${def_param_master_port_idx(cl_offset, acc_offset)}
+  ${def_param_master_port_idx(cl_offset, acc_offset)}
 
-    shared_lic_acc_intf #( 
-      .N_CORES          ( NB_CORES  ),
-      .N_HWPE_PORTS     ( NB_HWPE_PORTS_${acc_offset}   ),
-      .ID_WIDTH         ( ID_WIDTH )
-    ) i_shared_lic_acc_intf_${acc_offset} (
-      .clk              ( clk                                         ),
-      .rst_n            ( rst_n                                       ),
-      .test_mode        ( test_mode                                   ),
-      .hwpe_mst         ( hwacc_xbar_master[mst_idx_${acc_offset}_H:mst_idx_${acc_offset}_L]  ), 
-      .hwpe_slv         ( hwacc_cfg_slave[${acc_offset}]                          ), 
-      .evt_o            ( evt_o[${acc_offset}]                                    ),
-      .busy_o           ( busy_acc[${acc_offset}]                                 ) 
-    );
+  ${cl_acc_names[cl_offset][acc_offset]}_hwpe_intf #( 
+    .N_CORES          ( NB_CORES  ),
+    .N_HWPE_PORTS     ( NB_HWPE_PORTS_${acc_offset}   ),
+    .ID_WIDTH         ( ID_WIDTH )
+  ) i_hwpe_intf (
+    .clk              ( clk                                         ),
+    .rst_n            ( rst_n                                       ),
+    .test_mode        ( test_mode                                   ),
+    .hwpe_mst         ( hwacc_xbar_master[mst_idx_${acc_offset}_H:mst_idx_${acc_offset}_L]  ), 
+    .hwpe_slv         ( hwacc_cfg_slave[${acc_offset}]                          ), 
+    .evt_o            ( evt_o[${acc_offset}]                                    ),
+    .busy_o           ( busy_acc[${acc_offset}]                                 ) 
+  );
 
-    assign busy_acc[${acc_offset}] = 1'b1;
+  assign busy_acc[${acc_offset}] = 1'b1;
 
-    % endif
-  % endfor
+  % endif
+% endfor
 
-    /* ---------------------------------------------------------- */
+  /* ---------------------------------------------------------- */
 
-    ${proc_signal_busy_o(n_acc_cl)}
+  ${proc_signal_busy_o(n_acc_cl)}
 
-  endmodule
+endmodule
 
 </%def>
 
@@ -140,8 +140,8 @@
     # Definition and initialization of shared LIC port indices
   %>
 
-    parameter mst_idx_${acc_offset}_H = ${str_H};
-    parameter mst_idx_${acc_offset}_L = ${str_L};
+  parameter mst_idx_${acc_offset}_H = ${str_H};
+  parameter mst_idx_${acc_offset}_L = ${str_L};
     
 </%def>
 
