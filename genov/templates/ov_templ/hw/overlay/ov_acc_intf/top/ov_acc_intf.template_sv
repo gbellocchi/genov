@@ -18,13 +18,21 @@
  */
 
 <%
-###############################################################
-## Accelerator interface - Cluster logarithmic interconnect  ##
-###############################################################
+##############################################################
+## Accelerator interface - Shared logarithmic interconnect  ##
+##############################################################
 %>
 
-${cl_log_interco_ip_intf()}
+<%
+    # Determine cluster offset
+
+    for interco in cl_interco:
+      if (interco=='shared_lic'):
+        cl_offset = cl_interco.index(interco)
+%>
+
+${shared_lic_cl_intf(cl_offset)}
 
     /* HWPE-based acceleration wrapper */
 
-${cl_log_interco_ip_body()}
+${shared_lic_hwpe_wrapper_intf(cl_offset)}
