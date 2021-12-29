@@ -1,0 +1,84 @@
+<%
+# =====================================================================
+# Project:      Cluster package
+# Title:        cl_pkg.template_sv
+# Description:  Packages compliant with hardware accelerator parameters.
+#
+# $Date:        29.12.2021
+#
+# Generator:    genov
+# =====================================================================
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+#
+# =====================================================================
+%>
+
+<%
+# =====================================================================
+# Title:        def_param_hwpe_region
+# Type:         Template API
+# Description:  Definition of parameters for HWPE-based accelerator 
+#               wrappers in the accelerator region.
+# =====================================================================
+%>
+
+<%def name="def_param_hwpe_region(cl_offset)">\
+
+  <%
+    # Count number of HWPE-based wrappers.
+
+    n_hwpe_wrappers = 0
+    
+    for acc_prot in cl_acc_protocols[cl_offset]:
+      if acc_prot == "hwpe":
+        n_hwpe_wrappers += 1
+  %>
+
+  % if (n_hwpe_wrappers>0):
+  localparam bit HWPE_PRESENT               = 1'b1;
+  % else:
+  localparam bit HWPE_PRESENT               = 1'b0;
+  % endif
+
+  localparam int N_HWPE                     = ${n_hwpe_wrappers};
+
+</%def>\
+
+<%
+# =====================================================================
+# Title:        def_param_hwpe_interface
+# Type:         Template API
+# Description:  Definition of parameters for the interconnection of 
+#               HWPE-based accelerator wrappers.
+# =====================================================================
+%>
+
+<%def name="def_param_hwpe_interface(cl_offset)">\
+
+  <%
+
+    # Count number of wrappers
+
+    n_acc_cl = len(cl_acc_names[cl_offset])
+
+    # Count number of data ports associated to HWPE-based wrappers
+
+    n_hwpe_ports_total = 0
+    
+    for i in range(n_acc_cl):
+      if cl_acc_protocols[cl_offset][i] == "hwpe":
+        n_hwpe_ports_total += cl_acc_n_data_ports[cl_offset][i]
+  %>
+
+  localparam int unsigned N_HWPE_PORTS_TOTAL    = ${n_hwpe_ports_total};
+  % for i in range(n_acc_cl):
+    % if cl_acc_protocols[cl_offset][i] == "hwpe":
+  localparam int N_HWPE_PORTS_ACC_${i}        = ${cl_acc_n_data_ports[cl_offset][i]};
+    % endif
+  % endfor
+
+</%def>\
+
