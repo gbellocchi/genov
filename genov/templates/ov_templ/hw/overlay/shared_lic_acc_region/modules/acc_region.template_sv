@@ -1,0 +1,75 @@
+<%
+# =====================================================================
+# Project:      Overlay templates
+# Title:        acc_region.template_sv
+# Description:  Accelerator region (Shared LCI)
+#
+# $Date:        29.12.2021
+#
+# Generator:    genov
+# =====================================================================
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+#
+# =====================================================================
+%>
+
+<%
+# =====================================================================
+# Title:        def_ip_acc_region_module
+# Type:         Template API
+# Description:  Interface to PULP-based overlay cluster. Definition of 
+#               module interface to the shared LIC inside an overlay 
+#               cluster.
+# =====================================================================
+%>
+
+<%def name="def_ip_acc_region_module(cl_offset)">\
+
+  <%
+    # Count number of wrappers
+
+    n_acc_cl = len(cl_acc_names[cl_offset])
+  %>
+
+  module shared_lic_acc_region
+  #(
+    // Cluster
+    parameter NB_CORES = 2,
+    parameter ID_WIDTH = 8,
+
+    // Accelerators
+    localparam int NB_HWPE = N_HWPE,
+
+    // Master ports
+    % for i in range(n_acc_cl):
+    localparam int NB_HWPE_PORTS_${i}   = N_HWPE_PORTS_${i},
+    % endfor
+    localparam int NB_HWPE_PORTS_TOTAL  = N_HWPE_PORTS_TOTAL,
+
+    // Other params
+    parameter N_DMA = 4,
+    parameter N_EXT = 4,
+    parameter N_MEM = 16,
+    parameter N_MASTER_PORT = 4,
+    parameter DEFAULT_DW = 32,
+    parameter DEFAULT_AW = 32,
+    parameter DEFAULT_BW = 8,
+    parameter DEFAULT_WW = 10,
+    parameter AWH = DEFAULT_AW
+  )
+  (
+    input  logic                                        clk,
+    input  logic                                        rst_n,
+    input  logic                                        test_mode,
+
+    XBAR_TCDM_BUS.Master                                hwacc_xbar_master[NB_HWPE_PORTS_TOTAL-1:0],
+    XBAR_PERIPH_BUS.Slave                               hwacc_cfg_slave[NB_HWPE-1:0],
+    
+    output logic [NB_HWPE-1:0][NB_CORES-1:0][1:0]       evt_o,
+    output logic                                        busy_o
+  );
+
+</%def>
