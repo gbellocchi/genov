@@ -1,0 +1,69 @@
+<%
+# =====================================================================
+# Project:      Accelerator interface
+# Title:        acc_intf.template_sv
+# Description:  The accelerator interface is positioned in between an 
+#               accelerator region and top module of an accelerator 
+#               wrapper. The goal of the IP is to decompose the crossbar
+#               TCDM master interface (from the overlay cluster) into
+#               the single signals of the TCDM communication protocol.
+#
+# $Date:        29.12.2021
+#
+# Generator:    genov
+# =====================================================================
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+#
+# =====================================================================
+%>
+
+/* =====================================================================
+ * Project:      Accelerator interface
+ * Title:        acc_intf.template_sv
+ * Description:  The accelerator interface is positioned in between an 
+ *               accelerator region and top module of an accelerator 
+ *               wrapper. The goal of the IP is to decompose the crossbar
+ *               TCDM master interface (from the overlay cluster) into
+ *               the single signals of the TCDM communication protocol.
+ *
+ * $Date:        29.12.2021
+ *
+ * Target Processor: PULP cores
+ * ===================================================================== */
+/*
+ * Copyright (C) 2021 University of Modena and Reggio Emilia.
+ *
+ * Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+ *
+ */
+
+<%
+    # Determine cluster offset
+
+    for interco in cl_interco:
+      if (interco=='shared_lic'):
+        cl_offset = cl_interco.index(interco)
+
+    # Count number of wrappers
+
+    n_acc_cl = len(cl_acc_names[cl_offset])
+%>
+
+% for i in range(n_acc_cl):
+
+    <%
+      # Define accelerator offset
+
+      acc_offset = i
+    %>
+
+  % if cl_acc_protocols[cl_offset][acc_offset] == "hwpe":
+
+${def_ip_hwpe_intf(cl_offset, acc_offset)}
+${insert_ip_hwpe_wrapper(cl_offset, acc_offset, n_acc_cl)}
+
+  % endif
+% endfor
