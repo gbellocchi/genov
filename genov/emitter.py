@@ -44,7 +44,7 @@ if ov_specs is not None:
         parent class 'ov_specs'. Other than the latter, the paths to the output
         environment are specified. 
         """
-        def __init__(self):
+        def __init__(self, dir_out_ov):
             # inherit
             super().__init__()
 
@@ -55,27 +55,26 @@ if ov_specs is not None:
 
             '''
                 Output environment ~ Generated overlay
+
+                This set of parameters describe the output environment
+                where the generated overlay components are inserted. The
+                parameters should match to the hierarchy of directories
+                defined in the tool script "ov_gen_out_env.sh".
             '''
 
-            self.ov_gen                         = 'ov_gen'
+            self.out_ov                         = dir_out_ov
 
-            self.ov_gen_hw                      = self.out_dir + '/' + self.ov_gen + '/hw'
-            self.ov_gen_sw                      = self.out_dir + '/' + self.ov_gen + '/sw'
-            self.ov_gen_acc_int                 = self.out_dir + '/' + self.ov_gen + '/integr_support'
+            # Hardware
+            self.ov_gen_cl                      = self.out_ov + '/clusters'
 
-            # Hardware ~ Overlay
-            self.out_hw_ov                      = self.ov_gen_hw + '/overlay'
-            self.out_hw_ov_rtl                  = self.out_hw_ov + '/rtl'
-            self.out_hw_ov_wrap                 = self.out_hw_ov + '/include'
+            # Test and validation
+            self.out_ov_test                    = self.out_ov + '/test'
 
-            # Hardware ~ Overlay tb (HW)
-            self.out_hw_tb_ov                   = self.ov_gen_hw + '/overlay_tb'
-
-            # Software ~ Overlay tb (SW)
-            self.out_sw_tb_ov                   = self.ov_gen_sw + '/hwpe_ov_tb'
-            self.out_sw_tb_ov_inc               = self.out_sw_tb_ov + '/inc'
-            self.out_sw_tb_ov_stim              = self.out_sw_tb_ov_inc + '/stim'
-            self.out_sw_tb_ov_hwpe_lib          = self.out_sw_tb_ov_inc + '/hwpe_lib'
+            # System testbench
+            self.out_ov_tb                      = self.out_ov + '/test/overlay_tb'
+            self.out_ov_tb_sw                   = self.out_ov + '/test/overlay_tb/sw'
+            self.out_ov_tb_inc                  = self.out_ov + '/test/overlay_tb/sw/inc'
+            self.out_ov_tb_hwpe_lib             = self.out_ov + '/test/overlay_tb/sw/inc/hwpe_lib'
 
         """
         The 'out_gen' method is in charge of physically setting up the output 
@@ -84,26 +83,28 @@ if ov_specs is not None:
         The input arguments are:
 
         - 'out_target' ~ Generated design component. Typically an output string from 
-        an emitter item.
+        a generator item.
 
         - 'filename' ~ Name of generated design component. Typically an output string from 
-        a generator item.
+        an emitter item.
 
         - 'filedir' ~ Target directory. Either a custom string or one of those defined 
         in the emitter constructor.
         """
         def out_gen(self, out_target, filename, filedir):
-            print("\nExporting generated item (", filename, ") to target destination (", filedir, ")")
-            if(os.path.isdir(filename)):
-                source = filename
-                destination = filedir
-                shutil.copytree(source, destination)
-            else:
-                with open(filename, "w") as f:
-                    f.write(out_target)
-                source = filename
-                destination = filedir
-                shutil.move(source, destination)
+            try:
+                if(os.path.isdir(filename)):
+                    source = filename
+                    destination = filedir
+                    shutil.copytree(source, destination)
+                else:
+                    destination_file = os.path.join(filedir, filename)
+                    print(destination_file)
+                    with open(destination_file, "w") as f:
+                        f.write(out_target)
+                print("\nExporting generated item (", filename, ") to target destination (", filedir, ")")
+            except shutil.Error as err:
+                print("\nGenerated item (", filename, ") already exists at target destination (", filedir, ")")
 
         """
         The 'get_file_name' method gets information about the features of the
@@ -224,7 +225,7 @@ if acc_specs is not None:
         parent class 'acc_specs'. Other than the latter, the paths to the output
         environment are specified. 
         """
-        def __init__(self):
+        def __init__(self, dir_out_hwpe):
             # inherit
             super().__init__()
 
@@ -235,28 +236,28 @@ if acc_specs is not None:
 
             '''
                 Output environment ~ Generated accelerator
+
+                This set of parameters describe the output environment
+                where the generated accelerator wrapper is inserted. The
+                parameters should match to the hierarchy of directories
+                defined in the tool script "acc_gen_out_env.sh".
             '''
             
-            self.acc_gen                        = 'acc_gen/' + self.target
+            self.out_hwpe                       = os.path.join(dir_out_hwpe, self.target)
 
-            self.acc_gen_hw                     = self.out_dir + '/' + self.acc_gen + '/hw'
-            self.acc_gen_sw                     = self.out_dir + '/' + self.acc_gen + '/sw'
+            # Hardware
+            self.out_hwpe_wrap                  = self.out_hwpe + '/wrap'
+            self.out_hwpe_rtl                   = self.out_hwpe + '/rtl'
+            self.out_hwpe_acc_kernel            = self.out_hwpe + '/rtl/acc_kernel'
 
-            # Hardware ~ HWPE wrapper
-            self.out_hw_hwpe                    = self.acc_gen_hw + '/hwpe_wrapper'
-            self.out_hw_hwpe_wrap               = self.out_hw_hwpe + '/wrap'
-            self.out_hw_hwpe_rtl                = self.out_hw_hwpe + '/rtl'
-            self.out_hw_hwpe_acc_kernel         = self.out_hw_hwpe_rtl + '/acc_kernel'
+            # Test and validation
+            self.out_hwpe_test                  = self.out_hwpe + '/test'
 
-            # Hardware ~ HWPE standalone tb (HW)
-            self.out_hw_tb_standalone           = self.acc_gen_hw + '/hwpe_standalone_tb'
-
-            # Software ~ HWPE standalone tb (SW)
-            self.out_sw_tb_standalone           = self.acc_gen_sw + '/hwpe_standalone_tb'
-            self.out_sw_tb_standalone_inc       = self.out_sw_tb_standalone + '/inc'
-            self.out_sw_tb_standalone_stim      = self.out_sw_tb_standalone_inc + '/stim'
-            self.out_sw_tb_standalone_ref_sw    = self.out_sw_tb_standalone_inc + '/ref_sw'
-            self.out_sw_tb_standalone_hwpe_lib  = self.out_sw_tb_standalone_inc + '/hwpe_lib'
+            # Standalone testbench
+            self.out_hwpe_tb                    = self.out_hwpe + '/test/hwpe_standalone_tb'
+            self.out_hwpe_tb_sw                 = self.out_hwpe + '/test/hwpe_standalone_tb/sw'
+            self.out_hwpe_tb_inc                = self.out_hwpe + '/test/hwpe_standalone_tb/sw/inc'
+            self.out_hwpe_tb_hwpe_lib           = self.out_hwpe + '/test/hwpe_standalone_tb/sw/inc/hwpe_lib'
 
         """
         The 'out_gen' method is in charge of physically setting up the output 
@@ -265,10 +266,10 @@ if acc_specs is not None:
         The input arguments are:
 
         - 'out_target' ~ Generated design component. Typically an output string from 
-        an emitter item.
+        a generator item.
 
         - 'filename' ~ Name of generated design component. Typically an output string from 
-        a generator item.
+        an emitter item.
 
         - 'filedir' ~ Target directory. Either a custom string or one of those defined 
         in the emitter constructor.
@@ -280,11 +281,10 @@ if acc_specs is not None:
                     destination = filedir
                     shutil.copytree(source, destination)
                 else:
-                    with open(filename, "w") as f:
+                    destination_file = os.path.join(filedir, filename)
+                    print(destination_file)
+                    with open(destination_file, "w") as f:
                         f.write(out_target)
-                    source = filename
-                    destination = filedir
-                    shutil.move(source, destination)
                 print("\nExporting generated item (", filename, ") to target destination (", filedir, ")")
             except shutil.Error as err:
                 print("\nGenerated item (", filename, ") already exists at target destination (", filedir, ")")

@@ -53,16 +53,10 @@ VERIF_ACC 					:= ${VERIF}/hwpe-tb
 # Output content
 
 OUT_DIR 					:= ${GEN_ROOT}/output
+OUT_OV_GEN					:= ${OUT_DIR}/${TARGET_OV}
+OUT_ACC_GEN					:= ${OUT_OV_GEN}/wrappers
 
-OUT_ACC_GEN					:= ${OUT_DIR}/acc_gen
-OUT_ACC_GEN_HW_DIR 			:= ${OUT_ACC_GEN}/hw
-OUT_ACC_GEN_SW_DIR 			:= ${OUT_ACC_GEN}/sw
-OUT_ACC_GEN_DEPLOY			:= ${OUT_ACC_GEN}/acc_deploy
-
-OUT_OV_GEN					:= ${OUT_DIR}/ov_gen
-OUT_OV_GEN_HW_DIR 			:= ${OUT_OV_GEN}/ov_gen/hw
-OUT_OV_GEN_SW_DIR 			:= ${OUT_OV_GEN}/ov_gen/sw
-OUT_OV_GEN_INTEGR_SUPPORT	:= ${OUT_OV_GEN}/ov_gen/integr_support
+OUT_ACC_GEN_DEPLOY			:= ${OUT_ACC_GEN}/acc_deploy # to be removed
 
 # Tools
 

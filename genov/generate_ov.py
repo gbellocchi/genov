@@ -159,22 +159,34 @@ def gen_cl_comps(temp_obj, descr, out_dir, cl_offset):
     emitter.out_gen(out_target, filename, out_dir)
 
 '''
+    =============================
+    Retrieve optimized parameters
+    =============================
+
     File where to save optimizer state.
 '''
  
-filename = 'state_optimizer.obj'
+file_opt = 'state_optimizer.obj'
 
 '''
     Initialize or resume optimization from checkpoint.
 '''
 
-opt_ov_specs = get_opt_specs(filename)
+opt_ov_specs = get_opt_specs(file_opt)
 
 '''
     Format parameters that are to be exposed to templates.
 '''
 
 opt_ov_specs.formatting()
+
+'''
+    ====================
+    Read input arguments
+    ====================
+'''
+
+dir_out_ov = sys.argv[1]
 
 '''
     =================
@@ -192,7 +204,7 @@ generator = Generator(opt_ov_specs)
 
     Instantiate export item
 '''
-emitter = emit_ov()
+emitter = emit_ov(dir_out_ov)
 
 '''
     =====================================================================
@@ -217,7 +229,7 @@ for i in range(opt_ov_specs.n_clusters):
     gen_cl_comps(
         cluster.ClPkg(),
         ['cl', str(cl_offset) + '_pkg', ['hw', 'rtl']],
-        emitter.out_hw_ov,
+        emitter.ov_gen_cl,
         cl_offset
     )
 
@@ -230,7 +242,7 @@ for i in range(opt_ov_specs.n_clusters):
         gen_cl_comps(
             cluster.SharedLicAccRegion(),
             ['cl', str(cl_offset) + '_shared_lic_acc_region', ['hw', 'rtl']],
-            emitter.out_hw_ov,
+            emitter.ov_gen_cl,
             cl_offset
         )
 
@@ -239,7 +251,7 @@ for i in range(opt_ov_specs.n_clusters):
         gen_cl_comps(
             cluster.PrivateLicAccRegion(),
             ['cl', str(cl_offset) + '_private_lic_acc_region', ['hw', 'rtl']],
-            emitter.out_hw_ov,
+            emitter.ov_gen_cl,
             cl_offset
         )
 
@@ -251,32 +263,32 @@ for i in range(opt_ov_specs.n_clusters):
     gen_cl_comps(
         cluster.AccIntf(),
         ['cl', str(cl_offset) + '_acc_intf', ['hw', 'rtl']],
-        emitter.out_hw_ov,
+        emitter.ov_gen_cl,
         cl_offset
     )
 
-# '''
-#     =====================================================================
-#     Component:      Hardware support
+# # '''
+# #     =====================================================================
+# #     Component:      Hardware support
 
-#     Description:    Generation of integration support components, such as
-#                     scripts for source management tools, simulations, etc.
-#     ===================================================================== */
-# '''
+# #     Description:    Generation of integration support components, such as
+# #                     scripts for source management tools, simulations, etc.
+# #     ===================================================================== */
+# # '''
 
-# '''
-#     Instantiate integration support item
-# ''' 
-# integr_support = integr_support()
+# # '''
+# #     Instantiate integration support item
+# # ''' 
+# # integr_support = integr_support()
 
-# '''
-#     Generate design components ~ QuestaSim waves
-# ''' 
-# gen_comps(
-#     integr_support.vsim_wave(),
-#     ['integr_support', 'pulp_tb', ['integr_support', 'vsim_wave']],
-#     emitter.ov_gen_acc_int
-# )
+# # '''
+# #     Generate design components ~ QuestaSim waves
+# # ''' 
+# # gen_comps(
+# #     integr_support.vsim_wave(),
+# #     ['integr_support', 'pulp_tb', ['integr_support', 'vsim_wave']],
+# #     emitter.ov_gen_acc_int
+# # )
 
 '''
     =====================================================================
@@ -301,54 +313,54 @@ overlay_tb = overlay_tb()
 gen_comps(
     overlay_tb.tb_ov(),
     ['tb', 'tb_ov', ['hw', 'rtl']],
-    emitter.out_hw_tb_ov
+    emitter.out_ov_tb
 )
 
 
-'''
-    =====================================================================
-    Component:      Overlay testbench - Software
-
-    Description:    Generation of software components for overlay testbench. 
-    ===================================================================== */
-'''
-
 # '''
-#     Instantiate SW testbench item
-# ''' 
-# hwpe_ov_tb_sw = hwpe_ov_tb_sw()
+#     =====================================================================
+#     Component:      Overlay testbench - Software
 
+#     Description:    Generation of software components for overlay testbench. 
+#     ===================================================================== */
 # '''
-#     Generate design components ~ archi
-#     Retrieve memory-mapped hardware accelerator registers.
-# ''' 
-# gen_comps(
-#     hwpe_ov_tb_sw.archi_hwpe(),
-#     ['sw', 'archi_hwpe', ['sw', 'archi']],
-#     emitter.out_sw_ov_hwpe_lib
-# )
 
-# '''
-#     Generate design components ~ hardware abstraction layer (HAL)
-#     Retrieve Hardware Abstraction Layer with functions that permit 
-#     to create an interaction between the RISC-V processor and the 
-#     hardware accelerator.
-# ''' 
-# gen_comps(
-#     hwpe_ov_tb_sw.hal_hwpe(),
-#     ['sw', 'hal_hwpe', ['sw', 'hal']],
-#     emitter.out_sw_ov_hwpe_lib
-# )
+# # '''
+# #     Instantiate SW testbench item
+# # ''' 
+# # hwpe_ov_tb_sw = hwpe_ov_tb_sw()
 
-# '''
-#     Generate design components ~ software testbench 
-#     Retrieve software testbench to assess HWPE functionality. This 
-#     is a pure baremetal test running on the riscv proxy core comprised 
-#     in the overlay system. This tb can be used as a starting point for 
-#     additional platform testing.
-# ''' 
-# gen_comps(
-#     hwpe_ov_tb_sw.tb_hwpe(),
-#     ['sw', 'tb_hwpe', ['sw', 'tb']],
-#     emitter.out_sw_ov
-# )
+# # '''
+# #     Generate design components ~ archi
+# #     Retrieve memory-mapped hardware accelerator registers.
+# # ''' 
+# # gen_comps(
+# #     hwpe_ov_tb_sw.archi_hwpe(),
+# #     ['sw', 'archi_hwpe', ['sw', 'archi']],
+# #     emitter.out_sw_ov_hwpe_lib
+# # )
+
+# # '''
+# #     Generate design components ~ hardware abstraction layer (HAL)
+# #     Retrieve Hardware Abstraction Layer with functions that permit 
+# #     to create an interaction between the RISC-V processor and the 
+# #     hardware accelerator.
+# # ''' 
+# # gen_comps(
+# #     hwpe_ov_tb_sw.hal_hwpe(),
+# #     ['sw', 'hal_hwpe', ['sw', 'hal']],
+# #     emitter.out_sw_ov_hwpe_lib
+# # )
+
+# # '''
+# #     Generate design components ~ software testbench 
+# #     Retrieve software testbench to assess HWPE functionality. This 
+# #     is a pure baremetal test running on the riscv proxy core comprised 
+# #     in the overlay system. This tb can be used as a starting point for 
+# #     additional platform testing.
+# # ''' 
+# # gen_comps(
+# #     hwpe_ov_tb_sw.tb_hwpe(),
+# #     ['sw', 'tb_hwpe', ['sw', 'tb']],
+# #     emitter.out_sw_ov
+# # )

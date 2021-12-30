@@ -142,6 +142,15 @@ def gen_comps(temp_obj, descr, out_dir):
     filename = emitter.get_file_name(descr)
     emitter.out_gen(out_target, filename, out_dir)
 
+
+'''
+    ====================
+    Read input arguments
+    ====================
+'''
+
+dir_out_acc = sys.argv[1]
+
 '''
     =============================
     Accelerator wrapper generator
@@ -157,7 +166,7 @@ generator = generator()
 
     Instantiate export item
 '''
-emitter = emit_acc()
+emitter = emit_acc(dir_out_acc)
 
 '''
     =====================================================================
@@ -181,7 +190,7 @@ hwpe_wrapper = hwpe_wrapper()
 gen_comps(
     hwpe_wrapper.top_wrapper(),
     ['hwpe', 'top_wrapper', ['hw', 'rtl']],
-    emitter.out_hw_hwpe_wrap
+    emitter.out_hwpe_wrap
 )
 
 '''
@@ -190,7 +199,7 @@ gen_comps(
 gen_comps(
     hwpe_wrapper.top(),
     ['hwpe', 'top', ['hw', 'rtl']],
-    emitter.out_hw_hwpe_rtl
+    emitter.out_hwpe_rtl
 )
 
 '''
@@ -199,7 +208,7 @@ gen_comps(
 gen_comps(
     hwpe_wrapper.engine(),
     ['hwpe', 'engine', ['hw', 'rtl']],
-    emitter.out_hw_hwpe_rtl
+    emitter.out_hwpe_rtl
 )
 
 '''
@@ -208,7 +217,7 @@ gen_comps(
 gen_comps(
     hwpe_wrapper.kernel_adapter(),
     ['hwpe', 'kernel_adapter', ['hw', 'rtl']],
-    emitter.out_hw_hwpe_rtl
+    emitter.out_hwpe_rtl
 )
 
 '''
@@ -217,7 +226,7 @@ gen_comps(
 gen_comps(
     hwpe_wrapper.streamer(),
     ['hwpe', 'streamer', ['hw', 'rtl']],
-    emitter.out_hw_hwpe_rtl
+    emitter.out_hwpe_rtl
 )
 
 '''
@@ -226,7 +235,7 @@ gen_comps(
 gen_comps(
     hwpe_wrapper.ctrl(),
     ['hwpe', 'ctrl', ['hw', 'rtl']],
-    emitter.out_hw_hwpe_rtl
+    emitter.out_hwpe_rtl
 )
 
 '''
@@ -235,7 +244,7 @@ gen_comps(
 gen_comps(
     hwpe_wrapper.fsm(),
     ['hwpe', 'fsm', ['hw', 'rtl']],
-    emitter.out_hw_hwpe_rtl
+    emitter.out_hwpe_rtl
 )
 
 '''
@@ -244,7 +253,7 @@ gen_comps(
 gen_comps(
     hwpe_wrapper.package(),
     ['hwpe', 'package', ['hw', 'rtl']],
-    emitter.out_hw_hwpe_rtl
+    emitter.out_hwpe_rtl
 )
 
 '''
@@ -267,7 +276,7 @@ integr_support = integr_support()
 gen_comps(
     integr_support.bender(),
     ['integr_support', 'Bender', ['integr_support', 'yml']],
-    emitter.out_hw_hwpe
+    emitter.out_hwpe
 )
 
 '''
@@ -276,7 +285,7 @@ gen_comps(
 gen_comps(
     integr_support.src_files(),
     ['tb', 'src_files', ['integr_support', 'yml']],
-    emitter.out_hw_hwpe
+    emitter.out_hwpe
 )
 
 '''
@@ -285,7 +294,16 @@ gen_comps(
 gen_comps(
     integr_support.ips_list(),
     ['tb', 'ips_list', ['integr_support', 'yml']],
-    emitter.out_hw_hwpe
+    emitter.out_hwpe
+)
+
+'''
+    Generate design components ~ QuestaSim waves
+''' 
+gen_comps(
+    integr_support.vsim_wave(),
+    ['integr_support', generator.target + '_waves', ['integr_support', 'vsim_wave']],
+    emitter.out_hwpe
 )
 
 '''
@@ -312,7 +330,7 @@ hwpe_standalone_tb_hw = hwpe_standalone_tb_hw()
 gen_comps(
     hwpe_standalone_tb_hw.tb_hwpe(),
     ['tb', 'tb_hwpe', ['hw', 'rtl']],
-    emitter.out_hw_tb_standalone
+    emitter.out_hwpe_tb
 )
 
 '''
@@ -336,7 +354,7 @@ hwpe_standalone_tb_sw = hwpe_standalone_tb_sw()
 gen_comps(
     hwpe_standalone_tb_sw.archi_hwpe(),
     ['sw', 'archi_hwpe', ['sw', 'archi']],
-    emitter.out_sw_tb_standalone_hwpe_lib
+    emitter.out_hwpe_tb_hwpe_lib
 )
 
 '''
@@ -348,7 +366,7 @@ gen_comps(
 gen_comps(
     hwpe_standalone_tb_sw.hal_hwpe(),
     ['sw', 'hal_hwpe', ['sw', 'hal']],
-    emitter.out_sw_tb_standalone_hwpe_lib
+    emitter.out_hwpe_tb_hwpe_lib
 )
 
 '''
@@ -362,5 +380,5 @@ gen_comps(
 gen_comps(
     hwpe_standalone_tb_sw.tb_hwpe(),
     ['sw', 'tb_hwpe', ['sw', 'tb']],
-    emitter.out_sw_tb_standalone
+    emitter.out_hwpe_tb_sw
 )

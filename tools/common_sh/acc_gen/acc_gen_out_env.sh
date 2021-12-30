@@ -15,65 +15,52 @@
 
 #!/bin/bash
 
-echo "[sh] >> Generating output accelerator filesystem"
-
 # Read Makefile arguments
 readonly target_acc=$1
 readonly dir_dev_acc=$2
-readonly dir_static=$3
-readonly dir_out_acc=$4
+readonly dir_out_acc=$3
+readonly dir_static=$4
 
 readonly dir_dev_target_acc=$dir_dev_acc/$target_acc
 readonly dir_out_target_acc=$dir_out_acc/$target_acc
 
-if [ -d "$dir_out_acc" ]; then
-    echo -e "[sh] >> Output accelerator targets collection already exists"
-else
+THIS_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+source $THIS_DIR/../common.sh
+
+if [ ! -d "$dir_out_acc" ]; then
+    echo -e "[sh] >> Creating repository for accelerator wrappers"
+
     mkdir $dir_out_acc
 fi
 
-if [ -d "$dir_out_target_acc" ]; then
-    echo -e "[sh] >> Output target <$target_acc> already exists"
-else
-    echo -e "[sh] >> Creating filesystem for generated <$target_acc>"
+if [ ! -d "$dir_out_target_acc" ]; then
+    echo -e "[sh] >> Creating repository for target <$target_acc>"
+
     mkdir $dir_out_target_acc
 
-    # ======================================== #
-    # Create filesystem for generated hardware #
-    # ======================================== #
+    echo -e "\n\t- Location -> $dir_out_target_acc\n"
 
-    mkdir $dir_out_target_acc/hw
+    # ========================================= #
+    # Create directories for generated hardware #
+    # ========================================= #
 
-    # Accelerator wrapper
-    mkdir $dir_out_target_acc/hw/hwpe_wrapper
-    mkdir $dir_out_target_acc/hw/hwpe_wrapper/wrap
-    mkdir $dir_out_target_acc/hw/hwpe_wrapper/rtl
-    mkdir $dir_out_target_acc/hw/hwpe_wrapper/rtl/acc_kernel
+    mkdir $dir_out_target_acc/wrap
+    mkdir $dir_out_target_acc/rtl
+    mkdir $dir_out_target_acc/rtl/acc_kernel
 
-    # Standalone testbench
-    mkdir $dir_out_target_acc/hw/hwpe_standalone_tb
+    # ========================================== #
+    # Create directories for test and validation #
+    # ========================================== #
 
-    # Git accelerator depoyment
-    mkdir $dir_out_target_acc/acc_deploy
-
-    # ======================================== #
-    # Create filesystem for generated software #
-    # ======================================== #
-
-    echo -e "[sh] >> Creating filesystem for <$target_acc> software"
-
-    mkdir $dir_out_target_acc/sw
+    mkdir $dir_out_target_acc/test
 
     # Standalone testbench
-    mkdir $dir_out_target_acc/sw/hwpe_standalone_tb
+    mkdir $dir_out_target_acc/test/hwpe_standalone_tb
+    mkdir $dir_out_target_acc/test/hwpe_standalone_tb/sw
+    mkdir $dir_out_target_acc/test/hwpe_standalone_tb/sw/inc 
+    mkdir $dir_out_target_acc/test/hwpe_standalone_tb/sw/inc/hwpe_lib
 
-    # Included files
-    mkdir $dir_out_target_acc/sw/hwpe_standalone_tb/inc
-
-    # HWPE library
-    mkdir $dir_out_target_acc/sw/hwpe_standalone_tb/inc/hwpe_lib
-
-    # # ============================================================================= #
+    # ============================================================================= #
     # Retrieve RTL of acceleration kernel 
     #
     # - Description -
@@ -85,7 +72,12 @@ else
 
     echo -e "[sh] >> Retrieving RTL of <$target_acc> kernel"
 
-    cp -rf $dir_dev_target_acc/rtl/* $dir_out_target_acc/hw/hwpe_wrapper/rtl/acc_kernel
+    dest=$dir_out_target_acc/rtl/acc_kernel
+    if [ -d "$dest" ]; then
+        cp -rf $dir_dev_target_acc/rtl/* $dest
+    else
+        error_exit "[sh] >> Directory not found -> $dest"
+    fi
 
     # ============================================================================= #
     # Retrieve reference software-mapped application and stimuli/golden results generator
@@ -102,8 +94,13 @@ else
     echo -e "[sh] >> Retrieving reference software-mapped application and stimuli/golden results generator"
 
     # Copy TB generator for input stimuli and golden results
-    cp -rf $dir_dev_target_acc/sw/ref_sw $dir_out_target_acc/sw/hwpe_standalone_tb/inc/
-    cp -rf $dir_dev_target_acc/sw/stim $dir_out_target_acc/sw/hwpe_standalone_tb/inc/
+    dest=$dir_out_target_acc/test/hwpe_standalone_tb/sw/inc/
+    if [ -d "$dest" ]; then
+        cp -rf $dir_dev_target_acc/sw/ref_sw $dest
+        cp -rf $dir_dev_target_acc/sw/stim $dest
+    else
+        error_exit "[sh] >> Directory not found -> $dest"
+    fi
 
     # ============================================================================= #
     # Retrieve static software components 
@@ -117,5 +114,11 @@ else
     echo -e "[sh] >> Retrieving static software components"
 
     # Copy TB generator for compilation support files for software TB
-    cp -rf $dir_static/static_tb/hwpe_standalone_tb/* $dir_out_target_acc/sw/hwpe_standalone_tb
+    dest=$dir_out_target_acc/test/hwpe_standalone_tb/sw
+    if [ -d "$dest" ]; then
+        cp -rf $dir_static/static_tb/hwpe_standalone_tb/* $dest
+    else
+        error_exit "[sh] >> Directory not found -> $dest"
+    fi
+    
 fi

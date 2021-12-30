@@ -32,8 +32,8 @@ acc_gen_out_env:
 	@bash ${SCRIPTS_ACC_GEN}/$@.sh \
 		${TARGET_ACC} \
 		${DEV_DIR}/acc_dev \
-		${STATIC} \
-		${OUT_ACC_GEN}
+		${OUT_ACC_GEN} \
+		${STATIC}
 
 acc_gen_init:
 	@bash ${SCRIPTS_ACC_GEN}/$@.sh \

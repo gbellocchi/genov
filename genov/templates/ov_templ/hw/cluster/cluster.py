@@ -53,7 +53,8 @@ class Cluster:
             temp_type = 'templates/ov_templ/hw/cluster/private_lic_acc_region/',
             temp_top = 'private_lic_acc_region.template_sv',
             temp_modules = ['acc_region.template_sv', 
-                            'hwpe_intf.template_sv'],
+                            'hwpe_intf.template_sv'
+            ],
             path_common = self.path_common
         ).top()
 

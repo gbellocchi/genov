@@ -36,7 +36,11 @@ init_generation()
     echo "# ==================================== #"
     echo -e ""
 
+    cd $dir_root
+
+    make --silent ov_gen_clean
     make --silent ov_gen_init
+    make --silent ov_gen_out_env
 }
 
 # =====================================================================
@@ -57,10 +61,6 @@ fetch_ov_specs()
     echo "# Fetching overlay input specifications #" 
     echo "# ===================================== #"
     echo -e ""
-
-    # Cleaning generated overlay
-    cd $dir_root
-    make --silent ov_gen_clean
 
     # Fetch accelerator specifications
     echo "[sh] >> Fetching overlay target"
@@ -102,7 +102,6 @@ gen_overlay()
 
     # Generate target overlay
     cd $dir_root
-    make --silent ov_gen_out_env
     make --silent ov_gen_run
 }
 

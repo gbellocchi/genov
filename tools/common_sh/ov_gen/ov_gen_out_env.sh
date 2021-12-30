@@ -15,57 +15,57 @@
 
 #!/bin/bash
 
-readonly dir_out_ov=$1
+# Read Makefile arguments
+readonly target_ov=$1
 readonly dir_dev_ov=$2
-readonly dir_static=$3
+readonly dir_out_ov=$3
+readonly dir_static=$4
 
-echo -e "[sh] >> Creating filesystem for generated overlay hardware"
+THIS_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
+source $THIS_DIR/../common.sh
 
-mkdir ${dir_out_ov}
+if [ ! -d "$dir_out_ov" ]; then
+    echo -e "[sh] >> Creating repository for target overlay configuration <$target_ov>"
 
-# ======================================== #
-# Create filesystem for generated hardware #
-# ======================================== #
+    mkdir $dir_out_ov
 
-mkdir ${dir_out_ov}/hw
-mkdir ${dir_out_ov}/hw/overlay
-mkdir ${dir_out_ov}/hw/overlay_tb
+    echo -e "\n\t- Location -> $dir_out_ov\n"
 
-# ========================================================= #
-# Create filesystem for generated integration support files #
-# ========================================================= #
+    # ========================================= #
+    # Create directories for generated hardware #
+    # ========================================= #
 
-echo -e "[sh] >> Creating filesystem for generated integration support files"
+    mkdir $dir_out_ov/clusters
 
-mkdir ${dir_out_ov}/integr_support
+    # ========================================== #
+    # Create directories for test and validation #
+    # ========================================== #
 
-# ======================================== #
-# Create filesystem for generated software #
-# ======================================== #
+    mkdir $dir_out_ov/test
 
-echo -e "[sh] >> Creating filesystem for generated accelerator software"
+    # System testbench
+    mkdir $dir_out_ov/test/overlay_tb
+    mkdir $dir_out_ov/test/overlay_tb/sw
+    mkdir $dir_out_ov/test/overlay_tb/sw/inc 
+    mkdir $dir_out_ov/test/overlay_tb/sw/inc/hwpe_lib
 
-mkdir ${dir_out_ov}/sw
+    # ============================================================================= #
+    # Retrieve static software components 
+    #
+    # - Description -
+    # Move static software files to their target positions. The term 'static' is used 
+    # to denote files that are not targets of the rendering phase, but are either 
+    # defined within the repository, or cloned as external sources. 
+    # ============================================================================= #
 
-# Overlay testbench
-mkdir ${dir_out_ov}/sw/hwpe_ov_tb
+    echo -e "[sh] >> Retrieving static software components"
 
-# Included files
-mkdir ${dir_out_ov}/sw/hwpe_ov_tb/inc
-
-# HWPE library
-mkdir ${dir_out_ov}/sw/hwpe_ov_tb/inc/hwpe_lib
-
-# ============================================================================= #
-# Retrieve static software components 
-#
-# - Description -
-# Move static software files to their target positions. The term 'static' is used 
-# to denote files that are not targets of the rendering phase, but are either 
-# defined within the repository, or cloned as external sources. 
-# ============================================================================= #
-
-echo -e "[sh] >> Retrieving static software components"
-
-# Copy TB generator for compilation support files for software TB
-cp -rf ${dir_static}/static_tb/hwpe_ov_tb/* ${dir_out_ov}/sw/hwpe_ov_tb
+    # Copy TB generator for compilation support files for software TB
+    dest=$dir_out_ov/test/overlay_tb/sw/inc
+    if [ -d "$dest" ]; then
+        cp -rf ${dir_static}/static_tb/hwpe_ov_tb/inc $dest
+    else
+        error_exit "[sh] >> Directory not found -> $dest"
+    fi
+    
+fi

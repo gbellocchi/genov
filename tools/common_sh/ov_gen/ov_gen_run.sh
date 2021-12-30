@@ -15,14 +15,16 @@
 
 #!/bin/bash
 
-readonly dir_py_venv=$1
-readonly dir_out=$2
+readonly target_ov=$1
+readonly dir_py_venv=$2
+readonly dir_out_ov=$3
 
 # Activate environment
 source $dir_py_venv/bin/activate
 
 # Run generator
-cd genov && python generate_ov.py
+echo -e "[sh] >> Generation of accelerator-rich overlay"
+cd genov && python generate_ov.py $dir_out_ov
 
 # Deactivate environment
 deactivate
