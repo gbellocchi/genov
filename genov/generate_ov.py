@@ -267,28 +267,37 @@ for i in range(opt_ov_specs.n_clusters):
         cl_offset
     )
 
-# # '''
-# #     =====================================================================
-# #     Component:      Hardware support
+'''
+    =====================================================================
+    Component:      Hardware support
 
-# #     Description:    Generation of integration support components, such as
-# #                     scripts for source management tools, simulations, etc.
-# #     ===================================================================== */
-# # '''
+    Description:    Generation of integration support components, such as
+                    scripts for source management tools, simulations, etc.
+    ===================================================================== */
+'''
 
-# # '''
-# #     Instantiate integration support item
-# # ''' 
-# # integr_support = integr_support()
+'''
+    Instantiate integration support item
+''' 
+integr_support = integr_support()
 
-# # '''
-# #     Generate design components ~ QuestaSim waves
-# # ''' 
-# # gen_comps(
-# #     integr_support.vsim_wave(),
-# #     ['integr_support', 'pulp_tb', ['integr_support', 'vsim_wave']],
-# #     emitter.ov_gen_acc_int
-# # )
+'''
+    Generate design components ~ Bender
+''' 
+gen_comps(
+    integr_support.bender(),
+    ['integr_support', 'Bender', ['integr_support', 'yml']],
+    emitter.out_ov
+)
+
+'''
+    Generate design components ~ QuestaSim waves
+''' 
+# gen_comps(
+#     integr_support.vsim_wave(),
+#     ['integr_support', 'pulp_tb', ['integr_support', 'vsim_wave']],
+#     emitter.out_ov
+# )
 
 '''
     =====================================================================
@@ -315,7 +324,6 @@ gen_comps(
     ['tb', 'tb_ov', ['hw', 'rtl']],
     emitter.out_ov_tb
 )
-
 
 # '''
 #     =====================================================================
