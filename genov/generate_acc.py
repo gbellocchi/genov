@@ -1,7 +1,7 @@
 '''
  =====================================================================
  Project:      Accelerator-Rich Overlay Generator (AROG)
- Title:        genacc.py
+ Title:        generate_acc.py
  Description:  Generator of accelerator wrapper.
 
  Date:         23.11.2021

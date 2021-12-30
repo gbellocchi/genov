@@ -1,7 +1,7 @@
 '''
  =====================================================================
  Project:      Accelerator-Rich Overlay Generator
- Title:        genov.py
+ Title:        generate_ov.py
  Description:  Generation of accelerator-rich overlay components.
 
  Date:         23.11.2021
@@ -147,21 +147,16 @@ def gen_comps(temp_obj, descr, out_dir):
     Cluster components generator
     ============================
 
-    This function iterates the generation 
-    of cluster components on the overall 
-    number of clusters that have been defined 
-    by the 'Optimizer' class.
+    Differently from the generic generator, this alternative 
+    version passes also a "cluster_offset" to target the 
+    generation of components for a specific cluster
 '''
 
-def gen_cl_comps(temp_obj, descr, out_dir, n_clusters):
+def gen_cl_comps(temp_obj, descr, out_dir, cl_offset):
     template = temp_obj
-    design_name = descr[1]
-    for i in range(n_clusters):
-        cl_offset = i
-        descr[1] = str(cl_offset) + '_' + design_name
-        out_target = generator.render(template, cl_offset=cl_offset)
-        filename = emitter.get_file_name(descr)
-        emitter.out_gen(out_target, filename, out_dir)
+    out_target = generator.render(template, cl_offset=cl_offset)
+    filename = emitter.get_file_name(descr)
+    emitter.out_gen(out_target, filename, out_dir)
 
 '''
     File where to save optimizer state.
@@ -212,35 +207,53 @@ emitter = emit_ov()
 ''' 
 cluster = Cluster()
 
-'''
-    Generate design components ~ Cluster package
-''' 
-gen_cl_comps(
-    cluster.ClPkg(),
-    ['cl', 'pkg', ['hw', 'rtl']],
-    emitter.out_hw_ov,
-    opt_ov_specs.n_clusters
-)
+for i in range(opt_ov_specs.n_clusters):
 
-'''
-    Generate design components ~ Accelerator region
-''' 
-gen_cl_comps(
-    cluster.SharedLicAccRegion(),
-    ['cl', 'shared_lic_acc_region', ['hw', 'rtl']],
-    emitter.out_hw_ov,
-    opt_ov_specs.n_clusters
-)
+    cl_offset = i
 
-'''
-    Generate design components ~ Accelerator interface
-''' 
-gen_cl_comps(
-    cluster.AccIntf(),
-    ['cl', 'acc_intf', ['hw', 'rtl']],
-    emitter.out_hw_ov,
-    opt_ov_specs.n_clusters
-)
+    '''
+        Generate design components ~ Cluster package
+    ''' 
+    gen_cl_comps(
+        cluster.ClPkg(),
+        ['cl', str(cl_offset) + '_pkg', ['hw', 'rtl']],
+        emitter.out_hw_ov,
+        cl_offset
+    )
+
+    '''
+        Generate design components ~ Accelerator regions
+    '''
+
+    if (opt_ov_specs.cl_interco[cl_offset] == 'shared_lic'):
+
+        gen_cl_comps(
+            cluster.SharedLicAccRegion(),
+            ['cl', str(cl_offset) + '_shared_lic_acc_region', ['hw', 'rtl']],
+            emitter.out_hw_ov,
+            cl_offset
+        )
+
+    elif (opt_ov_specs.cl_interco[cl_offset] == 'private_lic'):
+
+        gen_cl_comps(
+            cluster.PrivateLicAccRegion(),
+            ['cl', str(cl_offset) + '_private_lic_acc_region', ['hw', 'rtl']],
+            emitter.out_hw_ov,
+            cl_offset
+        )
+
+    # elif (opt_ov_specs.cl_interco[cl_offset] == 'shared_hci'):
+
+    '''
+        Generate design components ~ Accelerator interface
+    ''' 
+    gen_cl_comps(
+        cluster.AccIntf(),
+        ['cl', str(cl_offset) + '_acc_intf', ['hw', 'rtl']],
+        emitter.out_hw_ov,
+        cl_offset
+    )
 
 # '''
 #     =====================================================================

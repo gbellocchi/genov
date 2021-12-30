@@ -1,7 +1,7 @@
 '''
  =====================================================================
  Project:      Accelerator-Rich Overlay Generator (AROG)
- Title:        optov.py
+ Title:        optimize_ov.py
  Description:  This routine is invoked during generation of application-specific
                accelerators to extract system-level optimization parameters from 
                the kernel specifications. The derived parameters are iteratively 

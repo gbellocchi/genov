@@ -20,6 +20,7 @@
 
 from templates.ov_templ.hw.cluster.cl_pkg.top.cl_pkg import ClPkg
 from templates.ov_templ.hw.cluster.shared_lic_acc_region.top.shared_lic_acc_region import SharedLicAccRegion
+from templates.ov_templ.hw.cluster.private_lic_acc_region.top.private_lic_acc_region import PrivateLicAccRegion
 from templates.ov_templ.hw.cluster.acc_intf.top.acc_intf import AccIntf
 
 class Cluster:
@@ -41,6 +42,16 @@ class Cluster:
         return SharedLicAccRegion(
             temp_type = 'templates/ov_templ/hw/cluster/shared_lic_acc_region/',
             temp_top = 'shared_lic_acc_region.template_sv',
+            temp_modules = ['acc_region.template_sv', 
+                            'hwpe_intf.template_sv'],
+            path_common = self.path_common
+        ).top()
+
+    def PrivateLicAccRegion(self):
+        print("\n[py] >> Overlay ~ Private LIC accelerator region")
+        return SharedLicAccRegion(
+            temp_type = 'templates/ov_templ/hw/cluster/private_lic_acc_region/',
+            temp_top = 'private_lic_acc_region.template_sv',
             temp_modules = ['acc_region.template_sv', 
                             'hwpe_intf.template_sv'],
             path_common = self.path_common
