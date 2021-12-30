@@ -79,7 +79,7 @@ class ov_specs:
     def acc_2(self):
         self.target                             = 'traffic_gen'
         self.protocol_type                      = 'hwpe'
-        self.connection_type                    = 'shared_hci'
+        self.connection_type                    = 'shared_lic'
         self.offset                             = 2
         return self
 
