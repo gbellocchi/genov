@@ -46,18 +46,51 @@
  *
  */
 
+<%
+  # Define accelerator list to keep track of generated 
+  # accelerator interfaces and avoid duplicated definitions
+
+  hwpe_gen_list = []
+  is_hwpe_duplicate = False
+%>
+
 % for i in range(n_acc_cl):
 
-    <%
-      # Define accelerator offset
+  <%
+    # Define accelerator offset
 
-      acc_offset = i
+    acc_offset = i
+
+    # Search for duplicates
+
+    for hwpe_gen in hwpe_gen_list:
+      if (cl_acc_names[cl_offset][acc_offset]==hwpe_gen):
+        is_hwpe_duplicate = True 
+  %>
+
+  % if (is_hwpe_duplicate==False):
+
+    <%
+      # If no duplicates are found, then insert 
+      # the accelerator interface that will be 
+      # soon generated in the list
+
+      if (is_hwpe_duplicate==False):
+        hwpe_gen_list.append(cl_acc_names[cl_offset][acc_offset])
     %>
 
-  % if cl_acc_protocols[cl_offset][acc_offset] == "hwpe":
+    % if (cl_acc_protocols[cl_offset][acc_offset] == "hwpe"):
 
 ${def_ip_hwpe_intf(cl_offset, acc_offset)}
 ${insert_ip_hwpe_wrapper(cl_offset, acc_offset, n_acc_cl)}
+
+    % endif
+
+    <%
+      # Reset duplicate token
+
+      is_hwpe_duplicate = False
+    %>
 
   % endif
 % endfor
