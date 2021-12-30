@@ -27,7 +27,7 @@ echo -e "[sh] >> Retrieving target engine from accelerator library"
 
 # Run generator
 echo -e "[sh] >> Generation of accelerator wrapper"
-cd genov && python genacc.py $target_acc
+cd genov && python generate_acc.py $target_acc
 python emitter.py
 
 # Deactivate environment

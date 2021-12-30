@@ -22,7 +22,7 @@ readonly dir_out=$2
 source $dir_py_venv/bin/activate
 
 # Run generator
-cd genov && python genov.py
+cd genov && python generate_ov.py
 
 # Deactivate environment
 deactivate
