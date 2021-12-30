@@ -1,13 +1,27 @@
 <%
-##################
-## Python tools ##
-##################
+# =====================================================================
+# Project:      Overlay templates
+# Title:        py_tools.template_sv
+# Description:  Python tools that might come in useful inside the templates.
+#
+# $Date:        29.12.2021
+#
+# Generator:    genov
+# =====================================================================
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+#
+# =====================================================================
 %>
 
 <%
-######################################################
-## Print names of accelerators inside CL[cl_offset] ##
-######################################################
+# =====================================================================
+# Title:        print_cl_acc_names
+# Type:         Template API
+# Description:  Print names of accelerators inside CL[cl_offset]
+# =====================================================================
 %>
 
 <%def name="print_cl_acc_names(cl_offset)">\
@@ -22,9 +36,12 @@ ${str_acc}\
 </%def>\
 
 <%
-##################################################################################
-## Print number of data ports associated with accelerators inside CL[cl_offset] ##
-##################################################################################
+# =====================================================================
+# Title:        print_cl_acc_n_data_ports
+# Type:         Template API
+# Description:  Print number of data ports associated with accelerators 
+#               inside CL[cl_offset]
+# =====================================================================
 %>
 
 <%def name="print_cl_acc_n_data_ports(cl_offset)">\
@@ -34,6 +51,26 @@ ${str_acc}\
     for i in range(len(acc_n_data_ports)-1):
         str_acc += str(acc_n_data_ports[i]) + ", "
     str_acc += str(acc_n_data_ports[len(acc_n_data_ports)-1])
+%>\
+${str_acc}\
+</%def>\
+
+<%
+# =====================================================================
+# Title:        print_cl_acc_protocols
+# Type:         Template API
+# Description:  Print communication protocols associated with accelerators 
+#               inside CL[cl_offset]
+# =====================================================================
+%>
+
+<%def name="print_cl_acc_protocols(cl_offset)">\
+<%
+    str_acc = ""
+    acc_protocols = cl_acc_protocols[cl_offset]
+    for i in range(len(acc_protocols)-1):
+        str_acc += str(acc_protocols[i]) + ", "
+    str_acc += str(acc_protocols[len(acc_protocols)-1])
 %>\
 ${str_acc}\
 </%def>\

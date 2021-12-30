@@ -61,6 +61,7 @@ class Optimizer(ov_specs):
             print("\t- Cluster #", self.list_clusters.index(cl), ":")
             print("\t\tInterconnect topology:", cl[0])
             print("\t\tAccelerator names:", cl[2])
+            print("\t\tAccelerator protocols:", cl[4])
             print("\t\tAccelerator data ports:", cl[3])
             print("\t\tAccelerator data ports (total):", cl[1])
 
@@ -124,6 +125,7 @@ class Optimizer(ov_specs):
         # extract specifications concerning system-level accelerator interconnection
         acc_to_cluster          = overlay_acc_specs.target
         acc_interco_type        = overlay_acc_specs.connection_type
+        acc_protocol_type       = overlay_acc_specs.protocol_type
 
         # calculate number of required data ports
         acc_n_data_ports        = self.calc_data_ports(standalone_acc_specs)
@@ -140,14 +142,15 @@ class Optimizer(ov_specs):
                 shared_cl[1] += acc_n_data_ports
                 shared_cl[2].append(acc_to_cluster)
                 shared_cl[3].append(acc_n_data_ports)
+                shared_cl[4].append(acc_protocol_type)
             else:
-                self.list_clusters.append([acc_interco_type, acc_n_data_ports, [acc_to_cluster], [acc_n_data_ports]])
+                self.list_clusters.append([acc_interco_type, acc_n_data_ports, [acc_to_cluster], [acc_n_data_ports], [acc_protocol_type]])
 
         # 2) private LIC clusters
         elif(acc_interco_type is 'private_lic'):
 
             print("[py] >> Interconnection method ~  Dedicated LIC")
-            self.list_clusters.append([acc_interco_type, acc_n_data_ports, [acc_to_cluster], [acc_n_data_ports]])
+            self.list_clusters.append([acc_interco_type, acc_n_data_ports, [acc_to_cluster], [acc_n_data_ports], [acc_protocol_type]])
 
         # 3) shared HCI clusters
         elif(acc_interco_type is 'shared_hci'):
@@ -159,8 +162,9 @@ class Optimizer(ov_specs):
                 shared_cl[1] += acc_n_data_ports
                 shared_cl[2].append(acc_to_cluster)
                 shared_cl[3].append(acc_n_data_ports)
+                shared_cl[4].append(acc_protocol_type)
             else:
-                self.list_clusters.append([acc_interco_type, acc_n_data_ports, [acc_to_cluster], [acc_n_data_ports]])
+                self.list_clusters.append([acc_interco_type, acc_n_data_ports, [acc_to_cluster], [acc_n_data_ports], [acc_protocol_type]])
 
         # 4) unknown topology
         else:
@@ -193,6 +197,8 @@ class Optimizer(ov_specs):
         self.cl_n_data_ports = []
         # names associated with single clustered accelerators 
         self.cl_acc_names = []
+        # communication protocols of clustered accelerators
+        self.cl_acc_protocols = []
         # number of data ports of clustered accelerators
         self.cl_acc_n_data_ports = []
         # extract parameters from methods
@@ -201,3 +207,4 @@ class Optimizer(ov_specs):
             self.cl_n_data_ports.append(t[1])
             self.cl_acc_names.append(t[2])
             self.cl_acc_n_data_ports.append(t[3])
+            self.cl_acc_protocols.append(t[4])

@@ -131,12 +131,12 @@ class generator(acc_specs.acc_specs):
         return l
 
 '''
-    ====================
-    Components generator
-    ====================
+    ============================
+    Generic components generator 
+    ============================
 '''
 
-def gencomps(temp_obj, descr, out_dir):
+def gen_comps(temp_obj, descr, out_dir):
     template = temp_obj
     out_target = generator.render(template)
     filename = emitter.get_file_name(descr)
@@ -178,7 +178,7 @@ hwpe_wrapper = hwpe_wrapper()
 '''
     Generate design components ~ Top wrapper
 '''
-gencomps(
+gen_comps(
     hwpe_wrapper.top_wrapper(),
     ['hwpe', 'top_wrapper', ['hw', 'rtl']],
     emitter.out_hw_hwpe_wrap
@@ -187,7 +187,7 @@ gencomps(
 '''
     Generate design components ~ Top
 '''
-gencomps(
+gen_comps(
     hwpe_wrapper.top(),
     ['hwpe', 'top', ['hw', 'rtl']],
     emitter.out_hw_hwpe_rtl
@@ -196,7 +196,7 @@ gencomps(
 '''
     Generate design components ~ Engine
 '''
-gencomps(
+gen_comps(
     hwpe_wrapper.engine(),
     ['hwpe', 'engine', ['hw', 'rtl']],
     emitter.out_hw_hwpe_rtl
@@ -205,7 +205,7 @@ gencomps(
 '''
     Generate design components ~ Kernel adapter
 '''
-gencomps(
+gen_comps(
     hwpe_wrapper.kernel_adapter(),
     ['hwpe', 'kernel_adapter', ['hw', 'rtl']],
     emitter.out_hw_hwpe_rtl
@@ -214,7 +214,7 @@ gencomps(
 '''
     Generate design components ~ Streamer
 '''
-gencomps(
+gen_comps(
     hwpe_wrapper.streamer(),
     ['hwpe', 'streamer', ['hw', 'rtl']],
     emitter.out_hw_hwpe_rtl
@@ -223,7 +223,7 @@ gencomps(
 '''
     Generate design components ~ Controller
 '''
-gencomps(
+gen_comps(
     hwpe_wrapper.ctrl(),
     ['hwpe', 'ctrl', ['hw', 'rtl']],
     emitter.out_hw_hwpe_rtl
@@ -232,7 +232,7 @@ gencomps(
 '''
     Generate design components ~ FSM
 '''
-gencomps(
+gen_comps(
     hwpe_wrapper.fsm(),
     ['hwpe', 'fsm', ['hw', 'rtl']],
     emitter.out_hw_hwpe_rtl
@@ -241,7 +241,7 @@ gencomps(
 '''
     Generate design components ~ Package
 '''
-gencomps(
+gen_comps(
     hwpe_wrapper.package(),
     ['hwpe', 'package', ['hw', 'rtl']],
     emitter.out_hw_hwpe_rtl
@@ -264,7 +264,7 @@ integr_support = integr_support()
 '''
     Generate design components ~ Bender
 ''' 
-gencomps(
+gen_comps(
     integr_support.bender(),
     ['integr_support', 'Bender', ['integr_support', 'yml']],
     emitter.out_hw_hwpe
@@ -273,7 +273,7 @@ gencomps(
 '''
     Generate design components ~ List of IP modules
 ''' 
-gencomps(
+gen_comps(
     integr_support.src_files(),
     ['tb', 'src_files', ['integr_support', 'yml']],
     emitter.out_hw_hwpe
@@ -282,7 +282,7 @@ gencomps(
 '''
     Generate design components ~ List of IP dependencies
 ''' 
-gencomps(
+gen_comps(
     integr_support.ips_list(),
     ['tb', 'ips_list', ['integr_support', 'yml']],
     emitter.out_hw_hwpe
@@ -309,7 +309,7 @@ hwpe_standalone_tb_hw = hwpe_standalone_tb_hw()
     dummy memories to implement instruction, stack and data
     memories.
 ''' 
-gencomps(
+gen_comps(
     hwpe_standalone_tb_hw.tb_hwpe(),
     ['tb', 'tb_hwpe', ['hw', 'rtl']],
     emitter.out_hw_tb_standalone
@@ -333,7 +333,7 @@ hwpe_standalone_tb_sw = hwpe_standalone_tb_sw()
     Generate design components ~ archi
     Retrieve memory-mapped hardware accelerator registers.
 ''' 
-gencomps(
+gen_comps(
     hwpe_standalone_tb_sw.archi_hwpe(),
     ['sw', 'archi_hwpe', ['sw', 'archi']],
     emitter.out_sw_tb_standalone_hwpe_lib
@@ -345,7 +345,7 @@ gencomps(
     to create an interaction between the RISC-V processor and the 
     hardware accelerator.
 ''' 
-gencomps(
+gen_comps(
     hwpe_standalone_tb_sw.hal_hwpe(),
     ['sw', 'hal_hwpe', ['sw', 'hal']],
     emitter.out_sw_tb_standalone_hwpe_lib
@@ -359,7 +359,7 @@ gencomps(
     functionality of the generated wrapper before to integrate it at 
     system-level.
 ''' 
-gencomps(
+gen_comps(
     hwpe_standalone_tb_sw.tb_hwpe(),
     ['sw', 'tb_hwpe', ['sw', 'tb']],
     emitter.out_sw_tb_standalone
