@@ -32,6 +32,9 @@ ov_deploy: ov_deploy_src
 ov_deploy_src: ov_deploy_test
 	@bash ${SCRIPTS_OV_DEPLOY}/$@.sh ${OUT_OV_GEN} ${OVERLAY_SRC} ${OVERLAY_CLUSTER} ${OVERLAY_TEST}
 
+ov_deploy_cfg: ov_deploy_test
+	@bash ${SCRIPTS_OV_DEPLOY}/$@.sh ${OUT_OV_GEN} ${OVERLAY_CFG}
+
 # clean_ov_env: test_ov_env clean_hwpe_gen_app
 # 	@rm -rf ${OVERLAY_DEPS}/hwpe-${HWPE_TARGET}-wrapper
 # 	@rm -f ${OVERLAY_SRC}/ov_acc_pkg.sv

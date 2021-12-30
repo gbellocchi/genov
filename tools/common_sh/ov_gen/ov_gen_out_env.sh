@@ -36,6 +36,7 @@ if [ ! -d "$dir_out_ov" ]; then
     # ========================================= #
 
     mkdir $dir_out_ov/clusters
+    mkdir $dir_out_ov/system_ips
 
     # ========================================== #
     # Create directories for test and validation #
@@ -50,6 +51,25 @@ if [ ! -d "$dir_out_ov" ]; then
     mkdir $dir_out_ov/test/overlay_tb/sw/inc/hwpe_lib
 
     # ============================================================================= #
+    # Retrieve static hardware components 
+    #
+    # - Description -
+    # Move static hardware files to their target positions. The term 'static' is used 
+    # to denote files that are not targets of the rendering phase, but are either 
+    # defined within the repository, or cloned as external sources. 
+    # ============================================================================= #
+
+    echo -e "[sh] >> Retrieving static hardware components"
+
+    # Copy static system IPs
+    dst=$dir_out_ov
+    if [ -d "$dst" ]; then
+        cp -rf $dir_static/static_rtl/system_ips $dst
+    else
+        error_exit "[sh] >> Directory not found -> $dst"
+    fi
+
+    # ============================================================================= #
     # Retrieve static software components 
     #
     # - Description -
@@ -61,11 +81,11 @@ if [ ! -d "$dir_out_ov" ]; then
     echo -e "[sh] >> Retrieving static software components"
 
     # Copy TB generator for compilation support files for software TB
-    dest=$dir_out_ov/test/overlay_tb/sw/inc
-    if [ -d "$dest" ]; then
-        cp -rf ${dir_static}/static_tb/hwpe_ov_tb/inc $dest
+    dst=$dir_out_ov/test/overlay_tb/sw/inc
+    if [ -d "$dst" ]; then
+        cp -rf $dir_static/static_tb/hwpe_ov_tb/inc/* $dst
     else
-        error_exit "[sh] >> Directory not found -> $dest"
+        error_exit "[sh] >> Directory not found -> $dst"
     fi
     
 fi

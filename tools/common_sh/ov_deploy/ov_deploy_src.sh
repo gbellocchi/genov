@@ -23,11 +23,6 @@ readonly OVERLAY_SRC=$2
 readonly OVERLAY_CLUSTER=$3
 readonly OVERLAY_TEST=$4
 
-# echo "$OUT_DIR"
-# echo "$OVERLAY_SRC"
-# echo "$OVERLAY_CLUSTER"
-# echo "$OVERLAY_TEST"
-
 echo -e "[sh] >> Exporting accelerator package to perform system-level optimization."
 cp ${OUT_DIR}/hw/overlay/ov_acc_pkg.sv ${OVERLAY_SRC}/
 

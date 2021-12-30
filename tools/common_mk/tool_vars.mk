@@ -80,6 +80,7 @@ PY_VENV_DIR					:= ${ROOT}/${PY_VENV}
 # System-level integration
 
 OVERLAY_HW_REPO				:= ${HERO_OV_HW_EXPORT}
+OVERLAY_CFG					:= ${HERO_OV_HW_EXPORT}/ov_cfg
 OVERLAY_SRC					:= ${HERO_OV_HW_EXPORT}/src
 OVERLAY_DEPS				:= ${HERO_OV_HW_EXPORT}/deps
 OVERLAY_TEST				:= ${HERO_OV_HW_EXPORT}/test
