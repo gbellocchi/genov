@@ -1,7 +1,7 @@
 <%
 # =====================================================================
 # Project:      Shared LIC accelerator region
-# Title:        ov_shared_lic_acc_region.template_sv
+# Title:        shared_lic_acc_region.template_sv
 # Description:  Definition of accelerator region module through the 
 #               template API "def_acc_region_module". The module interfaces
 #               to the shared logarithmic interconnect of the overlay 
@@ -12,7 +12,7 @@
 #
 # $Date:        29.12.2021
 #
-# Generator:    genov
+# Generator:    generate_ov
 # =====================================================================
 #
 # Copyright (C) 2021 University of Modena and Reggio Emilia.
