@@ -20,9 +20,15 @@
 # =====================================================================
 %>
 
+<%
+  # Count number of wrappers
+
+  n_acc_cl = len(cl_acc_names[cl_offset])
+%>
+
 /* =====================================================================
  * Project:      Accelerator interface
- * Title:        acc_intf.template_sv
+ * Title:        cl_${cl_offset}_acc_intf.template_sv
  * Description:  The accelerator interface is positioned in between an 
  *               accelerator region and top module of an accelerator 
  *               wrapper. The goal of the IP is to decompose the crossbar
@@ -39,18 +45,6 @@
  * Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
  *
  */
-
-<%
-    # Determine cluster offset
-
-    for interco in cl_interco:
-      if (interco=='shared_lic'):
-        cl_offset = cl_interco.index(interco)
-
-    # Count number of wrappers
-
-    n_acc_cl = len(cl_acc_names[cl_offset])
-%>
 
 % for i in range(n_acc_cl):
 

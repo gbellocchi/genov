@@ -44,8 +44,8 @@
     localparam int NB_HWPE = N_HWPE,
 
     // Master ports
-    % for i in range(n_acc_cl):
-    localparam int NB_HWPE_PORTS_${i}   = N_HWPE_PORTS_${i},
+    % for acc_offset in range(n_acc_cl):
+    localparam int NB_HWPE_PORTS_${acc_offset}   = N_HWPE_PORTS_${acc_offset},
     % endfor
     localparam int NB_HWPE_PORTS_TOTAL  = N_HWPE_PORTS_TOTAL,
 

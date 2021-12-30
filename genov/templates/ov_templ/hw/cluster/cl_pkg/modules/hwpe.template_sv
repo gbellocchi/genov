@@ -68,15 +68,15 @@
 
     n_hwpe_ports_total = 0
     
-    for i in range(n_acc_cl):
-      if cl_acc_protocols[cl_offset][i] == "hwpe":
-        n_hwpe_ports_total += cl_acc_n_data_ports[cl_offset][i]
+    for acc_offset in range(n_acc_cl):
+      if cl_acc_protocols[cl_offset][acc_offset] == "hwpe":
+        n_hwpe_ports_total += cl_acc_n_data_ports[cl_offset][acc_offset]
   %>
 
   localparam int unsigned N_HWPE_PORTS_TOTAL    = ${n_hwpe_ports_total};
-  % for i in range(n_acc_cl):
-    % if cl_acc_protocols[cl_offset][i] == "hwpe":
-  localparam int N_HWPE_PORTS_ACC_${i}        = ${cl_acc_n_data_ports[cl_offset][i]};
+  % for acc_offset in range(n_acc_cl):
+    % if cl_acc_protocols[cl_offset][acc_offset] == "hwpe":
+  localparam int N_HWPE_PORTS_ACC_${acc_offset}        = ${cl_acc_n_data_ports[cl_offset][acc_offset]};
     % endif
   % endfor
 

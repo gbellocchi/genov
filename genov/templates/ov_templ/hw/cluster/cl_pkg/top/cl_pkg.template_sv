@@ -15,10 +15,29 @@
 #
 # =====================================================================
 %>
+
+<%
+  # Count number of wrappers
+
+  n_acc_cl = len(cl_acc_names[cl_offset])
+%>
+
 /* =====================================================================
  * Project:      Cluster package
- * Title:        cl_pkg.sv
- * Description:  Packages compliant with hardware accelerator parameters.
+ * Title:        cl_${cl_offset}_pkg.sv
+ * Description:  The cluster package comprises parameters to customize 
+ *               overlay clusters on the basis of the user-defined parameters. 
+ *               
+ *               This package specifically the following device:
+ *
+ *               >> Cluster:      
+ *                  - Offset: ${cl_offset}
+ *                  - Interconnect topology: ${cl_interco[cl_offset]}
+ *                  - Number of data ports (total): ${cl_n_data_ports[cl_offset]}
+ *               >> Accelerators:
+ *                  - Applications: [ ${print_cl_acc_names(cl_offset)} ]
+ *                  - Number of data ports: [ ${print_cl_acc_n_data_ports(cl_offset)} ]
+ *                  - Communication protocols: [ ${print_cl_acc_protocols(cl_offset)} ]
  *
  * $Date:        29.12.2021
  *
@@ -29,29 +48,6 @@
  *
  * Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
  *
- */
-
-% for i in range (n_clusters):
-
-<%
-  # Cluster offset (cl_offset)
-  # Each cluster is associated with a different SystemVerilog package to 
-  # pilot the RTL design with the correct information about how to interconnect 
-  # the accelerators at the system-level.
-    
-  cl_offset = i
-%>
-
-/* 
- * Cluster:      
- *    - Offset: ${cl_offset}
- *    - Interconnect topology: ${cl_interco[cl_offset]}
- *    - Number of data ports (total): ${cl_n_data_ports[cl_offset]}
- * Accelerators:
- *    - Applications: [ ${print_cl_acc_names(cl_offset)} ]
- *    - Number of data ports: [ ${print_cl_acc_n_data_ports(cl_offset)} ]
- *    - Communication protocols: [ ${print_cl_acc_protocols(cl_offset)} ]
- * 
  */
 
 package automatic overlay_cluster_${cl_offset}_acc_pkg;
@@ -65,4 +61,3 @@ package automatic overlay_cluster_${cl_offset}_acc_pkg;
     ${def_param_hwpe_interface(cl_offset)}
   
 endpackage
-% endfor 

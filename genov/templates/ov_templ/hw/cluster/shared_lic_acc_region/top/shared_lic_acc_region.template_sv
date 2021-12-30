@@ -24,7 +24,7 @@
 
 /* =====================================================================
  * Project:      Shared LIC accelerator region
- * Title:        ov_shared_lic_acc_region.template_sv
+ * Title:        cl_${cl_offset}_shared_lic_acc_region.template_sv
  * Description:  The accelerator region is connected to the overlay 
  *               infrastructure by means of a shared logarithmic 
  *               interconnect. This module also instantiates the 
@@ -40,14 +40,6 @@
  * Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
  *
  */
-
-<%
-    # Determine cluster offset
-
-    for interco in cl_interco:
-      if (interco=='shared_lic'):
-        cl_offset = cl_interco.index(interco)
-%>
 
 ${def_ip_acc_region(cl_offset)}
 ${insert_ip_hwpe_intf(cl_offset)}

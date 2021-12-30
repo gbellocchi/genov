@@ -1,6 +1,6 @@
 '''
  =====================================================================
- Project:      Accelerator-Rich Overlay Generator (AROG)
+ Project:      Accelerator-Rich Overlay Generator
  Title:        genov.py
  Description:  Generation of accelerator-rich overlay components.
 
@@ -34,7 +34,7 @@ from dev.ov_dev.specs.ov_specs import ov_specs
 '''
 
 # HW packages
-from templates.ov_templ.hw.overlay.overlay import overlay
+from templates.ov_templ.hw.cluster.cluster import Cluster
 from templates.ov_templ.hw.overlay_tb.overlay_tb import overlay_tb
 
 # Integration support packages
@@ -78,12 +78,13 @@ class Generator(ov_specs):
         self.cl_interco                 = opt_ov_specs.cl_interco
         self.cl_n_data_ports            = opt_ov_specs.cl_n_data_ports
         self.cl_acc_names               = opt_ov_specs.cl_acc_names
+        self.cl_acc_protocols           = opt_ov_specs.cl_acc_protocols
         self.cl_acc_n_data_ports        = opt_ov_specs.cl_acc_n_data_ports
 
         print("\n[py] >> HIGH-LEVEL ARCHITECTURAL VIEW:")
-        opt_ov_specs.log()
+        opt_ov_specs.log() 
         
-    def render(self, template):
+    def render(self, template, cl_offset=0):
         # prepare input template
         target = Template(template)
         # rendering phase
@@ -99,12 +100,12 @@ class Generator(ov_specs):
             cl_n_data_ports         = self.cl_n_data_ports, 
             # names of clustered accelerators 
             cl_acc_names            = self.cl_acc_names,
+            # communication protocols of clustered accelerators 
+            cl_acc_protocols        = self.cl_acc_protocols,
             # number of data ports of clustered accelerators
             cl_acc_n_data_ports     = self.cl_acc_n_data_ports,
-            # n_acc                   = self.n_acc,
-            # acc_names               = self.acc_names,     
-            # acc_protocol            = self.acc_protocol,  
-            # acc_connection          = self.acc_connection,
+            # cluster offset
+            cl_offset               = cl_offset
         )
         # Compile a regex to trim trailing whitespaces on lines
         # and multiple consecutive new lines.
@@ -112,7 +113,7 @@ class Generator(ov_specs):
         string = re.sub(r'\n\s*\n', '\n\n', string) 
         string = re_trailws.sub("", string)
         return string
-
+        
 '''
     ========================================
     Retrieve optimized overlay specification
@@ -130,17 +131,37 @@ def get_opt_specs(filename):
         sys.exit(1)
 
 '''
-    ====================
-    Components generator
-    ====================
+    ============================
+    Generic components generator 
+    ============================
 '''
 
-def gencomps(temp_obj, descr, out_dir):
+def gen_comps(temp_obj, descr, out_dir):
     template = temp_obj
     out_target = generator.render(template)
     filename = emitter.get_file_name(descr)
     emitter.out_gen(out_target, filename, out_dir)
 
+'''
+    ============================
+    Cluster components generator
+    ============================
+
+    This function iterates the generation 
+    of cluster components on the overall 
+    number of clusters that have been defined 
+    by the 'Optimizer' class.
+'''
+
+def gen_cl_comps(temp_obj, descr, out_dir, n_clusters):
+    template = temp_obj
+    design_name = descr[1]
+    for i in range(n_clusters):
+        cl_offset = i
+        descr[1] = str(cl_offset) + '_' + design_name
+        out_target = generator.render(template, cl_offset=cl_offset)
+        filename = emitter.get_file_name(descr)
+        emitter.out_gen(out_target, filename, out_dir)
 
 '''
     File where to save optimizer state.
@@ -180,37 +201,46 @@ emitter = emit_ov()
 
 '''
     =====================================================================
-    Component:      Accelerator-rich overlay
+    Component:      Cluster
 
-    Description:    Generation of components for the accelerator-rich
-                    overlay. These permit the agile specification and 
-                    optimization of architectural components to support
-                    the operations of hardware accelerators.
+    Description:    Generation of components for accelerator-rich clusters.
     ===================================================================== */
 '''
 
 '''
     Instantiate overlay item
 ''' 
-overlay = overlay()
+cluster = Cluster()
 
 '''
-    Generate design components ~ Overlay accelerator package
+    Generate design components ~ Cluster package
 ''' 
-gencomps(
-    overlay.cl_pkg(),
-    ['ov', 'cl_pkg', ['hw', 'rtl']],
-    emitter.out_hw_ov
+gen_cl_comps(
+    cluster.ClPkg(),
+    ['cl', 'pkg', ['hw', 'rtl']],
+    emitter.out_hw_ov,
+    opt_ov_specs.n_clusters
 )
 
-# '''
-#     Generate design components ~ Overlay accelerator interface
-# ''' 
-# gencomps(
-#     overlay.acc_intf(),
-#     ['ov', 'acc_intf', ['hw', 'rtl']],
-#     emitter.out_hw_ov
-# )
+'''
+    Generate design components ~ Accelerator region
+''' 
+gen_cl_comps(
+    cluster.SharedLicAccRegion(),
+    ['cl', 'shared_lic_acc_region', ['hw', 'rtl']],
+    emitter.out_hw_ov,
+    opt_ov_specs.n_clusters
+)
+
+'''
+    Generate design components ~ Accelerator interface
+''' 
+gen_cl_comps(
+    cluster.AccIntf(),
+    ['cl', 'acc_intf', ['hw', 'rtl']],
+    emitter.out_hw_ov,
+    opt_ov_specs.n_clusters
+)
 
 # '''
 #     =====================================================================
@@ -229,7 +259,7 @@ gencomps(
 # '''
 #     Generate design components ~ QuestaSim waves
 # ''' 
-# gencomps(
+# gen_comps(
 #     integr_support.vsim_wave(),
 #     ['integr_support', 'pulp_tb', ['integr_support', 'vsim_wave']],
 #     emitter.ov_gen_acc_int
@@ -255,7 +285,7 @@ overlay_tb = overlay_tb()
     dummy memories to implement instruction, stack and data
     memories.
 ''' 
-gencomps(
+gen_comps(
     overlay_tb.tb_ov(),
     ['tb', 'tb_ov', ['hw', 'rtl']],
     emitter.out_hw_tb_ov
@@ -279,7 +309,7 @@ gencomps(
 #     Generate design components ~ archi
 #     Retrieve memory-mapped hardware accelerator registers.
 # ''' 
-# gencomps(
+# gen_comps(
 #     hwpe_ov_tb_sw.archi_hwpe(),
 #     ['sw', 'archi_hwpe', ['sw', 'archi']],
 #     emitter.out_sw_ov_hwpe_lib
@@ -291,7 +321,7 @@ gencomps(
 #     to create an interaction between the RISC-V processor and the 
 #     hardware accelerator.
 # ''' 
-# gencomps(
+# gen_comps(
 #     hwpe_ov_tb_sw.hal_hwpe(),
 #     ['sw', 'hal_hwpe', ['sw', 'hal']],
 #     emitter.out_sw_ov_hwpe_lib
@@ -304,7 +334,7 @@ gencomps(
 #     in the overlay system. This tb can be used as a starting point for 
 #     additional platform testing.
 # ''' 
-# gencomps(
+# gen_comps(
 #     hwpe_ov_tb_sw.tb_hwpe(),
 #     ['sw', 'tb_hwpe', ['sw', 'tb']],
 #     emitter.out_sw_ov
