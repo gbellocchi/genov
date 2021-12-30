@@ -1,7 +1,25 @@
 <%
-##############################################################
-## HWPE kernel adapter - Xilinx ap_ctrl_hs (refer to UG902) ##
-##############################################################
+# =====================================================================
+# Project:       QuestaSim waves
+# Title:         xil_ap_ctrl_hs.template_wave_do
+# Description:   QuestaSim waves to simplify validation phase.
+#
+# $Date:        29.12.2021
+#
+# Generator:    generate_ov
+# ===================================================================== */
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+%>
+
+<%
+# =====================================================================
+# Title:        vsim_waves_hwpe_kernel_adapter_xil_ap_ctrl_hs
+# Type:         Template API
+# Description:  HWPE kernel adapter - Xilinx ap_ctrl_hs (refer to UG902)
+# =====================================================================
 %>
 
 <%def name="vsim_waves_hwpe_kernel_adapter_xil_ap_ctrl_hs()">\

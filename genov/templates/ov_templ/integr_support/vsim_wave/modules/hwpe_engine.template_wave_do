@@ -1,7 +1,25 @@
 <%
-#################
-## HWPE engine ##
-#################
+# =====================================================================
+# Project:       QuestaSim waves
+# Title:         hwpe_engine.template_wave_do
+# Description:   QuestaSim waves to simplify validation phase.
+#
+# $Date:        29.12.2021
+#
+# Generator:    generate_ov
+# ===================================================================== */
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+%>
+
+<%
+# =====================================================================
+# Title:        vsim_waves_hwpe_engine
+# Type:         Template API
+# Description:  HWPE engine
+# =====================================================================
 %>
 
 <%def name="vsim_waves_hwpe_engine()">\

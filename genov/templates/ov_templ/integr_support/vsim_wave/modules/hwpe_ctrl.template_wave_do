@@ -1,7 +1,25 @@
 <%
-#####################
-## HWPE controller ##
-#####################
+# =====================================================================
+# Project:       QuestaSim waves
+# Title:         hwpe_ctrl.template_wave_do
+# Description:   QuestaSim waves to simplify validation phase.
+#
+# $Date:        29.12.2021
+#
+# Generator:    generate_ov
+# ===================================================================== */
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+%>
+
+<%
+# =====================================================================
+# Title:        vsim_waves_hwpe_ctrl
+# Type:         Template API
+# Description:  HWPE controller
+# =====================================================================
 %>
 
 <%def name="vsim_waves_hwpe_ctrl()">\
@@ -28,9 +46,11 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {slave_peri
 </%def>
 
 <%
-########################
-## HWPE register file ##
-########################
+# =====================================================================
+# Title:        vsim_waves_hwpe_ctrl_regfile
+# Type:         Template API
+# Description:  HWPE register file
+# =====================================================================
 %>
 
 <%def name="vsim_waves_hwpe_ctrl_regfile()">\
@@ -54,9 +74,11 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_ctrl} -group {regfile} -
 </%def>
 
 <%
-################
-## HWPE ULOOP ##
-################
+# =====================================================================
+# Title:        vsim_waves_hwpe_ctrl_uloop
+# Type:         Template API
+# Description:  HWPE uloop
+# =====================================================================
 %>
 
 <%def name="vsim_waves_hwpe_ctrl_uloop()">\

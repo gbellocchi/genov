@@ -56,7 +56,7 @@ class integr_support:
                             'kernel_interface/mdc_dataflow.template_wave_do',
                             'kernel_interface/xil_ap_ctrl_hs.template_wave_do',
                             'kernel_interface/kernel_hls.template_wave_do',
-                            'ov_acc_intf.template_wave_do'
+                            'cl_acc_intf.template_wave_do'
             ],
             path_common = self.path_common
         ).top()

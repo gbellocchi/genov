@@ -1,7 +1,25 @@
 <%
-######################################
-## Overlay-to-Accelerator Interface ##
-######################################
+# =====================================================================
+# Project:       QuestaSim waves
+# Title:         cl_acc_intf.template_wave_do
+# Description:   QuestaSim waves to simplify validation phase.
+#
+# $Date:        29.12.2021
+#
+# Generator:    generate_ov
+# ===================================================================== */
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+%>
+
+<%
+# =====================================================================
+# Title:        vsim_waves_ov_acc_intf
+# Type:         Template API
+# Description:  Cluster accelerator interface
+# =====================================================================
 %>
 
 <%def name="vsim_waves_ov_acc_intf()">\

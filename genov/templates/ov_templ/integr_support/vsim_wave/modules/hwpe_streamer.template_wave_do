@@ -1,7 +1,25 @@
 <%
-###################
-## HWPE streamer ##
-###################
+# =====================================================================
+# Project:       QuestaSim waves
+# Title:         hwpe_streamer.template_wave_do
+# Description:   QuestaSim waves to simplify validation phase.
+#
+# $Date:        29.12.2021
+#
+# Generator:    generate_ov
+# ===================================================================== */
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+%>
+
+<%
+# =====================================================================
+# Title:        vsim_waves_hwpe_streamer
+# Type:         Template API
+# Description:  HWPE streamer
+# =====================================================================
 %>
 
 <%def name="vsim_waves_hwpe_streamer()">\
@@ -22,9 +40,11 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {top} {
 
 
 <%
-################################
-## HWPE stream source modules ##
-################################
+# =====================================================================
+# Title:        vsim_waves_hwpe_streamer_source
+# Type:         Template API
+# Description:  HWPE streamer source modules
+# =====================================================================
 %>
 
 <%def name="vsim_waves_hwpe_streamer_source()">\
@@ -47,9 +67,11 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stre
 
 
 <%
-##############################
-## HWPE stream sink modules ##
-##############################
+# =====================================================================
+# Title:        vsim_waves_hwpe_streamer_sink
+# Type:         Template API
+# Description:  HWPE streamer sink modules
+# =====================================================================
 %>
 
 <%def name="vsim_waves_hwpe_streamer_sink()">\
@@ -70,12 +92,12 @@ add wave -noupdate -group {HWPE ${target}} -group {hwpe_streamer} -group {${stre
 
 </%def>
 
-
-
 <%
-####################################
-## HWPE stream address generators ##
-####################################
+# =====================================================================
+# Title:        vsim_waves_hwpe_streamer_addressgen
+# Type:         Template API
+# Description:  HWPE streamer address generator
+# =====================================================================
 %>
 
 <%def name="vsim_waves_hwpe_streamer_addressgen()">\
