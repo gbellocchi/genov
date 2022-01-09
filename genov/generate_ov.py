@@ -22,8 +22,8 @@ import pickle
 import os.path
 import sys
 
-from optimizer import Optimizer
-from emitter import emit_ov
+from python.optimizer import Optimizer
+from python.emitter import emit_ov
 
 from dev.ov_dev.specs.ov_specs import ov_specs
 

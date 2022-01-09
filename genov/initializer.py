@@ -21,11 +21,11 @@ from dev.ov_dev.specs.ov_specs import ov_specs
 
 '''
     Create accelerator configuration file. The latter is processed by shell script
-    "genov/tools/common_sh/acc_gen/acc_gen_config.sh" to guide the genetation of
+    "genov/tools/common_sh/acc_gen/acc_gen_config.sh" to guide the generation of
     hardware wrappers for target acceleration kernels.
 '''
 
-print("[py] >> Creating accelerator configuration file to guide wrapper generation")
+print("[py] >> Creating accelerator configuration file to guide accelerator wrapper generation")
 
 # Invoke overlay specifications
 ov_specs = ov_specs()
@@ -35,15 +35,15 @@ f = open("dev/ov_dev/acc_config.cfg", "w")
 
 # Extract information from overlay specification 
 
-acc_methods = ov_specs.get_targets_list()
+[target_acc, n_acc] = ov_specs.get_acc_info()
 
 # - Number of accelerators
-f.write("N_ACC=" + str(len(acc_methods)) + "\n")
+f.write("N_ACC=" + str(n_acc) + "\n")
 
 # - Accelerator targets 
 i = 0
-for t in acc_methods:
-    f.write("TARGET_ACC_" + str(i) + "=" + t().target + "\n")
+for t in target_acc:
+    f.write("TARGET_ACC_" + str(i) + "=" + t + "\n")
     i += 1
 
 f.close()
