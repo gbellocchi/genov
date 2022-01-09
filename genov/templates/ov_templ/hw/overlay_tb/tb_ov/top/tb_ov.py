@@ -4,7 +4,7 @@
 
 #!/usr/bin/env python3
 
-from collector import collector
+from python.collector import collector
 
 # HW testbench overlay
 class tb_ov(collector):

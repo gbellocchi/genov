@@ -14,7 +14,7 @@
 '''
 #!/usr/bin/env python3
 
-from collector import collector
+from python.collector import collector
 
 class ClPkg(collector):
     def top(self):

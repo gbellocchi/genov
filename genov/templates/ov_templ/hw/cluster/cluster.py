@@ -33,7 +33,8 @@ class Cluster:
         return ClPkg(
             temp_type = 'templates/ov_templ/hw/cluster/cl_pkg/',
             temp_top = 'cl_pkg.template_sv',
-            temp_modules = ['hwpe.template_sv'],
+            temp_modules = ['hwpe_lic.template_sv',
+                            'hwpe_hci.template_sv'],
             path_common = self.path_common
         ).top()
 

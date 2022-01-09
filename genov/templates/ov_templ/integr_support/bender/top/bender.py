@@ -21,7 +21,7 @@
 
 #!/usr/bin/env python3
 
-from collector import collector
+from python.collector import collector
 
 class bender(collector):
     def top(self):

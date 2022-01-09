@@ -1,8 +1,9 @@
 <%
 # =====================================================================
 # Project:      Cluster package
-# Title:        cl_pkg.template_sv
-# Description:  Packages compliant with hardware accelerator parameters.
+# Title:        hwpe_lic.template_sv
+# Description:  Template APIs compliant with HWPE-based wrappers connected 
+#               to the LIC interconnect.
 #
 # $Date:        29.12.2021
 #
@@ -18,68 +19,67 @@
 
 <%
 # =====================================================================
-# Title:        def_param_hwpe_region
+# Title:        def_param_hwpe_lic_region
 # Type:         Template API
 # Description:  Definition of parameters for HWPE-based accelerator 
 #               wrappers in the accelerator region.
 # =====================================================================
 %>
 
-<%def name="def_param_hwpe_region(cl_offset)">\
+<%def name="def_param_hwpe_lic_region()">\
 
   <%
-    # Count number of HWPE-based wrappers.
+    # Check and count HWPE-based wrappers.
 
-    n_hwpe_wrappers = 0
+    n_hwpe_lic = 0
     
-    for acc_prot in cl_acc_protocols[cl_offset]:
+    for acc_prot in cl_lic_acc_protocols:
       if acc_prot == "hwpe":
-        n_hwpe_wrappers += 1
+        n_hwpe_lic += 1
   %>
 
-  % if (n_hwpe_wrappers>0):
-  localparam bit HWPE_PRESENT                   = 1'b1;
+  % if (n_hwpe_lic > 0):
+    localparam bit HWPE_LIC_PRESENT                   = 1'b1;
   % else:
-  localparam bit HWPE_PRESENT                   = 1'b0;
+    localparam bit HWPE_LIC_PRESENT                   = 1'b0;
   % endif
 
-  localparam int N_HWPE                         = ${n_hwpe_wrappers};
+    localparam int N_HWPE_LIC                     = ${n_hwpe_lic};
 
 </%def>\
 
 <%
 # =====================================================================
-# Title:        def_param_hwpe_interface
+# Title:        def_param_hwpe_lic_interface
 # Type:         Template API
-# Description:  Definition of parameters for the interconnection of 
+# Description:  Definition of parameters for the LIC interconnection of 
 #               HWPE-based accelerator wrappers.
 # =====================================================================
 %>
 
-<%def name="def_param_hwpe_interface(cl_offset)">\
+<%def name="def_param_hwpe_lic_interface()">\
 
   <%
 
     # Count number of wrappers
 
-    n_acc_cl = len(cl_acc_names[cl_offset])
+    n_acc_cl = len(cl_lic_acc_names)
 
     # Count number of data ports associated to HWPE-based wrappers
 
     n_hwpe_ports_total = 0
     
     for acc_offset in range(n_acc_cl):
-      if cl_acc_protocols[cl_offset][acc_offset] == "hwpe":
-        n_hwpe_ports_total += cl_acc_n_data_ports[cl_offset][acc_offset]
+      if (cl_lic_acc_protocols[acc_offset] == "hwpe"):
+        n_hwpe_ports_total += cl_lic_acc_n_data_ports[acc_offset]
   %>
 
   % for acc_offset in range(n_acc_cl):
-    % if cl_acc_protocols[cl_offset][acc_offset] == "hwpe":
-  localparam int N_HWPE_PORTS_ACC_${acc_offset}             = ${cl_acc_n_data_ports[cl_offset][acc_offset]};
+    % if cl_lic_acc_protocols[acc_offset] == "hwpe":
+    localparam int N_HWPE_LIC_PORTS_ACC_${acc_offset}             = ${cl_lic_acc_n_data_ports[acc_offset]};
     % endif
   % endfor
 
-  localparam int unsigned N_HWPE_PORTS_TOTAL    = ${n_hwpe_ports_total};
+    localparam int unsigned N_HWPE_LIC_PORTS_TOTAL    = ${n_hwpe_ports_total};
 
 </%def>\
-

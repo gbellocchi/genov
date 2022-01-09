@@ -20,7 +20,7 @@ from templates.acc_templ.hw.hwpe_wrapper.hwpe_streamer.top.hwpe_streamer import 
 from templates.acc_templ.hw.hwpe_wrapper.hwpe_ctrl.top.hwpe_ctrl import hwpe_ctrl
 from templates.acc_templ.hw.hwpe_wrapper.hwpe_fsm.top.hwpe_fsm import hwpe_fsm
 
-from collector import collector
+from python.collector import collector
 
 # HWPE wrapper
 class hwpe_wrapper:

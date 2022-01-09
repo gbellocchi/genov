@@ -18,7 +18,7 @@
 
 #!/usr/bin/env python3
 
-from collector import collector
+from python.collector import collector
 
 class PrivateLicAccRegion(collector):
     def top(self):

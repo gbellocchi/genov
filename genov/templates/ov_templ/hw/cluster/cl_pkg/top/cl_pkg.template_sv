@@ -16,12 +16,6 @@
 # =====================================================================
 %>
 
-<%
-  # Count number of wrappers
-
-  n_acc_cl = len(cl_acc_names[cl_offset])
-%>
-
 /* =====================================================================
  * Project:      Cluster package
  * Title:        cl_${cl_offset}_pkg.sv
@@ -32,12 +26,18 @@
  *
  *               >> Cluster:      
  *                  - Offset: ${cl_offset}
- *                  - Interconnect topology: ${cl_interco[cl_offset]}
- *                  - Number of data ports (total): ${cl_n_data_ports[cl_offset]}
- *               >> Accelerators:
- *                  - Applications: [ ${print_cl_acc_names(cl_offset)} ]
- *                  - Number of data ports: [ ${print_cl_acc_n_data_ports(cl_offset)} ]
- *                  - Communication protocols: [ ${print_cl_acc_protocols(cl_offset)} ]
+ *                  - LIC interconnect:
+ *                    o Number of data ports (total): ${cl_lic_total_data_ports}
+ *                    o Accelerators:
+ *                      + Applications: [ ${print_cl_acc_names("lic")} ]
+ *                      + Number of data ports: [ ${print_cl_acc_n_data_ports("lic")} ]
+ *                      + Communication protocols: [ ${print_cl_acc_protocols("lic")} ]
+ *                  - HCI interconnect:
+ *                    o Number of data ports (total): ${cl_hci_total_data_ports}
+ *                    o Accelerators:
+ *                      + Applications: [ ${print_cl_acc_names("hci")} ]
+ *                      + Number of data ports: [ ${print_cl_acc_n_data_ports("hci")} ]
+ *                      + Communication protocols: [ ${print_cl_acc_protocols("hci")} ]
  *
  * $Date:        29.12.2021
  *
@@ -57,7 +57,12 @@ package automatic overlay_cluster_${cl_offset}_acc_pkg;
     # integration of HWPE-based accelerator wrappers 
     %>
 
-    ${def_param_hwpe_region(cl_offset)}
-    ${def_param_hwpe_interface(cl_offset)}
+    // LIC interconnect
+    ${def_param_hwpe_lic_region()}
+    ${def_param_hwpe_lic_interface()}
+
+    // HCI interconnect
+    ${def_param_hwpe_hci_region()}
+    ${def_param_hwpe_hci_interface()}
   
 endpackage

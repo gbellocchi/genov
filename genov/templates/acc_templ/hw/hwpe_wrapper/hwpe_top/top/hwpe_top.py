@@ -4,7 +4,7 @@
 
 #!/usr/bin/env python3
 
-from collector import collector
+from python.collector import collector
 
 # HWPE top
 class hwpe_top(collector):
