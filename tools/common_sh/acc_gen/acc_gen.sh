@@ -61,17 +61,18 @@ read_ov_config()
     echo "# ============================= #"
     echo -e ""
 
-    echo -e "[sh] >> User-defined, system-level specification concerning target accelerator kernels:\n"
+    echo -e "[sh] >> Analysys of overlay configuration has concluded."
+    echo -e "[sh] >> Accelerator wrappers will be generated for the following applications:\n"
 
     # Number of accelerators
     n_acc=$(grep N_ACC ${CONFIG_FILE} | sed 's/.*=//' | tr -d '"')
-    echo -e "\t- Number of accelerators -> $n_acc"
+    # echo -e "\t- Number of distinct accelerator wrappers -> $n_acc"
 
     # Accelerator targets
     for (( c=0; c<=$n_acc-1; c++ ))
     do  
         acc_targets[$c]=$(grep TARGET_ACC_$c ${CONFIG_FILE} | sed 's/.*=//' | tr -d '"')
-        echo -e "\t- Accelerator target #$c -> ${acc_targets[$c]}"
+        echo -e "\t- ${acc_targets[$c]}"
     done
 
     # Check data correctness
@@ -113,9 +114,6 @@ fetch_acc_specs()
         echo "[sh] >> Fetching accelerator target #$c -> ${acc_targets[$c]}"
         make --silent clean all ACC_DEV_DIR=$dir_acc_dev TARGET_ACC=${acc_targets[$c]}
     done
-
-    # # Make accelerator specifications accessible by Python import system
-    # touch $dir_acc_dev/__init__.py
 }
 
 # =====================================================================
@@ -139,11 +137,14 @@ optimize_ov_specs()
         rm $dir_root/genov/state_optimizer.obj
     fi
 
-    for (( c=0; c<=$n_acc-1; c++ ))
-    do  
-        echo "[sh] >> Optimizing overlay specification with infomation about target #$c -> ${acc_targets[$c]}"
-        make --silent ov_gen_opt TARGET_ACC=${acc_targets[$c]} OFFSET_ACC=$c N_ACC=$n_acc
-    done
+    # for (( c=0; c<=$n_acc-1; c++ ))
+    # do  
+    #     echo "[sh] >> Optimizing overlay specification with infomation about target #$c -> ${acc_targets[$c]}"
+    #     make --silent ov_gen_opt TARGET_ACC=${acc_targets[$c]} OFFSET_ACC=$c N_ACC=$n_acc
+    # done
+
+    # echo "[sh] >> Optimizing overlay specification with infomation about target #$c -> ${acc_targets[$c]}"
+    make --silent ov_gen_opt
 }
 
 # =====================================================================
@@ -232,8 +233,8 @@ if [ -f ${CONFIG_FILE} ]; then
     # Fetch accelerator specifications
     fetch_acc_specs
 
-    # Optimize overlay specification
-    optimize_ov_specs
+    # # Optimize overlay specification
+    # optimize_ov_specs
 
     # Generate accelerator wrappers
     gen_acc_configs

@@ -22,7 +22,8 @@ readonly dir_py_venv="$2"
 readonly dir_out_ov="$3"
 
 # Cleaning repo
-rm -rf ${dir_ov_dev}/*
+rm -rf ${dir_ov_dev}
+mkdir ${dir_ov_dev}
 find . -type d -name '__pycache__' -not -path "${dir_py_venv}" -exec rm -rf {} +
 find . -name "*.pyc" -type f -delete
 
