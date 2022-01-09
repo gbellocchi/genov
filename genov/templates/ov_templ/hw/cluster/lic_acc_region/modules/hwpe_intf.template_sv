@@ -1,8 +1,9 @@
 <%
 # =====================================================================
-# Project:      Shared LIC accelerator region
+# Project:      LIC accelerator region
 # Title:        hwpe_intf.template_sv
-# Description:  HWPE-based accelerator interface (Shared LCI)
+# Description:  Template APIs to construct the HWPE-based accelerator 
+#               interface.
 #
 # $Date:        29.12.2021
 #
@@ -22,22 +23,22 @@
 # Type:         Template API
 # Description:  Interface to HWPE-based accelerator wrapper. Instantiation 
 #               of HWPE-based accelerator wrapper(-s) connected to the 
-#               shared LIC inside an overlay cluster.
+#               LIC inside an overlay cluster.
 # =====================================================================
 %>
 
-<%def name="insert_ip_hwpe_intf(cl_offset)">\
+<%def name="insert_ip_hwpe_intf()">\
 
   <%
     # Count number of wrappers
 
-    n_acc_cl = len(cl_acc_names[cl_offset])
+    n_acc_cl = len(cl_lic_acc_names)
   %>
 
   logic [NB_HWPE-1:0] busy_acc;
 
   % for i in range(n_acc_cl):
-    % if cl_acc_protocols[cl_offset][i] == "hwpe":
+    % if cl_lic_acc_protocols[i] == "hwpe":
 
       <%
         # Determine accelerator offset
@@ -49,9 +50,9 @@
 
   /* Interface to accelerator #${acc_offset}. */
 
-  ${def_param_master_port_idx(cl_offset, acc_offset)}
+  ${def_param_master_port_idx(acc_offset)}
 
-  ${cl_acc_names[cl_offset][acc_offset]}_hwpe_intf #( 
+  ${cl_lic_acc_names[acc_offset]}_hwpe_intf #( 
     .N_CORES          ( NB_CORES  ),
     .N_HWPE_PORTS     ( NB_HWPE_PORTS_${acc_offset}   ),
     .ID_WIDTH         ( ID_WIDTH )
@@ -82,7 +83,7 @@ endmodule
 # =====================================================================
 # Title:        def_param_master_port_idx
 # Type:         Template API
-# Description:  Definition and initialization of shared LIC port indices  
+# Description:  Definition and initialization of LIC port indices  
 #               associated with clustered HWPE-based accelerator wrapper(-s).
 #               This is because the master ports are wrapped into an array
 #               "hwacc_xbar_master[NB_HWPE_PORTS_TOTAL-1:0]" that is input
@@ -92,7 +93,7 @@ endmodule
 # =====================================================================
 %>
 
-<%def name="def_param_master_port_idx(cl_offset, acc_offset)">\
+<%def name="def_param_master_port_idx(acc_offset)">\
 
   <%
     is_first_hwpe = True
@@ -111,7 +112,7 @@ endmodule
       # Only HWPE-based wrappers are currently supported
     %>
 
-    % if cl_acc_protocols[cl_offset][i] == "hwpe":
+    % if cl_lic_acc_protocols[i] == "hwpe":
 
       <%
         # Construction of the string defining the indices
@@ -121,23 +122,23 @@ endmodule
         <%
           is_first_hwpe = False
 
-          str_H = "NB_HWPE_PORTS_" + str(i) + " - 1"
+          str_H = "NB_HWPE_LIC_PORTS_ACC_" + str(i) + " - 1"
           str_L = "0"
         %>
       % else:
         <%
-          str_H = "NB_HWPE_PORTS_" + str(i) + " + " + str_H
+          str_H = "NB_HWPE_LIC_PORTS_ACC_" + str(i) + " + " + str_H
         %>
 
         <%
-          str_L = "NB_HWPE_PORTS_" + str(i-1) + " + " + str_L
+          str_L = "NB_HWPE_LIC_PORTS_ACC_" + str(i-1) + " + " + str_L
         %>
       % endif
     % endif
   % endfor
 
   <%
-    # Definition and initialization of shared LIC port indices
+    # Definition and initialization of LIC port indices
   %>
 
   parameter mst_idx_${acc_offset}_H = ${str_H};

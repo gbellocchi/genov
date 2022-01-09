@@ -47,8 +47,10 @@ class ov_specs:
 
     def cluster_0(self):
         self.cl_offset                          = 0
-        self.list_lic                           = [ [ 'traffic_gen' , 'hwpe'] ]
-        self.list_hci                           = [ ]
+        self.list_lic                           = [ [ 'traffic_gen' , 'hwpe'] , 
+                                                    [ 'traffic_gen' , 'hwpe'] , 
+                                                    [ 'traffic_gen' , 'hwpe'] ]
+        self.list_hci                           = [ [ 'traffic_gen' , 'hwpe'] ]
         return self
 
     '''

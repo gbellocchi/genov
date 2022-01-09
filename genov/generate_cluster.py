@@ -87,20 +87,30 @@ for cl_target in cl_list:
         cl_offset
     )
 
-    # '''
-    #     Generate design components ~ Accelerator regions
-    # '''
+    '''
+        Generate design components ~ LIC accelerator region
+    '''
 
-    # if (opt_ov_specs.cl_interco[cl_offset] == 'shared_lic'):
+    gen_cl_comps(
+        cluster.LicAccRegion(),
+        emitter,
+        ['cl', str(cl_offset) + '_lic_acc_region', ['hw', 'rtl']],
+        emitter.ov_gen_cl,
+        cl_target,
+        cl_offset
+    )
 
-    #     gen_cl_comps(
-    #         cluster.SharedLicAccRegion(),
-    #         ['cl', str(cl_offset) + '_shared_lic_acc_region', ['hw', 'rtl']],
-    #         emitter.ov_gen_cl,
-    #         cl_offset
-    #     )
-
-    # elif (opt_ov_specs.cl_interco[cl_offset] == 'private_lic'):
+    '''
+        Generate design components ~ LIC accelerator interface
+    ''' 
+    gen_cl_comps(
+        cluster.LicAccIntf(),
+        emitter,
+        ['cl', str(cl_offset) + '_lic_acc_intf', ['hw', 'rtl']],
+        emitter.ov_gen_cl,
+        cl_target,
+        cl_offset
+    )
 
     #     gen_cl_comps(
     #         cluster.PrivateLicAccRegion(),
@@ -109,14 +119,4 @@ for cl_target in cl_list:
     #         cl_offset
     #     )
 
-    # # elif (opt_ov_specs.cl_interco[cl_offset] == 'shared_hci'):
-
-    # '''
-    #     Generate design components ~ Accelerator interface
-    # ''' 
-    # gen_cl_comps(
-    #     cluster.AccIntf(),
-    #     ['cl', str(cl_offset) + '_acc_intf', ['hw', 'rtl']],
-    #     emitter.ov_gen_cl,
-    #     cl_offset
-    # )
+    

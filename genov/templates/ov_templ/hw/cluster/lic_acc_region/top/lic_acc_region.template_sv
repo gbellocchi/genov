@@ -1,13 +1,13 @@
 <%
 # =====================================================================
-# Project:      Private LIC accelerator region
-# Title:        private_lic_acc_region.template_sv
-# Description:  Definition of accelerator region module through the 
+# Project:      LIC accelerator region
+# Title:        lic_acc_region.template_sv
+# Description:  The accelerator region module is defined through the 
 #               template API "def_acc_region_module". The module interfaces
-#               to the private logarithmic interconnect of the overlay 
-#               cluster. The body of the accelerator region comprises the
-#               instantiation of an accelerator interface to the accelerator
-#               wrapper. The latter is accomplished by the API
+#               to the shared logarithmic interconnect of the overlay 
+#               cluster. The body of the accelerator region comprises
+#               instantiations of accelerator interfaces to accelerator
+#               wrappers. The latter is accomplished by the API
 #               "insert_hwpe_acc_intf".
 #
 # $Date:        29.12.2021
@@ -23,12 +23,12 @@
 %>
 
 /* =====================================================================
- * Project:      Private LIC accelerator region
- * Title:        cl_${cl_offset}_private_lic_acc_region.template_sv
+ * Project:      LIC accelerator region
+ * Title:        cl_${cl_offset}_lic_acc_region.template_sv
  * Description:  The accelerator region is connected to the overlay 
- *               infrastructure by means of a private logarithmic 
- *               interconnect. This module also instantiates the 
- *               accelerator interfaces to the accelerator wrappers.
+ *               infrastructure by means of a logarithmic interconnect. 
+ *               This module also instantiates the accelerator interfaces 
+ *               to the accelerator wrappers.
  *
  * $Date:        29.12.2021
  *
@@ -41,5 +41,5 @@
  *
  */
 
-${def_ip_acc_region(cl_offset)}
-${insert_ip_hwpe_intf(cl_offset)}
+${def_ip_acc_region()}
+${insert_ip_hwpe_intf()}

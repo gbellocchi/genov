@@ -65,12 +65,12 @@ class Generator(ov_specs):
             n_clusters                      = self.get_n_cl(),
             # cluster offset
             cl_offset                       = cl_offset,
-            # logarithmic interconnect
+            # logarithmic interconnect (LIC)
             cl_lic_total_data_ports         = cl_lic_total_data_ports, 
             cl_lic_acc_names                = cl_lic_acc_names,
             cl_lic_acc_protocols            = cl_lic_acc_protocols,
             cl_lic_acc_n_data_ports         = cl_lic_acc_n_data_ports,
-            # heterogeneous interconnect
+            # heterogeneous interconnect (HCI)
             cl_hci_total_data_ports         = cl_hci_total_data_ports, 
             cl_hci_acc_names                = cl_hci_acc_names,
             cl_hci_acc_protocols            = cl_hci_acc_protocols,

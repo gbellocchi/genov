@@ -1,6 +1,6 @@
 <%
 # =====================================================================
-# Project:      Accelerator interface
+# Project:      LIC accelerator interface
 # Title:        hwpe_intf.template_sv
 # Description:  HWPE-based accelerator interface.
 #
@@ -24,9 +24,9 @@
 # =====================================================================
 %>
 
-<%def name="def_ip_hwpe_intf(cl_offset, acc_offset)">\
+<%def name="def_ip_hwpe_intf(acc_offset)">\
 
-module ${cl_acc_names[cl_offset][acc_offset]}_hwpe_intf
+module ${cl_lic_acc_names[acc_offset]}_hwpe_intf
 #(
   parameter N_CORES = 2,
   parameter N_HWPE_PORTS = 2,
@@ -54,7 +54,7 @@ module ${cl_acc_names[cl_offset][acc_offset]}_hwpe_intf
 # =====================================================================
 %>
 
-<%def name="insert_ip_hwpe_wrapper(cl_offset, acc_offset, n_acc_cl)">\
+<%def name="insert_ip_hwpe_wrapper(acc_offset, n_acc_cl)">\
 
   /* Local shared-memory interface. */
 
@@ -69,7 +69,7 @@ module ${cl_acc_names[cl_offset][acc_offset]}_hwpe_intf
 
   /* Target accelerator wrapper. */
 
-  ${cl_acc_names[cl_offset][acc_offset]}_top_wrap #(
+  ${cl_lic_acc_names[acc_offset]}_top_wrap #(
     .N_CORES          ( N_CORES ),
     .MP               ( N_HWACC_PORTS ),
     .ID               ( ID_WIDTH )

@@ -19,9 +19,8 @@
 #!/usr/bin/env python3
 
 from templates.ov_templ.hw.cluster.cl_pkg.top.cl_pkg import ClPkg
-from templates.ov_templ.hw.cluster.shared_lic_acc_region.top.shared_lic_acc_region import SharedLicAccRegion
-from templates.ov_templ.hw.cluster.private_lic_acc_region.top.private_lic_acc_region import PrivateLicAccRegion
-from templates.ov_templ.hw.cluster.acc_intf.top.acc_intf import AccIntf
+from templates.ov_templ.hw.cluster.lic_acc_region.top.lic_acc_region import LicAccRegion
+from templates.ov_templ.hw.cluster.lic_acc_intf.top.lic_acc_intf import LicAccIntf
 
 class Cluster:
     def __init__(self):
@@ -38,32 +37,21 @@ class Cluster:
             path_common = self.path_common
         ).top()
 
-    def SharedLicAccRegion(self):
-        print("\n[py] >> Overlay ~ Shared LIC accelerator region")
-        return SharedLicAccRegion(
-            temp_type = 'templates/ov_templ/hw/cluster/shared_lic_acc_region/',
-            temp_top = 'shared_lic_acc_region.template_sv',
+    def LicAccRegion(self):
+        print("\n[py] >> Overlay ~ LIC accelerator region")
+        return LicAccRegion(
+            temp_type = 'templates/ov_templ/hw/cluster/lic_acc_region/',
+            temp_top = 'lic_acc_region.template_sv',
             temp_modules = ['acc_region.template_sv', 
                             'hwpe_intf.template_sv'],
             path_common = self.path_common
         ).top()
 
-    def PrivateLicAccRegion(self):
-        print("\n[py] >> Overlay ~ Private LIC accelerator region")
-        return SharedLicAccRegion(
-            temp_type = 'templates/ov_templ/hw/cluster/private_lic_acc_region/',
-            temp_top = 'private_lic_acc_region.template_sv',
-            temp_modules = ['acc_region.template_sv', 
-                            'hwpe_intf.template_sv'
-            ],
-            path_common = self.path_common
-        ).top()
-
-    def AccIntf(self):
-        print("\n[py] >> Overlay ~ Accelerator interface")
-        return AccIntf(
-            temp_type = 'templates/ov_templ/hw/cluster/acc_intf/',
-            temp_top = 'acc_intf.template_sv',
+    def LicAccIntf(self):
+        print("\n[py] >> Overlay ~ LIC accelerator interface")
+        return LicAccIntf(
+            temp_type = 'templates/ov_templ/hw/cluster/lic_acc_intf/',
+            temp_top = 'lic_acc_intf.template_sv',
             temp_modules = ['hwpe_intf.template_sv'],
             path_common = self.path_common
         ).top()

@@ -1,11 +1,11 @@
 '''
  =====================================================================
  Project:       Overlay templates
- Title:         shared_lic_acc_region.py
+ Title:         lic_acc_region.py
  Description:   The accelerator region is connected to the overlay 
-                infrastructure by means of a shared logarithmic 
-                interconnect. This module also instantiates the 
-                accelerator interfaces to the accelerator wrappers.
+                infrastructure by means of a logarithmic interconnect. 
+                This module also instantiates the accelerator interfaces 
+                to the accelerator wrappers.
 
  Date:          29.12.2021
  ===================================================================== */
@@ -20,6 +20,6 @@
 
 from python.collector import collector
 
-class SharedLicAccRegion(collector):
+class LicAccRegion(collector):
     def top(self):
         return self.get_template()

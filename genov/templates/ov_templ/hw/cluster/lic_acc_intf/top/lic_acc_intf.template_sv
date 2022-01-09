@@ -1,9 +1,9 @@
 <%
 # =====================================================================
-# Project:      Accelerator interface
-# Title:        acc_intf.template_sv
-# Description:  The accelerator interface is positioned in between an 
-#               accelerator region and top module of an accelerator 
+# Project:      LIC Accelerator interface
+# Title:        lic_acc_intf.template_sv
+# Description:  The LIC accelerator interface is positioned in between an 
+#               accelerator region and the top module of an accelerator 
 #               wrapper. The goal of the IP is to decompose the crossbar
 #               TCDM master interface (from the overlay cluster) into
 #               the single signals of the TCDM communication protocol.
@@ -23,14 +23,14 @@
 <%
   # Count number of wrappers
 
-  n_acc_cl = len(cl_acc_names[cl_offset])
+  n_acc_cl = len(cl_lic_acc_names)
 %>
 
 /* =====================================================================
- * Project:      Accelerator interface
- * Title:        cl_${cl_offset}_acc_intf.template_sv
+ * Project:      LIC accelerator interface
+ * Title:        cl_${cl_offset}_lic_acc_intf.template_sv
  * Description:  The accelerator interface is positioned in between an 
- *               accelerator region and top module of an accelerator 
+ *               accelerator region and the top module of an accelerator 
  *               wrapper. The goal of the IP is to decompose the crossbar
  *               TCDM master interface (from the overlay cluster) into
  *               the single signals of the TCDM communication protocol.
@@ -64,7 +64,7 @@
     # Search for duplicates
 
     for hwpe_gen in hwpe_gen_list:
-      if (cl_acc_names[cl_offset][acc_offset]==hwpe_gen):
+      if (cl_lic_acc_names[acc_offset]==hwpe_gen):
         is_hwpe_duplicate = True 
   %>
 
@@ -76,13 +76,13 @@
       # soon generated in the list
 
       if (is_hwpe_duplicate==False):
-        hwpe_gen_list.append(cl_acc_names[cl_offset][acc_offset])
+        hwpe_gen_list.append(cl_lic_acc_names[acc_offset])
     %>
 
-    % if (cl_acc_protocols[cl_offset][acc_offset] == "hwpe"):
+    % if (cl_lic_acc_protocols[acc_offset] == "hwpe"):
 
-${def_ip_hwpe_intf(cl_offset, acc_offset)}
-${insert_ip_hwpe_wrapper(cl_offset, acc_offset, n_acc_cl)}
+${def_ip_hwpe_intf(acc_offset)}
+${insert_ip_hwpe_wrapper(acc_offset, n_acc_cl)}
 
     % endif
 

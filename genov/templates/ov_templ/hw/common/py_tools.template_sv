@@ -93,14 +93,14 @@ ${str_acc}\
         n_acc = len(cl_lic_acc_protocols)
         if (n_acc > 0):
             for i in range(n_acc-1):
-                str_acc += acc_names[i] + ", "
+                str_acc += cl_lic_acc_protocols[i] + ", "
             str_acc += cl_lic_acc_protocols[n_acc-1]
 
     if (cl_interco_type=="hci"):
         n_acc = len(cl_hci_acc_protocols)
         if (n_acc > 0):
             for i in range(n_acc-1):
-                str_acc += acc_names[i] + ", "
+                str_acc += cl_lic_acc_protocols[i] + ", "
             str_acc += cl_hci_acc_protocols[n_acc-1]
 %>\
 ${str_acc}\

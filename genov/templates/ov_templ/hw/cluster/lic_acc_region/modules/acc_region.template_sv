@@ -1,8 +1,8 @@
 <%
 # =====================================================================
-# Project:      Private LIC accelerator region
+# Project:      LIC accelerator region
 # Title:        acc_region.template_sv
-# Description:  Accelerator region (Private LCI)
+# Description:  Template APIs to construct the LIC accelerator region.
 #
 # $Date:        29.12.2021
 #
@@ -21,14 +21,19 @@
 # Title:        def_ip_acc_region
 # Type:         Template API
 # Description:  Interface to PULP-based overlay cluster. Definition of 
-#               module interface to the private LIC inside an overlay 
-#               cluster.
+#               module interface to the LIC inside an overlay cluster.
 # =====================================================================
 %>
 
-<%def name="def_ip_acc_region(cl_offset)">\
+<%def name="def_ip_acc_region()">\
 
-  module private_lic_acc_region
+  <%
+    # Count number of wrappers
+
+    n_acc_cl = len(cl_lic_acc_names)
+  %>
+
+  module lic_acc_region
   #(
     // Cluster
     parameter NB_CORES = 2,
@@ -38,8 +43,10 @@
     localparam int NB_HWPE = N_HWPE,
 
     // Master ports
-    localparam int NB_HWPE_PORTS_0      = N_HWPE_PORTS_0,
-    localparam int NB_HWPE_PORTS_TOTAL  = N_HWPE_PORTS_TOTAL,
+    % for acc_offset in range(n_acc_cl):
+    localparam int NB_HWPE_LIC_PORTS_ACC_${acc_offset},
+    % endfor
+    localparam int NB_HWPE_LIC_PORTS_TOTAL,
 
     // Other params
     parameter N_DMA = 4,
