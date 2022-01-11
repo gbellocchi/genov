@@ -1,0 +1,46 @@
+<%
+# =====================================================================
+# Project:       Bender
+# Title:         bender.template_yml
+# Description:   Bender is a dependency management tool for hardware 
+#                design projects. It provides a way to define dependencies 
+#                among IPs, execute unit tests, and verify that the source 
+#                files are valid input for various simulation and synthesis 
+#                tools. 
+#                For more information about it:
+#                    - https://github.com/fabianschuiki/bender
+#
+# $Date:        29.12.2021
+#
+# Generator:    generate_ov
+# ===================================================================== */
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+%>
+
+<%
+  # Wrapper dependencies 
+  wrapper_deps = extra_param_0
+
+  # Count number of wrappers
+  n_wrapper_deps = len(wrapper_deps)
+%>
+
+package:
+  name: clusters
+  authors: [ "Gianluca Bellocchi <gianluca.bellocchi@unimore.it>"]
+
+dependencies:
+% for i in range(n_wrapper_deps):
+  ${wrapper_deps[i]}: { path: "./ov_cfg/${ov_config}/wrappers/${wrapper_deps[i]}" }
+% endfor
+
+sources:
+% for i in range(n_clusters):
+  - rtl/cl_${i}_pkg.sv
+  - rtl/cl_${i}_acc_intf.sv
+  - rtl/cl_${i}_shared_lic_acc_region.sv
+% endfor
+

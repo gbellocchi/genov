@@ -49,11 +49,14 @@ class Generator(ov_specs):
         The rendered output is a string.
     '''
         
-    def render(self, template, cl_target=None, cl_offset=0):
-        # format design parameters
-        cl_lic_total_data_ports, cl_lic_acc_names, cl_lic_acc_protocols, cl_lic_acc_n_data_ports = format_cl_acc_params(cl_target().list_lic)
-        cl_hci_total_data_ports, cl_hci_acc_names, cl_hci_acc_protocols, cl_hci_acc_n_data_ports = format_cl_acc_params(cl_target().list_hci)
-        
+    def render(self, template, cl_target=None, cl_offset=0, extra_params=[]):
+        # format cluster design parameters
+        if(cl_target is not None):
+            cl_lic_total_data_ports, cl_lic_acc_names, cl_lic_acc_protocols, cl_lic_acc_n_data_ports = format_cl_acc_params(cl_target().list_lic)
+            cl_hci_total_data_ports, cl_hci_acc_names, cl_hci_acc_protocols, cl_hci_acc_n_data_ports = format_cl_acc_params(cl_target().list_hci)
+        else:
+            cl_lic_total_data_ports, cl_lic_acc_names, cl_lic_acc_protocols, cl_lic_acc_n_data_ports = 0, [], [], []
+            cl_lic_total_data_ports, cl_lic_acc_names, cl_lic_acc_protocols, cl_lic_acc_n_data_ports = 0, [], [], []
         # prepare input template
         target = Template(template)
         # rendering phase
@@ -61,6 +64,8 @@ class Generator(ov_specs):
             # author
             author                          = self.author,
             email                           = self.email,
+            # system
+            ov_config                       = self.ov_config,
             # number of clusters
             n_clusters                      = self.get_n_cl(),
             # cluster offset
@@ -75,6 +80,10 @@ class Generator(ov_specs):
             cl_hci_acc_names                = cl_hci_acc_names,
             cl_hci_acc_protocols            = cl_hci_acc_protocols,
             cl_hci_acc_n_data_ports         = cl_hci_acc_n_data_ports,
+            # additional params
+            extra_param_0                   = extra_params[0],
+            extra_param_1                   = extra_params[1],
+            extra_param_2                   = extra_params[2],
         )
         # Compile a regex to trim trailing whitespaces on lines
         # and multiple consecutive new lines.
@@ -110,8 +119,8 @@ def get_opt_cluster_params(filename):
     generation of components for a specific cluster
 '''
 
-def gen_cl_comps(temp_obj, emitter, descr, out_dir, cl_target, cl_offset):
+def gen_cl_comps(temp_obj, emitter, descr, out_dir, cl_target, cl_offset, extra_params=[None for _ in range(3)]):
     template = temp_obj
-    out_target = Generator().render(template, cl_target=cl_target, cl_offset=cl_offset)
+    out_target = Generator().render(template, cl_target, cl_offset, extra_params)
     filename = emitter.get_file_name(descr)
     emitter.out_gen(out_target, filename, out_dir)

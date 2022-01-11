@@ -38,7 +38,7 @@ class ov_specs:
     '''
 
     def system_k(self):
-        # self.n_acc                      = 3
+        self.ov_config                          = 'ov_a'
         return self
 
     '''

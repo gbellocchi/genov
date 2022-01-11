@@ -21,6 +21,7 @@ import sys
     Import custom functions
 '''
 from python.cluster.generator import gen_cl_comps
+from python.cluster.process_params import derive_wrapper_targets
 
 '''
     Import emitter
@@ -118,5 +119,18 @@ for cl_target in cl_list:
     #         emitter.ov_gen_cl,
     #         cl_offset
     #     )
+
+    '''
+    Generate design components ~ Bender
+    ''' 
+    gen_cl_comps(
+        cluster.Bender(),
+        emitter,
+        ['integr_support', 'Bender', ['integr_support', 'yml']],
+        emitter.ov_gen_cl,
+        cl_target,
+        cl_offset,
+        [derive_wrapper_targets(ov_specs), None, None]
+    )
 
     
