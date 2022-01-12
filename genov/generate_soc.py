@@ -1,8 +1,8 @@
 '''
  =====================================================================
  Project:      Accelerator-Rich Overlay Generator
- Title:        generate_cluster.py
- Description:  Generation of accelerator-rich overlay components.
+ Title:        generate_soc.py
+ Description:  Generation of accelerator-rich SoC components.
 
  Date:         23.11.2021
  ===================================================================== */
@@ -20,8 +20,7 @@ import sys
 '''
     Import custom functions
 '''
-from python.cluster.generator import gen_cl_comps
-from python.wrapper.targets import derive_wrapper_targets
+from python.soc.generator import gen_cl_comps
 
 '''
     Import emitter
@@ -130,7 +129,7 @@ for cl_target in cl_list:
         emitter.ov_gen_cl,
         cl_target,
         cl_offset,
-        [derive_wrapper_targets(ov_specs), None, None]
+        [None, None, None]
     )
 
     

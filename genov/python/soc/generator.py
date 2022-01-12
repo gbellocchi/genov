@@ -2,7 +2,7 @@
  =====================================================================
  Project:      Accelerator-Rich Overlay Generator
  Title:        generator.py
- Description:  Generator of cluster components.
+ Description:  Generator of SoC components.
 
  Date:         8.1.2022
  ===================================================================== */
@@ -110,12 +110,12 @@ def get_opt_cluster_params(filename):
         sys.exit(1)
 
 '''
-    ============================
-    Cluster components generator
-    ============================
+    ========================
+    SoC components generator
+    ========================
 '''
 
-def gen_cl_comps(temp_obj, emitter, descr, out_dir, cl_target, cl_offset, extra_params=[None for _ in range(3)]):
+def gen_soc_comps(temp_obj, emitter, descr, out_dir, cl_target, cl_offset, extra_params=[None for _ in range(3)]):
     template = temp_obj
     out_target = Generator().render(template, cl_target, cl_offset, extra_params)
     filename = emitter.get_file_name(descr)
