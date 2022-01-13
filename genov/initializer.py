@@ -16,8 +16,15 @@
 
 #!/usr/bin/env python3
 
-# Design specification packages
+'''
+    Import design parameters
+'''
 from dev.ov_dev.specs.ov_specs import ov_specs
+
+'''
+    Import custom functions
+'''
+from python.overlay.process_params import get_acc_info
 
 '''
     Create accelerator configuration file. The latter is processed by shell script
@@ -35,7 +42,7 @@ f = open("dev/ov_dev/acc_config.cfg", "w")
 
 # Extract information from overlay specification 
 
-[target_acc, n_acc] = ov_specs.get_acc_info()
+[target_acc, n_acc] = get_acc_info(ov_specs)
 
 # - Number of accelerators
 f.write("N_ACC=" + str(n_acc) + "\n")
