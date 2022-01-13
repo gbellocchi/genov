@@ -21,8 +21,7 @@ readonly dir_py_venv=$1
 source $dir_py_venv/bin/activate
 
 # Run optimizer
-# cd genov && python optimize_ov.py
-cd genov && python optimize_ov_2.py
+# cd genov/python/optimizer && python optimize_ov.py
 
 # Deactivate environment
 deactivate

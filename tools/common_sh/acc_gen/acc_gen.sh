@@ -181,12 +181,6 @@ gen_acc_configs()
     cd $dir_root
     for (( c=0; c<=$n_acc-1; c++ ))
     do  
-        echo -e ""
-        echo "# =========================================== #"
-        echo "# Generating target #$c -> ${acc_targets[$c]} #"
-        echo "# =========================================== #"
-        echo -e ""
-
         # Check if target has already been generated
         check_acc_out
 
@@ -239,7 +233,7 @@ if [ -f ${CONFIG_FILE} ]; then
     # Generate accelerator wrappers
     gen_acc_configs
 else
-    echo "No accelerator configuration found in $dir_ov_dev"
+    echo "[sh] >> No accelerator configuration found in $dir_ov_dev"
 fi
 
 # Deactivate environment

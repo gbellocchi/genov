@@ -94,12 +94,6 @@ gen_acc_wrappers()
 
 gen_overlay()
 {
-    echo -e ""
-    echo "# ====================================== #"
-    echo "# Generation of accelerator-rich overlay #"
-    echo "# ====================================== #"
-    echo -e ""
-
     # Generate target overlay
     cd $dir_root
     make --silent ov_gen_run

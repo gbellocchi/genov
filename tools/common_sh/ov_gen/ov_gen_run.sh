@@ -24,7 +24,11 @@ source $dir_py_venv/bin/activate
 
 # Run generator
 echo -e "[sh] >> Generation of accelerator-rich overlay"
-cd genov && python generate_cluster.py $dir_out_ov
+cd genov 
+python generate_ov.py $dir_out_ov
+python generate_ov_test.py $dir_out_ov
+python generate_soc.py $dir_out_ov
+python generate_cluster.py $dir_out_ov
 
 # Deactivate environment
 deactivate
