@@ -35,7 +35,7 @@ REPO 			:= genov
 # =====================================================================
 
 TARGET_ACC		:= traffic_gen
-TARGET_OV		:= ov_no_opt
+TARGET_OV		:= ov_a
 
 # =====================================================================
 # Description:  Basic recipes and inclusion of sub-mk-files.
