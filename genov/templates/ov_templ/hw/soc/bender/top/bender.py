@@ -23,7 +23,7 @@
 
 from python.collector import collector
 
-class bender(collector):
+class Bender(collector):
     def top(self):
         return self.get_template()
 
