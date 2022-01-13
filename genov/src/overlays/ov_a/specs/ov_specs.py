@@ -28,7 +28,7 @@ class ov_specs:
         Author information
     '''
 
-    def author_k(self):
+    def author(self):
         self.author                             = 'Gianluca Bellocchi'    
         self.email                              = '<gianluca.bellocchi@unimore.it>'
         return self
@@ -37,96 +37,94 @@ class ov_specs:
         System
     '''
 
-    def system_k(self):
+    def system(self):
         self.ov_config                          = 'ov_a'
         return self
 
     '''
-        Accelerator #0
-            >> Target name:                 Traffic generator
-            >> Protocol type:               Hardware processing engine (HWPE)
-            >> Interconnection method:      Shared logarithmic interconnect
+        Cluster #0
     '''
 
-    def acc_0(self):
-        self.target                             = 'traffic_gen'
-        self.protocol_type                      = 'hwpe'
-        self.connection_type                    = 'shared_lic'
-        self.offset                             = 0
-        return self
-
-    '''
-        Accelerator #1
-            >> Target name:                 2D convolution
-            >> Protocol type:               Hardware processing engine (HWPE)
-            >> Interconnection method:      Shared logarithmic interconnect
-    '''
-
-    def acc_1(self):
-        self.target                             = 'traffic_gen'
-        self.protocol_type                      = 'hwpe'
-        self.connection_type                    = 'shared_lic'
-        self.offset                             = 1
-        return self
-
-    '''
-        Accelerator #2
-            >> Target name:                 Traffic generator
-            >> Protocol type:               Hardware processing engine (HWPE)
-            >> Interconnection method:      Shared logarithmic interconnect
-    '''
-
-    def acc_2(self):
-        self.target                             = 'traffic_gen'
-        self.protocol_type                      = 'hwpe'
-        self.connection_type                    = 'shared_lic'
-        self.offset                             = 2
+    def cluster_0(self):
+        self.cl_offset                          = 0
+        self.list_lic                           = [ [ 'traffic_gen' , 'hwpe'] ]
+        self.list_hci                           = [ ]
         return self
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-    '''
-        Derive accelerator targets list
-    '''
+    # '''
+    #     Extract cluster methods
+    # '''
 
-    def get_targets_list(self):
-        targets_list = []
-        for attribute in dir(ov_specs):
-            if "acc_" in attribute:
-                method = getattr(self, attribute)
-                targets_list.append(method)
-        return targets_list
+    # def get_cl_targets_list(self):
+    #     attribute_list = []
+    #     targets_list = []
+    #     for attribute in dir(ov_specs):
+    #         if attribute not in attribute_list:
+    #             if "cluster_" in attribute:
+    #                 attribute_list.append(attribute)
+    #                 method = getattr(self, attribute)
+    #                 targets_list.append(method)
+    #     return targets_list
 
-    '''
-        Format user-defined parameters in a simplified form to ease the templating stage. Do not modify this part.
-    '''
+    # '''
+    #     Derive number of clusters
+    # '''
 
-    '''
-        Format accelerators information.
-    '''
+    # def get_n_cl(self):
+    #     return len(self.get_cl_targets_list())
 
-    def accelerators_formatted(self):
-        # methods
-        acc_methods = self.get_targets_list()
-        # extract parameters from methods
-        self.n_acc = len(acc_methods)
-        self.acc_names = []
-        self.acc_protocol = []
-        self.acc_connection = []
-        for t in acc_methods:
-            self.acc_names.append(t().target)
-            self.acc_protocol.append(t().protocol_type)
-            self.acc_connection.append(t().connection_type)
+    # '''
+    #     Derive information about the accelerator wrapper generation process
+    # '''
+
+    # def get_acc_info(self):
+    #     target_cl = self.get_cl_targets_list()
+    #     target_acc = []
+    #     n_acc = 0
+    #     for m in target_cl:
+    #         for acc in m().list_lic:
+    #             acc_name = acc[0]
+    #             if (acc_name not in target_acc):
+    #                 n_acc += 1
+    #                 target_acc.append(acc_name)
+    #         for acc in m().list_hci:
+    #             acc_name = acc[0]
+    #             if (acc_name not in target_acc):
+    #                 n_acc += 1
+    #                 target_acc.append(acc_name)
+    #     return [target_acc, n_acc]
+
+    # '''
+    #     Format user-defined parameters in a simplified form to ease the templating stage. Do not modify this part.
+    # '''
+
+    # '''
+    #     Format accelerators information.
+    # '''
+
+    # def accelerators_formatted(self):
+    #     # methods
+    #     acc_methods = self.get_targets_list()
+    #     # extract parameters from methods
+    #     self.n_acc = len(acc_methods)
+    #     self.acc_names = []
+    #     self.acc_protocol = []
+    #     self.acc_connection = []
+    #     for t in acc_methods:
+    #         self.acc_names.append(t().target)
+    #         self.acc_protocol.append(t().protocol_type)
+    #         self.acc_connection.append(t().connection_type)
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
-    def __init__(self):
-        # user-defined
-        self.author_k()
-        self.system_k()
-        # formatted
-        self.get_targets_list()
-        self.accelerators_formatted()
+    # def __init__(self):
+    #     # user-defined
+    #     self.author_k()
+    #     self.system_k()
+    #     # formatted
+    #     self.get_cl_targets_list()
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
