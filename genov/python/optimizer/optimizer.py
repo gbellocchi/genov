@@ -21,6 +21,7 @@
 from importlib import import_module
 import pickle
 import os.path
+import sys
 
 # Design specification packages
 from dev.ov_dev.specs.ov_specs import ov_specs
@@ -208,3 +209,34 @@ class Optimizer(ov_specs):
             self.cl_acc_names.append(t[2])
             self.cl_acc_n_data_ports.append(t[3])
             self.cl_acc_protocols.append(t[4])
+
+'''
+    ========================================
+    Retrieve optimized overlay specification
+    ========================================
+'''
+
+def get_opt_cluster_params(filename):
+    if os.path.isfile(filename):
+        print("[py] >> Retrieving optimizer state")
+        with open(filename, 'rb') as inp:
+            obj_opt = pickle.load(inp)
+        return obj_opt
+    else:
+        print("[py] >> No optimizer has been retrieved")
+        sys.exit(1)
+
+'''
+    ==========================================
+    Procedure to retrieve optimized parameters
+    ==========================================
+
+    # File where to save optimizer state.
+ 
+file_opt = 'state_optimizer.obj'
+
+    # Initialize or resume optimization from checkpoint.
+
+opt_ov_specs = get_opt_specs(file_opt)
+
+'''

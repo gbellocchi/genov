@@ -110,7 +110,7 @@ class collector:
     def get_template(self):
         s = ''
         for paths in self.get_path_all():
-            print('Retrieving template at path: ', paths)
+            # print('Retrieving template at path: ', paths)
             with open(paths, 'r') as f:
                 s += f.read()
                 f.close()

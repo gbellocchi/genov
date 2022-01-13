@@ -15,71 +15,49 @@
 
 #!/usr/bin/env python3
 
-# Packages - Template
 from mako.template import Template
 import re
-import pickle
-import os.path
-import sys
-
-# import python functions
-from python.cluster.process_params import format_cl_acc_params
-
-# import overlay design parameters
-from dev.ov_dev.specs.ov_specs import ov_specs
 
 '''
     Cluster generator
 '''
 
-class Generator(ov_specs):
+class Generator:
     '''
-        The overlay generator class is the main responsible for rendering
-        the collected templates using the input user specification. 
-        
-        Technically speaking, the generator is derived (child class) from 'ov_specs'. 
-        The latter comprises the input user parameters to guide the rendering phase. 
-        The generator adds up to the functionality of its parent class methods to render
-        the input templates. This is possible exploiting the 'render' method of the 'Template' 
-        class defined in the Mako python package.
-
-        The method 'gen' takes a 'template' input. This comprises all the template components 
-        (top, modules, common) pertaining to a specific design components.
+        The cluster generator class is the main responsible for rendering
+        the collected cluster templates using the input user specification. 
+         
+        During the rendering phase. design parameters are read and fed to the Python rendering
+        core to process the input templates. This is possible exploiting the 'render' method of 
+        the 'Template' class defined in the Mako python package.
 
         The rendered output is a string.
     '''
         
-    def render(self, template, cl_target=None, cl_offset=0, extra_params=[]):
-        # format cluster design parameters
-        if(cl_target is not None):
-            cl_lic_total_data_ports, cl_lic_acc_names, cl_lic_acc_protocols, cl_lic_acc_n_data_ports = format_cl_acc_params(cl_target().list_lic)
-            cl_hci_total_data_ports, cl_hci_acc_names, cl_hci_acc_protocols, cl_hci_acc_n_data_ports = format_cl_acc_params(cl_target().list_hci)
-        else:
-            cl_lic_total_data_ports, cl_lic_acc_names, cl_lic_acc_protocols, cl_lic_acc_n_data_ports = 0, [], [], []
-            cl_lic_total_data_ports, cl_lic_acc_names, cl_lic_acc_protocols, cl_lic_acc_n_data_ports = 0, [], [], []
+    def render(self, design_params, template, cl_offset=0, extra_params=[]):
         # prepare input template
         target = Template(template)
         # rendering phase
         string = target.render(
             # author
-            author                          = self.author,
-            email                           = self.email,
+            author                          = design_params.author,
+            email                           = design_params.email,
             # system
-            ov_config                       = self.ov_config,
+            ov_config                       = design_params.ov_config,
             # number of clusters
-            n_clusters                      = self.get_n_cl(),
+            n_clusters                      = design_params.n_clusters,
             # cluster offset
             cl_offset                       = cl_offset,
             # logarithmic interconnect (LIC)
-            cl_lic_total_data_ports         = cl_lic_total_data_ports, 
-            cl_lic_acc_names                = cl_lic_acc_names,
-            cl_lic_acc_protocols            = cl_lic_acc_protocols,
-            cl_lic_acc_n_data_ports         = cl_lic_acc_n_data_ports,
+            cl_lic_total_data_ports         = design_params.list_cl_lic[cl_offset][0],
+            cl_lic_acc_names                = design_params.list_cl_lic[cl_offset][1],
+            cl_lic_acc_protocols            = design_params.list_cl_lic[cl_offset][2],
+            cl_lic_acc_n_data_ports         = design_params.list_cl_lic[cl_offset][3],
             # heterogeneous interconnect (HCI)
-            cl_hci_total_data_ports         = cl_hci_total_data_ports, 
-            cl_hci_acc_names                = cl_hci_acc_names,
-            cl_hci_acc_protocols            = cl_hci_acc_protocols,
-            cl_hci_acc_n_data_ports         = cl_hci_acc_n_data_ports,
+            cl_hci_total_data_ports         = design_params.list_cl_hci[cl_offset][0],
+            cl_hci_acc_names                = design_params.list_cl_hci[cl_offset][1],
+            cl_hci_acc_protocols            = design_params.list_cl_hci[cl_offset][2],
+            cl_hci_acc_n_data_ports         = design_params.list_cl_hci[cl_offset][3],
             # additional params
             extra_param_0                   = extra_params[0],
             extra_param_1                   = extra_params[1],
@@ -91,23 +69,6 @@ class Generator(ov_specs):
         string = re.sub(r'\n\s*\n', '\n\n', string) 
         string = re_trailws.sub("", string)
         return string
-        return ""
-        
-'''
-    ========================================
-    Retrieve optimized overlay specification
-    ========================================
-'''
-
-def get_opt_cluster_params(filename):
-    if os.path.isfile(filename):
-        print("[py] >> Retrieving optimizer state")
-        with open(filename, 'rb') as inp:
-            obj_opt = pickle.load(inp)
-        return obj_opt
-    else:
-        print("[py] >> No optimizer has been retrieved")
-        sys.exit(1)
 
 '''
     ============================
@@ -115,8 +76,8 @@ def get_opt_cluster_params(filename):
     ============================
 '''
 
-def gen_cl_comps(temp_obj, emitter, descr, out_dir, cl_target, cl_offset, extra_params=[None for _ in range(3)]):
+def gen_cl_comps(temp_obj, design_params, emitter, descr, out_dir, cl_offset=0, extra_params=[None for _ in range(3)]):
     template = temp_obj
-    out_target = Generator().render(template, cl_target, cl_offset, extra_params)
+    out_target = Generator().render(design_params, template, cl_offset, extra_params)
     filename = emitter.get_file_name(descr)
     emitter.out_gen(out_target, filename, out_dir)

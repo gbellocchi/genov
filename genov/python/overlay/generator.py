@@ -2,7 +2,7 @@
  =====================================================================
  Project:      Accelerator-Rich Overlay Generator
  Title:        generator.py
- Description:  Generator of SoC components.
+ Description:  Generator of overlay components.
 
  Date:         8.1.2022
  ===================================================================== */
@@ -19,12 +19,12 @@ from mako.template import Template
 import re
 
 '''
-    SoC generator
+    Overlay generator
 '''
 
 class Generator:
     '''
-        The SoC generator class is the main responsible for rendering
+        The overlay generator class is the main responsible for rendering
         the collected cluster templates using the input user specification. 
          
         During the rendering phase. design parameters are read and fed to the Python rendering
@@ -34,7 +34,7 @@ class Generator:
         The rendered output is a string.
     '''
         
-    def render(self, design_params, template, cl_offset=0, extra_params=[]):
+    def render(self, design_params, template, extra_params=[]):
         # prepare input template
         target = Template(template)
         # rendering phase
@@ -46,18 +46,6 @@ class Generator:
             ov_config                       = design_params.ov_config,
             # number of clusters
             n_clusters                      = design_params.n_clusters,
-            # cluster offset
-            cl_offset                       = cl_offset,
-            # logarithmic interconnect (LIC)
-            cl_lic_total_data_ports         = design_params.list_cl_lic[cl_offset][0], 
-            cl_lic_acc_names                = design_params.list_cl_lic[cl_offset][1],
-            cl_lic_acc_protocols            = design_params.list_cl_lic[cl_offset][2],
-            cl_lic_acc_n_data_ports         = design_params.list_cl_lic[cl_offset][3],
-            # heterogeneous interconnect (HCI)
-            cl_hci_total_data_ports         = design_params.list_cl_hci[cl_offset][0],
-            cl_hci_acc_names                = design_params.list_cl_hci[cl_offset][1],
-            cl_hci_acc_protocols            = design_params.list_cl_hci[cl_offset][2],
-            cl_hci_acc_n_data_ports         = design_params.list_cl_hci[cl_offset][3],
             # additional params
             extra_param_0                   = extra_params[0],
             extra_param_1                   = extra_params[1],
@@ -71,13 +59,13 @@ class Generator:
         return string
 
 '''
-    ========================
-    SoC components generator
-    ========================
+    ============================
+    Overlay components generator
+    ============================
 '''
 
-def gen_soc_comps(temp_obj, design_params, emitter, descr, out_dir, cl_offset=0, extra_params=[None for _ in range(3)]):
+def gen_ov_comps(temp_obj, design_params, emitter, descr, out_dir, extra_params=[None for _ in range(3)]):
     template = temp_obj
-    out_target = Generator().render(design_params, template, cl_offset, extra_params)
+    out_target = Generator().render(design_params, template, extra_params)
     filename = emitter.get_file_name(descr)
     emitter.out_gen(out_target, filename, out_dir)
