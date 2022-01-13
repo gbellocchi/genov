@@ -2,7 +2,7 @@
  =====================================================================
  Project:      Accelerator-Rich Overlay Generator
  Title:        generate_soc.py
- Description:  Generation of accelerator-rich SoC components.
+ Description:  Generation of SoC components.
 
  Date:         23.11.2021
  ===================================================================== */
@@ -20,12 +20,14 @@ import sys
 '''
     Import custom functions
 '''
-from python.soc.generator import gen_cl_comps
+from python.overlay.process_params import overlay_params_formatted
+from python.soc.process_params import print_soc_log
+from python.soc.generator import gen_soc_comps
 
 '''
     Import emitter
 '''
-from python.emitter import emit_ov
+from python.overlay.emitter import EmitOv
 
 '''
     Import design parameters
@@ -33,9 +35,9 @@ from python.emitter import emit_ov
 from dev.ov_dev.specs.ov_specs import ov_specs
 
 '''
-    Import cluster templates
+    Import SoC templates
 '''
-from templates.ov_templ.hw.cluster.cluster import Cluster
+from templates.ov_templ.hw.soc.soc import Soc
 
 '''
     Read input arguments
@@ -43,93 +45,142 @@ from templates.ov_templ.hw.cluster.cluster import Cluster
 dir_out_ov = sys.argv[1]
 
 '''
+    Retrieve overlay design parameters
+''' 
+ov_specs = ov_specs
+
+'''
+    Format design parameters
+'''
+design_params = overlay_params_formatted(ov_specs)
+
+'''
+    Print SoC log
+''' 
+print_soc_log(design_params)
+
+'''
     Instantiate emitter item
 '''
-emitter = emit_ov(dir_out_ov)
+emitter = EmitOv(ov_specs, dir_out_ov)
 
 '''
     =====================================================================
-    Component:      Cluster
+    Component:      System-on-Chip - Hardware
 
-    Description:    Generation of components for accelerator-rich clusters.
+    Description:    Generation of hardware components for SoC. 
     ===================================================================== */
 '''
 
 '''
-    Instantiate cluster template item
+    Instantiate SoC template item
 ''' 
-cluster = Cluster()
+soc = Soc()
 
 '''
-    Retrieve cluster design parameters
+    Generate design components ~ HERO AXI mailbox
 ''' 
-ov_specs = ov_specs()
+gen_soc_comps(
+    soc.HeroAxiMailbox(),
+    design_params,
+    emitter,
+    ['soc', 'hero_axi_mailbox', ['hw', 'rtl']],
+    emitter.ov_gen_soc
+)
 
 '''
-    Iterate on user-defined cluster methods, then 
-    generate one-by-one all necessary cluster components
+    Generate design components ~ L2 memory
 ''' 
-cl_list = ov_specs.get_cl_targets_list()
+gen_soc_comps(
+    soc.L2Mem(),
+    design_params,
+    emitter,
+    ['soc', 'l2_mem', ['hw', 'rtl']],
+    emitter.ov_gen_soc
+)
 
-for cl_target in cl_list:
+'''
+    Generate design components ~ PULP
+''' 
+gen_soc_comps(
+    soc.Pulp(),
+    design_params,
+    emitter,
+    ['soc', 'pulp', ['hw', 'rtl']],
+    emitter.ov_gen_soc
+)
 
-    cl_offset = cl_list.index(cl_target)
+'''
+    Generate design components ~ SoC package
+''' 
+gen_soc_comps(
+    soc.SocPackage(),
+    design_params,
+    emitter,
+    ['soc', 'soc_package', ['hw', 'rtl']],
+    emitter.ov_gen_soc
+)
 
-    '''
-        Generate design components ~ Cluster package
-    ''' 
-    gen_cl_comps(
-        cluster.ClPkg(),
-        emitter,
-        ['cl', str(cl_offset) + '_pkg', ['hw', 'rtl']],
-        emitter.ov_gen_cl,
-        cl_target,
-        cl_offset
-    )
+'''
+    Generate design components ~ PULP OOC
+''' 
+gen_soc_comps(
+    soc.PulpOoc(),
+    design_params,
+    emitter,
+    ['soc', 'pulp_ooc', ['hw', 'rtl']],
+    emitter.ov_gen_soc
+)
 
-    '''
-        Generate design components ~ LIC accelerator region
-    '''
+'''
+    Generate design components ~ SoC bus
+''' 
+gen_soc_comps(
+    soc.SocBus(),
+    design_params,
+    emitter,
+    ['soc', 'soc_bus', ['hw', 'rtl']],
+    emitter.ov_gen_soc
+)
 
-    gen_cl_comps(
-        cluster.LicAccRegion(),
-        emitter,
-        ['cl', str(cl_offset) + '_lic_acc_region', ['hw', 'rtl']],
-        emitter.ov_gen_cl,
-        cl_target,
-        cl_offset
-    )
+'''
+    Generate design components ~ SoC control registers
+''' 
+gen_soc_comps(
+    soc.SocCtrlRegs(),
+    design_params,
+    emitter,
+    ['soc', 'soc_ctrl_regs', ['hw', 'rtl']],
+    emitter.ov_gen_soc
+)
 
-    '''
-        Generate design components ~ LIC accelerator interface
-    ''' 
-    gen_cl_comps(
-        cluster.LicAccIntf(),
-        emitter,
-        ['cl', str(cl_offset) + '_lic_acc_intf', ['hw', 'rtl']],
-        emitter.ov_gen_cl,
-        cl_target,
-        cl_offset
-    )
+'''
+    Generate design components ~ SoC peripherals
+''' 
+gen_soc_comps(
+    soc.SocPeripherals(),
+    design_params,
+    emitter,
+    ['soc', 'soc_peripherals', ['hw', 'rtl']],
+    emitter.ov_gen_soc
+)
 
-    #     gen_cl_comps(
-    #         cluster.PrivateLicAccRegion(),
-    #         ['cl', str(cl_offset) + '_private_lic_acc_region', ['hw', 'rtl']],
-    #         emitter.ov_gen_cl,
-    #         cl_offset
-    #     )
+'''
+    =====================================================================
+    Component:      Hardware support
 
-    '''
+    Description:    Generation of integration support components, such as
+                    scripts for source management tools, simulations, etc.
+    ===================================================================== */
+'''
+
+'''
     Generate design components ~ Bender
-    ''' 
-    gen_cl_comps(
-        cluster.Bender(),
-        emitter,
-        ['integr_support', 'Bender', ['integr_support', 'yml']],
-        emitter.ov_gen_cl,
-        cl_target,
-        cl_offset,
-        [None, None, None]
-    )
-
-    
+''' 
+gen_soc_comps(
+    soc.Bender(),
+    design_params,
+    emitter,
+    ['integr_support', 'Bender', ['integr_support', 'yml']],
+    emitter.ov_gen_soc
+)

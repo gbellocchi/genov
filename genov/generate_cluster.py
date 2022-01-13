@@ -2,7 +2,7 @@
  =====================================================================
  Project:      Accelerator-Rich Overlay Generator
  Title:        generate_cluster.py
- Description:  Generation of accelerator-rich overlay components.
+ Description:  Generation of accelerator-rich cluster components.
 
  Date:         23.11.2021
  ===================================================================== */
@@ -20,13 +20,15 @@ import sys
 '''
     Import custom functions
 '''
+from python.overlay.process_params import overlay_params_formatted
 from python.cluster.generator import gen_cl_comps
-from python.wrapper.targets import derive_wrapper_targets
+from python.cluster.process_params import print_cl_log
+from python.overlay.process_params import get_acc_targets
 
 '''
     Import emitter
 '''
-from python.emitter import emit_ov
+from python.overlay.emitter import EmitOv
 
 '''
     Import design parameters
@@ -44,15 +46,25 @@ from templates.ov_templ.hw.cluster.cluster import Cluster
 dir_out_ov = sys.argv[1]
 
 '''
+    Retrieve overlay design parameters
+''' 
+ov_specs = ov_specs
+
+'''
+    Format design parameters
+'''
+design_params = overlay_params_formatted(ov_specs)
+
+'''
     Instantiate emitter item
 '''
-emitter = emit_ov(dir_out_ov)
+emitter = EmitOv(ov_specs, dir_out_ov)
 
 '''
     =====================================================================
-    Component:      Cluster
+    Component:      Accelerator-rich cluster - Hardware
 
-    Description:    Generation of components for accelerator-rich clusters.
+    Description:    Generation of hardware components for cluster. 
     ===================================================================== */
 '''
 
@@ -62,29 +74,38 @@ emitter = emit_ov(dir_out_ov)
 cluster = Cluster()
 
 '''
-    Retrieve cluster design parameters
+    Generate one-by-one all necessary cluster components
 ''' 
-ov_specs = ov_specs()
 
-'''
-    Iterate on user-defined cluster methods, then 
-    generate one-by-one all necessary cluster components
-''' 
-cl_list = ov_specs.get_cl_targets_list()
+for cl_offset in range(design_params.n_clusters):
 
-for cl_target in cl_list:
+    '''
+        Print cluster log
+    ''' 
 
-    cl_offset = cl_list.index(cl_target)
+    print_cl_log(design_params, cl_offset)
 
     '''
         Generate design components ~ Cluster package
     ''' 
     gen_cl_comps(
         cluster.ClPkg(),
+        design_params,
         emitter,
         ['cl', str(cl_offset) + '_pkg', ['hw', 'rtl']],
         emitter.ov_gen_cl,
-        cl_target,
+        cl_offset
+    )
+
+    '''
+    Generate design components ~ DMA wrapper OOC
+    ''' 
+    gen_cl_comps(
+        cluster.DmacWrapOOC(),
+        design_params,
+        emitter,
+        ['cl', str(cl_offset) + '_dmac_wrap_ooc', ['hw', 'rtl']],
+        emitter.ov_gen_cl,
         cl_offset
     )
 
@@ -94,10 +115,10 @@ for cl_target in cl_list:
 
     gen_cl_comps(
         cluster.LicAccRegion(),
+        design_params,
         emitter,
         ['cl', str(cl_offset) + '_lic_acc_region', ['hw', 'rtl']],
         emitter.ov_gen_cl,
-        cl_target,
         cl_offset
     )
 
@@ -106,31 +127,46 @@ for cl_target in cl_list:
     ''' 
     gen_cl_comps(
         cluster.LicAccIntf(),
+        design_params,
         emitter,
         ['cl', str(cl_offset) + '_lic_acc_intf', ['hw', 'rtl']],
         emitter.ov_gen_cl,
-        cl_target,
         cl_offset
     )
 
-    #     gen_cl_comps(
-    #         cluster.PrivateLicAccRegion(),
-    #         ['cl', str(cl_offset) + '_private_lic_acc_region', ['hw', 'rtl']],
-    #         emitter.ov_gen_cl,
-    #         cl_offset
-    #     )
-
     '''
-    Generate design components ~ Bender
+        Generate design components ~ PULP cluster OOC
     ''' 
     gen_cl_comps(
-        cluster.Bender(),
+        cluster.PulpClusterOOC(),
+        design_params,
         emitter,
-        ['integr_support', 'Bender', ['integr_support', 'yml']],
+        ['cl', str(cl_offset) + '_pulp_cluster_ooc', ['hw', 'rtl']],
         emitter.ov_gen_cl,
-        cl_target,
-        cl_offset,
-        [derive_wrapper_targets(ov_specs), None, None]
+        cl_offset
     )
+
+
+'''
+    =====================================================================
+    Component:      Hardware support
+
+    Description:    Generation of integration support components, such as
+                    scripts for source management tools, simulations, etc.
+    ===================================================================== */
+'''
+
+'''
+    Generate design components ~ Bender
+''' 
+gen_cl_comps(
+    cluster.Bender(),
+    design_params,
+    emitter,
+    ['integr_support', 'Bender', ['integr_support', 'yml']],
+    emitter.ov_gen_cl,
+    0,
+    [get_acc_targets(design_params), None, None]
+)
 
     
