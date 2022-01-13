@@ -6,8 +6,8 @@
 
 from python.collector import collector
 
-# HW testbench overlay
-class tb_ov(collector):
+# SW testbench HWPE
+class tb_hwpe(collector):
     def top(self):
         return self.get_template()
 

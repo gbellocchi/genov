@@ -1,11 +1,42 @@
-// Copyright 2019 ETH Zurich and University of Bologna.
-// All rights reserved.
-//
-// This code is under development and not yet released to the public.
-// Until it is released, the code is under the copyright of ETH Zurich and
-// the University of Bologna, and may contain confidential and/or unpublished
-// work. Any reuse/redistribution is strictly forbidden without written
-// permission from ETH Zurich.
+<%
+# =====================================================================
+# Project:      Overlay testbench
+# Title:        overlay_tb_hw.template_sv
+# Description:  Overlay testbench
+#
+# $Date:        13.1.2022
+#
+# Generator:    generate_ov
+# =====================================================================
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+# =====================================================================
+%>
+
+/* =====================================================================
+ * Project:      Overlay testbench
+ * Title:        overlay_tb.sv
+ * Description:  Overlay testbench
+ *
+ * $Date:        13.1.2022
+ *
+ * Design generated with GenOv
+ *
+ * Generator:    generate_ov
+ * ===================================================================== */
+/*
+ * Copyright (c) 2019 ETH Zurich, University of Bologna.
+ * All rights reserved.
+ *
+ * This code is under development and not yet released to the public.
+ * Until it is released, the code is under the copyright of ETH Zurich and
+ * the University of Bologna, and may contain confidential and/or unpublished
+ * work. Any reuse/redistribution is strictly forbidden without written
+ * permission from ETH Zurich.
+ *
+ */
 
 `include "axi/assign.svh"
 `include "axi/typedef.svh"
@@ -15,7 +46,7 @@
     @(posedge clk); \
   while (!signal);
 
-module pulp_tb #(
+module overlay_tb #(
   // TB Parameters
   parameter time          CLK_PERIOD = 1000ps,
   // SoC Parameters
