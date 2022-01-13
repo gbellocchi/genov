@@ -6,7 +6,7 @@
 #
 # $Date:        29.12.2021
 #
-# Generator:    generate_ov
+# Generator:    generate_cluster
 # =====================================================================
 #
 # Copyright (C) 2021 University of Modena and Reggio Emilia.
@@ -40,8 +40,6 @@
  *                      + Communication protocols: [ ${print_cl_acc_protocols("hci")} ]
  *
  * $Date:        29.12.2021
- *
- * Target Processor: PULP cores
  * ===================================================================== */
 /*
  * Copyright (C) 2021 University of Modena and Reggio Emilia.
@@ -50,7 +48,7 @@
  *
  */
 
-package automatic overlay_cluster_${cl_offset}_acc_pkg;
+package automatic cluster_${cl_offset}_cfg_pkg;
 
     <%
     # Definition of parameters to guide the system-level  

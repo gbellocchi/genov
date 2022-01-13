@@ -10,7 +10,7 @@
 #
 # $Date:        29.12.2021
 #
-# Generator:    generate_ov
+# Generator:    generate_cluster
 # =====================================================================
 #
 # Copyright (C) 2021 University of Modena and Reggio Emilia.
@@ -36,8 +36,6 @@
  *               the single signals of the TCDM communication protocol.
  *
  * $Date:        29.12.2021
- *
- * Target Processor: PULP cores
  * ===================================================================== */
 /*
  * Copyright (C) 2021 University of Modena and Reggio Emilia.
