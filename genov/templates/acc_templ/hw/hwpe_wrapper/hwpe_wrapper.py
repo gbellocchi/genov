@@ -25,7 +25,6 @@ from python.collector import collector
 # HWPE wrapper
 class hwpe_wrapper:
     def __init__(self):
-        print("\n[py] >>  HWPE wrapper ~ Retrieving hardware components")
         self.path_common = 'templates/acc_templ/hw/common/'
 
     def top_wrapper(self):

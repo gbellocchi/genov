@@ -10,7 +10,6 @@ from templates.acc_templ.hw.hwpe_standalone_tb.tb_hwpe.top.tb_hwpe import tb_hwp
 # HWPE wrapper - Hardware components for standalone testbench
 class hwpe_standalone_tb:
     def __init__(self):
-        print("\n[py] >>  HWPE standalone testbench ~ Retrieving hardware components")
         self.path_common = 'templates/acc_templ/hw/common/'
 
     def tb_hwpe(self):

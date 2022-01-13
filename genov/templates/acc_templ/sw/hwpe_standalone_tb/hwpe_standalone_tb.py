@@ -12,7 +12,6 @@ from templates.acc_templ.sw.hwpe_standalone_tb.tb_hwpe.top.tb_hwpe import tb_hwp
 # HWPE wrapper - Software components for standalone testbench
 class hwpe_standalone_tb:
     def __init__(self):
-        print("\n[py] >>  HWPE standalone testbench ~ Retrieving software components")
         self.path_common = 'templates/acc_templ/sw/common/'
 
     def archi_hwpe(self):

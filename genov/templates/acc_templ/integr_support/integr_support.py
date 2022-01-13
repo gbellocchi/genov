@@ -22,7 +22,6 @@ from templates.acc_templ.integr_support.src_files.top.src_files import src_files
 
 class integr_support:
     def __init__(self):
-        print("\n[py] >>  Integration support ~ Retrieving components")
         self.path_common = ''
 
     def bender(self):
