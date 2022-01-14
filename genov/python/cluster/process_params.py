@@ -27,9 +27,9 @@ from python.wrapper.process_params import wrapper_params_formatted
 
 def print_cl_log(overlay_params, cl_offset=0):
 
-    print("\n# =========================== #")
+    print("\n# ========================== #")
     print("# Generation of Cluster n.", cl_offset, " #")
-    print("# =========================== #\n")
+    print("# ========================== #\n")
 
     print("[py] >> User-defined cluster specification:")
 
