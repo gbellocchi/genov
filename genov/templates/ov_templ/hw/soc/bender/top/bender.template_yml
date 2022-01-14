@@ -40,7 +40,6 @@ workspace:
 export_include_dirs:
   - rtl/apb/include # TODO: move to APB repository
   - rtl/include
-  - test
 
 sources:
   # generic APB modules; to be moved to APB repository

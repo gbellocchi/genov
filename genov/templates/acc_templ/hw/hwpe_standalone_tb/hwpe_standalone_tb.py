@@ -13,7 +13,7 @@ class hwpe_standalone_tb:
         self.path_common = 'templates/acc_templ/hw/common/'
 
     def tb_hwpe(self):
-        print("\n[py] >>  HWPE standalone testbench ~ HW testbench")
+        print("\n[py] >>  HWPE test ~ HW testbench")
         return tb_hwpe(
             temp_type = 'templates/acc_templ/hw/hwpe_standalone_tb/tb_hwpe/',
             temp_top = 'tb_hwpe.template_sv',

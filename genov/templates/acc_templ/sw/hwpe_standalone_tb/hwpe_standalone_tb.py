@@ -15,7 +15,7 @@ class hwpe_standalone_tb:
         self.path_common = 'templates/acc_templ/sw/common/'
 
     def archi_hwpe(self):
-        print("\n[py] >>  HWPE standalone testbench ~ archi")
+        print("\n[py] >>  HWPE test ~ archi")
         return archi_hwpe(
             temp_type = 'templates/acc_templ/sw/hwpe_standalone_tb/archi_hwpe/',
             temp_top = 'archi_hwpe.template_c',

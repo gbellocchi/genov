@@ -31,7 +31,7 @@ sources:
   - target: test
     files:
       # Level 1
-      - test/overlay_tb.sv
+      - ov_cfg/${ov_config}/test/overlay_tb.sv
 
 workspace:
   checkout_dir: "./deps"
