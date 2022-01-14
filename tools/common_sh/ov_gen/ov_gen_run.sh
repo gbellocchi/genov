@@ -22,8 +22,7 @@ readonly dir_out_ov=$3
 # Activate environment
 source $dir_py_venv/bin/activate
 
-# Run generator
-echo -e "[sh] >> Generation of accelerator-rich overlay"
+# Launch python generators
 cd genov 
 python generate_ov.py $dir_out_ov
 python generate_ov_test.py $dir_out_ov

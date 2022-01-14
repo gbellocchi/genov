@@ -54,11 +54,10 @@ if [ ! -d "$dir_out_target_acc" ]; then
 
     mkdir $dir_out_target_acc/test
 
-    # Standalone testbench
-    mkdir $dir_out_target_acc/test/hwpe_standalone_tb
-    mkdir $dir_out_target_acc/test/hwpe_standalone_tb/sw
-    mkdir $dir_out_target_acc/test/hwpe_standalone_tb/sw/inc 
-    mkdir $dir_out_target_acc/test/hwpe_standalone_tb/sw/inc/hwpe_lib
+    # Software runtime
+    mkdir $dir_out_target_acc/test/sw
+    mkdir $dir_out_target_acc/test/sw/inc 
+    mkdir $dir_out_target_acc/test/sw/inc/hwpe_lib
 
     # ============================================================================= #
     # Retrieve RTL of acceleration kernel 
@@ -94,7 +93,7 @@ if [ ! -d "$dir_out_target_acc" ]; then
     echo -e "[sh] >> Retrieving reference software-mapped application and stimuli/golden results generator"
 
     # Copy TB generator for input stimuli and golden results
-    dest=$dir_out_target_acc/test/hwpe_standalone_tb/sw/inc/
+    dest=$dir_out_target_acc/test/sw/inc/
     if [ -d "$dest" ]; then
         cp -rf $dir_dev_target_acc/sw/ref_sw $dest
         cp -rf $dir_dev_target_acc/sw/stim $dest
@@ -114,9 +113,9 @@ if [ ! -d "$dir_out_target_acc" ]; then
     echo -e "[sh] >> Retrieving static software components"
 
     # Copy TB generator for compilation support files for software TB
-    dest=$dir_out_target_acc/test/hwpe_standalone_tb/sw
+    dest=$dir_out_target_acc/test/sw
     if [ -d "$dest" ]; then
-        cp -rf $dir_static/static_tb/hwpe_standalone_tb/* $dest
+        cp -rf $dir_static/static_tb/wrapper/* $dest
     else
         error_exit "[sh] >> Directory not found -> $dest"
     fi

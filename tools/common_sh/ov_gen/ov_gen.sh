@@ -31,9 +31,9 @@ source $THIS_DIR/../common.sh
 init_generation()
 {
     echo -e ""
-    echo "# ==================================== #"
-    echo "# Initialization of overlay generation #"
-    echo "# ==================================== #"
+    echo "# ========================================= #"
+    echo "# Initializating overlay design environment #"
+    echo "# ========================================= #"
     echo -e ""
 
     cd $dir_root
@@ -57,13 +57,12 @@ init_generation()
 fetch_ov_specs()
 {
     echo -e ""
-    echo "# ===================================== #"
-    echo "# Fetching overlay input specifications #" 
-    echo "# ===================================== #"
+    echo "# ==================================== #"
+    echo "# Retrieving overlay design parameters #" 
+    echo "# ==================================== #"
     echo -e ""
 
     # Fetch accelerator specifications
-    echo "[sh] >> Fetching overlay target"
     make --silent ov_gen_fetch_specs
 }
 

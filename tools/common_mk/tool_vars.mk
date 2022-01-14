@@ -38,8 +38,6 @@ TEMPL_ACC_HW_MNGT_DIR		:= ${TEMPL_ACC}/integr_support
 
 TEMPL_OV					:= ${TEMPL}/ov_templ
 TEMPL_OV_HW_DIR				:= ${TEMPL_OV}/hw
-TEMPL_OV_SW_DIR				:= ${TEMPL_OV}/sw
-TEMPL_OV_HW_MNGT_DIR		:= ${TEMPL_OV}/integr_support
 
 # Static modules
 
@@ -81,7 +79,6 @@ PY_VENV_DIR					:= ${ROOT}/${PY_VENV}
 
 OVERLAY_HW_REPO				:= ${HERO_OV_HW_EXPORT}
 OVERLAY_CFG					:= ${HERO_OV_HW_EXPORT}/ov_cfg
-OVERLAY_SRC					:= ${HERO_OV_HW_EXPORT}/src
 OVERLAY_DEPS				:= ${HERO_OV_HW_EXPORT}/deps
 OVERLAY_TEST				:= ${HERO_OV_HW_EXPORT}/test
 OVERLAY_CLUSTER				:= ${OVERLAY_DEPS}/overlay_cluster/rtl

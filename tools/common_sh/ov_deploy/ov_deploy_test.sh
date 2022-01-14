@@ -20,7 +20,7 @@ echo -e "[sh] >> Checking overlay environment.\n"
 THIS_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 source $THIS_DIR/../common.sh
 
-readonly OVERLAY_SRC=$1
+readonly OVERLAY_CFG=$1
 readonly OVERLAY_DEPS=$2
 readonly OVERLAY_TEST=$3
 
@@ -42,17 +42,17 @@ echo -e ""
 # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
 
 # ----------------------------- #
-#  Check if OVERLAY_SRC exists  #
+#  Check if OVERLAY_CFG exists  #
 # ----------------------------- #
 
-echo -e "|-----------------------|"
-echo -e "| OVERLAY - RTL SOURCES |"
-echo -e "|-----------------------|\n"
+echo -e "|--------------------------------|"
+echo -e "| OVERLAY - SOURCE CONFIGURATION |"
+echo -e "|--------------------------------|\n"
 
-if [ -d "$OVERLAY_SRC" ]; then
+if [ -d "$OVERLAY_CFG" ]; then
 	# Take action if it exists. #
-	echo -e "[sh] >> A src/ directory has been found -> $OVERLAY_SRC"
-	echo -e "[sh] >> This location should comprise SystemVerilog source files to parametrize the PULP-based overlay system."
+	echo -e "[sh] >> A ov_cfg/ directory has been found -> $OVERLAY_CFG"
+	echo -e "[sh] >> This location should comprise SystemVerilog source files to parametrize the accelerator-rich overlay system."
 	echo -e "\n[sh] >> Is it a correct path? [ans=1,2,3]"
 
 	select yn in "yes" "no" "help"; do
@@ -60,9 +60,8 @@ if [ -d "$OVERLAY_SRC" ]; then
 			yes ) 	echo -e ""
 					break;;
 			no ) 	error_exit "[sh] >> Erroneous path for system-level integration! Aborting.";;
-			help ) 	echo -e "\n[sh] >> Content of $OVERLAY_SRC:\n" 
-					ls -1 $OVERLAY_SRC
-					echo -e "\n"
+			help ) 	echo -e "\n[sh] >> Content of $OVERLAY_CFG:\n" 
+					ls -1 $OVERLAY_CFG
 					echo -e "\n[sh] >> Is it a correct path?";;
 		esac
 	done
@@ -94,7 +93,6 @@ if [ -d "$OVERLAY_DEPS" ]; then
 			no ) 	error_exit "[sh] >> Erroneous path for system-level integration! Aborting.";;
 			help ) 	echo -e "\n[sh] >> Content of $OVERLAY_DEPS:\n" 
 					ls -1 $OVERLAY_DEPS
-					echo -e "\n"
 					echo -e "\n[sh] >> Is it a correct path?";;
 		esac
 	done
@@ -126,7 +124,6 @@ if [ -d "$OVERLAY_TEST" ]; then
 			no ) 	error_exit "[sh] >> Erroneous path for system-level integration! Aborting.";;
 			help ) 	echo -e "\n[sh] >> Content of $OVERLAY_TEST:\n" 
 					ls -1 $OVERLAY_TEST
-					echo -e "\n"
 					echo -e "\n[sh] >> Is it a correct path?";;
 		esac
 	done

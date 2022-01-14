@@ -34,9 +34,9 @@ source $THIS_DIR/../common.sh
 init_generation()
 {
     echo -e ""
-    echo "# ======================================== #"
-    echo "# Initialization of accelerator generation #"
-    echo "# ======================================== #"
+    echo "# ========================================= #"
+    echo "# Initializating wrapper design environment #"
+    echo "# ========================================= #"
     echo -e ""
 
     make --silent acc_gen_init
@@ -55,13 +55,6 @@ init_generation()
 
 read_ov_config()
 {
-    echo -e ""
-    echo "# ============================= #"
-    echo "# Reading overlay configuration #"
-    echo "# ============================= #"
-    echo -e ""
-
-    echo -e "[sh] >> Analysys of overlay configuration has concluded."
     echo -e "[sh] >> Accelerator wrappers will be generated for the following applications:\n"
 
     # Number of accelerators
@@ -98,9 +91,9 @@ read_ov_config()
 fetch_acc_specs()
 {
     echo -e ""
-    echo "# ========================================= #"
-    echo "# Fetching accelerator input specifications #" 
-    echo "# ========================================= #"
+    echo "# ==================================== #"
+    echo "# Retrieving wrapper design parameters #" 
+    echo "# ==================================== #"
     echo -e ""
 
     # Cleaning generated accelerators
@@ -111,7 +104,7 @@ fetch_acc_specs()
     cd $dir_acc_src
     for (( c=0; c<=$n_acc-1; c++ ))
     do  
-        echo "[sh] >> Fetching accelerator target #$c -> ${acc_targets[$c]}"
+        echo "[sh] >> Retrieving wrapper target #$c -> ${acc_targets[$c]}"
         make --silent clean all ACC_DEV_DIR=$dir_acc_dev TARGET_ACC=${acc_targets[$c]}
     done
 }

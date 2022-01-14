@@ -22,11 +22,7 @@ readonly dir_out_acc=$3
 # Activate environment
 source $dir_py_venv/bin/activate
 
-# Get source components (see Makefile recipe deps)
-echo -e "[sh] >> Retrieving target engine from accelerator library"
-
-# Run generator
-echo -e "[sh] >> Generation of accelerator wrapper"
+# Launch python generator
 cd genov && python generate_wrapper.py $dir_out_acc
 
 # Deactivate environment

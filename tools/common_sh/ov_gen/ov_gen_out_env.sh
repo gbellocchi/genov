@@ -36,8 +36,10 @@ if [ ! -d "$dir_out_ov" ]; then
     # ========================================= #
 
     mkdir $dir_out_ov/soc
+    mkdir $dir_out_ov/soc/rtl
+
     mkdir $dir_out_ov/clusters
-    mkdir $dir_out_ov/system_ips
+    mkdir $dir_out_ov/clusters/rtl
 
     # ========================================== #
     # Create directories for test and validation #
@@ -45,11 +47,10 @@ if [ ! -d "$dir_out_ov" ]; then
 
     mkdir $dir_out_ov/test
 
-    # System testbench
-    mkdir $dir_out_ov/test/overlay_tb
-    mkdir $dir_out_ov/test/overlay_tb/sw
-    mkdir $dir_out_ov/test/overlay_tb/sw/inc 
-    mkdir $dir_out_ov/test/overlay_tb/sw/inc/hwpe_lib
+    # Software runtime
+    mkdir $dir_out_ov/test/sw
+    mkdir $dir_out_ov/test/sw/inc 
+    mkdir $dir_out_ov/test/sw/inc/hwpe_lib
 
     # ============================================================================= #
     # Retrieve static hardware components 
@@ -60,12 +61,12 @@ if [ ! -d "$dir_out_ov" ]; then
     # defined within the repository, or cloned as external sources. 
     # ============================================================================= #
 
-    echo -e "[sh] >> Retrieving static hardware components"
+    echo -e "[sh] >> Retrieving static SoC components"
 
     # Copy static system IPs
-    dst=$dir_out_ov
+    dst=$dir_out_ov/soc/rtl
     if [ -d "$dst" ]; then
-        cp -rf $dir_static/static_rtl/system_ips $dst
+        cp -rf $dir_static/static_rtl/apb $dst
     else
         error_exit "[sh] >> Directory not found -> $dst"
     fi
@@ -82,9 +83,9 @@ if [ ! -d "$dir_out_ov" ]; then
     echo -e "[sh] >> Retrieving static software components"
 
     # Copy TB generator for compilation support files for software TB
-    dst=$dir_out_ov/test/overlay_tb/sw/inc
+    dst=$dir_out_ov/test/sw/inc
     if [ -d "$dst" ]; then
-        cp -rf $dir_static/static_tb/hwpe_ov_tb/inc/* $dst
+        cp -rf $dir_static/static_tb/overlay/inc/* $dst
     else
         error_exit "[sh] >> Directory not found -> $dst"
     fi
