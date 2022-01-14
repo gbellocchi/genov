@@ -32,13 +32,16 @@ from python.overlay.process_params import get_acc_info
     hardware wrappers for target acceleration kernels.
 '''
 
+acc_cfg_file = "dev/ov_dev/acc_config.cfg"
+
 print("[py] >> Creating accelerator configuration file to guide accelerator wrapper generation")
+print("\n\t- Location ->", acc_cfg_file, "\n")
 
 # Invoke overlay specifications
 ov_specs = ov_specs()
 
 # Create file
-f = open("dev/ov_dev/acc_config.cfg", "w")
+f = open(acc_cfg_file, "w")
 
 # Extract information from overlay specification 
 

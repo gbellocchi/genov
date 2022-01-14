@@ -46,18 +46,21 @@ class EmitOv:
 
         self.out_ov                         = dir_out_ov
 
-        # Hardware
+        # SoC
         self.ov_gen_soc                     = self.out_ov + '/soc'
+        self.ov_gen_soc_rtl                 = self.ov_gen_soc + '/rtl'
+
+        # Cluster
         self.ov_gen_cl                      = self.out_ov + '/clusters'
+        self.ov_gen_cl_rtl                  = self.ov_gen_cl + '/rtl'
 
-        # Test and validation
-        self.out_ov_test                    = self.out_ov + '/test'
+        # Test
+        self.ov_gen_test                    = self.out_ov + '/test'
 
-        # System testbench
-        self.out_ov_tb                      = self.out_ov + '/test/overlay_tb'
-        self.out_ov_tb_sw                   = self.out_ov + '/test/overlay_tb/sw'
-        self.out_ov_tb_inc                  = self.out_ov + '/test/overlay_tb/sw/inc'
-        self.out_ov_tb_hwpe_lib             = self.out_ov + '/test/overlay_tb/sw/inc/hwpe_lib'
+        # Software test runtime
+        self.ov_gen_test_sw                 = self.ov_gen_test + '/sw'
+        self.ov_gen_test_inc                = self.ov_gen_test + '/sw/inc'
+        self.ov_gen_test_hwpe_lib           = self.ov_gen_test + '/sw/inc/hwpe_lib'
 
     """
     The 'out_gen' method is in charge of physically setting up the output 

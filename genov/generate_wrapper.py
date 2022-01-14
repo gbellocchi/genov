@@ -99,7 +99,7 @@ gen_acc_comps(
     design_params,
     emitter,
     ['hwpe', 'top_wrapper', ['hw', 'rtl']],
-    emitter.out_hwpe_wrap
+    emitter.hwpe_gen_wrap
 )
 
 '''
@@ -110,7 +110,7 @@ gen_acc_comps(
     design_params,
     emitter,
     ['hwpe', 'top', ['hw', 'rtl']],
-    emitter.out_hwpe_rtl
+    emitter.hwpe_gen_rtl
 )
 
 '''
@@ -121,7 +121,7 @@ gen_acc_comps(
     design_params,
     emitter,
     ['hwpe', 'engine', ['hw', 'rtl']],
-    emitter.out_hwpe_rtl
+    emitter.hwpe_gen_rtl
 )
 
 '''
@@ -132,7 +132,7 @@ gen_acc_comps(
     design_params,
     emitter,
     ['hwpe', 'kernel_adapter', ['hw', 'rtl']],
-    emitter.out_hwpe_rtl
+    emitter.hwpe_gen_rtl
 )
 
 '''
@@ -143,7 +143,7 @@ gen_acc_comps(
     design_params,
     emitter,
     ['hwpe', 'streamer', ['hw', 'rtl']],
-    emitter.out_hwpe_rtl
+    emitter.hwpe_gen_rtl
 )
 
 '''
@@ -154,7 +154,7 @@ gen_acc_comps(
     design_params,
     emitter,
     ['hwpe', 'ctrl', ['hw', 'rtl']],
-    emitter.out_hwpe_rtl
+    emitter.hwpe_gen_rtl
 )
 
 '''
@@ -165,7 +165,7 @@ gen_acc_comps(
     design_params,
     emitter,
     ['hwpe', 'fsm', ['hw', 'rtl']],
-    emitter.out_hwpe_rtl
+    emitter.hwpe_gen_rtl
 )
 
 '''
@@ -176,7 +176,7 @@ gen_acc_comps(
     design_params,
     emitter,
     ['hwpe', 'package', ['hw', 'rtl']],
-    emitter.out_hwpe_rtl
+    emitter.hwpe_gen_rtl
 )
 
 '''
@@ -263,7 +263,7 @@ gen_acc_comps(
     design_params,
     emitter,
     ['tb', 'tb_hwpe', ['hw', 'rtl']],
-    emitter.out_hwpe_tb
+    emitter.hwpe_gen_test
 )
 
 '''
@@ -289,7 +289,7 @@ gen_acc_comps(
     design_params,
     emitter,
     ['sw', 'archi_hwpe', ['sw', 'archi']],
-    emitter.out_hwpe_tb_hwpe_lib
+    emitter.hwpe_gen_test_hwpe_lib
 )
 
 '''
@@ -303,7 +303,7 @@ gen_acc_comps(
     design_params,
     emitter,
     ['sw', 'hal_hwpe', ['sw', 'hal']],
-    emitter.out_hwpe_tb_hwpe_lib
+    emitter.hwpe_gen_test_hwpe_lib
 )
 
 '''
@@ -319,5 +319,5 @@ gen_acc_comps(
     design_params,
     emitter,
     ['sw', 'tb_hwpe', ['sw', 'tb']],
-    emitter.out_hwpe_tb_sw
+    emitter.hwpe_gen_test_sw
 )

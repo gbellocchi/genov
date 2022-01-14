@@ -90,7 +90,7 @@ gen_ov_comps(
     design_params,
     emitter,
     ['tb', 'overlay_tb', ['hw', 'rtl']],
-    emitter.out_ov_tb
+    emitter.ov_gen_test
 )
 
 '''
@@ -100,7 +100,7 @@ gen_ov_comps(
 # gen_comps(
 #     hwpe_ov_tb_sw.archi_hwpe(),
 #     ['sw', 'archi_hwpe', ['sw', 'archi']],
-#     emitter.out_sw_ov_hwpe_lib
+#     emitter.ov_gen_test_hwpe_lib
 # )
 
 '''
@@ -112,7 +112,7 @@ gen_ov_comps(
 # gen_comps(
 #     hwpe_ov_tb_sw.hal_hwpe(),
 #     ['sw', 'hal_hwpe', ['sw', 'hal']],
-#     emitter.out_sw_ov_hwpe_lib
+#     emitter.ov_gen_test_hwpe_lib
 # )
 
 '''
@@ -125,7 +125,7 @@ gen_ov_comps(
 # gen_comps(
 #     hwpe_ov_tb_sw.tb_hwpe(),
 #     ['sw', 'tb_hwpe', ['sw', 'tb']],
-#     emitter.out_sw_ov
+#     emitter.ov_gen_test_sw
 # )
 
 '''
@@ -136,5 +136,5 @@ gen_ov_comps(
 #     design_params,
 #     emitter,
 #     ['integr_support', 'vsim_wave', ['integr_support', 'vsim_wave']],
-#     emitter.out_ov
+#     emitter.ov_gen_test
 # )

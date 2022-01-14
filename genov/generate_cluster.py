@@ -93,7 +93,7 @@ for cl_offset in range(design_params.n_clusters):
         design_params,
         emitter,
         ['cl', str(cl_offset) + '_pkg', ['hw', 'rtl']],
-        emitter.ov_gen_cl,
+        emitter.ov_gen_cl_rtl,
         cl_offset
     )
 
@@ -105,7 +105,7 @@ for cl_offset in range(design_params.n_clusters):
         design_params,
         emitter,
         ['cl', str(cl_offset) + '_dmac_wrap_ooc', ['hw', 'rtl']],
-        emitter.ov_gen_cl,
+        emitter.ov_gen_cl_rtl,
         cl_offset
     )
 
@@ -118,7 +118,7 @@ for cl_offset in range(design_params.n_clusters):
         design_params,
         emitter,
         ['cl', str(cl_offset) + '_lic_acc_region', ['hw', 'rtl']],
-        emitter.ov_gen_cl,
+        emitter.ov_gen_cl_rtl,
         cl_offset
     )
 
@@ -130,7 +130,7 @@ for cl_offset in range(design_params.n_clusters):
         design_params,
         emitter,
         ['cl', str(cl_offset) + '_lic_acc_intf', ['hw', 'rtl']],
-        emitter.ov_gen_cl,
+        emitter.ov_gen_cl_rtl,
         cl_offset
     )
 
@@ -142,7 +142,7 @@ for cl_offset in range(design_params.n_clusters):
         design_params,
         emitter,
         ['cl', str(cl_offset) + '_pulp_cluster_ooc', ['hw', 'rtl']],
-        emitter.ov_gen_cl,
+        emitter.ov_gen_cl_rtl,
         cl_offset
     )
 

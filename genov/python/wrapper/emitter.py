@@ -52,18 +52,17 @@ class EmitWrapper:
         self.out_hwpe                       = os.path.join(dir_out_hwpe, design_params.target)
 
         # Hardware
-        self.out_hwpe_wrap                  = self.out_hwpe + '/wrap'
-        self.out_hwpe_rtl                   = self.out_hwpe + '/rtl'
-        self.out_hwpe_acc_kernel            = self.out_hwpe + '/rtl/acc_kernel'
+        self.hwpe_gen_wrap                  = self.out_hwpe + '/wrap'
+        self.hwpe_gen_rtl                   = self.out_hwpe + '/rtl'
+        self.hwpe_gen_acc_kernel            = self.out_hwpe + '/rtl/acc_kernel'
 
-        # Test and validation
-        self.out_hwpe_test                  = self.out_hwpe + '/test'
+        # Test
+        self.hwpe_gen_test                  = self.out_hwpe + '/test'
 
-        # Standalone testbench
-        self.out_hwpe_tb                    = self.out_hwpe + '/test/hwpe_standalone_tb'
-        self.out_hwpe_tb_sw                 = self.out_hwpe + '/test/hwpe_standalone_tb/sw'
-        self.out_hwpe_tb_inc                = self.out_hwpe + '/test/hwpe_standalone_tb/sw/inc'
-        self.out_hwpe_tb_hwpe_lib           = self.out_hwpe + '/test/hwpe_standalone_tb/sw/inc/hwpe_lib'
+        # Software test runtime
+        self.hwpe_gen_test_sw               = self.hwpe_gen_test + '/sw'
+        self.hwpe_gen_test_inc              = self.hwpe_gen_test + '/sw/inc'
+        self.hwpe_gen_test_hwpe_lib         = self.hwpe_gen_test + '/sw/inc/hwpe_lib'
 
     """
     The 'out_gen' method is in charge of physically setting up the output 

@@ -85,7 +85,7 @@ gen_soc_comps(
     design_params,
     emitter,
     ['soc', 'hero_axi_mailbox', ['hw', 'rtl']],
-    emitter.ov_gen_soc
+    emitter.ov_gen_soc_rtl
 )
 
 '''
@@ -96,7 +96,7 @@ gen_soc_comps(
     design_params,
     emitter,
     ['soc', 'l2_mem', ['hw', 'rtl']],
-    emitter.ov_gen_soc
+    emitter.ov_gen_soc_rtl
 )
 
 '''
@@ -107,7 +107,7 @@ gen_soc_comps(
     design_params,
     emitter,
     ['soc', 'pulp', ['hw', 'rtl']],
-    emitter.ov_gen_soc
+    emitter.ov_gen_soc_rtl
 )
 
 '''
@@ -118,7 +118,7 @@ gen_soc_comps(
     design_params,
     emitter,
     ['soc', 'soc_package', ['hw', 'rtl']],
-    emitter.ov_gen_soc
+    emitter.ov_gen_soc_rtl
 )
 
 '''
@@ -129,7 +129,7 @@ gen_soc_comps(
     design_params,
     emitter,
     ['soc', 'pulp_ooc', ['hw', 'rtl']],
-    emitter.ov_gen_soc
+    emitter.ov_gen_soc_rtl
 )
 
 '''
@@ -140,7 +140,7 @@ gen_soc_comps(
     design_params,
     emitter,
     ['soc', 'soc_bus', ['hw', 'rtl']],
-    emitter.ov_gen_soc
+    emitter.ov_gen_soc_rtl
 )
 
 '''
@@ -151,7 +151,7 @@ gen_soc_comps(
     design_params,
     emitter,
     ['soc', 'soc_ctrl_regs', ['hw', 'rtl']],
-    emitter.ov_gen_soc
+    emitter.ov_gen_soc_rtl
 )
 
 '''
@@ -162,7 +162,7 @@ gen_soc_comps(
     design_params,
     emitter,
     ['soc', 'soc_peripherals', ['hw', 'rtl']],
-    emitter.ov_gen_soc
+    emitter.ov_gen_soc_rtl
 )
 
 '''
