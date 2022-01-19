@@ -42,19 +42,19 @@
 // these values to hierarchically design your system, though.
 package automatic pulp_pkg;
   // Addressing
-  localparam int unsigned AXI_AW = pulp_cluster_cfg_pkg::AXI_AW;
+  localparam int unsigned AXI_AW = soc_cfg_pkg::AXI_AW;
   // Clusters
-  localparam int unsigned AXI_DW_CL = pulp_cluster_cfg_pkg::AXI_DW;
-  localparam int unsigned AXI_IW_CL_OUP = pulp_cluster_cfg_pkg::AXI_IW_MST;
-  localparam int unsigned AXI_IW_CL_INP = pulp_cluster_cfg_pkg::AXI_IW_SLV;
+  localparam int unsigned AXI_DW_CL = soc_cfg_pkg::AXI_DW;
+  localparam int unsigned AXI_IW_CL_OUP = soc_cfg_pkg::AXI_IW_MST;
+  localparam int unsigned AXI_IW_CL_INP = soc_cfg_pkg::AXI_IW_SLV;
   // SoC Bus
   localparam int unsigned AXI_IW_SB_INP = 3;
-  localparam int unsigned AXI_UW = pulp_cluster_cfg_pkg::AXI_UW;
+  localparam int unsigned AXI_UW = soc_cfg_pkg::AXI_UW;
   function int unsigned axi_iw_sb_oup(input int unsigned n_clusters);
     return soc_bus_pkg::oup_id_w(n_clusters, AXI_IW_SB_INP);
   endfunction
   // L2 Memory
-  localparam int unsigned L2_SIZE = pulp_cluster_cfg_pkg::L2_SIZE;
+  localparam int unsigned L2_SIZE = soc_cfg_pkg::L2_SIZE;
   // Peripherals
   localparam int unsigned AXI_LITE_AW = 32;
   localparam int unsigned AXI_LITE_DW = 32;
@@ -70,7 +70,6 @@ endpackage
 
 `include "axi/assign.svh"
 `include "axi/typedef.svh"
-`include "include/pulp_defines.svh"
 
 module pulp import pulp_pkg::*; #(
   // SoC Parameters
@@ -143,7 +142,7 @@ module pulp import pulp_pkg::*; #(
     .AXI_DATA_WIDTH (AXI_DW_CL),
     .AXI_ID_WIDTH   (AXI_IW_CL_INP),
     .AXI_USER_WIDTH (AXI_UW),
-    .BUFFER_WIDTH   (pulp_cluster_cfg_pkg::DC_BUF_W)
+    .BUFFER_WIDTH   (soc_cfg_pkg::DC_BUF_W)
   ) cl_inp_async[N_CLUSTERS-1:0]();
 
   // Interfaces from Clusters
@@ -158,7 +157,7 @@ module pulp import pulp_pkg::*; #(
     .AXI_DATA_WIDTH (AXI_DW_CL),
     .AXI_ID_WIDTH   (AXI_IW_CL_OUP),
     .AXI_USER_WIDTH (AXI_UW),
-    .BUFFER_WIDTH   (pulp_cluster_cfg_pkg::DC_BUF_W)
+    .BUFFER_WIDTH   (soc_cfg_pkg::DC_BUF_W)
   ) cl_oup_async[N_CLUSTERS-1:0]();
   AXI_BUS #(
     .AXI_ADDR_WIDTH (AXI_AW),
@@ -317,13 +316,13 @@ module pulp import pulp_pkg::*; #(
     logic [5:0] cluster_id;
     assign cluster_id = i;
 
-    if (pulp_cluster_cfg_pkg::ASYNC) begin : gen_cluster_async
+    if (soc_cfg_pkg::ASYNC) begin : gen_cluster_async
       axi_slice_dc_slave_wrap #(
         .AXI_ADDR_WIDTH (AXI_AW),
         .AXI_DATA_WIDTH (AXI_DW_CL),
         .AXI_USER_WIDTH (AXI_UW),
         .AXI_ID_WIDTH   (AXI_IW_CL_INP),
-        .BUFFER_WIDTH   (pulp_cluster_cfg_pkg::DC_BUF_W)
+        .BUFFER_WIDTH   (soc_cfg_pkg::DC_BUF_W)
       ) i_dc_slice_cl_inp (
         .clk_i,
         .rst_ni,
@@ -348,7 +347,7 @@ module pulp import pulp_pkg::*; #(
         .AXI_DATA_WIDTH (AXI_DW_CL),
         .AXI_USER_WIDTH (AXI_UW),
         .AXI_ID_WIDTH   (AXI_IW_CL_OUP),
-        .BUFFER_WIDTH   (pulp_cluster_cfg_pkg::DC_BUF_W)
+        .BUFFER_WIDTH   (soc_cfg_pkg::DC_BUF_W)
       ) i_dc_slice_cl_oup (
         .clk_i,
         .rst_ni,
@@ -411,7 +410,7 @@ module pulp import pulp_pkg::*; #(
     //  .DATA_WIDTH   (AXI_DW),
     //  .ID_WIDTH     (AXI_IW_SB_INP),
     //  .USER_WIDTH   (AXI_UW),
-    //  .BUF_DEPTH    (pulp_cluster_cfg_pkg::DMA_MAX_BURST_LEN)
+    //  .BUF_DEPTH    (soc_cfg_pkg::DMA_MAX_BURST_LEN)
     //) i_packer_cl_oup (
     //  .clk_i,
     //  .rst_ni,
@@ -424,7 +423,7 @@ module pulp import pulp_pkg::*; #(
     //  .DATA_WIDTH   (AXI_DW),
     //  .ID_WIDTH     (AXI_IW_SB_INP),
     //  .USER_WIDTH   (AXI_UW),
-    //  .BUF_DEPTH    (pulp_cluster_cfg_pkg::DMA_MAX_BURST_LEN)
+    //  .BUF_DEPTH    (soc_cfg_pkg::DMA_MAX_BURST_LEN)
     //) i_r_buf_cl_oup (
     //  .clk_i,
     //  .rst_ni,
@@ -615,15 +614,15 @@ module pulp import pulp_pkg::*; #(
   assign rab_from_host_multi_irq_o = 1'b0;
   assign rab_from_host_prot_irq_o = 1'b0;
 
-  localparam int unsigned MAX_TXNS_PER_CLUSTER =
-      pulp_cluster_cfg_pkg::N_CORES + pulp_cluster_cfg_pkg::DMA_MAX_N_TXNS;
+  ${def_param_max_txns()}
+
   axi_tlb #(
     .AxiSlvPortAddrWidth  (AXI_AW),
     .AxiMstPortAddrWidth  (AXI_AW),
     .AxiDataWidth         (AXI_DW),
     .AxiIdWidth           (AXI_IW_SB_OUP),
     .AxiUserWidth         (AXI_UW),
-    .AxiSlvPortMaxTxns    (N_CLUSTERS * MAX_TXNS_PER_CLUSTER),
+    .AxiSlvPortMaxTxns    (MAX_TXNS_OVERALL),
     .CfgAxiAddrWidth      (AXI_LITE_AW),
     .CfgAxiDataWidth      (AXI_LITE_DW),
     .L1NumEntries         (32),
@@ -684,7 +683,7 @@ module pulp import pulp_pkg::*; #(
     .AXI_AW     (AXI_AW),
     .AXI_IW     (AXI_IW_SB_OUP),
     .AXI_UW     (AXI_UW),
-    .N_CORES    (pulp_cluster_cfg_pkg::N_CORES),
+    .N_CORES    (pulp_cluster_0_cfg_pkg::N_CORES),
     .N_CLUSTERS (N_CLUSTERS)
   ) i_periphs (
     .clk_i,
