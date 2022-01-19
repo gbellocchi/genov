@@ -48,14 +48,18 @@ class EmitOv:
 
         # SoC
         self.ov_gen_soc                     = self.out_ov + '/soc'
+        self.ov_gen_soc_pkg                 = self.ov_gen_soc + '/packages'
         self.ov_gen_soc_rtl                 = self.ov_gen_soc + '/rtl'
+        self.ov_gen_soc_ooc                 = self.ov_gen_soc_rtl + '/out-of-context'
 
         # Cluster
-        self.ov_gen_cl                      = self.out_ov + '/clusters'
+        self.ov_gen_cl                      = self.out_ov + '/cluster'
+        self.ov_gen_cl_pkg                  = self.ov_gen_cl + '/packages'
         self.ov_gen_cl_rtl                  = self.ov_gen_cl + '/rtl'
 
         # Test
         self.ov_gen_test                    = self.out_ov + '/test'
+        self.ov_gen_test_waves              = self.ov_gen_test + '/waves'
 
         # Software test runtime
         self.ov_gen_test_sw                 = self.ov_gen_test + '/sw'
@@ -165,7 +169,7 @@ class EmitOv:
     Constructor of file names targeting the cluster.
     '''
     def cl_file_name(self):
-        file_name = 'cl_' + self.design_name + self.file_ext
+        file_name = 'pulp_cluster_' + self.design_name + self.file_ext
         return file_name
 
     '''

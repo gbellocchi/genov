@@ -36,16 +36,22 @@ if [ ! -d "$dir_out_ov" ]; then
     # ========================================= #
 
     mkdir $dir_out_ov/soc
+    mkdir $dir_out_ov/soc/packages
     mkdir $dir_out_ov/soc/rtl
+    mkdir $dir_out_ov/soc/rtl/out-of-context
 
-    mkdir $dir_out_ov/clusters
-    mkdir $dir_out_ov/clusters/rtl
+    mkdir $dir_out_ov/cluster
+    mkdir $dir_out_ov/cluster/packages
+    mkdir $dir_out_ov/cluster/rtl
 
     # ========================================== #
     # Create directories for test and validation #
     # ========================================== #
 
     mkdir $dir_out_ov/test
+
+    # Simulation
+    mkdir $dir_out_ov/test/waves
 
     # Software runtime
     mkdir $dir_out_ov/test/sw
