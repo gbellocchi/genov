@@ -1,10 +1,11 @@
 '''
  =====================================================================
  Project:       QuestaSim waves
- Title:         vsim_wave.py
- Description:   QuestaSim waves to simplify validation phase.
+ Title:         vsim_wave_cluster.py
+ Description:   QuestaSim waves to simplify validation phase of cluster 
+                components.
 
- Date:          29.12.2021
+ Date:          19.1.22
  ===================================================================== */
 
  Copyright (C) 2021 University of Modena and Reggio Emilia.
@@ -17,6 +18,6 @@
 
 from python.collector import collector
 
-class VsimWave(collector):
+class VsimWaveCluster(collector):
     def top(self):
         return self.get_template()

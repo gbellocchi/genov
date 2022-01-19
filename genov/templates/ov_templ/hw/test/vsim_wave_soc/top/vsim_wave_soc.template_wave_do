@@ -1,0 +1,58 @@
+<%
+# =====================================================================
+# Project:       QuestaSim waves
+# Title:         vsim_wave_soc.template_wave_do
+# Description:   QuestaSim waves to simplify validation phase of SoC
+#                components.
+#
+# $Date:         19.1.22
+#
+# Generator:     generate_ov_test
+# ===================================================================== */
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+%>
+
+<%
+# =====================================================================
+# Description:  Overlay testbench I/O signals.
+# =====================================================================
+%>
+
+add wave -noupdate -group {TB I/O} /pulp_tb/dut/clk_i
+add wave -noupdate -group {TB I/O} /pulp_tb/dut/rst_ni
+add wave -noupdate -group {TB I/O} /pulp_tb/dut/cl_fetch_en_i
+add wave -noupdate -group {TB I/O} /pulp_tb/dut/cl_busy_o
+add wave -noupdate -group {TB I/O} /pulp_tb/dut/cl_eoc_o
+add wave -noupdate -group {TB I/O} /pulp_tb/from_pulp_req
+add wave -noupdate -group {TB I/O} /pulp_tb/from_pulp_resp
+add wave -noupdate -group {TB I/O} /pulp_tb/to_pulp_req
+add wave -noupdate -group {TB I/O} /pulp_tb/to_pulp_resp
+add wave -noupdate -group {TB I/O} /pulp_tb/rab_conf_req
+add wave -noupdate -group {TB I/O} /pulp_tb/rab_conf_resp
+
+<%
+# =====================================================================
+# Description:  Configuration knobs.
+# =====================================================================
+%>
+
+WaveRestoreCursors {{Cursor 11} {35680473 ps} 1} {W {35686614 ps} 1} {{Cursor 13} {35800671 ps} 1} {{Cursor 14} {16000 ps} 0}
+quietly wave cursor active 4
+configure wave -namecolwidth 271
+configure wave -valuecolwidth 483
+configure wave -justifyvalue left
+configure wave -signalnamewidth 1
+configure wave -snapdistance 10
+configure wave -datasetprefix 0
+configure wave -rowmargin 4
+configure wave -childrowmargin 2
+configure wave -gridoffset 0
+configure wave -gridperiod 1
+configure wave -griddelta 40
+configure wave -timeline 0
+configure wave -timelineunits ns
+update
+WaveRestoreZoom {0 ps} {530958 ps}
