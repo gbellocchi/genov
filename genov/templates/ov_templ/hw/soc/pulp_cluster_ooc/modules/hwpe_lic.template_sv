@@ -1,0 +1,45 @@
+<%
+# =====================================================================
+# Project:      Cluster package
+# Title:        hwpe_lic.template_sv
+# Description:  Template APIs compliant with HWPE-based wrappers connected 
+#               to the LIC interconnect.
+#
+# $Date:        29.12.2021
+#
+# Generator:    generate_ov
+# =====================================================================
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+#
+# =====================================================================
+%>
+
+<%
+# =====================================================================
+# Title:        inst_param_hwpe_lic_region
+# Type:         Template API
+# Description:  Instantiation of parameters for HWPE-based accelerator 
+#               wrappers.
+# =====================================================================
+%>
+
+<%def name="inst_param_hwpe_lic_region()">
+    .HWPE_LIC_PRESENT         (pulp_cluster_${cl_offset}_cfg_pkg::HWPE_LIC_PRESENT),
+    .NB_HWPE_LIC              (pulp_cluster_${cl_offset}_cfg_pkg::N_HWPE_LIC),
+</%def>\
+
+<%
+# =====================================================================
+# Title:        inst_param_hwpe_lic_interface
+# Type:         Template API
+# Description:  Instantiation of parameters for the LIC interconnection of 
+#               HWPE-based accelerator wrappers.
+# =====================================================================
+%>
+
+<%def name="inst_param_hwpe_lic_interface()">\
+    .NB_HWPE_LIC_PORTS_TOTAL  (pulp_cluster_${cl_offset}_cfg_pkg::N_HWPE_LIC_PORTS_TOTAL),
+</%def>\

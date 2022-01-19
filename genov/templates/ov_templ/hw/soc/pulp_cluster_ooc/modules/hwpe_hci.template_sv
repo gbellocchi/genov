@@ -1,0 +1,45 @@
+<%
+# =====================================================================
+# Project:      Cluster package
+# Title:        hwpe_hci.template_sv
+# Description:  Template APIs compliant with HWPE-based wrappers connected 
+#               to the HCI interconnect.
+#
+# $Date:        29.12.2021
+#
+# Generator:    generate_ov
+# =====================================================================
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+#
+# =====================================================================
+%>
+
+<%
+# =====================================================================
+# Title:        inst_param_hwpe_hci_region
+# Type:         Template API
+# Description:  Instantiation of parameters for HWPE-based accelerator 
+#               wrappers.
+# =====================================================================
+%>
+
+<%def name="inst_param_hwpe_hci_region()">
+    .HWPE_HCI_PRESENT         (pulp_cluster_${cl_offset}_cfg_pkg::HWPE_HCI_PRESENT),
+    .NB_HWPE_HCI              (pulp_cluster_${cl_offset}_cfg_pkg::N_HWPE_HCI),
+</%def>\
+
+<%
+# =====================================================================
+# Title:        inst_param_hwpe_hci_interface
+# Type:         Template API
+# Description:  Instantiation of parameters for the HCI interconnection of 
+#               HWPE-based accelerator wrappers.
+# =====================================================================
+%>
+
+<%def name="inst_param_hwpe_hci_interface()">\
+    .NB_HWPE_HCI_PORTS_TOTAL  (pulp_cluster_${cl_offset}_cfg_pkg::N_HWPE_HCI_PORTS_TOTAL),
+</%def>\
