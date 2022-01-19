@@ -2,11 +2,11 @@
 # =====================================================================
 # Project:      LIC accelerator interface
 # Title:        hwpe_intf.template_sv
-# Description:  HWPE-based accelerator interface.
+# Description:  HWPE-based accelerator LIC interface.
 #
 # $Date:        29.12.2021
 #
-# Generator:    generate_ov
+# Generator:    generate_cluster
 # =====================================================================
 #
 # Copyright (C) 2021 University of Modena and Reggio Emilia.
@@ -58,20 +58,20 @@ module ${cl_lic_acc_names[acc_offset]}_hwpe_intf
 
   /* Local shared-memory interface. */
 
-  logic [N_HWACC_PORTS-1:0]           tcdm_req;
-  logic [N_HWACC_PORTS-1:0]           tcdm_gnt;
-  logic [N_HWACC_PORTS-1:0] [32-1:0]  tcdm_add;
-  logic [N_HWACC_PORTS-1:0]           tcdm_type;
-  logic [N_HWACC_PORTS-1:0] [4 -1:0]  tcdm_be;
-  logic [N_HWACC_PORTS-1:0] [32-1:0]  tcdm_wdata;
-  logic [N_HWACC_PORTS-1:0] [32-1:0]  tcdm_r_rdata;
-  logic [N_HWACC_PORTS-1:0]           tcdm_r_valid;
+  logic [N_HWPE_PORTS-1:0]           tcdm_req;
+  logic [N_HWPE_PORTS-1:0]           tcdm_gnt;
+  logic [N_HWPE_PORTS-1:0] [32-1:0]  tcdm_add;
+  logic [N_HWPE_PORTS-1:0]           tcdm_type;
+  logic [N_HWPE_PORTS-1:0] [4 -1:0]  tcdm_be;
+  logic [N_HWPE_PORTS-1:0] [32-1:0]  tcdm_wdata;
+  logic [N_HWPE_PORTS-1:0] [32-1:0]  tcdm_r_rdata;
+  logic [N_HWPE_PORTS-1:0]           tcdm_r_valid;
 
   /* Target accelerator wrapper. */
 
   ${cl_lic_acc_names[acc_offset]}_top_wrap #(
     .N_CORES          ( N_CORES ),
-    .MP               ( N_HWACC_PORTS ),
+    .MP               ( N_HWPE_PORTS ),
     .ID               ( ID_WIDTH )
   ) i_top_wrap (
     .clk_i          ( clk                           ),
@@ -103,7 +103,7 @@ module ${cl_lic_acc_names[acc_offset]}_hwpe_intf
   assign busy_o = 1'b1;
   genvar i;
   generate
-    for (i=0;i<N_HWACC_PORTS;i++) begin : hwacc_binding
+    for (i=0;i<N_HWPE_PORTS;i++) begin : hwacc_binding
       assign hwpe_mst[i].req   = tcdm_req   [i];
       assign hwpe_mst[i].add   = tcdm_add   [i];
       assign hwpe_mst[i].wen   = tcdm_type  [i];

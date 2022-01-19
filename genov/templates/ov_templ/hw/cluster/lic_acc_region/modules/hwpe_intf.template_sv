@@ -54,14 +54,14 @@
 
   ${cl_lic_acc_names[acc_offset]}_hwpe_intf #( 
     .N_CORES          ( NB_CORES  ),
-    .N_HWPE_PORTS     ( NB_HWPE_PORTS_${acc_offset}   ),
+    .N_HWPE_PORTS     ( NB_HWPE_LIC_PORTS_WRAPPER_${acc_offset}   ),
     .ID_WIDTH         ( ID_WIDTH )
   ) i_hwpe_intf (
     .clk              ( clk                                         ),
     .rst_n            ( rst_n                                       ),
     .test_mode        ( test_mode                                   ),
-    .hwpe_mst         ( hwacc_xbar_master[mst_idx_${acc_offset}_H:mst_idx_${acc_offset}_L]  ), 
-    .hwpe_slv         ( hwacc_cfg_slave[${acc_offset}]                          ), 
+    .hwpe_mst         ( hwpe_xbar_master[mst_idx_${acc_offset}_H:mst_idx_${acc_offset}_L]  ), 
+    .hwpe_slv         ( hwpe_cfg_slave[${acc_offset}]                          ), 
     .evt_o            ( evt_o[${acc_offset}]                                    ),
     .busy_o           ( busy_acc[${acc_offset}]                                 ) 
   );
@@ -86,7 +86,7 @@ endmodule
 # Description:  Definition and initialization of LIC port indices  
 #               associated with clustered HWPE-based accelerator wrapper(-s).
 #               This is because the master ports are wrapped into an array
-#               "hwacc_xbar_master[NB_HWPE_PORTS_TOTAL-1:0]" that is input
+#               "hwacc_xbar_master[NB_HWPE_LIC_PORTS_TOTAL-1:0]" that is input
 #               to the accelerator interface. The latter subsequently needs
 #               to distribute the data ports to each accelerator wrapper.
 #               This is accomplished using the indices defined below.
@@ -122,16 +122,16 @@ endmodule
         <%
           is_first_hwpe = False
 
-          str_H = "NB_HWPE_LIC_PORTS_ACC_" + str(i) + " - 1"
+          str_H = "NB_HWPE_LIC_PORTS_WRAPPER_" + str(i) + " - 1"
           str_L = "0"
         %>
       % else:
         <%
-          str_H = "NB_HWPE_LIC_PORTS_ACC_" + str(i) + " + " + str_H
+          str_H = "NB_HWPE_LIC_PORTS_WRAPPER_" + str(i) + " + " + str_H
         %>
 
         <%
-          str_L = "NB_HWPE_LIC_PORTS_ACC_" + str(i-1) + " + " + str_L
+          str_L = "NB_HWPE_LIC_PORTS_WRAPPER_" + str(i-1) + " + " + str_L
         %>
       % endif
     % endif
@@ -141,8 +141,8 @@ endmodule
     # Definition and initialization of LIC port indices
   %>
 
-  parameter mst_idx_${acc_offset}_H = ${str_H};
-  parameter mst_idx_${acc_offset}_L = ${str_L};
+  localparam mst_idx_${acc_offset}_H = ${str_H};
+  localparam mst_idx_${acc_offset}_L = ${str_L};
     
 </%def>
 

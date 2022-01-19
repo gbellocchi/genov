@@ -28,7 +28,7 @@
 
 /* =====================================================================
  * Project:      LIC accelerator interface
- * Title:        cl_${cl_offset}_lic_acc_intf.template_sv
+ * Title:        pulp_cluster_${cl_offset}_lic_acc_intf.template_sv
  * Description:  The accelerator interface is positioned in between an 
  *               accelerator region and the top module of an accelerator 
  *               wrapper. The goal of the IP is to decompose the crossbar

@@ -19,11 +19,10 @@
 #!/usr/bin/env python3
 
 from templates.ov_templ.hw.cluster.bender.top.bender import Bender
-from templates.ov_templ.hw.cluster.cl_pkg.top.cl_pkg import ClPkg
-from templates.ov_templ.hw.cluster.dmac_wrap_ooc.top.dmac_wrap_ooc import DmacWrapOOC
 from templates.ov_templ.hw.cluster.lic_acc_region.top.lic_acc_region import LicAccRegion
 from templates.ov_templ.hw.cluster.lic_acc_intf.top.lic_acc_intf import LicAccIntf
-from templates.ov_templ.hw.cluster.pulp_cluster_ooc.top.pulp_cluster_ooc import PulpClusterOOC
+from templates.ov_templ.hw.cluster.periph_acc_intf.top.periph_acc_intf import PeriphAccIntf
+from templates.ov_templ.hw.cluster.pulp_cluster_cfg_pkg.top.pulp_cluster_cfg_pkg import PulpClusterCfgPkg
 
 class Cluster:
     def __init__(self):
@@ -34,25 +33,6 @@ class Cluster:
         return Bender(
             temp_type = 'templates/ov_templ/hw/cluster/bender/',
             temp_top = 'bender.template_yml',
-            temp_modules = [],
-            path_common = self.path_common
-        ).top()
-
-    def ClPkg(self):
-        print("\n[py] >> Cluster ~ Cluster package")
-        return ClPkg(
-            temp_type = 'templates/ov_templ/hw/cluster/cl_pkg/',
-            temp_top = 'cl_pkg.template_sv',
-            temp_modules = ['hwpe_lic.template_sv',
-                            'hwpe_hci.template_sv'],
-            path_common = self.path_common
-        ).top()
-
-    def DmacWrapOOC(self):
-        print("\n[py] >> Cluster ~ DMA wrapper OOC")
-        return DmacWrapOOC(
-            temp_type = 'templates/ov_templ/hw/cluster/dmac_wrap_ooc/',
-            temp_top = 'dmac_wrap_ooc.template_sv',
             temp_modules = [],
             path_common = self.path_common
         ).top()
@@ -76,11 +56,21 @@ class Cluster:
             path_common = self.path_common
         ).top()
 
-    def PulpClusterOOC(self):
-        print("\n[py] >> Cluster ~ PULP cluster OOC")
-        return PulpClusterOOC(
-            temp_type = 'templates/ov_templ/hw/cluster/pulp_cluster_ooc/',
-            temp_top = 'pulp_cluster_ooc.template_sv',
+    def PeriphAccIntf(self):
+        print("\n[py] >> Cluster ~ Peripheral accelerator interface")
+        return PeriphAccIntf(
+            temp_type = 'templates/ov_templ/hw/cluster/periph_acc_intf/',
+            temp_top = 'periph_acc_intf.template_sv',
             temp_modules = [],
+            path_common = self.path_common
+        ).top()
+
+    def PulpClusterCfgPkg(self):
+        print("\n[py] >> Cluster ~ PULP cluster configuration package")
+        return PulpClusterCfgPkg(
+            temp_type = 'templates/ov_templ/hw/cluster/pulp_cluster_cfg_pkg/',
+            temp_top = 'pulp_cluster_cfg_pkg.template_sv',
+            temp_modules = ['hwpe_lic.template_sv',
+                            'hwpe_hci.template_sv'],
             path_common = self.path_common
         ).top()
