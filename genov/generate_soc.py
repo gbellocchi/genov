@@ -65,17 +65,36 @@ print_soc_log(design_params)
 emitter = EmitOv(ov_specs, dir_out_ov)
 
 '''
+    Instantiate SoC template item
+''' 
+soc = Soc()
+
+'''
     =====================================================================
-    Component:      System-on-Chip - Hardware
+    Component:      System-on-Chip - Packages
 
     Description:    Generation of hardware components for SoC. 
     ===================================================================== */
 '''
 
 '''
-    Instantiate SoC template item
+    Generate design components ~ SoC package
 ''' 
-soc = Soc()
+gen_soc_comps(
+    soc.SocCfgPkg(),
+    design_params,
+    emitter,
+    ['soc', 'soc_cfg_pkg', ['hw', 'rtl']],
+    emitter.ov_gen_soc_pkg
+)
+
+'''
+    =====================================================================
+    Component:      System-on-Chip - Hardware
+
+    Description:    Generation of hardware components for SoC. 
+    ===================================================================== */
+'''
 
 '''
     Generate design components ~ HERO AXI mailbox
@@ -107,28 +126,6 @@ gen_soc_comps(
     design_params,
     emitter,
     ['soc', 'pulp', ['hw', 'rtl']],
-    emitter.ov_gen_soc_rtl
-)
-
-'''
-    Generate design components ~ SoC package
-''' 
-gen_soc_comps(
-    soc.SocPackage(),
-    design_params,
-    emitter,
-    ['soc', 'soc_package', ['hw', 'rtl']],
-    emitter.ov_gen_soc_rtl
-)
-
-'''
-    Generate design components ~ PULP OOC
-''' 
-gen_soc_comps(
-    soc.PulpOoc(),
-    design_params,
-    emitter,
-    ['soc', 'pulp_ooc', ['hw', 'rtl']],
     emitter.ov_gen_soc_rtl
 )
 
@@ -167,7 +164,51 @@ gen_soc_comps(
 
 '''
     =====================================================================
-    Component:      Hardware support
+    Component:      System-on-Chip - Hardware (OOC)
+
+    Description:    Generation of hardware OOC components for SoC. 
+    ===================================================================== */
+'''
+
+'''
+    Generate design components ~ DMA wrapper OOC
+''' 
+gen_soc_comps(
+    soc.DmacWrapOOC(),
+    design_params,
+    emitter,
+    ['soc', 'dmac_wrap_ooc', ['hw', 'rtl']],
+    emitter.ov_gen_soc_ooc
+)
+
+'''
+    Generate design components ~ PULP OOC
+''' 
+gen_soc_comps(
+    soc.PulpOoc(),
+    design_params,
+    emitter,
+    ['soc', 'pulp_ooc', ['hw', 'rtl']],
+    emitter.ov_gen_soc_ooc
+)
+
+for cl_offset in range(design_params.n_clusters):
+
+    '''
+        Generate design components ~ PULP cluster OOC
+    ''' 
+    gen_soc_comps(
+        soc.PulpClusterOOC(),
+        design_params,
+        emitter,
+        ['cl', str(cl_offset) + '_ooc', ['hw', 'rtl']],
+        emitter.ov_gen_soc_ooc,
+        cl_offset
+    )
+
+'''
+    =====================================================================
+    Component:      Integration support
 
     Description:    Generation of integration support components, such as
                     scripts for source management tools, simulations, etc.

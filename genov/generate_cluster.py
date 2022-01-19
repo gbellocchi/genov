@@ -61,17 +61,39 @@ design_params = overlay_params_formatted(ov_specs)
 emitter = EmitOv(ov_specs, dir_out_ov)
 
 '''
+    Instantiate cluster template item
+''' 
+cluster = Cluster()
+
+'''
+    =====================================================================
+    Component:      System-on-Chip - Packages
+
+    Description:    Generation of hardware components for SoC. 
+    ===================================================================== */
+'''
+
+for cl_offset in range(design_params.n_clusters):
+    
+    '''
+        Generate design components ~ PULP cluster package
+    ''' 
+    gen_cl_comps(
+        cluster.PulpClusterCfgPkg(),
+        design_params,
+        emitter,
+        ['cl', str(cl_offset) + '_cfg_pkg', ['hw', 'rtl']],
+        emitter.ov_gen_cl_pkg,
+        cl_offset
+    )
+
+'''
     =====================================================================
     Component:      Accelerator-rich cluster - Hardware
 
     Description:    Generation of hardware components for cluster. 
     ===================================================================== */
 '''
-
-'''
-    Instantiate cluster template item
-''' 
-cluster = Cluster()
 
 '''
     Generate one-by-one all necessary cluster components
@@ -84,30 +106,6 @@ for cl_offset in range(design_params.n_clusters):
     ''' 
 
     print_cl_log(design_params, cl_offset)
-
-    '''
-        Generate design components ~ Cluster package
-    ''' 
-    gen_cl_comps(
-        cluster.ClPkg(),
-        design_params,
-        emitter,
-        ['cl', str(cl_offset) + '_pkg', ['hw', 'rtl']],
-        emitter.ov_gen_cl_rtl,
-        cl_offset
-    )
-
-    '''
-    Generate design components ~ DMA wrapper OOC
-    ''' 
-    gen_cl_comps(
-        cluster.DmacWrapOOC(),
-        design_params,
-        emitter,
-        ['cl', str(cl_offset) + '_dmac_wrap_ooc', ['hw', 'rtl']],
-        emitter.ov_gen_cl_rtl,
-        cl_offset
-    )
 
     '''
         Generate design components ~ LIC accelerator region
@@ -135,21 +133,20 @@ for cl_offset in range(design_params.n_clusters):
     )
 
     '''
-        Generate design components ~ PULP cluster OOC
+        Generate design components ~ Peripheral accelerator interface
     ''' 
     gen_cl_comps(
-        cluster.PulpClusterOOC(),
+        cluster.PeriphAccIntf(),
         design_params,
         emitter,
-        ['cl', str(cl_offset) + '_pulp_cluster_ooc', ['hw', 'rtl']],
+        ['cl', str(cl_offset) + '_periph_acc_intf', ['hw', 'rtl']],
         emitter.ov_gen_cl_rtl,
         cl_offset
     )
 
-
 '''
     =====================================================================
-    Component:      Hardware support
+    Component:      Integration support
 
     Description:    Generation of integration support components, such as
                     scripts for source management tools, simulations, etc.

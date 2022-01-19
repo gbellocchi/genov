@@ -22,7 +22,7 @@ import sys
 '''
 from python.overlay.process_params import overlay_params_formatted
 from python.overlay.process_params import print_ov_test_log
-from python.overlay.generator import gen_ov_comps
+from python.overlay_test.generator import gen_ov_test_comps
 
 '''
     Import emitter
@@ -71,7 +71,7 @@ test = Test()
 
 '''
     =====================================================================
-    Component:      Overlay test
+    Component:      Overlay test (Hardware)
 
     Description:    Generation of test components, such as HW/SW testbench,
                     accelerator runtime calls, Modelsim waves, etc.
@@ -85,13 +85,22 @@ test = Test()
     dummy memories to implement instruction, stack and data
     memories.
 ''' 
-gen_ov_comps(
+gen_ov_test_comps(
     test.OverlayTestbenchHw(),
     design_params,
     emitter,
     ['tb', 'overlay_tb', ['hw', 'rtl']],
     emitter.ov_gen_test
 )
+
+'''
+    =====================================================================
+    Component:      Overlay test (Software)
+
+    Description:    Generation of test components, such as HW/SW testbench,
+                    accelerator runtime calls, Modelsim waves, etc.
+    ===================================================================== */
+'''
 
 '''
     Generate design components ~ Archi
@@ -129,12 +138,35 @@ gen_ov_comps(
 # )
 
 '''
+    =====================================================================
+    Component:      Overlay test (Debug support)
+
+    Description:    Generation of test components, such as HW/SW testbench,
+                    accelerator runtime calls, Modelsim waves, etc.
+    ===================================================================== */
+'''
+
+'''
     Generate design components ~ QuestaSim waves
 ''' 
-# gen_ov_comps(
-#     overlay.VsimWave(),
-#     design_params,
-#     emitter,
-#     ['integr_support', 'vsim_wave', ['integr_support', 'vsim_wave']],
-#     emitter.ov_gen_test
-# )
+gen_ov_test_comps(
+    test.VsimWaveSoc(),
+    design_params,
+    emitter,
+    ['integr_support', 'vsim_wave_soc', ['integr_support', 'vsim_wave']],
+    emitter.ov_gen_test_waves
+)
+
+for cl_offset in range(design_params.n_clusters):
+
+    '''
+        Generate design components ~ QuestaSim waves
+    ''' 
+    gen_ov_test_comps(
+        test.VsimWaveCluster(),
+        design_params,
+        emitter,
+        ['integr_support', 'vsim_wave_cluster_' + str(cl_offset), ['integr_support', 'vsim_wave']],
+        emitter.ov_gen_test_waves,
+        cl_offset
+    )

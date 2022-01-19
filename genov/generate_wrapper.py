@@ -181,7 +181,7 @@ gen_acc_comps(
 
 '''
     =====================================================================
-    Component:      Hardware support
+    Component:      Integration support
 
     Description:    Generation of integration support components, such as
                     scripts for source management tools, simulations, etc.
@@ -233,7 +233,7 @@ gen_acc_comps(
     integr_support.vsim_wave(),
     design_params,
     emitter,
-    ['integr_support', 'hwpe_standalone_tb_waves', ['integr_support', 'vsim_wave']],
+    ['integr_support', 'vsim_wave', ['integr_support', 'vsim_wave']],
     emitter.out_hwpe
 )
 

@@ -24,8 +24,8 @@ import re
 
 class Generator:
     '''
-        The overlay generator class is the main responsible for rendering
-        the collected cluster templates using the input user specification. 
+        The generator class is the main responsible for rendering
+        the collected templates using the input user specification.
          
         During the rendering phase. design parameters are read and fed to the Python rendering
         core to process the input templates. This is possible exploiting the 'render' method of 

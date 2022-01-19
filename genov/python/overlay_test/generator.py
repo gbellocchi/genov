@@ -2,9 +2,9 @@
  =====================================================================
  Project:      Accelerator-Rich Overlay Generator
  Title:        generator.py
- Description:  Generator of cluster components.
+ Description:  Generator of overlay test components.
 
- Date:         8.1.2022
+ Date:         19.1.2022
  ===================================================================== */
 
  Copyright (C) 2021 University of Modena and Reggio Emilia.
@@ -19,13 +19,13 @@ from mako.template import Template
 import re
 
 '''
-    Cluster generator
+    Overlay test generator
 '''
 
 class Generator:
     '''
         The generator class is the main responsible for rendering
-        the collected templates using the input user specification.
+        the collected templates using the input user specification. 
          
         During the rendering phase. design parameters are read and fed to the Python rendering
         core to process the input templates. This is possible exploiting the 'render' method of 
@@ -71,12 +71,12 @@ class Generator:
         return string
 
 '''
-    ============================
-    Cluster components generator
-    ============================
+    =================================
+    Overlay test components generator
+    =================================
 '''
 
-def gen_cl_comps(temp_obj, design_params, emitter, descr, out_dir, cl_offset=0, extra_params=[None for _ in range(3)]):
+def gen_ov_test_comps(temp_obj, design_params, emitter, descr, out_dir, cl_offset=0, extra_params=[None for _ in range(3)]):
     template = temp_obj
     out_target = Generator().render(design_params, template, cl_offset, extra_params)
     filename = emitter.get_file_name(descr)

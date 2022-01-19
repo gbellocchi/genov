@@ -67,7 +67,7 @@ emitter = EmitOv(ov_specs, dir_out_ov)
 
 '''
     =====================================================================
-    Component:      Hardware support
+    Component:      Integration support
 
     Description:    Generation of integration support components, such as
                     scripts for source management tools, simulations, etc.
