@@ -1,6 +1,13 @@
 package:
   name: hwpe-${target}-wrapper
 
+dependencies:
+  hwpe-ctrl: { git: "git@github.com:gbellocchi/hwpe-ctrl.git", rev: master }
+  hwpe-stream: { git: "git@github.com:gbellocchi/hwpe-stream.git", rev: master }
+
+workspace:
+  checkout_dir: "./deps"
+
 sources:
   - include_dirs:
       - rtl/hwpe-engine
