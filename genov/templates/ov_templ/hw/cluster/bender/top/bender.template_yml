@@ -29,7 +29,7 @@
 %>
 
 package:
-  name: clusters
+  name: cluster
   authors: [ "Gianluca Bellocchi <gianluca.bellocchi@unimore.it>"]
 
 dependencies:
@@ -37,10 +37,14 @@ dependencies:
   ${wrapper_deps[i]}: { path: "./ov_cfg/${ov_config}/wrappers/${wrapper_deps[i]}" }
 % endfor
 
+export_include_dirs:
+  - packages
+
 sources:
 % for i in range(n_clusters):
-  - rtl/cl_${i}_pkg.sv
-  - rtl/cl_${i}_acc_intf.sv
-  - rtl/cl_${i}_shared_lic_acc_region.sv
+  - packages/pulp_cluster_${i}_cfg_pkg.sv
+  - rtl/pulp_cluster_${i}_periph_acc_intf.sv
+  - rtl/pulp_cluster_${i}_lic_acc_intf.sv
+  - rtl/pulp_cluster_${i}_lic_acc_region.sv
 % endfor
 

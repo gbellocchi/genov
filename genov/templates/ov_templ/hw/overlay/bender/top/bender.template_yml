@@ -27,11 +27,11 @@ package:
 dependencies:
   soc: { path: "./ov_cfg/${ov_config}/soc" }
 
+workspace:
+  checkout_dir: "./deps"
+
 sources:
   - target: test
     files:
-      # Level 1
       - ov_cfg/${ov_config}/test/overlay_tb.sv
 
-workspace:
-  checkout_dir: "./deps"

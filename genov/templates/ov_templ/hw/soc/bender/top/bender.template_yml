@@ -31,15 +31,14 @@ dependencies:
   axi_riscv_atomics: { git: "https://github.com/pulp-platform/axi_riscv_atomics.git", rev: fix-ordering }
   axi_slice_dc: { git: "https://github.com/pulp-platform/axi_slice_dc.git", rev: atomics }
   common_verification: { git: "https://github.com/pulp-platform/common_verification.git", rev: release-0.2 }
-  overlay_cluster: { git: "git@git.hipert.unimore.it:comp4drones/HERO/overlay_cluster.git", rev: single_ip }
-  clusters: { path: "./ov_cfg/${ov_config}/clusters" }
+  pulp_cluster: { git: "git@git.hipert.unimore.it:comp4drones/HERO/pulp_cluster.git", rev: acc_rich_ov }
 
 workspace:
   checkout_dir: "./deps"
 
 export_include_dirs:
   - rtl/apb/include # TODO: move to APB repository
-  - rtl/include
+  - packages
 
 sources:
   # generic APB modules; to be moved to APB repository
@@ -47,23 +46,23 @@ sources:
   - rtl/apb/apb_ro_regs.sv
   - rtl/apb/apb_rw_regs.sv
   - rtl/apb/apb_bus_wrap.sv
-  # macros
-  - rtl/include/design_macros.sv
   # Level 0
+  - packages/soc_cfg_pkg.sv
+  # Level 1
   - rtl/hero_axi_mailbox.sv
-  - rtl/pulp_cluster_cfg_pkg.sv
-  - rtl/ov_acc_pkg.sv
   - rtl/soc_bus.sv
   - rtl/soc_ctrl_regs.sv
-  - rtl/dmac_wrap_ooc.sv
-  # Level 1
-  - rtl/l2_mem.sv
-  - rtl/pulp_cluster_ooc.sv
-  - rtl/soc_peripherals.sv
+  - rtl/out-of-context/dmac_wrap_ooc.sv 
   # Level 2
-  - rtl/pulp.sv
+  - rtl/l2_mem.sv
+  % for i in range(n_clusters):
+  - rtl/out-of-context/pulp_cluster_${i}_ooc.sv 
+  % endfor 
+  - rtl/soc_peripherals.sv
   # Level 3
-  - rtl/pulp_ooc.sv
+  - rtl/pulp.sv
+  # Level 4
+  - rtl/out-of-context/pulp_ooc.sv
 
   - target: test
     files:

@@ -157,11 +157,11 @@ packages:
       - common_cells
       - icache-intc
       - scm
-  overlay_cluster:
-    revision: single_ip
+  pulp_cluster:
+    revision: acc_rich_ov
     version: ~
     source:
-      Git: "git@git.hipert.unimore.it:comp4drones/HERO/overlay_cluster.git"
+      Git: "git@git.hipert.unimore.it:comp4drones/HERO/pulp_cluster.git"
     dependencies:
       - axi
       - axi2mem
@@ -175,10 +175,7 @@ packages:
       - per2axi
       - riscv
       - timer_unit
-      % for i in range(n_wrapper_deps):
-      - ${wrapper_deps[i]}
-      % endfor
-      - clusters
+      - cluster
   per2axi:
     revision: 3095411ea20f8f97cb72f0febff07a74e69b5d14
     version: ~
@@ -243,16 +240,15 @@ packages:
       - axi_riscv_atomics
       - axi_slice_dc
       - common_verification
-      - overlay_cluster
-      - clusters
+      - pulp_cluster
 
   <%
     # Lock cluster package information 
   %>
 
-  clusters:
+  cluster:
     source:
-      Path: "./ov_cfg/${ov_config}/clusters"
+      Path: "./ov_cfg/${ov_config}/cluster"
     dependencies: 
     % for i in range(n_wrapper_deps):
       - ${wrapper_deps[i]}
