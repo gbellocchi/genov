@@ -1,8 +1,8 @@
 '''
  =====================================================================
- Project:       SoC package
- Title:         soc_package.py
- Description:   SoC package
+ Project:       SoC configuration package
+ Title:         soc_cfg_package.py
+ Description:   SoC configuration package
 
  Date:          13.1.2022
  ===================================================================== */
@@ -16,6 +16,6 @@
 
 from python.collector import collector
 
-class SocPackage(collector):
+class SocCfgPkg(collector):
     def top(self):
         return self.get_template()

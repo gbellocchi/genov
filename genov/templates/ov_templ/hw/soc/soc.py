@@ -17,13 +17,15 @@
 #!/usr/bin/env python3
 
 from templates.ov_templ.hw.soc.bender.top.bender import Bender
+from templates.ov_templ.hw.soc.dmac_wrap_ooc.top.dmac_wrap_ooc import DmacWrapOOC
 from templates.ov_templ.hw.soc.hero_axi_mailbox.top.hero_axi_mailbox import HeroAxiMailbox
 from templates.ov_templ.hw.soc.l2_mem.top.l2_mem import L2Mem
 from templates.ov_templ.hw.soc.pulp.top.pulp import Pulp
+from templates.ov_templ.hw.soc.pulp_cluster_ooc.top.pulp_cluster_ooc import PulpClusterOOC
 from templates.ov_templ.hw.soc.pulp_ooc.top.pulp_ooc import PulpOoc
 from templates.ov_templ.hw.soc.soc_bus.top.soc_bus import SocBus
 from templates.ov_templ.hw.soc.soc_ctrl_regs.top.soc_ctrl_regs import SocCtrlRegs
-from templates.ov_templ.hw.soc.soc_package.top.soc_package import SocPackage
+from templates.ov_templ.hw.soc.soc_cfg_pkg.top.soc_cfg_pkg import SocCfgPkg
 from templates.ov_templ.hw.soc.soc_peripherals.top.soc_peripherals import SocPeripherals
 
 class Soc:
@@ -35,6 +37,15 @@ class Soc:
         return Bender(
             temp_type = 'templates/ov_templ/hw/soc/bender/',
             temp_top = 'bender.template_yml',
+            temp_modules = [],
+            path_common = self.path_common
+        ).top()
+
+    def DmacWrapOOC(self):
+        print("\n[py] >> SoC ~ DMA wrapper OOC")
+        return DmacWrapOOC(
+            temp_type = 'templates/ov_templ/hw/soc/dmac_wrap_ooc/',
+            temp_top = 'dmac_wrap_ooc.template_sv',
             temp_modules = [],
             path_common = self.path_common
         ).top()
@@ -62,7 +73,17 @@ class Soc:
         return Pulp(
             temp_type = 'templates/ov_templ/hw/soc/pulp/',
             temp_top = 'pulp.template_sv',
-            temp_modules = [],
+            temp_modules = ['process_params.template_sv'],
+            path_common = self.path_common
+        ).top()
+
+    def PulpClusterOOC(self):
+        print("\n[py] >> SoC ~ PULP cluster OOC")
+        return PulpClusterOOC(
+            temp_type = 'templates/ov_templ/hw/soc/pulp_cluster_ooc/',
+            temp_top = 'pulp_cluster_ooc.template_sv',
+            temp_modules = ['hwpe_lic.template_sv',
+                            'hwpe_hci.template_sv'],
             path_common = self.path_common
         ).top()
 
@@ -93,11 +114,11 @@ class Soc:
             path_common = self.path_common
         ).top()
 
-    def SocPackage(self):
-        print("\n[py] >> SoC ~ SoC package")
-        return SocPackage(
-            temp_type = 'templates/ov_templ/hw/soc/soc_package/',
-            temp_top = 'soc_package.template_sv',
+    def SocCfgPkg(self):
+        print("\n[py] >> SoC ~ SoC configuration package")
+        return SocCfgPkg(
+            temp_type = 'templates/ov_templ/hw/soc/soc_cfg_pkg/',
+            temp_top = 'soc_cfg_pkg.template_sv',
             temp_modules = [],
             path_common = self.path_common
         ).top()
