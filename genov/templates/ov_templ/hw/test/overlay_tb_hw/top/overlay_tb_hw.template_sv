@@ -49,14 +49,17 @@
 module overlay_tb #(
   // TB Parameters
   parameter time          CLK_PERIOD = 1000ps,
+
   // SoC Parameters
   parameter int unsigned  N_CLUSTERS = ${n_clusters},
   parameter int unsigned  AXI_DW = 128,
   parameter int unsigned  L2_N_AXI_PORTS = 1,
 
   // Cluster Parameters
-  parameter int unsigned  N_CORE = pulp_cluster_cfg_pkg::N_CORES,
-  parameter int unsigned  N_TCDM_BANKS = pulp_cluster_cfg_pkg::N_TCDM_BANKS
+  % for i in range(n_clusters):
+  parameter int unsigned  N_CORE_CL_${i} = pulp_cluster_${i}_cfg_pkg::N_CORES,
+  parameter int unsigned  N_TCDM_BANKS_CL_${i} = pulp_cluster_${i}_cfg_pkg::N_TCDM_BANKS
+  % endfor  
 );
 
   timeunit 1ps;
@@ -221,7 +224,7 @@ module overlay_tb #(
     .AXI_AW     (pulp_pkg::AXI_AW),
     .AXI_IW     (AXI_IW+1),
     .AXI_UW     (pulp_pkg::AXI_UW),
-    .N_CORES    (8),
+    .N_CORES    (N_CORE_CL_0),
     .N_CLUSTERS (N_CLUSTERS)
   ) i_peripherals (
     .clk_i      (clk),
@@ -368,40 +371,16 @@ module overlay_tb #(
     $finish();
   end
 
-  // // Fill TCDM memory.
-  // for (genvar iCluster = 0; iCluster < N_CLUSTERS; iCluster++) begin: gen_fill_tcdm_cluster
-  //   for (genvar iBank = 0; iBank < 16; iBank++) begin: gen_fill_tcdm_bank
-  //     initial begin
-  //       $readmemh($sformatf("../test/slm_files/l1_0_%01d.slm", iBank),
-  //         dut.gen_clusters[iCluster].gen_cluster_sync.i_cluster.i_ooc.i_bound.gen_tcdm_banks[iBank].i_tc_sram.sram);
-  //     end
-  //   end
-  // end
-
-  // // Fill L2 memory.
-  // localparam N_SER_CUTS = dut.gen_l2_ports[0].i_l2_mem.N_SER_CUTS; // both same on all ports
-  // localparam N_PAR_CUTS = dut.gen_l2_ports[0].i_l2_mem.N_PAR_CUTS;
-  // for (genvar iPort = 0; iPort < L2_N_AXI_PORTS; iPort++) begin: gen_fill_l2_ports
-  //   for (genvar iRow = 0; iRow < N_SER_CUTS; iRow++) begin: gen_fill_l2_rows
-  //     for (genvar iCol = 0; iCol < N_PAR_CUTS; iCol++) begin: gen_fill_l2_cols
-  //       int unsigned file_ser_idx = iPort*N_SER_CUTS + iRow;
-  //       initial begin
-  //         $readmemh($sformatf("../test/slm_files/l2_%01d_%01d.slm", file_ser_idx, iCol),
-  //           dut.gen_l2_ports[iPort].i_l2_mem.gen_rows[iRow].gen_cols[iCol].i_tc_sram_cut.sram);
-  //       end
-  //     end
-  //   end
-  // end
-
   // Fill TCDM memory.
-  for (genvar iCluster = 0; iCluster < N_CLUSTERS; iCluster++) begin: gen_fill_tcdm_cluster
-    for (genvar iBank = 0; iBank < N_TCDM_BANKS; iBank++) begin: gen_fill_tcdm_bank
-      initial begin
-        $readmemh($sformatf("../test/slm_files/l1_0_%01d.slm", iBank),
-          dut.gen_clusters[iCluster].gen_cluster_sync.i_cluster.i_ooc.i_bound.gen_tcdm_banks[iBank].i_tc_sram.sram);
-      end
+  // for (genvar iCluster = 0; iCluster < N_CLUSTERS; iCluster++) begin: gen_fill_tcdm_cluster
+  % for i in range(n_clusters):
+  for (genvar iBank = 0; iBank < N_TCDM_BANKS_CL_${i}; iBank++) begin: gen_fill_tcdm_bank
+    initial begin
+      $readmemh($sformatf("../test/slm_files/l1_0_%01d.slm", iBank),
+        dut.gen_clusters[${i}].gen_cluster_sync.i_cluster.i_ooc.i_bound.gen_tcdm_banks[iBank].i_tc_sram.sram);
     end
   end
+  % endfor 
 
   // Fill L2 memory.
   localparam N_SER_CUTS = dut.gen_l2_ports[0].i_l2_mem.N_SER_CUTS; // both same on all ports

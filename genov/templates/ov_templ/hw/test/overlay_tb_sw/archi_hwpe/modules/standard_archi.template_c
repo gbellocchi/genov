@@ -31,7 +31,7 @@
         %>
 
   % for j in range (n_source):
-#define ${TARGET}_REG_CNT_LIMIT_${stream_out[j].upper()}                 ${hex(addr_current)}
+#define ${target.upper()}_REG_CNT_LIMIT_${stream_out[j].upper()}                 ${hex(addr_current)}
         <%  
           addr_current += 4
         %>
