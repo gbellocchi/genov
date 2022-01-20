@@ -15,23 +15,35 @@
 # Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
 %>
 
+% for cluster_offset in range(n_clusters):
+
+${vsim_waves_soc_cluster_axi_inputs(cluster_offset)}
+${vsim_waves_soc_cluster_axi_outputs(cluster_offset)}
+
+% endfor
+
+${vsim_waves_soc_periph_mst()}
+${vsim_waves_soc_periph()}
+${vsim_waves_soc_ctrl_regs()}
+${vsim_waves_soc_l2_mem()}
+
 <%
 # =====================================================================
 # Description:  Overlay testbench I/O signals.
 # =====================================================================
 %>
 
-add wave -noupdate -group {TB I/O} /pulp_tb/dut/clk_i
-add wave -noupdate -group {TB I/O} /pulp_tb/dut/rst_ni
-add wave -noupdate -group {TB I/O} /pulp_tb/dut/cl_fetch_en_i
-add wave -noupdate -group {TB I/O} /pulp_tb/dut/cl_busy_o
-add wave -noupdate -group {TB I/O} /pulp_tb/dut/cl_eoc_o
-add wave -noupdate -group {TB I/O} /pulp_tb/from_pulp_req
-add wave -noupdate -group {TB I/O} /pulp_tb/from_pulp_resp
-add wave -noupdate -group {TB I/O} /pulp_tb/to_pulp_req
-add wave -noupdate -group {TB I/O} /pulp_tb/to_pulp_resp
-add wave -noupdate -group {TB I/O} /pulp_tb/rab_conf_req
-add wave -noupdate -group {TB I/O} /pulp_tb/rab_conf_resp
+add wave -noupdate -group {overlay_tb} -group {I/O} /overlay_tb/dut/clk_i
+add wave -noupdate -group {overlay_tb} -group {I/O} /overlay_tb/dut/rst_ni
+add wave -noupdate -group {overlay_tb} -group {I/O} /overlay_tb/dut/cl_fetch_en_i
+add wave -noupdate -group {overlay_tb} -group {I/O} /overlay_tb/dut/cl_busy_o
+add wave -noupdate -group {overlay_tb} -group {I/O} /overlay_tb/dut/cl_eoc_o
+add wave -noupdate -group {overlay_tb} -group {I/O} /overlay_tb/from_pulp_req
+add wave -noupdate -group {overlay_tb} -group {I/O} /overlay_tb/from_pulp_resp
+add wave -noupdate -group {overlay_tb} -group {I/O} /overlay_tb/to_pulp_req
+add wave -noupdate -group {overlay_tb} -group {I/O} /overlay_tb/to_pulp_resp
+add wave -noupdate -group {overlay_tb} -group {I/O} /overlay_tb/rab_conf_req
+add wave -noupdate -group {overlay_tb} -group {I/O} /overlay_tb/rab_conf_resp
 
 <%
 # =====================================================================
