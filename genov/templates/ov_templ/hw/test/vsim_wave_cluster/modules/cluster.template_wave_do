@@ -9,7 +9,7 @@
 # Generator:     generate_ov_test
 # ===================================================================== */
 #
-# Copyright (C) 2021 University of Modena and Reggio Emilia.
+# Copyright (C) 2022 University of Modena and Reggio Emilia.
 #
 # Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
 %>
@@ -22,45 +22,18 @@
 # =====================================================================
 %>
 
-<%def name="vsim_waves_cluster_interconnect()">\
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_interco} -group {inputs} -label {s_core_tcdm_bus_add} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/s_core_tcdm_bus_add}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_interco} -group {inputs} -label {iconn_inp_wdata} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/iconn_inp_wdata}
+<%def name="vsim_waves_cluster_interconnect(cluster_offset)">\
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_interconnect} -group {tcdm_interco} -group {inputs} -label {s_core_tcdm_bus_add} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/s_core_tcdm_bus_add}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_interconnect} -group {tcdm_interco} -group {inputs} -label {iconn_inp_wdata} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/iconn_inp_wdata}
 
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_interco} -group {outputs (to AMO)} -label {s_tcdm_bus_amo_shim_req} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/s_tcdm_bus_amo_shim_req}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_interco} -group {outputs (to AMO)} -label {s_tcdm_bus_amo_shim_gnt} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/s_tcdm_bus_amo_shim_gnt}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_interco} -group {outputs (to AMO)} -label {s_tcdm_bus_amo_shim_add} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/s_tcdm_bus_amo_shim_add}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_interco} -group {outputs (to AMO)} -label {s_tcdm_bus_amo_shim_wen} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/s_tcdm_bus_amo_shim_wen}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_interco} -group {outputs (to AMO)} -label {iconn_oup_wdata        } {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/iconn_oup_wdata        }
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_interco} -group {outputs (to AMO)} -label {s_tcdm_bus_amo_shim_be } {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/s_tcdm_bus_amo_shim_be }
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_interco} -group {outputs (to AMO)} -label {iconn_oup_rdata        } {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/iconn_oup_rdata        }
-
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[0]/wdata}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[0]/add}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[0]/req}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[0]/wen}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[0]/be}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[0]/rdata}
-
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[1]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[1]/add}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[1]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[1]/wdata}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[1]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[1]/req}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[1]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[1]/wen}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[1]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[1]/be}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[1]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[1]/rdata}
-
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[2]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[2]/add}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[2]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[2]/wdata}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[2]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[2]/req}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[2]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[2]/wen}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[2]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[2]/be}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[2]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[2]/rdata}
-
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[3]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[3]/add}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[3]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[3]/wdata}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[3]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[3]/req}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[3]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[3]/wen}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[3]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[3]/be}
-add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[3]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[3]/rdata}
+% for i in range(4):
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[${i}]/wdata}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[${i}]/add}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[${i}]/req}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[${i}]/wen}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[${i}]/be}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_interconnect} -group {tcdm_sram_master} -group {tcdm_sram_master[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/tcdm_sram_master[${i}]/rdata}
+% endfor
 </%def>
 
 <%
@@ -71,34 +44,34 @@ add wave -noupdate -group {cluster_interconnect} -group {tcdm_sram_master} -grou
 # =====================================================================
 %>
 
-<%def name="vsim_waves_cluster_tcdm()">\
-add wave -noupdate -group {sram} -group {intf_sram[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[0]/i_tc_sram/req_i}
-add wave -noupdate -group {sram} -group {intf_sram[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[0]/i_tc_sram/addr_i}
-add wave -noupdate -group {sram} -group {intf_sram[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[0]/i_tc_sram/we_i}
-add wave -noupdate -group {sram} -group {intf_sram[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[0]/i_tc_sram/wdata_i}
-add wave -noupdate -group {sram} -group {intf_sram[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[0]/i_tc_sram/be_i}
-add wave -noupdate -group {sram} -group {intf_sram[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[0]/i_tc_sram/rdata_o}
+<%def name="vsim_waves_cluster_tcdm(cluster_offset)">\
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[0]/i_tc_sram/req_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[0]/i_tc_sram/addr_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[0]/i_tc_sram/we_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[0]/i_tc_sram/wdata_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[0]/i_tc_sram/be_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[0]/i_tc_sram/rdata_o}
 
-add wave -noupdate -group {sram} -group {intf_sram[1]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[1]/i_tc_sram/req_i}
-add wave -noupdate -group {sram} -group {intf_sram[1]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[1]/i_tc_sram/addr_i}
-add wave -noupdate -group {sram} -group {intf_sram[1]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[1]/i_tc_sram/we_i}
-add wave -noupdate -group {sram} -group {intf_sram[1]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[1]/i_tc_sram/wdata_i}
-add wave -noupdate -group {sram} -group {intf_sram[1]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[1]/i_tc_sram/be_i}
-add wave -noupdate -group {sram} -group {intf_sram[1]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[1]/i_tc_sram/rdata_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[1]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[1]/i_tc_sram/req_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[1]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[1]/i_tc_sram/addr_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[1]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[1]/i_tc_sram/we_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[1]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[1]/i_tc_sram/wdata_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[1]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[1]/i_tc_sram/be_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[1]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[1]/i_tc_sram/rdata_o}
 
-add wave -noupdate -group {sram} -group {intf_sram[2]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[2]/i_tc_sram/req_i}
-add wave -noupdate -group {sram} -group {intf_sram[2]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[2]/i_tc_sram/addr_i}
-add wave -noupdate -group {sram} -group {intf_sram[2]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[2]/i_tc_sram/we_i}
-add wave -noupdate -group {sram} -group {intf_sram[2]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[2]/i_tc_sram/wdata_i}
-add wave -noupdate -group {sram} -group {intf_sram[2]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[2]/i_tc_sram/be_i}
-add wave -noupdate -group {sram} -group {intf_sram[2]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[2]/i_tc_sram/rdata_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[2]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[2]/i_tc_sram/req_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[2]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[2]/i_tc_sram/addr_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[2]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[2]/i_tc_sram/we_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[2]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[2]/i_tc_sram/wdata_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[2]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[2]/i_tc_sram/be_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[2]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[2]/i_tc_sram/rdata_o}
 
-add wave -noupdate -group {sram} -group {intf_sram[3]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[3]/i_tc_sram/req_i}
-add wave -noupdate -group {sram} -group {intf_sram[3]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[3]/i_tc_sram/addr_i}
-add wave -noupdate -group {sram} -group {intf_sram[3]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[3]/i_tc_sram/we_i}
-add wave -noupdate -group {sram} -group {intf_sram[3]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[3]/i_tc_sram/wdata_i}
-add wave -noupdate -group {sram} -group {intf_sram[3]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[3]/i_tc_sram/be_i}
-add wave -noupdate -group {sram} -group {intf_sram[3]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[3]/i_tc_sram/rdata_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[3]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[3]/i_tc_sram/req_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[3]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[3]/i_tc_sram/addr_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[3]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[3]/i_tc_sram/we_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[3]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[3]/i_tc_sram/wdata_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[3]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[3]/i_tc_sram/be_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {sram} -group {intf_sram[3]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/gen_tcdm_banks[3]/i_tc_sram/rdata_o}
 </%def>
 
 <%
@@ -109,131 +82,131 @@ add wave -noupdate -group {sram} -group {intf_sram[3]} {/pulp_tb/dut/gen_cluster
 # =====================================================================
 %>
 
-<%def name="vsim_waves_cluster_icache()">\
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/clk}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/rst_n}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/test_en_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_req_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_addr_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_gnt_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_rvalid_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_rdata_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arid_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_araddr_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arlen_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arsize_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arburst_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arlock_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arcache_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arprot_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arregion_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_aruser_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arqos_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arvalid_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arready_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rid_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rdata_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rresp_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rlast_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_ruser_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rvalid_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rready_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awid_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awaddr_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awlen_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awsize_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awburst_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awlock_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awcache_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awprot_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awregion_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awuser_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awqos_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awvalid_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awready_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_wdata_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_wstrb_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_wlast_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_wuser_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_wvalid_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_wready_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_bid_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_bresp_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_buser_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_bvalid_i}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_bready_o}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/DATA_read_req_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/DATA_read_addr_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/TAG_read_req_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/TAG_read_addr_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/TAG_read_rdata_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_TAG_write_req_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_TAG_write_addr_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_TAG_write_dest_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_TAG_write_wdata_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_TAG_write_way_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_DATA_write_req_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_DATA_write_addr_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_DATA_write_dest_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_DATA_write_wdata_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_DATA_write_way_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/TAG_ReadEnable}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/DATA_ReadEnable}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/TAG_ReadData}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/notify_refill_done}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_way_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_req_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_addr_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_gnt_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_rvalid_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_rdata_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_TAG_write_dest_OH_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_DATA_write_dest_OH_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/cache_is_bypassed}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/retry_fetch}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/bypass_icache}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/empty_fifo}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/flush_icache}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/flush_ack}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/sel_flush_req}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/sel_flush_addr}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/sel_flush_ack}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arid_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_araddr_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arlen_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arsize_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arburst_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arlock_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arcache_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arprot_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arregion_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_aruser_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arqos_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arvalid_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arready_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rid_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rdata_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rresp_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rlast_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_ruser_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rvalid_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rready_int}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_req_to_cc}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_addr_to_cc}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_gnt_from_cc}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_rvalid_from_cc}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_req_to_master_cc}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_addr_to_master_cc}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_way_to_master_cc}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_gnt_from_master_cc}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_rvalid_from_master_cc}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/total_hit_count}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/total_trans_count}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/total_miss_count}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/bank_hit_count}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/bank_trans_count}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/bank_miss_count}
-add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/index}
+<%def name="vsim_waves_cluster_icache(cluster_offset)">\
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/clk}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/rst_n}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/test_en_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_req_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_addr_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_gnt_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_rvalid_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_rdata_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arid_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_araddr_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arlen_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arsize_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arburst_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arlock_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arcache_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arprot_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arregion_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_aruser_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arqos_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arvalid_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arready_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rid_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rdata_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rresp_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rlast_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_ruser_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rvalid_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rready_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awid_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awaddr_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awlen_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awsize_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awburst_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awlock_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awcache_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awprot_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awregion_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awuser_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awqos_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awvalid_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_awready_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_wdata_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_wstrb_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_wlast_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_wuser_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_wvalid_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_wready_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_bid_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_bresp_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_buser_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_bvalid_i}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_bready_o}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/DATA_read_req_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/DATA_read_addr_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/TAG_read_req_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/TAG_read_addr_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/TAG_read_rdata_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_TAG_write_req_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_TAG_write_addr_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_TAG_write_dest_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_TAG_write_wdata_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_TAG_write_way_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_DATA_write_req_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_DATA_write_addr_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_DATA_write_dest_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_DATA_write_wdata_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_DATA_write_way_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/TAG_ReadEnable}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/DATA_ReadEnable}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/TAG_ReadData}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/notify_refill_done}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_way_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_req_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_addr_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_gnt_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_rvalid_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/fetch_rdata_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_TAG_write_dest_OH_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/SCM_DATA_write_dest_OH_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/cache_is_bypassed}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/retry_fetch}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/bypass_icache}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/empty_fifo}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/flush_icache}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/flush_ack}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/sel_flush_req}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/sel_flush_addr}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/sel_flush_ack}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arid_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_araddr_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arlen_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arsize_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arburst_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arlock_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arcache_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arprot_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arregion_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_aruser_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arqos_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arvalid_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_arready_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rid_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rdata_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rresp_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rlast_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_ruser_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rvalid_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/axi_master_rready_int}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_req_to_cc}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_addr_to_cc}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_gnt_from_cc}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_rvalid_from_cc}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_req_to_master_cc}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_addr_to_master_cc}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_way_to_master_cc}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_gnt_from_master_cc}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/pf_rvalid_from_master_cc}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/total_hit_count}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/total_trans_count}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/total_miss_count}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/bank_hit_count}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/bank_trans_count}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/bank_miss_count}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {icache[0]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/icache_top_i/index}
 </%def>
 
 <%
@@ -244,52 +217,52 @@ add wave -noupdate -group {icache[0]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_
 # =====================================================================
 %>
 
-<%def name="vsim_waves_cluster_dma_ooc_wrap()">\
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_id}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_addr}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_len}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_size}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_burst}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_lock}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_cache}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_prot}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_qos}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_region}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_atop}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_user}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_valid}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_ready}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/w_data}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/w_strb}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/w_last}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/w_user}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/w_valid}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/w_ready}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/b_id}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/b_resp}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/b_user}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/b_valid}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/b_ready}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_id}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_addr}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_len}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_size}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_burst}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_lock}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_cache}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_prot}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_qos}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_region}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_user}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_valid}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_ready}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_id}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_data}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_resp}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_last}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_user}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_valid}
-add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_ready}
+<%def name="vsim_waves_cluster_dma_ooc_wrap(cluster_offset)">\
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_id}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_addr}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_len}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_size}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_burst}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_lock}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_cache}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_prot}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_qos}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_region}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_atop}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_user}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_valid}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/aw_ready}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/w_data}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/w_strb}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/w_last}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/w_user}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/w_valid}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/w_ready}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/b_id}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/b_resp}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/b_user}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/b_valid}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/b_ready}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_id}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_addr}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_len}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_size}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_burst}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_lock}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_cache}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_prot}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_qos}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_region}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_user}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_valid}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/ar_ready}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_id}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_data}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_resp}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_last}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_user}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_valid}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {dma} -group {ext_master} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/dmac_wrap_i/ext_master/r_ready}
 </%def>
 
 <%
@@ -300,28 +273,18 @@ add wave -noupdate -group {dma[0]/ext_master} {/pulp_tb/dut/gen_clusters[0]/gen_
 # =====================================================================
 %>
 
-<%def name="vsim_waves_cluster_speriph_mst()">\
-add wave -noupdate -group {speriph_master[EOC]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[0]/req}
-add wave -noupdate -group {speriph_master[EOC]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[0]/add}
-add wave -noupdate -group {speriph_master[EOC]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[0]/wen}
-add wave -noupdate -group {speriph_master[EOC]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[0]/wdata}
-add wave -noupdate -group {speriph_master[EOC]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[0]/be}
-add wave -noupdate -group {speriph_master[EOC]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[0]/gnt}
-add wave -noupdate -group {speriph_master[EOC]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[0]/id}
-add wave -noupdate -group {speriph_master[EOC]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[0]/r_valid}
-add wave -noupdate -group {speriph_master[EOC]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[0]/r_opc}
-add wave -noupdate -group {speriph_master[EOC]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[0]/r_id}
-add wave -noupdate -group {speriph_master[EOC]} {/pulp_tb/dut/gen_clusters[0]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[0]/r_rdata}
-</%def>
-
-<%
-# =====================================================================
-# Title:        vsim_waves_cluster_dma_ooc_wrap
-# Type:         Template API
-# Description:  DMA OOC wrapper.
-# =====================================================================
-%>
-
-<%def name="vsim_waves_cluster_dma_ooc_wrap()">\
-
+<%def name="vsim_waves_cluster_speriph_mst(cluster_offset, n_peripherals)">\
+% for periph_offset in range(n_peripherals):
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_peripherals} -group {speriph_master[${periph_offset}]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[${periph_offset}]/req}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_peripherals} -group {speriph_master[${periph_offset}]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[${periph_offset}]/add}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_peripherals} -group {speriph_master[${periph_offset}]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[${periph_offset}]/wen}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_peripherals} -group {speriph_master[${periph_offset}]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[${periph_offset}]/wdata}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_peripherals} -group {speriph_master[${periph_offset}]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[${periph_offset}]/be}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_peripherals} -group {speriph_master[${periph_offset}]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[${periph_offset}]/gnt}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_peripherals} -group {speriph_master[${periph_offset}]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[${periph_offset}]/id}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_peripherals} -group {speriph_master[${periph_offset}]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[${periph_offset}]/r_valid}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_peripherals} -group {speriph_master[${periph_offset}]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[${periph_offset}]/r_opc}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_peripherals} -group {speriph_master[${periph_offset}]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[${periph_offset}]/r_id}
+add wave -noupdate -group {pulp_cluster[${cluster_offset}]} -group {cluster_peripherals} -group {speriph_master[${periph_offset}]} {/overlay_tb/dut/gen_clusters[${cluster_offset}]/gen_cluster_sync/i_cluster/i_ooc/i_bound/cluster_interconnect_wrap_i/speriph_master[${periph_offset}]/r_rdata}
+% endfor
 </%def>

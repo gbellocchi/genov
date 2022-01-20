@@ -14,3 +14,45 @@
 #
 # Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
 %>
+
+<%
+    # Additional design parameters
+    n_cores = 2
+    n_acc_cl = len(cl_lic_acc_names)
+    n_periphs = 8 + n_acc_cl - 1
+%>
+
+% for cluster_offset in range(n_clusters):
+<%
+    # RISC-V core waves
+%>
+
+${vsim_waves_core_region(cluster_offset, n_cores)}
+${vsim_waves_core_lsu(cluster_offset, n_cores)}
+${vsim_waves_core_id_stage(cluster_offset, n_cores)}
+${vsim_waves_core_demux(cluster_offset, n_cores)}
+${vsim_waves_core_eu_ctrl(cluster_offset, n_cores)}
+${vsim_waves_core_periph_demux(cluster_offset, n_cores)}
+${vsim_waves_core_periph_slave(cluster_offset, n_cores)}
+
+<%
+    # Cluster components waves
+%>
+
+${vsim_waves_cluster_dma_ooc_wrap(cluster_offset)}
+${vsim_waves_cluster_speriph_mst(cluster_offset, n_periphs)}
+${vsim_waves_cluster_interconnect(cluster_offset)}
+${vsim_waves_cluster_tcdm(cluster_offset)}
+${vsim_waves_cluster_icache(cluster_offset)}
+
+<%
+    # LIC accelerator region waves
+%>
+
+${vsim_waves_lic_acc_region(cluster_offset, n_acc_cl)}
+
+<%
+    # LIC accelerator interface waves
+%>
+
+% endfor
