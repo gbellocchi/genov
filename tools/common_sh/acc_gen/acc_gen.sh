@@ -55,25 +55,32 @@ init_generation()
 
 read_ov_config()
 {
-    echo -e "[sh] >> Accelerator wrappers will be generated for the following applications:\n"
-
     # Number of accelerators
     n_acc=$(grep N_ACC ${CONFIG_FILE} | sed 's/.*=//' | tr -d '"')
-    # echo -e "\t- Number of distinct accelerator wrappers -> $n_acc"
 
-    # Accelerator targets
-    for (( c=0; c<=$n_acc-1; c++ ))
-    do  
-        acc_targets[$c]=$(grep TARGET_ACC_$c ${CONFIG_FILE} | sed 's/.*=//' | tr -d '"')
-        echo -e "\t- ${acc_targets[$c]}"
-    done
+    if [ $n_acc -gt 0 ]; then
 
-    # Check data correctness
-    if [ ${#acc_targets[@]} -eq 0 ]; then
-        echo -e "\nOops, something went wrong, no targets have been found... \n"
-        exit 1
+        echo -e "[sh] >> Accelerator wrappers will be generated for the following applications:\n"
+
+        # Accelerator targets
+        for (( c=0; c<=$n_acc-1; c++ ))
+        do  
+            acc_targets[$c]=$(grep TARGET_ACC_$c ${CONFIG_FILE} | sed 's/.*=//' | tr -d '"')
+            echo -e "\t- ${acc_targets[$c]}"
+        done
+
+        # Check data correctness
+        if [ ${#acc_targets[@]} -eq 0 ]; then
+            echo -e "\nOops, something went wrong, no targets have been found... \n"
+            exit 1
+        else
+            q_correctness
+        fi
+
     else
-        q_correctness
+
+        echo -e "[sh] >> No targets for accelerator wrapper\n"
+
     fi
 }
 
@@ -217,14 +224,19 @@ if [ -f ${CONFIG_FILE} ]; then
     # Fetch overlay configuration
     read_ov_config
 
-    # Fetch accelerator specifications
-    fetch_acc_specs
+    if [ $n_acc -gt 0 ]; then
 
-    # # Optimize overlay specification
-    # optimize_ov_specs
+        # Fetch accelerator specifications
+        fetch_acc_specs
 
-    # Generate accelerator wrappers
-    gen_acc_configs
+        # # Optimize overlay specification
+        # optimize_ov_specs
+
+        # Generate accelerator wrappers
+        gen_acc_configs
+
+    fi
+    
 else
     echo "[sh] >> No accelerator configuration found in $dir_ov_dev"
 fi
