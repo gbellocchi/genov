@@ -98,7 +98,7 @@ gen_acc_comps(
     hwpe_wrapper.top_wrapper(),
     design_params,
     emitter,
-    ['hwpe', 'top_wrapper', ['hw', 'rtl']],
+    ['hwpe', 'top_wrapper', ['hw', 'sv']],
     emitter.hwpe_gen_wrap
 )
 
@@ -109,7 +109,7 @@ gen_acc_comps(
     hwpe_wrapper.top(),
     design_params,
     emitter,
-    ['hwpe', 'top', ['hw', 'rtl']],
+    ['hwpe', 'top', ['hw', 'sv']],
     emitter.hwpe_gen_rtl
 )
 
@@ -120,7 +120,7 @@ gen_acc_comps(
     hwpe_wrapper.engine(),
     design_params,
     emitter,
-    ['hwpe', 'engine', ['hw', 'rtl']],
+    ['hwpe', 'engine', ['hw', 'sv']],
     emitter.hwpe_gen_rtl
 )
 
@@ -131,7 +131,7 @@ gen_acc_comps(
     hwpe_wrapper.kernel_adapter(),
     design_params,
     emitter,
-    ['hwpe', 'kernel_adapter', ['hw', 'rtl']],
+    ['hwpe', 'kernel_adapter', ['hw', 'sv']],
     emitter.hwpe_gen_rtl
 )
 
@@ -142,7 +142,7 @@ gen_acc_comps(
     hwpe_wrapper.streamer(),
     design_params,
     emitter,
-    ['hwpe', 'streamer', ['hw', 'rtl']],
+    ['hwpe', 'streamer', ['hw', 'sv']],
     emitter.hwpe_gen_rtl
 )
 
@@ -153,7 +153,7 @@ gen_acc_comps(
     hwpe_wrapper.ctrl(),
     design_params,
     emitter,
-    ['hwpe', 'ctrl', ['hw', 'rtl']],
+    ['hwpe', 'ctrl', ['hw', 'sv']],
     emitter.hwpe_gen_rtl
 )
 
@@ -164,7 +164,7 @@ gen_acc_comps(
     hwpe_wrapper.fsm(),
     design_params,
     emitter,
-    ['hwpe', 'fsm', ['hw', 'rtl']],
+    ['hwpe', 'fsm', ['hw', 'sv']],
     emitter.hwpe_gen_rtl
 )
 
@@ -175,7 +175,7 @@ gen_acc_comps(
     hwpe_wrapper.package(),
     design_params,
     emitter,
-    ['hwpe', 'package', ['hw', 'rtl']],
+    ['hwpe', 'package', ['hw', 'sv']],
     emitter.hwpe_gen_rtl
 )
 
@@ -262,7 +262,7 @@ gen_acc_comps(
     hwpe_standalone_tb_hw.tb_hwpe(),
     design_params,
     emitter,
-    ['tb', 'tb_hwpe', ['hw', 'rtl']],
+    ['tb', 'tb_hwpe', ['hw', 'sv']],
     emitter.hwpe_gen_test
 )
 

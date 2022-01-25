@@ -89,7 +89,7 @@ gen_ov_test_comps(
     test.OverlayTestbenchHw(),
     design_params,
     emitter,
-    ['tb', 'overlay_tb', ['hw', 'rtl']],
+    ['tb', 'overlay_tb', ['hw', 'sv']],
     emitter.ov_gen_test
 )
 

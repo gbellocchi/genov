@@ -181,7 +181,7 @@ class EmitWrapper:
     def get_dict_file_ext(self):
         # dictionary for file extensions
         dict_file_ext = {
-            'hw'                : { "rtl": ".sv" } , 
+            'hw'                : { "sv": ".sv" } , 
             'integr_support'    : { "yml": ".yml", "lock": ".lock", "vsim_wave": ".wave.do" } ,
             'sw'                : { "archi": ".h", "hal": ".h", "tb": ".c" }
         }

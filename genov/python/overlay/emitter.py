@@ -46,6 +46,9 @@ class EmitOv:
 
         self.out_ov                         = dir_out_ov
 
+        # IP
+        self.ov_gen_ip                      = self.out_ov + '/ip'
+
         # SoC
         self.ov_gen_soc                     = self.out_ov + '/soc'
         self.ov_gen_soc_pkg                 = self.ov_gen_soc + '/packages'
@@ -142,7 +145,6 @@ class EmitOv:
     def construct_file_name(self):
         # dictionary for file extensions
         dict_file_ext = {
-            'ov'              : self.ov_file_name(),
             'soc'             : self.soc_file_name(),
             'cl'              : self.cl_file_name(),
             'tb'              : self.tb_file_name(),
@@ -150,13 +152,6 @@ class EmitOv:
             'sw'              : self.sw_file_name()
         }
         return dict_file_ext[self.device_type]
-
-    '''
-    Constructor of file names targeting the overlay.
-    '''
-    def ov_file_name(self):
-        file_name = 'ov_' + self.design_name + self.file_ext
-        return file_name
 
     '''
     Constructor of file names targeting the SoC.
@@ -199,7 +194,7 @@ class EmitOv:
     def get_dict_file_ext(self):
         # dictionary for file extensions
         dict_file_ext = {
-            'hw'                : { "rtl": ".sv" } , 
+            'hw'                : { "sv": ".sv", "v": ".v" } , 
             'integr_support'    : { "yml": ".yml", "lock": ".lock", "vsim_wave": ".wave.do" } ,
             'sw'                : { "archi": ".h", "hal": ".h", "tb": ".c" }
         }

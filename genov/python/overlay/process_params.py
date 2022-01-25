@@ -15,6 +15,7 @@
 
 from python.wrapper.import_params import import_acc_dev_module
 from python.wrapper.process_params import wrapper_params_formatted
+import math
 
 '''
   =====================================================================
@@ -49,6 +50,19 @@ class overlay_params_formatted:
     def format_overlay_system(self, ov_specs):
         self.ov_config                          = ov_specs().ov_config
         self.n_clusters                         = get_n_cl(ov_specs())
+        self.target_soc                         = 'xilzu9eg' 
+        self.aw                                 = 64 
+        self.dw                                 = 128
+        self.iw                                 = 3 + clog2(self.n_clusters+1) 
+        self.uw                                 = 4
+        self.aw_pl2ps                           = 49
+        self.iw_pl2ps                           = 5 
+        self.uw_pl2ps                           = 1
+        self.aw_ps2pl                           = 40 
+        self.iw_ps2pl                           = 17 
+        self.uw_ps2pl                           = 16
+        self.aw_lite                            = 32 
+        self.dw_lite                            = 32
         return self
 
     '''
@@ -277,6 +291,17 @@ def print_ov_log(overlay_params):
     print("[py] >> User-defined overlay specification:")
 
     print("\n\tOverlay configuration:", overlay_params.ov_config)
+
+'''
+  =====================================================================
+  Title:        clog2
+  Type:         Function
+  Description:  Returns log2(x).
+  =====================================================================
+'''
+
+def clog2(x):
+    return math.ceil(math.log2(x))
 
 '''
   =====================================================================

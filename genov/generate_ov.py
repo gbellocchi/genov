@@ -66,6 +66,31 @@ print_ov_log(design_params)
 emitter = EmitOv(ov_specs, dir_out_ov)
 
 '''
+    Instantiate overlay template item
+''' 
+overlay = Overlay()
+
+'''
+    =====================================================================
+    Component:      Hardware
+
+    Description:    Generation of IP wrapper for PULP instance.
+    ===================================================================== */
+'''
+
+'''
+    Generate design components ~ PULP IP
+''' 
+
+gen_ov_comps(
+    overlay.PulpIp(),
+    design_params,
+    emitter,
+    ['soc', 'pulp_t' + design_params.target_soc, ['hw', 'v']],
+    emitter.ov_gen_ip
+)
+
+'''
     =====================================================================
     Component:      Integration support
 
@@ -73,11 +98,6 @@ emitter = EmitOv(ov_specs, dir_out_ov)
                     scripts for source management tools, simulations, etc.
     ===================================================================== */
 '''
-
-'''
-    Instantiate overlay template item
-''' 
-overlay = Overlay()
 
 '''
     Generate design components ~ Bender

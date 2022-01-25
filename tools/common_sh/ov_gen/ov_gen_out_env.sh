@@ -35,6 +35,8 @@ if [ ! -d "$dir_out_ov" ]; then
     # Create directories for generated hardware #
     # ========================================= #
 
+    mkdir $dir_out_ov/ip
+
     mkdir $dir_out_ov/soc
     mkdir $dir_out_ov/soc/packages
     mkdir $dir_out_ov/soc/rtl

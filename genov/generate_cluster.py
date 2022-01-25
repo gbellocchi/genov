@@ -82,7 +82,7 @@ for cl_offset in range(design_params.n_clusters):
         cluster.PulpClusterCfgPkg(),
         design_params,
         emitter,
-        ['cl', str(cl_offset) + '_cfg_pkg', ['hw', 'rtl']],
+        ['cl', str(cl_offset) + '_cfg_pkg', ['hw', 'sv']],
         emitter.ov_gen_cl_pkg,
         cl_offset
     )
@@ -115,7 +115,7 @@ for cl_offset in range(design_params.n_clusters):
         cluster.LicAccRegion(),
         design_params,
         emitter,
-        ['cl', str(cl_offset) + '_lic_acc_region', ['hw', 'rtl']],
+        ['cl', str(cl_offset) + '_lic_acc_region', ['hw', 'sv']],
         emitter.ov_gen_cl_rtl,
         cl_offset
     )
@@ -127,7 +127,7 @@ for cl_offset in range(design_params.n_clusters):
         cluster.LicAccIntf(),
         design_params,
         emitter,
-        ['cl', str(cl_offset) + '_lic_acc_intf', ['hw', 'rtl']],
+        ['cl', str(cl_offset) + '_lic_acc_intf', ['hw', 'sv']],
         emitter.ov_gen_cl_rtl,
         cl_offset
     )
@@ -139,7 +139,7 @@ for cl_offset in range(design_params.n_clusters):
         cluster.PeriphAccIntf(),
         design_params,
         emitter,
-        ['cl', str(cl_offset) + '_periph_acc_intf', ['hw', 'rtl']],
+        ['cl', str(cl_offset) + '_periph_acc_intf', ['hw', 'sv']],
         emitter.ov_gen_cl_rtl,
         cl_offset
     )

@@ -44,6 +44,19 @@ class Generator:
             email                           = design_params.email,
             # system
             ov_config                       = design_params.ov_config,
+            target_soc                      = design_params.target_soc, 
+            aw                              = design_params.aw,
+            dw                              = design_params.dw,
+            iw                              = design_params.iw,
+            uw                              = design_params.uw,         
+            aw_pl2ps                        = design_params.aw_pl2ps,
+            iw_pl2ps                        = design_params.iw_pl2ps,    
+            uw_pl2ps                        = design_params.uw_pl2ps,   
+            aw_ps2pl                        = design_params.aw_ps2pl, 
+            iw_ps2pl                        = design_params.iw_ps2pl, 
+            uw_ps2pl                        = design_params.uw_ps2pl,
+            aw_lite                         = design_params.aw_lite, 
+            dw_lite                         = design_params.dw_lite,
             # number of clusters
             n_clusters                      = design_params.n_clusters,
             # additional params

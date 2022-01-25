@@ -84,7 +84,7 @@ gen_soc_comps(
     soc.SocCfgPkg(),
     design_params,
     emitter,
-    ['soc', 'soc_cfg_pkg', ['hw', 'rtl']],
+    ['soc', 'soc_cfg_pkg', ['hw', 'sv']],
     emitter.ov_gen_soc_pkg
 )
 
@@ -103,7 +103,7 @@ gen_soc_comps(
     soc.HeroAxiMailbox(),
     design_params,
     emitter,
-    ['soc', 'hero_axi_mailbox', ['hw', 'rtl']],
+    ['soc', 'hero_axi_mailbox', ['hw', 'sv']],
     emitter.ov_gen_soc_rtl
 )
 
@@ -114,7 +114,7 @@ gen_soc_comps(
     soc.L2Mem(),
     design_params,
     emitter,
-    ['soc', 'l2_mem', ['hw', 'rtl']],
+    ['soc', 'l2_mem', ['hw', 'sv']],
     emitter.ov_gen_soc_rtl
 )
 
@@ -125,7 +125,7 @@ gen_soc_comps(
     soc.Pulp(),
     design_params,
     emitter,
-    ['soc', 'pulp', ['hw', 'rtl']],
+    ['soc', 'pulp', ['hw', 'sv']],
     emitter.ov_gen_soc_rtl
 )
 
@@ -136,7 +136,7 @@ gen_soc_comps(
     soc.SocBus(),
     design_params,
     emitter,
-    ['soc', 'soc_bus', ['hw', 'rtl']],
+    ['soc', 'soc_bus', ['hw', 'sv']],
     emitter.ov_gen_soc_rtl
 )
 
@@ -147,7 +147,7 @@ gen_soc_comps(
     soc.SocCtrlRegs(),
     design_params,
     emitter,
-    ['soc', 'soc_ctrl_regs', ['hw', 'rtl']],
+    ['soc', 'soc_ctrl_regs', ['hw', 'sv']],
     emitter.ov_gen_soc_rtl
 )
 
@@ -158,7 +158,7 @@ gen_soc_comps(
     soc.SocPeripherals(),
     design_params,
     emitter,
-    ['soc', 'soc_peripherals', ['hw', 'rtl']],
+    ['soc', 'soc_peripherals', ['hw', 'sv']],
     emitter.ov_gen_soc_rtl
 )
 
@@ -177,7 +177,7 @@ gen_soc_comps(
     soc.DmacWrapOOC(),
     design_params,
     emitter,
-    ['soc', 'dmac_wrap_ooc', ['hw', 'rtl']],
+    ['soc', 'dmac_wrap_ooc', ['hw', 'sv']],
     emitter.ov_gen_soc_ooc
 )
 
@@ -188,7 +188,7 @@ gen_soc_comps(
     soc.PulpOoc(),
     design_params,
     emitter,
-    ['soc', 'pulp_ooc', ['hw', 'rtl']],
+    ['soc', 'pulp_ooc', ['hw', 'sv']],
     emitter.ov_gen_soc_ooc
 )
 
@@ -201,7 +201,7 @@ for cl_offset in range(design_params.n_clusters):
         soc.PulpClusterOOC(),
         design_params,
         emitter,
-        ['cl', str(cl_offset) + '_ooc', ['hw', 'rtl']],
+        ['cl', str(cl_offset) + '_ooc', ['hw', 'sv']],
         emitter.ov_gen_soc_ooc,
         cl_offset
     )

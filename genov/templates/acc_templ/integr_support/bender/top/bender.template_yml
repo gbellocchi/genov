@@ -1,5 +1,5 @@
 package:
-  name: hwpe-${target}-wrapper
+  name: ${target}
 
 dependencies:
   hwpe-ctrl: { git: "git@github.com:gbellocchi/hwpe-ctrl.git", rev: master }

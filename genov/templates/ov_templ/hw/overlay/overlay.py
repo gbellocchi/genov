@@ -19,6 +19,7 @@
 
 from templates.ov_templ.hw.overlay.bender.top.bender import Bender
 from templates.ov_templ.hw.overlay.bender_lock.top.bender_lock import BenderLock
+from templates.ov_templ.hw.overlay.pulp_ip.top.pulp_ip import PulpIp
 
 class Overlay:
     def __init__(self):
@@ -39,5 +40,14 @@ class Overlay:
             temp_type = 'templates/ov_templ/hw/overlay/bender_lock/',
             temp_top = 'bender_lock.template_yml',
             temp_modules = [],
+            path_common = self.path_common
+        ).top()
+
+    def PulpIp(self):
+        print("\n[py] >> Overlay ~ PULP IP")
+        return PulpIp(
+            temp_type = 'templates/ov_templ/hw/overlay/pulp_ip/',
+            temp_top = 'pulp_ip.template_sv',
+            temp_modules = ['functions.template_sv'],
             path_common = self.path_common
         ).top()
