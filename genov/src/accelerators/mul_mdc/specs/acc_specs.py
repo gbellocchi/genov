@@ -1,6 +1,6 @@
 '''
  =====================================================================
- Project:       MAC mdc
+ Project:       MUL mdc
  Title:         acc_specs.py
  Description:   Specification file to guide the generation of HW/SW
 	            components for hardware wrappers.
@@ -50,8 +50,8 @@ class acc_specs:
     '''
 
     def kernel(self):
-        self.target                             = 'mac_mdc'
-        self.design_type                        = 'hdl'
+        self.target                             = 'mul_mdc'
+        self.design_type                        = 'hls'
         self.intf_kernel                        = [ False, True ]
         return self
 
