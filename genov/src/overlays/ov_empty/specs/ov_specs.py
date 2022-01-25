@@ -38,7 +38,7 @@ class ov_specs:
     '''
 
     def system(self):
-        self.ov_config                          = 'ov_a'
+        self.ov_config                          = 'ov_empty'
         return self
 
     '''
@@ -47,6 +47,6 @@ class ov_specs:
 
     def cluster_0(self):
         self.cl_offset                          = 0
-        self.list_lic                           = [ [ 'traffic_gen' , 'hwpe'] ]
+        self.list_lic                           = [ ]
         self.list_hci                           = [ ]
         return self
