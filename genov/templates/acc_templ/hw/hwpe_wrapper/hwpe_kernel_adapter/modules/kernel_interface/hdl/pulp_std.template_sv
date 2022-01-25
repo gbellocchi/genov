@@ -34,10 +34,10 @@
     % for j in range (n_source):
       % if (is_parallel_out[j]):
         % for k in range (out_parallelism_factor[j]):
-    .${stream_out[j]}_${k}  ( ${stream_out[j]}_${k}_o.  ),
+    .${stream_out[j]}_${k}  ( ${stream_out[j]}_${k}_o  ),
         % endfor
       % else:
-    .${stream_out[j]}  ( ${stream_out[j]}_o.  ),
+    .${stream_out[j]}  ( ${stream_out[j]}_o  ),
       % endif
     % endfor
 

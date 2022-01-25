@@ -128,6 +128,7 @@ packages:
     source:
       Git: "https://github.com/pulp-platform/event_unit_flex.git"
     dependencies: []
+  % if (n_wrapper_deps>0):
   hwpe-ctrl:
     revision: master
     version: ~
@@ -140,6 +141,7 @@ packages:
     source:
       Git: "git@github.com:gbellocchi/hwpe-stream.git"
     dependencies: []
+  % endif
   icache-intc:
     revision: 42aee659c80b682ceb7a74ec3f8fd9ba054fea59
     version: 1.0.0
@@ -248,17 +250,22 @@ packages:
 
   cluster:
     source:
-      Path: "./ov_cfg/${ov_config}/cluster"
-    dependencies: 
-    % for i in range(n_wrapper_deps):
+      Path: "./ov_cfg/${ov_config}/cluster" 
+    % if (n_wrapper_deps>0):
+    dependencies:
+      % for i in range(n_wrapper_deps):
       - ${wrapper_deps[i]}
-    % endfor
+      % endfor
+    % else:
+    dependencies: []
+    % endif
 
   <%
     # Lock accelerator wrapper packages information 
   %>
 
-% for i in range(n_wrapper_deps):
+% if (n_wrapper_deps>0):
+  % for i in range(n_wrapper_deps):
 
   ${wrapper_deps[i]}:
     source:
@@ -267,4 +274,5 @@ packages:
       - hwpe-stream
       - hwpe-ctrl
 
-% endfor
+  % endfor
+% endif
