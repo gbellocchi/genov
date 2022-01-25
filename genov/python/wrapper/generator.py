@@ -69,8 +69,8 @@ class Generator:
             addr_gen_in_isprogr     = design_params.addr_gen_in_isprogr,
             addr_gen_out_isprogr    = design_params.addr_gen_out_isprogr,
             # static design components
-            engine_devs             = self.get_engine(),
-            num_engine_devs         = len(self.get_engine()),
+            kernel_modules          = self.get_kernel_list(design_params),
+            num_kernel_modules      = len(self.get_kernel_list(design_params)),
         )
         # Compile a regex to trim trailing whitespaces on lines
         # and multiple consecutive new lines.
@@ -85,8 +85,9 @@ class Generator:
     retrieves a list of the input RTL files that have to be wrapped,
     then these are used to generate the scripts for the 'bender' tool.
     """
-    def get_engine(self):
-        filename = 'templates/acc_templ/integr_support/rtl_list/engine_list.log'
+    def get_kernel_list(self, design_params):
+        # filename = 'templates/acc_templ/integr_support/rtl_list/engine_list.log'
+        filename = 'dev/acc_dev/' + design_params.target + '/kernel_list.log'
         l = []
         with open(filename, 'r') as f:
             for s in f.readlines():

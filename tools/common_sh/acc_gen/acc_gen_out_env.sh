@@ -57,6 +57,7 @@ if [ ! -d "$dir_out_target_acc" ]; then
     # Software runtime
     mkdir $dir_out_target_acc/test/sw
     mkdir $dir_out_target_acc/test/sw/inc 
+    mkdir $dir_out_target_acc/test/sw/inc/stim
     mkdir $dir_out_target_acc/test/sw/inc/hwpe_lib
 
     # ============================================================================= #
@@ -90,13 +91,23 @@ if [ ! -d "$dir_out_target_acc" ]; then
     # in the documentation pertaining to verification (in 'doc/how-to/verif.md').
     # ============================================================================= #
 
-    echo -e "[sh] >> Retrieving reference software-mapped application and stimuli/golden results generator"
-
     # Copy TB generator for input stimuli and golden results
     dest=$dir_out_target_acc/test/sw/inc/
     if [ -d "$dest" ]; then
-        cp -rf $dir_dev_target_acc/sw/ref_sw $dest
-        cp -rf $dir_dev_target_acc/sw/stim $dest
+        
+        src=$dir_dev_target_acc/sw/ref_sw
+        if [ -d "$src" ]; then
+            echo -e "[sh] >> Retrieving stimuli and golden results generator"
+            cp -rf $src $dest
+        else
+            echo "[sh] >> Generator for stimuli and golden results not found"
+        fi
+        
+        src=$dir_dev_target_acc/sw/stim
+        if [ -d "$src" ]; then
+            cp -rf $src/* $dest/stim
+        fi
+
     else
         error_exit "[sh] >> Directory not found -> $dest"
     fi

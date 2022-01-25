@@ -179,7 +179,7 @@ gen_acc_configs()
 
         if [ "$is_gen" == "false" ]; then
             # Generate target accelerator wrapper
-            make --silent acc_gen_get_engine TARGET_ACC=${acc_targets[$c]}
+            make --silent acc_gen_kernel_list TARGET_ACC=${acc_targets[$c]}
             make --silent acc_gen_out_env TARGET_ACC=${acc_targets[$c]}
             make --silent acc_gen_run TARGET_ACC=${acc_targets[$c]}
         fi

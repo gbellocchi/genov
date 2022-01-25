@@ -12,8 +12,8 @@ sources:
   - include_dirs:
       - rtl/hwpe-engine
     files:
-      % for i in range (num_engine_devs):
-      - rtl/acc_kernel/${engine_devs[i]}
+      % for i in range (num_kernel_modules):
+      - rtl/acc_kernel/${kernel_modules[i]}
       % endfor 
       - rtl/${target}_package.sv
       - rtl/${target}_fsm.sv

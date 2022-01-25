@@ -39,7 +39,7 @@ init_generation()
     cd $dir_root
 
     make --silent ov_gen_clean
-    make --silent ov_gen_init
+    # make --silent ov_gen_init
     make --silent ov_gen_out_env
 }
 

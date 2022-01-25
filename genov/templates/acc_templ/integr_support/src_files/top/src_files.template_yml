@@ -12,9 +12,9 @@ hwpe_wrapper:
     # files, they should be placed in the top ModelSim working directory.
     %>
 
-    % for i in range (num_engine_devs):
-      % if ".dat" not in engine_devs[i]:
-    rtl/acc_kernel/${engine_devs[i]},
+    % for i in range (num_kernel_modules):
+      % if ".dat" not in kernel_modules[i]:
+    rtl/acc_kernel/${kernel_modules[i]},
       % endif
     % endfor
     rtl/${target}_package.sv,
