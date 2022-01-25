@@ -26,12 +26,10 @@
  *    bits and streamed out as d.
  */
 
-`ifndef IP_VERSION
-`define MAC_MDC
-`endif
+// import mac_package::*;
 
 package local_mac_package;
-  parameter int unsigned MAC_CNT_LEN = 4096; // maximum length of the vectors for a scalar product
+  parameter int unsigned MAC_CNT_LEN = 1024; // maximum length of the vectors for a scalar product
 endpackage
 
 module mac_mdc import local_mac_package::*;
@@ -45,31 +43,37 @@ module mac_mdc import local_mac_package::*;
   input logic                                       a_TVALID,
   output logic                                      a_TREADY,
   input logic [32-1:0]                              a_TDATA,
+  // hwpe_stream_intf_stream.sink                      a,
 
   // input b stream
   input logic                                       b_TVALID,
   output logic                                      b_TREADY,
   input logic [32-1:0]                              b_TDATA,
+  // hwpe_stream_intf_stream.sink                      b,
 
   // input c stream
   input logic                                       c_TVALID,
   output logic                                      c_TREADY,
   input logic [32-1:0]                              c_TDATA,
+  // hwpe_stream_intf_stream.sink                      c,
 
   // output d stream
   output logic                                      d_TVALID,
   input logic                                       d_TREADY,
   output logic [32-1:0]                             d_TDATA,
+  // hwpe_stream_intf_stream.source                    d,
 
-  // custom registers
+  // // control channel (custom registers)
   input logic unsigned                              reg_simple_mul,
   input logic unsigned [$clog2(32)-1:0]             reg_shift,
-  input logic unsigned [$clog2(MAC_CNT_LEN)-1:0]    reg_len
+  input logic unsigned [$clog2(1024)-1:0]           reg_len
+
+  // input  ctrl_engine_t                              ctrl_i, 
+  // output flags_engine_t                             flags_o
 );
 
   logic unsigned [$clog2(MAC_CNT_LEN):0] cnt;
   logic unsigned [$clog2(MAC_CNT_LEN):0] r_cnt;
-
   logic signed [63:0] c_shifted;
   logic signed [63:0] mult;
   logic signed [63:0] r_mult;
@@ -113,9 +117,15 @@ module mac_mdc import local_mac_package::*;
     if(~ap_rst_n) begin
       r_mult <= '0;
     end
+    // else if (clear) begin
+    //   r_mult <= '0;
+    // end
+    // else if (enable) begin
+      // r_mult value is updated if there is a valid handshake at its input
     else if (a_TVALID & b_TVALID & a_TREADY & b_TREADY) begin
       r_mult <= mult;
     end
+    // end
   end
 
   // r_mult is valid following a valid handshake
@@ -124,48 +134,55 @@ module mac_mdc import local_mac_package::*;
     if(~ap_rst_n) begin
       r_mult_valid <= '0;
     end
+    // else if (clear) begin
+    //   r_mult_valid <= '0;
+    // end
+    // else if (enable) begin
+      // r_mult_valid is re-evaluated after a valid handshake or in transition to 1
     else if ((a_TVALID & b_TVALID) | (r_mult_valid & r_mult_ready)) begin
       r_mult_valid <= a_TVALID & b_TVALID;
     end
+    // end
   end
 
-  // accumulator
   always_ff @(posedge ap_clk or negedge ap_rst_n)
   begin : accumulator
     if(~ap_rst_n) begin
       r_acc <= '0;
     end
-    // // else if (clear) begin
-    // //   r_acc <= '0;
-    // // end
-    // // else if (enable) begin
-    //   // r_acc value is updated if there are both c and r_mult valid handshakes at its input
-    // else if (r_mult_valid & r_mult_ready & c_TVALID & c_TREADY) begin
-    //   r_acc <= $signed(c_shifted + r_mult);
+    // else if (clear) begin
+    //   r_acc <= '0;
     // end
-    // // r_acc value is updated if there is a c valid handshake at its input
-    // else if (c_TVALID & c_TREADY) begin
-    //   r_acc <= $signed(c_shifted);
-    // end
+    // else if (enable) begin
+      // r_acc value is updated if there are both c and r_mult valid handshakes at its input
+    else if (r_mult_valid & r_mult_ready & c_TVALID & c_TREADY) begin
+      r_acc <= $signed(c_shifted + r_mult);
+    end
+    // r_acc value is updated if there is a c valid handshake at its input
+    else if (c_TVALID & c_TREADY) begin
+      r_acc <= $signed(c_shifted);
+    end
     // r_acc value is updated if there is a r_mult valid handshake at its input
     else if (r_mult_valid & r_mult_ready) begin
       r_acc <= $signed(r_acc + r_mult);
     end
+    // end
   end
 
-  // r_acc is valid if all input arrays values have undergone dot product
   always_ff @(posedge ap_clk or negedge ap_rst_n)
   begin : accumulator_valid
     if(~ap_rst_n) begin
       r_acc_valid <= '0;
     end
+    // else if (clear) begin
+    //   r_acc_valid <= '0;
+    // end
+    // else if (enable) begin
       // r_acc_valid is re-evaluated after a valid handshake or in transition to 1
-    else if((r_cnt == reg_len) & r_mult_valid & r_mult_ready) begin
-      r_acc_valid <= '1;
+    else if(((r_cnt == reg_len) & r_mult_valid & r_mult_ready) | (r_acc_valid & r_acc_ready)) begin
+      r_acc_valid <= (r_cnt == reg_len);
     end
-    else begin
-      r_acc_valid <= '0;
-    end
+    // end
   end
 
   always_comb
@@ -184,11 +201,13 @@ module mac_mdc import local_mac_package::*;
   begin
     d_TDATA  = $signed(d_nonshifted >>> reg_shift); // no saturation/clipping
     d_TVALID = d_nonshifted_valid; // enable & d_nonshifted_valid;
+    // d.strb  = '1; // for now, strb is always '1
   end
 
   // The control counter is implemented directly inside this module; as the control is
   // minimal, it was not deemed convenient to move it to another submodule. For bigger
   // FSMs that is typically the most advantageous choice.
+
   always_comb
   begin
     cnt = r_cnt + 1;
@@ -199,13 +218,18 @@ module mac_mdc import local_mac_package::*;
     if(~ap_rst_n) begin
       r_cnt <= '0;
     end
-    else if ((r_cnt < reg_len) && (r_mult_valid & r_mult_ready == 1'b1)) begin
-      r_cnt <= (r_acc_valid & r_acc_ready) ? '0 : cnt;
+    // else if(clear) begin
+    //   r_cnt <= '0;
+    // end
+    // else if(enable) begin
+    else if ((r_cnt > 0) && (r_cnt < reg_len) && (r_mult_valid & r_mult_ready == 1'b1)) begin
+      r_cnt <= cnt;
     end
-    else if(r_acc_valid) begin
-      r_cnt <= '0;
-    end
+    // end
   end
+
+  // assign flags_o.cnt = r_cnt;
+  // assign flags_o.acc_valid = r_acc_valid;
 
   // Ready signals have to be propagated backwards through pipeline stages (combinationally).
   // To avoid deadlocks, the following rules have to be followed:

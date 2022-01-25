@@ -25,21 +25,23 @@ class hwpe_specs:
 
     def streaming_k(self):
         # HWPE streaming interfaces [ name , data-type , reg-dim , is_parallel , parallelism_factor]
-        self.list_sink_stream                   = [ [ 'x1_V' , 'int32_t' , 32 , False, 1 ] , [ 'x2_V' , 'int32_t' , 32 , False, 1 ] ]
-        self.list_source_stream                 = [ [ 'y_mul_V' , 'int32_t' , 32 , False, 1 ] , [ 'y_mac_V' , 'int32_t' , 32 , False, 1 ] ]
+        self.list_sink_stream                   = [ [ 'a' , 'int32_t' , 32 , False, 1 ] , [ 'b' , 'int32_t' , 32 , False, 1 ] , [ 'c' , 'int32_t' , 32 , False, 1 ] ]
+        self.list_source_stream                 = [ [ 'd' , 'int32_t' , 32 , False, 1 ] ]
         return self
 
     def regfile_k(self):
         # HWPE standard regfiles
         self.std_reg_num                        = 4       
         # HWPE custom regfiles [ name , data-type , reg-dim , is_port ]
-        self.custom_reg                         = [ [ 'mac_par_V' , 'int32_t' , 32 , 1 ] ]
+        self.custom_reg                         = [ [ 'reg_simple_mul' , 'int'     , 1  , 1 ] ,
+                                                    [ 'reg_shift'      , 'int8_t'  , 8  , 1 ] ,
+                                                    [ 'reg_len'        , 'int16_t' , 16 , 1 ] ]
         return self
 
     def addressgen_k(self):
         # Address generation [ is_programmable ]
-        self.addr_gen_in                        = [ [True] , [True] ]
-        self.addr_gen_out                       = [ [True] , [True] ]
+        self.addr_gen_in                        = [ [True] , [True] , [True] ]
+        self.addr_gen_out                       = [ [True] ]
         return self
 
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
