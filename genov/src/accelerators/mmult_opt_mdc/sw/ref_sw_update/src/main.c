@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
   gen_stim(in1, in2, width, height, stripe_height);
 
-  memset(out_dut, 0, stripe_height*stripe_height);
+  memset(out_dut, 0, width*stripe_height);
 
   /* Generate golden results. */
 
@@ -45,8 +45,8 @@ int main(int argc, char *argv[])
 
   gen_Hfile("in1", in1, width, stripe_height);
   gen_Hfile("in2", in2, width, stripe_height);
-  gen_Hfile("out_r_ref", out_ref, stripe_height, stripe_height);
-  gen_Hfile("out_r_dut", out_dut, stripe_height, stripe_height);
+  gen_Hfile("out_r_ref", out_ref, width, stripe_height);
+  gen_Hfile("out_r_dut", out_dut, width, stripe_height);
 
   /* Cleanup. */  
 

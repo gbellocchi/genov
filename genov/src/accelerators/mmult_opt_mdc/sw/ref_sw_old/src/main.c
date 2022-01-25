@@ -21,39 +21,38 @@ int main(int argc, char *argv[])
 
   unsigned width = W;
   unsigned height = H;
-  unsigned stripe_height = S;
 
   /* Allocate I/O arrays. */
 
-  uint32_t* in1 = (uint32_t*)malloc(width*stripe_height*sizeof(uint32_t));
-  uint32_t* in2 = (uint32_t*)malloc(width*stripe_height*sizeof(uint32_t));
+  uint32_t* in1 = (uint32_t*)malloc(width*height*sizeof(uint32_t));
+  uint32_t* in2 = (uint32_t*)malloc(width*height*sizeof(uint32_t));
 
-  uint32_t* out_ref = (uint32_t*)malloc(stripe_height*stripe_height*sizeof(uint32_t)); 
-  uint32_t* out_dut = (uint32_t*)malloc(stripe_height*stripe_height*sizeof(uint32_t));
+  uint32_t* out_ref = (uint32_t*)malloc(width*height*sizeof(uint32_t)); 
+  uint32_t* out_dut = (uint32_t*)malloc(width*height*sizeof(uint32_t));
 
   /* Generate synthetic stimuli. */
 
-  gen_stim(in1, in2, width, height, stripe_height);
+  gen_stim(in1, in2, width, height);
 
-  memset(out_dut, 0, stripe_height*stripe_height);
+  memset(out_dut, 0, width*height);
 
   /* Generate golden results. */
 
-  ref_app(in1, in2, out_ref, width, height, stripe_height);
+  ref_app(in1, in2, out_ref, width, height);
 
   /* Create output header files. */
 
-  gen_Hfile("in1", in1, width, stripe_height);
-  gen_Hfile("in2", in2, width, stripe_height);
-  gen_Hfile("out_r_ref", out_ref, stripe_height, stripe_height);
-  gen_Hfile("out_r_dut", out_dut, stripe_height, stripe_height);
+  gen_Hfile("in1", in1, width, height);
+  gen_Hfile("in2", in2, width, height);
+  gen_Hfile("out_r_ref", out_ref, width, height);
+  gen_Hfile("out_r_dut", out_dut, width, height);
 
   /* Cleanup. */  
 
-  // free(in1);
-  // free(in2);
-  // free(out_ref);
-  // free(out_dut);
+  free(in1);
+  free(in2);
+  free(out_ref);
+  free(out_dut);
 
   return 0;
 }

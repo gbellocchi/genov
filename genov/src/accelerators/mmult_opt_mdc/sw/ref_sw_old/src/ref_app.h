@@ -26,12 +26,11 @@
 /* Parameters. */
 
 // Entire image dimension
-#define W 256
+#define W 8
 #define H 8
-#define S 8
 
 /* Functions declaration. */
 
-void ref_app(uint32_t* in1, uint32_t* in2, uint32_t* out, uint32_t width, uint32_t height, uint32_t stripe_height);
-void gen_stim(uint32_t* in1, uint32_t* in2, uint32_t width, uint32_t height, uint32_t stripe_height);
+void ref_app(uint32_t* in1, uint32_t* in2, uint32_t* out, uint32_t width, uint32_t height);
+void gen_stim(uint32_t* in1, uint32_t* in2, uint32_t width, uint32_t height);
 void gen_Hfile(char* val_name, uint32_t* synth_data, uint32_t width, uint32_t height);

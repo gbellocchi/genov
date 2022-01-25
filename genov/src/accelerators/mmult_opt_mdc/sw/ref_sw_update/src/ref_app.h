@@ -26,7 +26,7 @@
 /* Parameters. */
 
 // Entire image dimension
-#define W 256
+#define W 512
 #define H 8
 #define S 8
 

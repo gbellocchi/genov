@@ -14,15 +14,17 @@
 
 #include "ref_app.h"
 
-void gen_stim(uint32_t* in1, uint32_t* in2, uint32_t width, uint32_t height, uint32_t stripe_height)
+void gen_stim(uint32_t* in1, uint32_t* in2, uint32_t width, uint32_t height)
 {
   printf(">> Generating synthetic input stimuli.\n");
 
   /* Generate synthetic stimuli. */
 
-  for(int i=0; i < width*stripe_height; i++){
-      in1[i] = rand() % 255;
-      in2[i] = rand() % 255;
+  for(int i=0; i < width; i++){
+    for(int j=0; j < height; j++){
+      in1[i*height+j] = rand() % 255;
+      in2[i*height+j] = rand() % 255;
+    }
   }
 
 }
