@@ -38,7 +38,7 @@ class ov_specs:
     '''
 
     def system(self):
-        self.ov_config                          = 'ov_empty'
+        self.ov_config                          = 'ov_lic1wr'
         return self
 
     '''
@@ -54,6 +54,6 @@ class ov_specs:
         self.cl_offset                          = 0
         self.core                               = [ 'riscy', 8 ]
         self.tcdm                               = [ 16 , 128]
-        self.lic                                = [ ]
+        self.lic                                = [ [ 'fir_128_mdc' , 'hwpe'] ]
         self.hci                                = [ ]
         return self

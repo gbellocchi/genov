@@ -5,10 +5,10 @@
  Description:   Specification file to guide the generation of HW/SW
 	            components for accelerator-rich overlays.
 
- Date:          24.11.2021
+ Date:          25.1.2022
  ===================================================================== */
 
- Copyright (C) 2021 University of Modena and Reggio Emilia.
+ Copyright (C) 2022 University of Modena and Reggio Emilia.
 
  Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
 
@@ -38,15 +38,23 @@ class ov_specs:
     '''
 
     def system(self):
-        self.ov_config                          = 'ov_a'
+        self.ov_config                          = 'ov_lic2wr'
         return self
 
     '''
         Cluster #0
+
+        - 'core' ~ [ core_name, n_cores ]
+        - 'tcdm' ~ [ n_tcdm_banks, tcdm_size ]
+        - 'lic' ~ [ acc_name , wrapper_protocol ]
+        - 'hci' ~ [ acc_name , wrapper_protocol ]
     '''
 
     def cluster_0(self):
         self.cl_offset                          = 0
-        self.list_lic                           = [ [ 'traffic_gen' , 'hwpe'] ]
-        self.list_hci                           = [ ]
+        self.core                               = [ 'riscy', 8 ]
+        self.tcdm                               = [ 16 , 128]
+        self.lic                                = [ [ 'fir_128_mdc' , 'hwpe'],
+                                                    [ 'mac_mdc' , 'hwpe']]
+        self.hci                                = [ ]
         return self

@@ -45,13 +45,24 @@ class ov_specs:
         Cluster #0
     '''
 
+    '''
+        Cluster #0
+
+        - 'core' ~ [ core_name, n_cores ]
+        - 'tcdm' ~ [ n_tcdm_banks, tcdm_size ]
+        - 'lic' ~ [ acc_name , wrapper_protocol ]
+        - 'hci' ~ [ acc_name , wrapper_protocol ]
+    '''
+
     def cluster_0(self):
         self.cl_offset                          = 0
-        self.list_lic                           = [ [ 'fir_128_mdc' , 'hwpe'],
+        self.core                               = [ 'riscy', 8 ]
+        self.tcdm                               = [ 16 , 128]
+        self.lic                                = [ [ 'fir_128_mdc' , 'hwpe'],
                                                     [ 'mac_mdc' , 'hwpe'],
                                                     [ 'mul_mdc' , 'hwpe'],
                                                     [ 'mmult_opt_mdc' , 'hwpe'],
                                                     [ 'sobel_mdc' , 'hwpe'],
                                                     [ 'roberts_mdc' , 'hwpe'] ]
-        self.list_hci                           = [ ]
+        self.hci                                = [ ]
         return self
