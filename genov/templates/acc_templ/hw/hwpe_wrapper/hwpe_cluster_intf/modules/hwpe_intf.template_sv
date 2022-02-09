@@ -18,15 +18,14 @@
 
 <%
 # =====================================================================
-# Title:        def_ip_hwpe_intf
+# Title:        def_ip_hwpe_cluster_intf
 # Type:         Template API
-# Description:  Definition of HWPE module interface.
+# Description:  Definition of module for HWPE cluster interface.
 # =====================================================================
 %>
 
-<%def name="def_ip_hwpe_intf(acc_offset)">\
-
-module ${cl_lic_acc_names[acc_offset]}_hwpe_intf
+<%def name="def_ip_hwpe_cluster_intf()">\
+module ${target}_cluster_intf
 #(
   parameter N_CORES = 2,
   parameter N_HWPE_PORTS = 2,
@@ -54,7 +53,7 @@ module ${cl_lic_acc_names[acc_offset]}_hwpe_intf
 # =====================================================================
 %>
 
-<%def name="insert_ip_hwpe_wrapper(acc_offset, n_acc_cl)">\
+<%def name="insert_ip_hwpe_wrapper()">\
 
   /* Local shared-memory interface. */
 
@@ -68,8 +67,15 @@ module ${cl_lic_acc_names[acc_offset]}_hwpe_intf
   logic [N_HWPE_PORTS-1:0]           tcdm_r_valid;
 
   /* Target accelerator wrapper. */
-
-  ${cl_lic_acc_names[acc_offset]}_top_wrap #(
+  % if is_third_party is False:
+  ${target}_top_wrap #(
+  % else:
+    % if design_type is 'hls':
+      % if is_mdc_dataflow is True:
+  multi_dataflow_${target}_top_wrap #(
+      % endif
+    % endif
+   % endif
     .N_CORES          ( N_CORES ),
     .MP               ( N_HWPE_PORTS ),
     .ID               ( ID_WIDTH )

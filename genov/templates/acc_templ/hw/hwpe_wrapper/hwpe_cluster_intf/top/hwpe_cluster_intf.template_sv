@@ -1,0 +1,42 @@
+<%
+# =====================================================================
+# Project:      Cluster interconnect interface for HWPE wrappers
+# Title:        hwpe_cluster_intf.template_sv
+# Description:  The interface is positioned in between an accelerator 
+#               region and the top module of an accelerator wrapper. 
+#               The goal of the IP is to decompose the crossbar TCDM 
+#               master interface (from the overlay cluster) into the 
+#               single signals of the TCDM communication protocol.
+#
+# $Date:        29.12.2021
+#
+# Generator:    generate_wrapper
+# =====================================================================
+#
+# Copyright (C) 2021 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+#
+# =====================================================================
+%>
+
+/* =====================================================================
+ * Project:      Cluster interconnect interface for HWPE wrappers
+ * Title:        ${target}_cluster_intf.template_sv
+ * Description:  The interface is positioned in between an accelerator 
+ *               region and the top module of an accelerator wrapper. 
+ *               The goal of the IP is to decompose the crossbar TCDM 
+ *               master interface (from the overlay cluster) into the 
+ *               single signals of the TCDM communication protocol.
+ *
+ * $Date:        29.12.2021
+ * ===================================================================== */
+/*
+ * Copyright (C) 2021 University of Modena and Reggio Emilia.
+ *
+ * Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+ *
+ */
+
+${def_ip_hwpe_cluster_intf()}
+${insert_ip_hwpe_wrapper()}
