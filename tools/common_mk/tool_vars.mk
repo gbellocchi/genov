@@ -17,9 +17,36 @@ GEN_ROOT					:= ${ROOT}/genov
 
 # Sources
 
-SRC_DIR 					:= ${GEN_ROOT}/src
+SRC_DIR 					:= ${ROOT}/src
 SRC_ACC 					:= ${SRC_DIR}/accelerators
 SRC_OV 						:= ${SRC_DIR}/overlays
+
+# Tools
+
+TOOLS_DIR					:= ${ROOT}/tools
+
+# Scripts
+
+SCRIPTS_DIR					:= ${TOOLS_DIR}/common_sh
+SCRIPTS_ACC_GEN				:= ${SCRIPTS_DIR}/acc_gen
+SCRIPTS_ACC_DEPLOY			:= ${SCRIPTS_DIR}/acc_deploy
+SCRIPTS_ACC_VERIF			:= ${SCRIPTS_DIR}/acc_verif
+SCRIPTS_OV_GEN				:= ${SCRIPTS_DIR}/ov_gen
+SCRIPTS_OV_DEPLOY			:= ${SCRIPTS_DIR}/ov_deploy
+SCRIPTS_PY_ENV				:= ${SCRIPTS_DIR}/py_env
+
+# Python virtual environment
+
+PY_VENV 					:= local_py_env
+PY_VENV_DIR					:= ${ROOT}/${PY_VENV}
+
+# Output content
+
+OUT_DIR 					:= ${ROOT}/output
+OUT_OV_GEN					:= ${OUT_DIR}/${TARGET_OV}
+OUT_ACC_GEN					:= ${OUT_OV_GEN}/wrappers
+
+OUT_ACC_GEN_DEPLOY			:= ${OUT_ACC_GEN}/acc_deploy # to be removed
 
 # Device (extracted from source)
 
@@ -47,33 +74,6 @@ STATIC 						:= ${GEN_ROOT}/static
 
 VERIF 						:= ${GEN_ROOT}/verif
 VERIF_ACC 					:= ${VERIF}/hwpe-tb
-
-# Output content
-
-OUT_DIR 					:= ${GEN_ROOT}/output
-OUT_OV_GEN					:= ${OUT_DIR}/${TARGET_OV}
-OUT_ACC_GEN					:= ${OUT_OV_GEN}/wrappers
-
-OUT_ACC_GEN_DEPLOY			:= ${OUT_ACC_GEN}/acc_deploy # to be removed
-
-# Tools
-
-TOOLS_DIR					:= ${ROOT}/tools
-
-# Scripts
-
-SCRIPTS_DIR					:= ${TOOLS_DIR}/common_sh
-SCRIPTS_ACC_GEN				:= ${SCRIPTS_DIR}/acc_gen
-SCRIPTS_ACC_DEPLOY			:= ${SCRIPTS_DIR}/acc_deploy
-SCRIPTS_ACC_VERIF			:= ${SCRIPTS_DIR}/acc_verif
-SCRIPTS_OV_GEN				:= ${SCRIPTS_DIR}/ov_gen
-SCRIPTS_OV_DEPLOY			:= ${SCRIPTS_DIR}/ov_deploy
-SCRIPTS_PY_ENV				:= ${SCRIPTS_DIR}/py_env
-
-# Python virtual environment
-
-PY_VENV 					:= local_py_env
-PY_VENV_DIR					:= ${ROOT}/${PY_VENV}
 
 # System-level integration
 

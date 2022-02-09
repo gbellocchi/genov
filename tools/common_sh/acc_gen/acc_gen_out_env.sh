@@ -52,13 +52,26 @@ if [ ! -d "$dir_out_target_acc" ]; then
     # Create directories for test and validation #
     # ========================================== #
 
-    mkdir $dir_out_target_acc/test
+    # Standalone test
+    dir_test_standalone=$dir_out_target_acc/test
 
-    # Software runtime
-    mkdir $dir_out_target_acc/test/sw
-    mkdir $dir_out_target_acc/test/sw/inc 
-    mkdir $dir_out_target_acc/test/sw/inc/stim
-    mkdir $dir_out_target_acc/test/sw/inc/hwpe_lib
+    mkdir $dir_test_standalone
+    mkdir $dir_test_standalone/hw
+    mkdir $dir_test_standalone/sw
+    mkdir $dir_test_standalone/sw/inc
+    mkdir $dir_test_standalone/sw/inc/hwpe_lib
+    mkdir $dir_test_standalone/sw/inc/stim
+
+    # System test
+    dir_test_system=$dir_out_target_acc/../../test
+    dir_test_wrapper_lib=$dir_test_system/sw/inc/wrappers
+
+    if [ -d "$dir_test_wrapper_lib" ]; then
+        mkdir $dir_test_wrapper_lib/$target_acc
+        mkdir $dir_test_wrapper_lib/$target_acc/hwpe_lib
+    else
+        error_exit "[sh] >> Directory not found -> $dir_test_system"
+    fi
 
     # ============================================================================= #
     # Retrieve RTL of acceleration kernel 
@@ -91,8 +104,8 @@ if [ ! -d "$dir_out_target_acc" ]; then
     # in the documentation pertaining to verification (in 'doc/how-to/verif.md').
     # ============================================================================= #
 
-    # Copy TB generator for input stimuli and golden results
-    dest=$dir_out_target_acc/test/sw/inc/
+    # Copy TB generator for input stimuli and golden results (standalone test)
+    dest=$dir_test_standalone/sw/inc 
     if [ -d "$dest" ]; then
         
         src=$dir_dev_target_acc/sw/ref_sw
@@ -112,6 +125,27 @@ if [ ! -d "$dir_out_target_acc" ]; then
         error_exit "[sh] >> Directory not found -> $dest"
     fi
 
+    # Copy TB generator for input stimuli and golden results (system test)
+    dest=$dir_test_wrapper_lib/$target_acc 
+    if [ -d "$dest" ]; then
+        
+        src=$dir_dev_target_acc/sw/ref_sw
+        if [ -d "$src" ]; then
+            echo -e "[sh] >> Retrieving stimuli and golden results generator"
+            cp -rf $src $dest
+        else
+            echo "[sh] >> Generator for stimuli and golden results not found"
+        fi
+        
+        src=$dir_dev_target_acc/sw/stim
+        if [ -d "$src" ]; then
+            cp -rf $src/ $dest
+        fi
+
+    else
+        error_exit "[sh] >> Directory not found -> $dest"
+    fi
+
     # ============================================================================= #
     # Retrieve static software components 
     #
@@ -124,7 +158,7 @@ if [ ! -d "$dir_out_target_acc" ]; then
     echo -e "[sh] >> Retrieving static software components"
 
     # Copy TB generator for compilation support files for software TB
-    dest=$dir_out_target_acc/test/sw
+    dest=$dir_test_standalone/sw
     if [ -d "$dest" ]; then
         cp -rf $dir_static/static_tb/wrapper/* $dest
     else

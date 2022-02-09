@@ -23,7 +23,9 @@ readonly dir_out_acc=$3
 source $dir_py_venv/bin/activate
 
 # Launch python generator
-cd genov && python generate_wrapper.py $dir_out_acc
+cd genov 
+python generate_wrapper.py $dir_out_acc
+python generate_wrapper_test.py $dir_out_acc
 
 # Deactivate environment
 deactivate

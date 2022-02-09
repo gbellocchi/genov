@@ -36,13 +36,13 @@ q_correctness()
 {
     remote_info=$1
 
-    echo -e "\n>> Are these information correct?" 
-    select yn in "yes" "no"; do
-      case $yn in
-        yes ) 	break;;
-        no ) 	  error_exit "[sh] >> Environment error!";;
-      esac
-    done
+    # echo -e "\n>> Are these information correct?" 
+    # select yn in "yes" "no"; do
+    #   case $yn in
+    #     yes ) 	break;;
+    #     no ) 	  error_exit "[sh] >> Environment error!";;
+    #   esac
+    # done
 }
 
 check_env_var()

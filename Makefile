@@ -34,8 +34,7 @@ REPO 			:= genov
 #				user through this.
 # =====================================================================
 
-TARGET_ACC		:= traffic_gen
-TARGET_OV		:= ov_a
+TARGET_OV		:= ov_lic6wr
 
 # =====================================================================
 # Description:  Basic recipes and inclusion of sub-mk-files.
@@ -46,5 +45,7 @@ TARGET_OV		:= ov_a
 .PHONY: all clean
 
 all: ov_gen
+
+init: ov_gen_init
 
 clean: ov_gen_clean acc_gen_clean

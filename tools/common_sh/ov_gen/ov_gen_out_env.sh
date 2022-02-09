@@ -58,7 +58,7 @@ if [ ! -d "$dir_out_ov" ]; then
     # Software runtime
     mkdir $dir_out_ov/test/sw
     mkdir $dir_out_ov/test/sw/inc 
-    mkdir $dir_out_ov/test/sw/inc/hwpe_lib
+    mkdir $dir_out_ov/test/sw/inc/wrappers
 
     # ============================================================================= #
     # Retrieve static hardware components 
@@ -91,9 +91,10 @@ if [ ! -d "$dir_out_ov" ]; then
     echo -e "[sh] >> Retrieving static software components"
 
     # Copy TB generator for compilation support files for software TB
-    dst=$dir_out_ov/test/sw/inc
+    dst=$dir_out_ov/test/sw
     if [ -d "$dst" ]; then
-        cp -rf $dir_static/static_tb/overlay/inc/* $dst
+        cp -rf $dir_static/static_tb/overlay/Makefile $dst
+        cp -rf $dir_static/static_tb/overlay/inc/* $dst/inc
     else
         error_exit "[sh] >> Directory not found -> $dst"
     fi
