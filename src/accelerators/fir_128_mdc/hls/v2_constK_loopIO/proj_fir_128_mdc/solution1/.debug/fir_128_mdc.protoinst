@@ -1,0 +1,9 @@
+{
+	"version": "1.0",
+	"modules": {
+		"fir_128_mdc": {
+			"proto_instances": {
+			}
+		}
+	}
+}

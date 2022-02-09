@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<autopilotfilemapping:AutoPilotFileMapping xmlns:autopilotfilemapping="www.autoesl.com/autopilotfilemapping">
+  <source>
+    <originFiles name="fir.cpp" path="/usr/scratch2/badile14/gbellocchi/ethz/genov/src/accelerators/fir_128_mdc/hls/hls_constK_loopIO/src/fir.cpp"/>
+  </source>
+  <testbench>
+    <originFiles name="fir_test_app.cpp" path="/usr/scratch2/badile14/gbellocchi/ethz/genov/src/accelerators/fir_128_mdc/hls/hls_constK_loopIO/src/fir_test_app.cpp"/>
+  </testbench>
+</autopilotfilemapping:AutoPilotFileMapping>
