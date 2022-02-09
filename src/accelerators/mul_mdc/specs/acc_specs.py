@@ -25,6 +25,26 @@ class acc_specs:
     '''
 
     '''
+        ==========
+        User knobs
+        ==========
+    '''
+
+    '''
+        Wrapper information
+
+        - 'is_third_party' ~ Default value is False. If the wrapper is provided by 
+        third-parties and thus not need to be generated, this variable can be set 
+        to True. Under this event, the third-party wrapper can be inserted under
+        rtl/ and will then be copied in the outer repository.
+        
+    '''
+
+    def wrapper(self):
+        self.is_third_party                     = True
+        return self
+
+    '''
         Author information
     '''
 

@@ -1,4 +1,0 @@
-#!/bin/sh
-lli=${LLVMINTERP-lli}
-exec $lli \
-    /usr/scratch2/badile14/gbellocchi/ethz/genov/src/accelerators/fir_128_mdc/hls/hls_constK_loopIO/proj_fir_128_mdc/solution1/.autopilot/db/a.g.0.bc ${1+"$@"}
