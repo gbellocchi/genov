@@ -20,7 +20,6 @@
 
 from templates.ov_templ.hw.cluster.bender.top.bender import Bender
 from templates.ov_templ.hw.cluster.lic_acc_region.top.lic_acc_region import LicAccRegion
-from templates.ov_templ.hw.cluster.lic_acc_intf.top.lic_acc_intf import LicAccIntf
 from templates.ov_templ.hw.cluster.periph_acc_intf.top.periph_acc_intf import PeriphAccIntf
 from templates.ov_templ.hw.cluster.pulp_cluster_cfg_pkg.top.pulp_cluster_cfg_pkg import PulpClusterCfgPkg
 
@@ -44,15 +43,6 @@ class Cluster:
             temp_top = 'lic_acc_region.template_sv',
             temp_modules = ['acc_region.template_sv', 
                             'hwpe_intf.template_sv'],
-            path_common = self.path_common
-        ).top()
-
-    def LicAccIntf(self):
-        print("\n[py] >> Cluster ~ LIC accelerator interface")
-        return LicAccIntf(
-            temp_type = 'templates/ov_templ/hw/cluster/lic_acc_intf/',
-            temp_top = 'lic_acc_intf.template_sv',
-            temp_modules = ['hwpe_intf.template_sv'],
             path_common = self.path_common
         ).top()
 

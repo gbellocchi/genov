@@ -44,7 +44,6 @@ sources:
 % for i in range(n_clusters):
   - packages/pulp_cluster_${i}_cfg_pkg.sv
   - rtl/pulp_cluster_${i}_periph_acc_intf.sv
-  - rtl/pulp_cluster_${i}_lic_acc_intf.sv
   - rtl/pulp_cluster_${i}_lic_acc_region.sv
 % endfor
 
