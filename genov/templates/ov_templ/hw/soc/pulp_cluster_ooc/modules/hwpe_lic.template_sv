@@ -29,7 +29,7 @@
 <%def name="inst_param_hwpe_lic_region()">
     .HWPE_LIC_PRESENT         (pulp_cluster_${cl_offset}_cfg_pkg::HWPE_LIC_PRESENT),
     .NB_HWPE_LIC              (pulp_cluster_${cl_offset}_cfg_pkg::N_HWPE_LIC),
-</%def>\
+</%def>
 
 <%
 # =====================================================================
@@ -40,6 +40,6 @@
 # =====================================================================
 %>
 
-<%def name="inst_param_hwpe_lic_interface()">\
+<%def name="inst_param_hwpe_lic_interface()">
     .NB_HWPE_LIC_PORTS_TOTAL  (pulp_cluster_${cl_offset}_cfg_pkg::N_HWPE_LIC_PORTS_TOTAL),
-</%def>\
+</%def>

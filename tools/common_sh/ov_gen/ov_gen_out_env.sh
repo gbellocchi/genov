@@ -25,7 +25,7 @@ THIS_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 source $THIS_DIR/../common.sh
 
 if [ ! -d "$dir_out_ov" ]; then
-    echo -e "[sh] >> Creating repository for target overlay configuration <$target_ov>"
+    echo -e "[sh] >> Creating directory for target overlay configuration <$target_ov>"
 
     mkdir $dir_out_ov
 

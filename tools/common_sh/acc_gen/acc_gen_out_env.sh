@@ -28,13 +28,13 @@ THIS_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 source $THIS_DIR/../common.sh
 
 if [ ! -d "$dir_out_acc" ]; then
-    echo -e "[sh] >> Creating repository for accelerator wrappers"
+    echo -e "[sh] >> Creating directory for accelerator wrappers"
 
     mkdir $dir_out_acc
 fi
 
 if [ ! -d "$dir_out_target_acc" ]; then
-    echo -e "[sh] >> Creating repository for target <$target_acc>"
+    echo -e "[sh] >> Creating directory for target <$target_acc>"
 
     mkdir $dir_out_target_acc
 

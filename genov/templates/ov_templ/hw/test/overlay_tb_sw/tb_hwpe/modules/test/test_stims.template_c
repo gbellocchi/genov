@@ -16,12 +16,18 @@
 
   // Synthetic stimuli
   % for i in range (n_sink):
-  #include "inc/stim/${stream_in[i]}.h"
+  #include "inc/${target}/stim/${stream_in[i]}.h"
   % endfor
 
   // Golden results
   % for j in range (n_source):
-  #include "inc/stim/${stream_out[j]}.h"
+  #include "inc/${target}/stim/${stream_out[j]}_dut.h"
+  #include "inc/${target}/stim/${stream_out[j]}_ref.h"
+  % endfor
+
+  // Custom registers
+  % for i in range (custom_reg_num):
+  #include "inc/${target}/stim/${custom_reg_name[i]}.h"
   % endfor
 
 </%def>
@@ -45,13 +51,13 @@
   // Results
 
   % for j in range (n_source):
-  ${stream_out_dtype[j]} * ${stream_out[j]}_l1 = hero_l1malloc(sizeof(int32_t)*${stream_out[j]}_stripe_out_len);
+  ${stream_out_dtype[j]} * ${stream_out[j]}_dut_l1 = hero_l1malloc(sizeof(int32_t)*${stream_out[j]}_stripe_out_len);
   % endfor
 
   // Golden results
 
   % for j in range (n_source):
-  ${stream_out_dtype[j]} * ${stream_out[j]}_golden_l1 = hero_l1malloc(sizeof(int32_t)*${stream_out[j]}_stripe_out_len);
+  ${stream_out_dtype[j]} * ${stream_out[j]}_ref_l1 = hero_l1malloc(sizeof(int32_t)*${stream_out[j]}_stripe_out_len);
   % endfor
 
 </%def>
@@ -81,7 +87,8 @@
   % for j in range (n_source):
   for (i = 0; i < ${stream_out[j]}_stripe_height; i++){
     for (j = 0; j < ${stream_out[j]}_width; j++){
-      ${stream_out[j]}_golden_l1[i*${stream_out[j]}_width+j] = ${stream_out[j]}[i*${stream_out[j]}_width+j];
+      ${stream_out[j]}_dut_l1[i*${stream_out[j]}_width+j] = ${stream_out[j]}_dut[i*${stream_out[j]}_width+j];
+      ${stream_out[j]}_ref_l1[i*${stream_out[j]}_width+j] = ${stream_out[j]}_ref[i*${stream_out[j]}_width+j]; 
     }
   }
   % endfor

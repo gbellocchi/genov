@@ -169,7 +169,7 @@
 
   % for j in range (n_source):
   // output ${stream_out[j]}
-  hwpe_${stream_out[j]}_addr_set( ${stream_out[j]}_l1 );
+  hwpe_${stream_out[j]}_addr_set( ${stream_out[j]}_dut_l1 );
   % endfor
 
 </%def>

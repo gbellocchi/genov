@@ -15,8 +15,8 @@
 #include <hero-target.h>
 
 // HWPE
-#include "inc/hwpe_lib/archi_hwpe.h"
-#include "inc/hwpe_lib/hal_hwpe.h"
+#include "inc/${target}/hwpe_lib/archi_hwpe.h"
+#include "inc/${target}/hwpe_lib/hal_hwpe.h"
 
 // Event unit
 #include "inc/eu_lib/archi_eu_v3.h"
@@ -119,9 +119,19 @@ int main() {
   //   }
   // }
 
-  // /* Return errors */
-  // printf("errors: %d\n", errors);
-  // printf("end\n");
+  
+% for j in range (n_source):
+  // error check on ${stream_out[j]}
+  for(i=0; i<${stream_out[j]}_height; i++){
+    for(j=0; j<${stream_out[j]}_width; j++){
+    
+      ${stream_out_dtype[j]} dut_val = ${stream_out[j]}_dut_l1[i*${stream_out[j]}_width+j];
+      ${stream_out_dtype[j]} ref_val = ${stream_out[j]}_ref_l1[i*${stream_out[j]}_width+j];
+      if(dut_val != ref_val) errors++;
+    }
+  }
+  printf("${stream_out[j]} - errors : %d\n", errors);
+% endfor
 
   return errors;
 }
