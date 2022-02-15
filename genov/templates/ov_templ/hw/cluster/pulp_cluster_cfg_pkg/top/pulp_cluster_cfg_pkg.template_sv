@@ -15,29 +15,6 @@
 #
 # =====================================================================
 %>
-
-/* =====================================================================
- * Project:      Cluster package
- * Title:        pulp_cluster_${cl_offset}cfg_pkg.sv
- * Description:  This package instantiates the following device:
- *
- *               >> PULP cluster:      
- *                  - Offset: ${cl_offset}
- *                  - LIC interconnect:
- *                    o Number of data ports (total): ${cl_lic_total_data_ports}
- *                    o Accelerators:
- *                      + Applications: [ ${print_cl_acc_names("lic")} ]
- *                      + Number of data ports: [ ${print_cl_acc_n_data_ports("lic")} ]
- *                      + Communication protocols: [ ${print_cl_acc_protocols("lic")} ]
- *                  - HCI interconnect:
- *                    o Number of data ports (total): ${cl_hci_total_data_ports}
- *                    o Accelerators:
- *                      + Applications: [ ${print_cl_acc_names("hci")} ]
- *                      + Number of data ports: [ ${print_cl_acc_n_data_ports("hci")} ]
- *                      + Communication protocols: [ ${print_cl_acc_protocols("hci")} ]
- *
- * $Date:        29.12.2021
- * ===================================================================== */
 /*
  * Copyright (C) 2021 University of Modena and Reggio Emilia.
  *
@@ -45,16 +22,18 @@
  *
  */
 
-`define L1_ATOMIC_PRESENT // TO DO: REMOVE
-
 package automatic pulp_cluster_${cl_offset}_cfg_pkg;
 
     <%
         # Definition of parameters for proxy core
     %>
 
-    // -- Proxy cores
-    localparam int unsigned N_CORES = 8; 
+    // -- RISC-V cores
+    localparam int unsigned CORE_NAME = "${cl_core_name.upper()}";
+    // Notes:
+    // - instead of using the core name, information has to be propagated in the RTL as a numeric value (core type = 0, 1, etc.)
+    
+    localparam int unsigned N_CORES = ${cl_n_cores}; 
     // Notes:
     // - must be a power of 2 and <= 8
     // - all clusters have same number of cores
@@ -63,11 +42,11 @@ package automatic pulp_cluster_${cl_offset}_cfg_pkg;
         # Definition of parameters for HWPE-based accelerator wrappers
     %>
 
-    // HWPE wrapper - LIC interconnect
+    // -- HWPE wrapper - LIC interconnect
     ${def_param_hwpe_lic_region()}
     ${def_param_hwpe_lic_interface()}
 
-    // HWPE wrapper - HCI interconnect
+    // -- HWPE wrapper - HCI interconnect
     ${def_param_hwpe_hci_region()}
     ${def_param_hwpe_hci_interface()}
 
@@ -91,8 +70,11 @@ package automatic pulp_cluster_${cl_offset}_cfg_pkg;
     localparam int unsigned ICACHE_SIZE = 4096; // [B], must be a power of 2
 
     // -- TCDM
-    localparam int unsigned N_TCDM_BANKS = 64; // must be a power of 2
-    localparam int unsigned TCDM_SIZE = 128*1024; // [B], must be a power of 2
+    localparam int unsigned N_TCDM_BANKS = ${cl_n_tcdm_banks}; // must be a power of 2
+    localparam int unsigned TCDM_SIZE = ${cl_tcdm_size}*1024; // [B], must be a power of 2
+
+    // TCDM interconnect
+    localparam bit L1_AMO_PRESENT = 1'b0;
 
     <%
         # Definition of parameters for cluster peripheral interconnect
@@ -102,19 +84,20 @@ package automatic pulp_cluster_${cl_offset}_cfg_pkg;
     %>
 
     // position of HWPE peripherals on slave port of periph interconnect
-    % for i in range(n_acc_cl): 
-        <%
-            # Define accelerator offset
-            acc_offset = i
-        %>
+    localparam int unsigned N_SPERIPHS = (N_HWPE_LIC + N_HWPE_HCI>1) ? (8 + N_HWPE_LIC + N_HWPE_HCI - 1) : 8;
 
-        % if (cl_lic_acc_protocols[acc_offset] == "hwpe"):
-            % if (acc_offset == 0):
-    parameter SPER_HWPE_${acc_offset}_ID      = 4; // original offset on peripheral interconnect
-            % else:
-    parameter SPER_HWPE_${acc_offset}_ID      = 8 + ${acc_offset} - 1; // additional offsets  
-            % endif
+% for i in range(n_acc_cl): 
+<%
+    # Define accelerator offset
+    acc_offset = i
+%>\
+    % if (cl_lic_acc_protocols[acc_offset] == "hwpe"):
+        % if (acc_offset == 0):
+    localparam SPER_HWPE_${acc_offset}_ID      = 4; // original offset on peripheral interconnect
+        % else:
+    localparam SPER_HWPE_${acc_offset}_ID      = 8 + ${acc_offset} - 1; // additional offsets  
         % endif
-    % endfor
+    % endif
+% endfor
 
 endpackage

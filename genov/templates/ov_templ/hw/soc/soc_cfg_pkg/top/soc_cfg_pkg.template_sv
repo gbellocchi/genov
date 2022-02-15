@@ -32,8 +32,6 @@
  *
  */
 
-`define L2_ATOMIC_PRESENT // TO DO: REMOVE
-
 package automatic soc_cfg_pkg;
 
   <%
@@ -56,11 +54,19 @@ package automatic soc_cfg_pkg;
   localparam int unsigned AXI_UW = 4; // [bit]
 
   <%
+    # Definition of parameters for clusters
+  %>
+
+  // -- Cluster
+  localparam int unsigned N_CLUSTERS = ${n_clusters};
+
+  <%
     # Definition of parameters for memory hierarchy
   %>
 
   // -- L2 Memory
   localparam int unsigned L2_SIZE = 128*1024; // [B], must be a power of 2
+  localparam bit L2_AMO_PRESENT = 1'b0;
 
   <%
     # Definition of parameters for SoC bus
