@@ -19,36 +19,40 @@ int main(int argc, char *argv[])
 {
   /* Stimuli dimension. */
 
-  unsigned width          = IM_UAV_ROWS;
-  unsigned height         = IM_UAV_COLS;
-  unsigned stripe_height  = IM_BLOCK_ROWS;
+  unsigned width          = WIDTH;
+  unsigned height         = HEIGHT;
+  unsigned stripe_height  = STRIPE_HEIGHT;
 
   /* Allocate I/O arrays. */
 
-  uint32_t* src_V = (uint32_t*)malloc(width*height*sizeof(uint32_t));
-  uint32_t* dst_V = (uint32_t*)malloc(width*height*sizeof(uint32_t)); 
+  uint32_t* stream_in_V_dut = (uint32_t*)malloc(width*height*sizeof(uint32_t));
+  uint32_t* stream_out_V_dut = (uint32_t*)malloc(width*height*sizeof(uint32_t)); 
+  uint32_t* stream_out_V_ref = (uint32_t*)malloc(width*height*sizeof(uint32_t)); 
 
   /* Additional parameters. */
 
-  const unsigned stripe_len        = width*stripe_height;
+  const unsigned stripe_len = width*stripe_height;
 
   /* Generate synthetic stimuli. */
 
-  gen_stim(src_V, width, height);
+  gen_stim(stream_in_V_dut, width, height, stripe_height);
+  memset(stream_out_V_dut, 0, width*stripe_height);
 
   /* Generate golden results. */
 
-  ref_app(src_V, dst_V, width, height);
+  ref_app(stream_in_V_dut, stream_out_V_dut, width, height, stripe_height);
 
   /* Create output header files. */
 
-  gen_Hfile("src_V", src_V, width, height);
-  gen_Hfile("dst_V", dst_V, width, height);
+  gen_Hfile("stream_in_V_dut", stream_in_V_dut, width, height);
+  gen_Hfile("stream_out_V_dut", stream_out_V_dut, width, height);
+  gen_Hfile("stream_out_V_ref", stream_out_V_ref, width, height);
 
   /* Cleanup. */  
 
-  free(src_V);
-  free(dst_V);
+  free(stream_in_V_dut);
+  free(stream_out_V_dut);
+  free(stream_out_V_ref);
 
   return 0;
 }

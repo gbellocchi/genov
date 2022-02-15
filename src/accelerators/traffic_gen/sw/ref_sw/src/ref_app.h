@@ -26,15 +26,12 @@
 /* Parameters. */
 
 // Entire image dimension
-#define MAX_IMG_ROWS 1080
-#define MAX_IMG_COLS 1920
+#define WIDTH 512
+#define HEIGHT 8
+#define STRIPE_HEIGHT 8
 
-#define IM_UAV_ROWS 64
-#define IM_UAV_COLS 64
+/* Functions declaration. */
 
-#define UAV_FILTER_DIM 11
-
-// Image block dimensions
-#define IM_BLOCK_ROWS 64
-#define IM_BLOCK_COLS 320
-#define IM_BLOCK_SIZE (UAV_STRIPE_ROWS * UAV_STRIPE_COLS)
+void ref_app(uint32_t* in, uint32_t* out, uint32_t width, uint32_t height, uint32_t stripe_height);
+void gen_stim(uint32_t* stim, uint32_t width, uint32_t height, uint32_t stripe_height);
+void gen_Hfile(char* val_name, uint32_t* synth_data, uint32_t width, uint32_t height);

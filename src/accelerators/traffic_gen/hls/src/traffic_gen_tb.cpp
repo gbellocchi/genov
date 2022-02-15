@@ -32,8 +32,20 @@ int main(void)
     int err_cnt = 0;
     int ret_val = 20;
 
-    // Probability of request [0;100]
-    data_t prob_req = 100;
+    // Nreqs - number of requests
+    const unsigned n_reqs = TEST_TRNCT;
+
+    // DutyCycle (%) - Values: 1-100 ~ 1-100%
+    const unsigned  duty_cycle = 100;
+
+    // Ttotal - Overall time interval of operations
+    const unsigned  t_total = n_reqs*(100/duty_cycle);
+
+    // Ton - activation during a period
+    const unsigned  t_on = n_reqs*(duty_cycle/100);
+
+    // Toff - deactivation during a period
+    const unsigned  t_off = n_reqs*(1-duty_cycle/100);
 
     // Generate the source image with a fixed test pattern - checker-board
     for (int i = 0; i < TEST_TRNCT; i++) {
@@ -42,11 +54,11 @@ int main(void)
     }
 
     // Generate DUT convolution image
-    traffic_gen(stream_in, stream_out, TEST_TRNCT, prob_req);
+    traffic_gen(stream_in, stream_out, t_total, t_on, t_off);
 
     // Check DUT vs reference result
 
-    for (int i = 0; i < TEST_TRNCT; i++) {
+    for (int i = 0; i < n_reqs; i++) {
             data_t dut_val = stream_out.read();
             data_t ref_val = ref[i];
             // error check
@@ -62,14 +74,13 @@ int main(void)
     cout << endl;
 
     if (err_cnt == 0) {
-        cout << "*** TEST PASSED ***" << endl;
+        cout << "\n\n*** TEST PASSED ***\n\n" << endl;
         ret_val = 0;
     } else {
-        cout << "!!! TEST FAILED - " << err_cnt << " mismatches detected !!!";
+        cout << "\n\n!!! TEST FAILED - " << err_cnt << " mismatches detected !!!\n\n";
         cout << endl;
         ret_val = -1;
     }
 
     return ret_val;
 }
-

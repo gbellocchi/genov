@@ -15,64 +15,37 @@
 
 #include "traffic_gen.h"
 
-// - // - // - // - // - // - // - // - // - // - // - // - // - // - // - // - 
-
-template<typename T>
-static void generate_req(
-    hls::stream<T> &stream_in, 
-    hls::stream<T> &stream_out,
-    T n_trans, 
-    T prob_req
-) {
-
-    // 
-    // int numbers[] = { 2, 5, 22, 55, 332 };
-    // int length = sizeof(numbers) / sizeof(int);
-    // int randomNumber = numbers[rand() % length];
-
-    // These assertions let HLS know the upper bounds of loops
-    assert(n_trans < MAX_TRNCT);
-
-    // Local array
-    T local[MAX_TRNCT];
-
-    read_in: for(int ii = 0; ii < n_trans; ii++){
-    #pragma HLS PIPELINE
-        local[ii] = stream_in.read();
-    }
-
-    write_out: for(int jj = 0; jj < n_trans; jj++){
-    #pragma HLS PIPELINE
-        stream_out << local[jj];
-    }
-}
-
-// - // - // - // - // - // - // - // - // - // - // - // - // - // - // - // - 
-
 void traffic_gen(
-
     // Data ports
     hls::stream<data_t> &stream_in, 
     hls::stream<data_t> &stream_out,
-
     // Custom registers
-    int n_trans,    // Number of triggered requests
-    int prob_req   // Probability of emitting a request (1000 -> 100%)
-
-    // Ideas for other parameters
-    // I/O ratio -> How many in correspond to an output?
-
+    // int duty_cycle
+    // int n_reqs,
+    int t_total, 
+    int t_on,
+    int t_off
 ) {
-
     #pragma HLS INTERFACE axis port=&stream_in 
-    #pragma HLS INTERFACE axis port=&stream_out 
+    #pragma HLS INTERFACE axis port=&stream_out
 
-    generate_req<data_t>(   
-		stream_in, 
-        stream_out,
-        n_trans, 
-        prob_req
-    );
-}
+    // #pragma HLS INTERFACE ap_none port=n_reqs 
+    #pragma HLS INTERFACE ap_none port=t_total 
+    #pragma HLS INTERFACE ap_none port=t_on 
+    #pragma HLS INTERFACE ap_none port=t_off 
 
-// - // - // - // - // - // - // - // - // - // - // - // - // - // - // - // - 
+    #pragma HLS DATAFLOW
+    #pragma HLS INLINE
+
+    // pwm class
+    static pwm<int, data_t> _pwm;
+
+    // generate RW requests
+    _pwm.generate_reqs(stream_in, 
+                       stream_out, 
+                    //    n_reqs, 
+                    //    duty_cycle
+                       t_total, 
+                       t_on,
+                       t_off  );
+};

@@ -10,8 +10,8 @@ RTL_DIR			:= $(ROOT)/rtl
 
 VIVADO_HLS		:= vitis-2019.2 vivado_hls
 
-SYN_DIR			:= $(ROOT)/proj_$(PROJ_NAME)/solution1/syn
-IMPL_DIR		:= $(ROOT)/proj_$(PROJ_NAME)/solution1/impl
+SYN_DIR			:= $(ROOT)/$(PROJ_NAME)_proj/solution1/syn
+IMPL_DIR		:= $(ROOT)/$(PROJ_NAME)_proj/solution1/impl
 
 # -------- #
 # RUN_MODE #

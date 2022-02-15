@@ -14,53 +14,50 @@
 # limitations under the License.
 
 # Create a project
-open_project -reset proj_traffic_gen
-
-# Source files position
-set src_loc "src"
+open_project -reset traffic_gen_proj
 
 # Add design files
-add_files $src_loc/traffic_gen.cpp
-
-# Add test bench 
-add_files -tb $src_loc/traffic_gen_tb.cpp
+add_files src/traffic_gen.cpp
+# Add test bench & files
+add_files -tb src/traffic_gen_tb.cpp
 
 # Set the top-level function
 set_top traffic_gen
 
+# ########################################################
 # Create a solution
 open_solution -reset solution1
-
-# Define technology (Xilinx ZCU102) 
+# Define technology and clock rate
 set_part  {xczu9eg-ffvb1156-2-e}
+create_clock -period 3
 
-# Define clock rate (ns) - 6.66ns <-> 150MHz
-create_clock -period 6.66
+# Set to 0: to run setup
+# Set to 1: to run setup and synthesis
+# Set to 2: to run setup, synthesis and RTL simulation
+# Set to 3: to run setup, synthesis, RTL simulation and RTL synthesis
+# Any other value will run setup only
+set hls_exec 1
 
-# Read Makefile arg and determine which steps to execute
+# C simulation
 csim_design
 
-set mode [lindex $argv 2]
-puts "$mode"
-
-if {$mode == 1} {
-	puts "Run Synthesis and Exit"
+if {$hls_exec == 1} {
+	# Run Synthesis and Exit
 	csynth_design
 	
-} elseif {$mode == 2} {
-	puts "Run Synthesis, RTL Simulation and Exit"
+} elseif {$hls_exec == 2} {
+	# Run Synthesis, RTL Simulation and Exit
 	csynth_design
+	
 	cosim_design
-
-} elseif {$mode == 3} { 
-	puts "Run Synthesis, RTL Simulation, RTL implementation and Exit"
+} elseif {$hls_exec == 3} { 
+	# Run Synthesis, RTL Simulation, RTL implementation and Exit
 	csynth_design
 	cosim_design
 	export_design -rtl verilog -flow impl
 } else {
-	puts "Default: Exit after setup"
+	# Default is to exit after setup
 	csynth_design
-	export_design -rtl verilog -format ip_catalog
 }
 
 exit

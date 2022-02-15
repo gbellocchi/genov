@@ -7,7 +7,7 @@
 
 `timescale 1 ns / 1 ps 
 
-(* CORE_GENERATION_INFO="traffic_gen,hls_ip_2019_2_1,{HLS_INPUT_TYPE=cxx,HLS_INPUT_FLOAT=0,HLS_INPUT_FIXED=0,HLS_INPUT_PART=xczu9eg-ffvb1156-2-e,HLS_INPUT_CLOCK=6.660000,HLS_INPUT_ARCH=others,HLS_SYN_CLOCK=1.237000,HLS_SYN_LAT=-1,HLS_SYN_TPT=none,HLS_SYN_MEM=4,HLS_SYN_DSP=0,HLS_SYN_FF=46,HLS_SYN_LUT=209,HLS_VERSION=2019_2_1}" *)
+(* CORE_GENERATION_INFO="traffic_gen,hls_ip_2019_2_1,{HLS_INPUT_TYPE=cxx,HLS_INPUT_FLOAT=0,HLS_INPUT_FIXED=0,HLS_INPUT_PART=xczu9eg-ffvb1156-2-e,HLS_INPUT_CLOCK=3.000000,HLS_INPUT_ARCH=others,HLS_SYN_CLOCK=2.456000,HLS_SYN_LAT=-1,HLS_SYN_TPT=none,HLS_SYN_MEM=8,HLS_SYN_DSP=0,HLS_SYN_FF=410,HLS_SYN_LUT=755,HLS_VERSION=2019_2_1}" *)
 
 module traffic_gen (
         ap_clk,
@@ -22,8 +22,9 @@ module traffic_gen (
         stream_out_V_TDATA,
         stream_out_V_TVALID,
         stream_out_V_TREADY,
-        n_trans,
-        prob_req
+        t_total,
+        t_on,
+        t_off
 );
 
 parameter    ap_ST_fsm_state1 = 4'd1;
@@ -43,8 +44,9 @@ output   stream_in_V_TREADY;
 output  [31:0] stream_out_V_TDATA;
 output   stream_out_V_TVALID;
 input   stream_out_V_TREADY;
-input  [31:0] n_trans;
-input  [31:0] prob_req;
+input  [31:0] t_total;
+input  [31:0] t_on;
+input  [31:0] t_off;
 
 reg ap_done;
 reg ap_idle;
@@ -55,15 +57,15 @@ reg stream_in_V_TREADY;
 (* fsm_encoding = "none" *) reg   [3:0] ap_CS_fsm;
 wire    ap_CS_fsm_state1;
 wire    ap_CS_fsm_state2;
-wire    grp_generate_req_fu_36_ap_start;
-wire    grp_generate_req_fu_36_ap_done;
-wire    grp_generate_req_fu_36_ap_idle;
-wire    grp_generate_req_fu_36_ap_ready;
-wire    grp_generate_req_fu_36_stream_in_V_TREADY;
-wire   [31:0] grp_generate_req_fu_36_stream_out_V_TDATA;
-wire    grp_generate_req_fu_36_stream_out_V_TVALID;
-wire    grp_generate_req_fu_36_stream_out_V_TREADY;
-reg    grp_generate_req_fu_36_ap_start_reg;
+wire    grp_generate_reqs_fu_60_ap_start;
+wire    grp_generate_reqs_fu_60_ap_done;
+wire    grp_generate_reqs_fu_60_ap_idle;
+wire    grp_generate_reqs_fu_60_ap_ready;
+wire    grp_generate_reqs_fu_60_stream_in_V_TREADY;
+wire   [31:0] grp_generate_reqs_fu_60_stream_out_V_TDATA;
+wire    grp_generate_reqs_fu_60_stream_out_V_TVALID;
+wire    grp_generate_reqs_fu_60_stream_out_V_TREADY;
+reg    grp_generate_reqs_fu_60_ap_start_reg;
 wire    ap_CS_fsm_state3;
 wire    ap_CS_fsm_state4;
 wire    regslice_both_stream_out_V_U_apdone_blk;
@@ -79,23 +81,25 @@ wire    regslice_both_stream_out_V_U_vld_out;
 // power-on initialization
 initial begin
 #0 ap_CS_fsm = 4'd1;
-#0 grp_generate_req_fu_36_ap_start_reg = 1'b0;
+#0 grp_generate_reqs_fu_60_ap_start_reg = 1'b0;
 end
 
-generate_req grp_generate_req_fu_36(
+generate_reqs grp_generate_reqs_fu_60(
     .ap_clk(ap_clk),
     .ap_rst(ap_rst_n_inv),
-    .ap_start(grp_generate_req_fu_36_ap_start),
-    .ap_done(grp_generate_req_fu_36_ap_done),
-    .ap_idle(grp_generate_req_fu_36_ap_idle),
-    .ap_ready(grp_generate_req_fu_36_ap_ready),
+    .ap_start(grp_generate_reqs_fu_60_ap_start),
+    .ap_done(grp_generate_reqs_fu_60_ap_done),
+    .ap_idle(grp_generate_reqs_fu_60_ap_idle),
+    .ap_ready(grp_generate_reqs_fu_60_ap_ready),
     .stream_in_V_TDATA(stream_in_V_TDATA_int),
     .stream_in_V_TVALID(stream_in_V_TVALID_int),
-    .stream_in_V_TREADY(grp_generate_req_fu_36_stream_in_V_TREADY),
-    .stream_out_V_TDATA(grp_generate_req_fu_36_stream_out_V_TDATA),
-    .stream_out_V_TVALID(grp_generate_req_fu_36_stream_out_V_TVALID),
-    .stream_out_V_TREADY(grp_generate_req_fu_36_stream_out_V_TREADY),
-    .n_trans(n_trans)
+    .stream_in_V_TREADY(grp_generate_reqs_fu_60_stream_in_V_TREADY),
+    .stream_out_V_TDATA(grp_generate_reqs_fu_60_stream_out_V_TDATA),
+    .stream_out_V_TVALID(grp_generate_reqs_fu_60_stream_out_V_TVALID),
+    .stream_out_V_TREADY(grp_generate_reqs_fu_60_stream_out_V_TREADY),
+    .t_total(t_total),
+    .t_on(t_on),
+    .t_off(t_off)
 );
 
 regslice_both #(
@@ -117,8 +121,8 @@ regslice_both #(
 regslice_both_stream_out_V_U(
     .ap_clk(ap_clk),
     .ap_rst(ap_rst_n_inv),
-    .data_in(grp_generate_req_fu_36_stream_out_V_TDATA),
-    .vld_in(grp_generate_req_fu_36_stream_out_V_TVALID),
+    .data_in(grp_generate_reqs_fu_60_stream_out_V_TDATA),
+    .vld_in(grp_generate_reqs_fu_60_stream_out_V_TVALID),
     .ack_in(stream_out_V_TREADY_int),
     .data_out(stream_out_V_TDATA),
     .vld_out(regslice_both_stream_out_V_U_vld_out),
@@ -136,12 +140,12 @@ end
 
 always @ (posedge ap_clk) begin
     if (ap_rst_n_inv == 1'b1) begin
-        grp_generate_req_fu_36_ap_start_reg <= 1'b0;
+        grp_generate_reqs_fu_60_ap_start_reg <= 1'b0;
     end else begin
         if ((1'b1 == ap_CS_fsm_state2)) begin
-            grp_generate_req_fu_36_ap_start_reg <= 1'b1;
-        end else if ((grp_generate_req_fu_36_ap_ready == 1'b1)) begin
-            grp_generate_req_fu_36_ap_start_reg <= 1'b0;
+            grp_generate_reqs_fu_60_ap_start_reg <= 1'b1;
+        end else if ((grp_generate_reqs_fu_60_ap_ready == 1'b1)) begin
+            grp_generate_reqs_fu_60_ap_start_reg <= 1'b0;
         end
     end
 end
@@ -171,7 +175,7 @@ always @ (*) begin
 end
 
 always @ (*) begin
-    if (((regslice_both_stream_in_V_U_ack_in == 1'b1) & (stream_in_V_TVALID == 1'b1))) begin
+    if (((stream_in_V_TVALID == 1'b1) & (regslice_both_stream_in_V_U_ack_in == 1'b1))) begin
         stream_in_V_TREADY = 1'b1;
     end else begin
         stream_in_V_TREADY = 1'b0;
@@ -180,7 +184,7 @@ end
 
 always @ (*) begin
     if ((1'b1 == ap_CS_fsm_state3)) begin
-        stream_in_V_TREADY_int = grp_generate_req_fu_36_stream_in_V_TREADY;
+        stream_in_V_TREADY_int = grp_generate_reqs_fu_60_stream_in_V_TREADY;
     end else begin
         stream_in_V_TREADY_int = 1'b0;
     end
@@ -199,7 +203,7 @@ always @ (*) begin
             ap_NS_fsm = ap_ST_fsm_state3;
         end
         ap_ST_fsm_state3 : begin
-            if (((grp_generate_req_fu_36_ap_done == 1'b1) & (1'b1 == ap_CS_fsm_state3))) begin
+            if (((grp_generate_reqs_fu_60_ap_done == 1'b1) & (1'b1 == ap_CS_fsm_state3))) begin
                 ap_NS_fsm = ap_ST_fsm_state4;
             end else begin
                 ap_NS_fsm = ap_ST_fsm_state3;
@@ -230,9 +234,9 @@ always @ (*) begin
     ap_rst_n_inv = ~ap_rst_n;
 end
 
-assign grp_generate_req_fu_36_ap_start = grp_generate_req_fu_36_ap_start_reg;
+assign grp_generate_reqs_fu_60_ap_start = grp_generate_reqs_fu_60_ap_start_reg;
 
-assign grp_generate_req_fu_36_stream_out_V_TREADY = (stream_out_V_TREADY_int & ap_CS_fsm_state3);
+assign grp_generate_reqs_fu_60_stream_out_V_TREADY = (stream_out_V_TREADY_int & ap_CS_fsm_state3);
 
 assign stream_out_V_TVALID = regslice_both_stream_out_V_U_vld_out;
 

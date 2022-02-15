@@ -3,11 +3,11 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // ==============================================================
 `timescale 1 ns / 1 ps
-module generate_req_local_ram (addr0, ce0, d0, we0, q0,  clk);
+module generate_reqs_local_ram (addr0, ce0, d0, we0, q0,  clk);
 
 parameter DWIDTH = 32;
-parameter AWIDTH = 11;
-parameter MEM_SIZE = 1080;
+parameter AWIDTH = 12;
+parameter MEM_SIZE = 4096;
 
 input[AWIDTH-1:0] addr0;
 input ce0;
@@ -34,7 +34,7 @@ end
 endmodule
 
 `timescale 1 ns / 1 ps
-module generate_req_local(
+module generate_reqs_local(
     reset,
     clk,
     address0,
@@ -44,8 +44,8 @@ module generate_req_local(
     q0);
 
 parameter DataWidth = 32'd32;
-parameter AddressRange = 32'd1080;
-parameter AddressWidth = 32'd11;
+parameter AddressRange = 32'd4096;
+parameter AddressWidth = 32'd12;
 input reset;
 input clk;
 input[AddressWidth - 1:0] address0;
@@ -56,7 +56,7 @@ output[DataWidth - 1:0] q0;
 
 
 
-generate_req_local_ram generate_req_local_ram_U(
+generate_reqs_local_ram generate_reqs_local_ram_U(
     .clk( clk ),
     .addr0( address0 ),
     .ce0( ce0 ),

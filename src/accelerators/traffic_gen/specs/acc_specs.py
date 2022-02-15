@@ -93,8 +93,9 @@ class acc_specs:
 
     def regfile(self):
         self.std_reg_num                        = 4       
-        self.custom_reg                         = [ [ 'n_trans' , 'int32_t' , 32 , 1 ] ,
-                                                    [ 'prob_req' , 'int32_t' , 32 , 1 ] ]
+        self.custom_reg                         = [ [ 't_total' , 'int32_t' , 32 , 1 ] ,
+                                                    [ 't_on' , 'int32_t' , 32 , 1 ],
+                                                    [ 't_off' , 'int32_t' , 32 , 1 ] ]
         return self
 
     '''
