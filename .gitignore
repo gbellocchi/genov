@@ -4,6 +4,3 @@ local_py_env/
 
 # generated files
 **/*.log
-
-# sym links
-git_acc

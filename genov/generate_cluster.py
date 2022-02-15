@@ -121,18 +121,6 @@ for cl_offset in range(design_params.n_clusters):
     )
 
     '''
-        Generate design components ~ LIC accelerator interface
-    ''' 
-    gen_cl_comps(
-        cluster.LicAccIntf(),
-        design_params,
-        emitter,
-        ['cl', str(cl_offset) + '_lic_acc_intf', ['hw', 'sv']],
-        emitter.ov_gen_cl_rtl,
-        cl_offset
-    )
-
-    '''
         Generate design components ~ Peripheral accelerator interface
     ''' 
     gen_cl_comps(
