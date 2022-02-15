@@ -67,7 +67,7 @@
     XBAR_TCDM_BUS.Master                                hwpe_xbar_master[NB_HWPE_LIC_PORTS_TOTAL-1:0],
     XBAR_PERIPH_BUS.Slave                               hwpe_cfg_slave[NB_HWPE-1:0],
     
-    output logic [NB_HWPE-1:0][NB_CORES-1:0][1:0]       evt_o,
+    output logic [NB_CORES-1:0][1:0]                    evt_o,
     output logic                                        busy_o
   );
 
