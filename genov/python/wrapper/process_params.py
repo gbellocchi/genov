@@ -26,11 +26,20 @@
 class wrapper_params_formatted:
 
     def __init__(self, acc_specs):
+        self.format_wrapper(acc_specs().wrapper)
         self.format_wrapper_author(acc_specs().author)
         self.format_wrapper_kernel(acc_specs().kernel)
         self.format_wrapper_streaming(acc_specs().streaming)
         self.format_wrapper_regfile(acc_specs().regfile)
         self.format_wrapper_addressgen(acc_specs().addressgen)
+
+    '''
+        Format wrapper general information.
+    '''
+
+    def format_wrapper(self, acc_specs):
+        self.is_third_party                     = acc_specs().is_third_party
+        return self
 
     '''
         Format author information.
@@ -99,62 +108,86 @@ class wrapper_params_formatted:
   =====================================================================
 '''
 
-def print_wrapper_log(wrapper_target):
+def print_wrapper_log(wrapper_target, verbose=False):
 
     print("\n# ================================= #")
     print("# Generation of Accelerator Wrapper #")
-    print("# ================================= #\n")
+    print("# ================================= #")
 
-    print("[py] >> User-defined wrapper specification:")
+    if(verbose is True):
 
-    '''
-        Kernel information
-    '''
+        print("\n")
+        print("[py] >> User-defined wrapper specification:")
 
-    print("\n\tKernel application:")
+        '''
+            Kernel information
+        '''
 
-    print("\t\tTarget name:", wrapper_target.target)
-    print("\t\tDesign Methodology:", wrapper_target.design_type)
+        print("\n\tKernel application:")
 
-    if(wrapper_target.is_ap_ctrl_hs is True):
-        print("\t\tInterface: Xilinx ap_ctrl_hs")
+        print("\t\tTarget name:", wrapper_target.target)
+        print("\t\tDesign Methodology:", wrapper_target.design_type)
 
-    if(wrapper_target.is_mdc_dataflow is True):
-        print("\t\tInterface: MDC dataflow")
+        if(wrapper_target.is_ap_ctrl_hs is True):
+            print("\t\tInterface: Xilinx ap_ctrl_hs")
 
-    '''
-        Streamer information
-    '''
+        if(wrapper_target.is_mdc_dataflow is True):
+            print("\t\tInterface: MDC dataflow")
 
-    print("\n\tInput data streams:")
-    
-    # scan sink ports
-    for s in range(wrapper_target.n_sink):
-        print("\t\tPort name:", wrapper_target.stream_in[s])
-        if wrapper_target.is_parallel_in[s] is True:
-            print("\t\tNumber of ports:", wrapper_target.in_parallelism_factor[s])
-        else:
-            print("\t\tNumber of ports:", 1)
-        print("\t\tConfigurable address generator:", wrapper_target.addr_gen_in_isprogr[s])
-        if(s < wrapper_target.n_sink - 1):
-            print("")
+        '''
+            Streamer information
+        '''
 
-    print("\n\tOutput data streams:")
+        print("\n\tInput data streams:")
+        
+        # scan sink ports
+        for s in range(wrapper_target.n_sink):
+            print("\t\tPort name:", wrapper_target.stream_in[s])
+            if wrapper_target.is_parallel_in[s] is True:
+                print("\t\tNumber of ports:", wrapper_target.in_parallelism_factor[s])
+            else:
+                print("\t\tNumber of ports:", 1)
+            print("\t\tConfigurable address generator:", wrapper_target.addr_gen_in_isprogr[s])
+            if(s < wrapper_target.n_sink - 1):
+                print("")
 
-    # scan source ports
-    for s in range(wrapper_target.n_source):
-        print("\t\tPort name:", wrapper_target.stream_out[s])
-        if wrapper_target.is_parallel_out[s] is True:
-            print("\t\tNumber of ports:", wrapper_target.out_parallelism_factor[s])
-        else:
-            print("\t\tNumber of ports:", 1)
-        print("\t\tConfigurable address generator:", wrapper_target.addr_gen_out_isprogr[s])
-        if(s < wrapper_target.n_source - 1):
-            print("")
+        print("\n\tOutput data streams:")
 
-    '''
-        Controller information
-    '''
+        # scan source ports
+        for s in range(wrapper_target.n_source):
+            print("\t\tPort name:", wrapper_target.stream_out[s])
+            if wrapper_target.is_parallel_out[s] is True:
+                print("\t\tNumber of ports:", wrapper_target.out_parallelism_factor[s])
+            else:
+                print("\t\tNumber of ports:", 1)
+            print("\t\tConfigurable address generator:", wrapper_target.addr_gen_out_isprogr[s])
+            if(s < wrapper_target.n_source - 1):
+                print("")
 
-    print("\n\tRegister file:")
-    print("\t\tCustom register names:", wrapper_target.custom_reg_name)
+        '''
+            Controller information
+        '''
+
+        print("\n\tRegister file:")
+        print("\t\tCustom register names:", wrapper_target.custom_reg_name)
+
+'''
+  =====================================================================
+  Title:        print_wrapper_test_log
+  Type:         Function
+  Description:  Print wrapper test information.
+  =====================================================================
+'''
+
+def print_wrapper_test_log(wrapper_target, verbose=False):
+
+    print("\n# ===================================================== #")
+    print("# Generation of Standalone Test for Accelerator Wrapper #")
+    print("# ===================================================== #")
+
+    if(verbose is True):
+
+        print("\n")
+        print("[py] >> User-defined wrapper specification:")
+
+        print("\nTarget name:", wrapper_target.target)

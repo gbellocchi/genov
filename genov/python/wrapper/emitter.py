@@ -1,6 +1,17 @@
-########################################################
-## Gianluca Bellocchi <gianluca.bellocchi@unimore.it> ##
-########################################################
+'''
+ =====================================================================
+ Project:      Accelerator-Rich Overlay Generator
+ Title:        emitter_wrapper.py
+ Description:  Set structure of output environment in Python.
+
+ Date:         9.2.2022
+ ===================================================================== */
+
+ Copyright (C) 2022 University of Modena and Reggio Emilia.
+
+ Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+
+'''
 
 #!/usr/bin/env python3
 
@@ -31,7 +42,7 @@ class EmitWrapper:
     def __init__(self, design_params, dir_out_hwpe):
 
         '''
-            Wrapper design parameters
+            Design parameters
         '''
         self.design_params                  = design_params
 
@@ -49,20 +60,25 @@ class EmitWrapper:
             defined in the tool script "acc_gen_out_env.sh".
         '''
         
-        self.out_hwpe                       = os.path.join(dir_out_hwpe, design_params.target)
+        self.out_hwpe                                   = os.path.join(dir_out_hwpe, design_params.target)
 
         # Hardware
-        self.hwpe_gen_wrap                  = self.out_hwpe + '/wrap'
-        self.hwpe_gen_rtl                   = self.out_hwpe + '/rtl'
-        self.hwpe_gen_acc_kernel            = self.out_hwpe + '/rtl/acc_kernel'
+        self.hwpe_gen_wrap                              = self.out_hwpe + '/wrap'
+        self.hwpe_gen_rtl                               = self.out_hwpe + '/rtl'
+        self.hwpe_gen_acc_kernel                        = self.out_hwpe + '/rtl/acc_kernel'
 
         # Test
-        self.hwpe_gen_test                  = self.out_hwpe + '/test'
+        self.hwpe_gen_test                              = self.out_hwpe + '/test'
 
-        # Software test runtime
-        self.hwpe_gen_test_sw               = self.hwpe_gen_test + '/sw'
-        self.hwpe_gen_test_inc              = self.hwpe_gen_test + '/sw/inc'
-        self.hwpe_gen_test_hwpe_lib         = self.hwpe_gen_test + '/sw/inc/hwpe_lib'
+        # Standalone test - Hardware
+        self.hwpe_gen_standalone_test_hw                = self.hwpe_gen_test + '/hw'
+
+        # Standalone test - Software
+        self.hwpe_gen_standalone_test_sw                = self.hwpe_gen_test + '/sw'
+        self.hwpe_gen_standalone_test_hwpe_lib          = self.hwpe_gen_test + '/sw/inc/hwpe_lib'
+
+        # System test - Software
+        self.hwpe_gen_system_test_hwpe_lib              = self.out_hwpe + '/../../test/sw/inc/wrappers/' + design_params.target + '/hwpe_lib'
 
     """
     The 'out_gen' method is in charge of physically setting up the output 

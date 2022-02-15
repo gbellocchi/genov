@@ -21,12 +21,15 @@
   =====================================================================
 '''
 
-def print_soc_log(overlay_params):
+def print_soc_log(overlay_params, verbose=False):
 
     print("\n# ============================ #")
     print("# Generation of SoC components #")
-    print("# ============================ #\n")
+    print("# ============================ #")
 
-    print("[py] >> User-defined overlay specification:")
+    if(verbose is True):
 
-    print("\n\tOverlay configuration:", overlay_params.ov_config)
+      print("\n")
+      print("[py] >> User-defined overlay specification:")
+
+      print("\n\tOverlay configuration:", overlay_params.ov_config)

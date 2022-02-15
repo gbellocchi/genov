@@ -70,12 +70,21 @@ class overlay_params_formatted:
     '''
 
     def format_overlay_cluster(self, ov_specs):
+        cl_list = get_cl_targets_list(ov_specs)
+        # cores
+        self.list_cl_cores = []
+        for cl_target in cl_list:
+            self.list_cl_cores.append(format_cl_core_params(cl_target().core))
+        # data memory (tcdm)
+        self.list_cl_tcdm = []
+        for cl_target in cl_list:
+            self.list_cl_tcdm.append(format_cl_tcdm_params(cl_target().tcdm))
+        # hardware accelerators
         self.list_cl_lic = []
         self.list_cl_hci = []
-        cl_list = get_cl_targets_list(ov_specs)
         for cl_target in cl_list:
-            self.list_cl_lic.append(format_cl_acc_params(cl_target().list_lic))
-            self.list_cl_hci.append(format_cl_acc_params(cl_target().list_hci))
+            self.list_cl_lic.append(format_cl_acc_params(cl_target().lic))
+            self.list_cl_hci.append(format_cl_acc_params(cl_target().hci))
         return self
 
 '''
@@ -122,12 +131,12 @@ def get_acc_info(ov_specs):
     target_acc = []
     n_acc = 0
     for m in target_cl:
-        for acc in m().list_lic:
+        for acc in m().lic:
             acc_name = acc[0]
             if (acc_name not in target_acc):
                 n_acc += 1
                 target_acc.append(acc_name)
-        for acc in m().list_hci:
+        for acc in m().hci:
             acc_name = acc[0]
             if (acc_name not in target_acc):
                 n_acc += 1
@@ -242,12 +251,42 @@ def get_acc_targets(overlay_params):
 
 '''
   =====================================================================
+  Title:        format_cl_core_params
+  Type:         Function
+  Description:  Target a specific cluster and extract and format core 
+                design parameters. The output content is formatted in 
+                a suitable way for template to be easily rendered.
+  =====================================================================
+'''
+
+def format_cl_core_params(cl_target_core):
+    core_name           = cl_target_core[0]
+    n_cores             = cl_target_core[1]
+    return core_name, n_cores
+
+'''
+  =====================================================================
+  Title:        format_cl_tcdm_params
+  Type:         Function
+  Description:  Target a specific TCDM setup and extract and format TCDM 
+                design parameters. The output content is formatted in a 
+                suitable way for template to be easily rendered.
+  =====================================================================
+'''
+
+def format_cl_tcdm_params(cl_target_tcdm):
+    n_tcdm_banks        = cl_target_tcdm[0]
+    tcdm_size           = cl_target_tcdm[1]
+    return n_tcdm_banks, tcdm_size
+
+'''
+  =====================================================================
   Title:        format_cl_acc_params
   Type:         Function
-  Description:  Target a specific interconnection and extract and format
-                accelerator design parameters. The output content is
-                formatted in a suitable way for template to be easily
-                rendered.
+  Description:  Target a specific cluster interconnection and extract 
+                and format accelerator design parameters. The output 
+                content is formatted in a suitable way for template to 
+                be easily rendered.
   =====================================================================
 '''
 
@@ -282,15 +321,18 @@ def format_cl_acc_params(cl_target_interco):
   =====================================================================
 '''
 
-def print_ov_log(overlay_params):
+def print_ov_log(overlay_params, verbose=False):
 
     print("\n# ====================================== #")
     print("# Generation of Accelerator-Rich Overlay #")
-    print("# ====================================== #\n")
+    print("# ====================================== #")
+    
+    if(verbose is True):
 
-    print("[py] >> User-defined overlay specification:")
+        print("\n")
+        print("[py] >> User-defined overlay specification:")
 
-    print("\n\tOverlay configuration:", overlay_params.ov_config)
+        print("\n\tOverlay configuration:", overlay_params.ov_config)
 
 '''
   =====================================================================
@@ -311,12 +353,15 @@ def clog2(x):
   =====================================================================
 '''
 
-def print_ov_test_log(overlay_params):
+def print_ov_test_log(overlay_params, verbose=False):
 
     print("\n# ========================================== #")
     print("# Generation of System-Level Simulation Test #")
-    print("# ========================================== #\n")
+    print("# ========================================== #")
+    
+    if(verbose is True):
 
-    print("[py] >> User-defined overlay specification:")
+        print("\n")
+        print("[py] >> User-defined overlay specification:")
 
-    print("\n\tOverlay configuration:", overlay_params.ov_config)
+        print("\n\tOverlay configuration:", overlay_params.ov_config)

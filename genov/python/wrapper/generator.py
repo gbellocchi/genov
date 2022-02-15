@@ -42,6 +42,8 @@ class Generator:
             # author
             author                  = design_params.author,
             email                   = design_params.email,
+            # wrapper 
+            is_third_party          = design_params.is_third_party,
             # kernel
             target                  = design_params.target,
             design_type             = design_params.design_type,

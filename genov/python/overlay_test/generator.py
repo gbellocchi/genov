@@ -48,6 +48,12 @@ class Generator:
             n_clusters                      = design_params.n_clusters,
             # cluster offset
             cl_offset                       = cl_offset,
+            # cluster cores
+            cl_core_name                    = design_params.list_cl_cores[cl_offset][0],
+            cl_n_cores                      = design_params.list_cl_cores[cl_offset][1],
+            # cluster data memory
+            cl_n_tcdm_banks                 = design_params.list_cl_tcdm[cl_offset][0],
+            cl_tcdm_size                    = design_params.list_cl_tcdm[cl_offset][1],
             # logarithmic interconnect (LIC)
             cl_lic_total_data_ports         = design_params.list_cl_lic[cl_offset][0],
             cl_lic_acc_names                = design_params.list_cl_lic[cl_offset][1],
