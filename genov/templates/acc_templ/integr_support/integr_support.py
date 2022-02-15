@@ -25,7 +25,7 @@ class integr_support:
         self.path_common = ''
 
     def bender(self):
-        print("\n[py] >>  Integration support ~ bender")
+        print("\n[py] >> Integration support ~ bender")
         return bender(
             temp_type = 'templates/acc_templ/integr_support/bender/',
             temp_top = 'bender.template_yml',
@@ -34,7 +34,7 @@ class integr_support:
         ).top()
 
     def src_files(self):
-        print("\n[py] >>  Integration support ~ src_files")
+        print("\n[py] >> Integration support ~ src_files")
         return src_files(
             temp_type = 'templates/acc_templ/integr_support/src_files/',
             temp_top = 'src_files.template_yml',
@@ -43,7 +43,7 @@ class integr_support:
         ).top()
 
     def ips_list(self):
-        print("\n[py] >>  Integration support ~ ips_list")
+        print("\n[py] >> Integration support ~ ips_list")
         return ips_list(
             temp_type = 'templates/acc_templ/integr_support/ips_list/',
             temp_top = 'ips_list.template_yml',
@@ -52,7 +52,7 @@ class integr_support:
         ).top()
 
     def vsim_wave(self):
-        print("\n[py] >>  Integration support ~ vsim_wave")
+        print("\n[py] >> Integration support ~ vsim_wave")
         return ips_list(
             temp_type = 'templates/acc_templ/integr_support/vsim_wave/',
             temp_top = 'vsim_wave.template_wave_do',

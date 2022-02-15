@@ -46,10 +46,10 @@ module ${target}_top
   // Signals
   logic enable, clear;
   logic [N_CORES-1:0][REGFILE_N_EVT-1:0] evt;
-  ctrl_streamer_t  streamer_ctrl;
-  flags_streamer_t streamer_flags;
-  ctrl_engine_t    engine_ctrl;
-  flags_engine_t   engine_flags;
+  ctrl_streamer_${target}_t  streamer_ctrl;
+  flags_streamer_${target}_t streamer_flags;
+  ctrl_engine_${target}_t    engine_ctrl;
+  flags_engine_${target}_t   engine_flags;
 
   ${streaming_top_intf()}
 

@@ -9,17 +9,15 @@ workspace:
   checkout_dir: "./deps"
 
 sources:
-  - include_dirs:
-      - rtl/hwpe-engine
-    files:
-      % for i in range (num_kernel_modules):
-      - rtl/acc_kernel/${kernel_modules[i]}
-      % endfor 
-      - rtl/${target}_package.sv
-      - rtl/${target}_fsm.sv
-      - rtl/${target}_ctrl.sv
-      - rtl/${target}_streamer.sv
-      - rtl/${target}_kernel_adapter.sv
-      - rtl/${target}_engine.sv
-      - rtl/${target}_top.sv
-      - wrap/${target}_top_wrapper.sv
+  % for i in range (num_kernel_modules):
+  - rtl/acc_kernel/${kernel_modules[i]}
+  % endfor 
+  - rtl/${target}_package.sv
+  - rtl/${target}_fsm.sv
+  - rtl/${target}_ctrl.sv
+  - rtl/${target}_streamer.sv
+  - rtl/${target}_kernel_adapter.sv
+  - rtl/${target}_engine.sv
+  - rtl/${target}_top.sv
+  - wrap/${target}_top_wrapper.sv
+  - wrap/${target}_cluster_intf.sv

@@ -201,7 +201,7 @@ addr_current = addr_top
     logic unsigned [${custom_reg_dim[i]}-1:0] ${custom_reg_name[i]};
       % endfor 
     % endif
-  } ctrl_engine_t; 
+  } ctrl_engine_${target}_t; 
 
   typedef struct packed {
 
@@ -215,7 +215,7 @@ addr_current = addr_top
 
     logic done;
     logic ready;
-  } flags_engine_t;
+  } flags_engine_${target}_t;
 
   <%
   ###############################
@@ -225,13 +225,13 @@ addr_current = addr_top
 
   typedef struct packed {
     logic start;
-  } ctrl_kernel_adapter_t; 
+  } ctrl_kernel_adapter_${target}_t; 
 
   typedef struct packed {
     logic done;
     logic idle;
     logic ready;
-  } flags_kernel_adapter_t;
+  } flags_kernel_adapter_${target}_t;
 
   <%
   #########################
@@ -261,7 +261,7 @@ addr_current = addr_top
       % endif
     % endfor 
 
-  } ctrl_streamer_t;
+  } ctrl_streamer_${target}_t;
 
   typedef struct packed {
 
@@ -285,7 +285,7 @@ addr_current = addr_top
       % endif
     % endfor 
 
-  } flags_streamer_t;
+  } flags_streamer_${target}_t;
 
   <%
   ####################
@@ -369,15 +369,6 @@ addr_current = addr_top
       % endfor 
     % endif
 
-  } ctrl_fsm_t;
-
-  typedef enum {
-    FSM_IDLE,
-    FSM_START,
-    FSM_COMPUTE,
-    FSM_WAIT,
-    FSM_UPDATEIDX,
-    FSM_TERMINATE
-  } state_fsm_t;
+  } ctrl_fsm_${target}_t;
 
 endpackage

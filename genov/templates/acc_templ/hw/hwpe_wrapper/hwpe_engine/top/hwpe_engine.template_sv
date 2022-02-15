@@ -30,8 +30,8 @@ module ${target}_engine (\
   ${streaming_engine_intf()}
 
   // Control channel
-  input  ctrl_engine_t            ctrl_i,
-  output flags_engine_t           flags_o
+  input  ctrl_engine_${target}_t            ctrl_i,
+  output flags_engine_${target}_t           flags_o
 );
 
   <%

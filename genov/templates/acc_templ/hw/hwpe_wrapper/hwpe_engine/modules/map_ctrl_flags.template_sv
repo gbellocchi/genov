@@ -73,7 +73,7 @@
 
   /* Control signals */
 
-  ctrl_kernel_adapter_t ctrl_k_ad;
+  ctrl_kernel_adapter_${target}_t ctrl_k_ad;
 
   assign ctrl_k_ad.start = ctrl_i.start;
 
@@ -83,7 +83,7 @@
 
   /* Flag signals */
 
-  flags_kernel_adapter_t flags_k_ad;
+  flags_kernel_adapter_${target}_t flags_k_ad;
 
   assign flags_o.done = flags_k_ad.done;
 

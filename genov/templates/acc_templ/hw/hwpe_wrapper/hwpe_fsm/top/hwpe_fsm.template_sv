@@ -28,20 +28,29 @@ module ${target}_fsm (
   input  logic                                  test_mode_i,
   output logic                                  clear_i,
   // ctrl & flags
-  output ctrl_streamer_t                        ctrl_streamer_o,
-  input  flags_streamer_t                       flags_streamer_i,
-  output ctrl_engine_t                          ctrl_engine_o,
-  input  flags_engine_t                         flags_engine_i,
+  output ctrl_streamer_${target}_t                        ctrl_streamer_o,
+  input  flags_streamer_${target}_t                       flags_streamer_i,
+  output ctrl_engine_${target}_t                          ctrl_engine_o,
+  input  flags_engine_${target}_t                         flags_engine_i,
   output ctrl_uloop_t                           ctrl_ucode_o,
   input  flags_uloop_t                          flags_ucode_i,
   output ctrl_slave_t                           ctrl_slave_o,
   input  flags_slave_t                          flags_slave_i,
   input  ctrl_regfile_t                         reg_file_i,
-  input  ctrl_fsm_t                             ctrl_i
+  input  ctrl_fsm_${target}_t                             ctrl_i
 );
 
   // State signals
-  state_fsm_t curr_state, next_state;
+  typedef enum {
+    FSM_IDLE,
+    FSM_START,
+    FSM_COMPUTE,
+    FSM_WAIT,
+    FSM_UPDATEIDX,
+    FSM_TERMINATE
+  } state_fsm_${target}_t;
+
+  state_fsm_${target}_t curr_state, next_state;
 
   // State computation 
   always_ff @(posedge clk_i or negedge rst_ni)
