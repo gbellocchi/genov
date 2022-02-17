@@ -1,8 +1,13 @@
 /* =====================================================================
  * Project:      Traffic generator
  * Title:        PWM_ctrl.sv
- * Description:  PWM controller.
- *
+ * Description:  PWM controller for traffic generator. Some notes:
+ *                  - PWM_PERIOD    ~ PWM signal period (T). Expressed in terms of clock cycles (Tck).
+ *                  - PWM_PULSE     ~ PWM pulse duration (T*D)). Expressed in terms of clock cycles (Tck).
+ *                  - PWM_SIZE      ~ PWM pulse value.
+ *                  - PWM_ENABLE    ~ Enable to enable/disable PWM pulse creation.
+ *                  - PWM_OUT       ~ Modulated signal. It drives streaming protocol signals (valid/ready).
+ * 
  * $Date:        16.2.2022
  *
  * ===================================================================== */
@@ -20,10 +25,10 @@ module PWM_ctrl #(
 ) (
     input logic CLK,
     input logic RSTN,
-    input logic [WORD_WIDTH-1:0] PWM_PERIOD, // PWM period --> T --> expressed in terms of clock cycles (Tck)
-    input logic [WORD_WIDTH-1:0] PWM_PULSE, // PWM pulse duration --> Tpulse = T*D --> expressed in terms of clock cycles (Tck)
-    input logic PWM_SIZE,  // PWM pulse value --> You can set value from 0 up to 255 --> If you drive an LED, its output luminance (cd/m^2) will be higher
-    input logic PWM_ENABLE, // PWM enable --> Boolean to enable/disable PWM pulse creation
+    input logic [WORD_WIDTH-1:0] PWM_PERIOD, 
+    input logic [WORD_WIDTH-1:0] PWM_PULSE,
+    input logic PWM_SIZE, 
+    input logic PWM_ENABLE,
     output logic PWM_OUT
 );
 

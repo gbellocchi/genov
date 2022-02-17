@@ -1,7 +1,7 @@
 /* =====================================================================
  * Project:      Traffic generator
  * Title:        timer.sv
- * Description:  PTimer.
+ * Description:  Timer design.
  *
  * $Date:        16.2.2022
  *
