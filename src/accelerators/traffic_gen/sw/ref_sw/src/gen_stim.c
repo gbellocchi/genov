@@ -16,8 +16,6 @@
 
 void gen_stim(uint32_t* stim, uint32_t width, uint32_t height, uint32_t stripe_height)
 {
-  printf(">> Generating synthetic input stimuli.\n");
-  
   for(int i=0; i < width*stripe_height; i++){
       stim[i] = rand() % 255;
   }

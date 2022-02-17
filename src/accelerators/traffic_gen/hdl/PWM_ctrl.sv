@@ -2,11 +2,11 @@
  * Project:      Traffic generator
  * Title:        PWM_ctrl.sv
  * Description:  PWM controller for traffic generator. Some notes:
- *                  - PWM_PERIOD    ~ PWM signal period (T). Expressed in terms of clock cycles (Tck).
- *                  - PWM_PULSE     ~ PWM pulse duration (T*D)). Expressed in terms of clock cycles (Tck).
- *                  - PWM_SIZE      ~ PWM pulse value.
- *                  - PWM_ENABLE    ~ Enable to enable/disable PWM pulse creation.
- *                  - PWM_OUT       ~ Modulated signal. It drives streaming protocol signals (valid/ready).
+ *                  - pwm_period    ~ PWM signal period (T). Expressed in terms of clock cycles (Tck).
+ *                  - pwm_pulse     ~ PWM pulse duration (T*D)). Expressed in terms of clock cycles (Tck).
+ *                  - pwm_size      ~ PWM pulse value.
+ *                  - pwm_enable    ~ Enable to enable/disable PWM pulse creation.
+ *                  - pwm_out       ~ Modulated signal. It drives streaming protocol signals (valid/ready).
  * 
  * $Date:        16.2.2022
  *
@@ -18,18 +18,16 @@
  *
  */
 
-`include "timer.sv"
-
 module PWM_ctrl #(
     parameter int unsigned WORD_WIDTH = 32
 ) (
-    input logic CLK,
-    input logic RSTN,
-    input logic [WORD_WIDTH-1:0] PWM_PERIOD, 
-    input logic [WORD_WIDTH-1:0] PWM_PULSE,
-    input logic PWM_SIZE, 
-    input logic PWM_ENABLE,
-    output logic PWM_OUT
+    input logic clk_i,
+    input logic rstn_i,
+    input logic [WORD_WIDTH-1:0] pwm_period, 
+    input logic [WORD_WIDTH-1:0] pwm_pulse,
+    input logic pwm_size, 
+    input logic pwm_enable,
+    output logic pwm_out
 );
 
     // PWM ctrl states
@@ -43,21 +41,21 @@ module PWM_ctrl #(
     logic [WORD_WIDTH-1:0] D;
     logic A;
     logic enable;
-    assign T=PWM_PERIOD;
-    assign D=PWM_PULSE;
-    assign A=PWM_SIZE;
-    assign enable=PWM_ENABLE;
+    assign T=pwm_period;
+    assign D=pwm_pulse;
+    assign A=pwm_size;
+    assign enable=pwm_enable;
 
     logic pwm;
 
     // Timer
-    timer #(
+    PWM_timer #(
         .WORD_WIDTH (32)
-    ) timer (   
-        .clk        (CLK),
-        .rstn       (RSTN),
-        .restart    (restart),
-        .count      (count)
+    ) i_PWM_timer (   
+        .clk        ( clk_i     ),
+        .rstn       ( rstn_i    ),
+        .restart    ( restart   ),
+        .count      ( count     )
     );
 
     // FSM
@@ -70,8 +68,8 @@ module PWM_ctrl #(
     assign high2low = (comp == D);
     assign low2high = (comp == T);
 
-    always_ff @(posedge CLK, negedge RSTN) begin
-        if(RSTN == 1'b0)
+    always_ff @(posedge clk_i, negedge rstn_i) begin
+        if(rstn_i == 1'b0)
             state = IDLE;
         else
             state = next_state;
@@ -125,6 +123,6 @@ module PWM_ctrl #(
     endcase
     end
 
-    assign PWM_OUT = pwm;
+    assign pwm_out = pwm;
     
 endmodule

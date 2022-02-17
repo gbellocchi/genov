@@ -62,11 +62,10 @@ module traffic_gen #(
   logic unsigned [WORD_WIDTH-1:0] r_cnt;
 
   // PWM signals
-  logic [WORD_WIDTH-1:0] local_pwm_period; // PWM period
-  logic [WORD_WIDTH-1:0] local_pwm_pulse; // PWM pulse duration
-  logic local_pwm_size; // PWM pulse size
-  logic local_pwm_enable; // PWM enable
-  logic local_pwm_out;
+  logic [WORD_WIDTH-1:0] pwm_pulse;
+  logic pwm_size; 
+  logic pwm_enable; 
+  logic pwm_out;
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -74,49 +73,47 @@ module traffic_gen #(
 
   // wait for start, then enable PWM controller
   always_ff @(posedge ap_clk or negedge ap_rst_n)
-  begin: pwm_ctrl_enable
+  begin: drive_pwm_enable
     if(~ap_rst_n) begin
-      local_pwm_enable <= '0;
+      pwm_enable <= '0;
     end
     else if ((r_cnt>0)&&(r_cnt == n_reqs-1)) begin
-      local_pwm_enable <= '0;
+      pwm_enable <= '0;
     end
-    else if (edge_start) begin
-      local_pwm_enable <= '1;
+    else if ((ap_start)&(r_reqs_TVALID)) begin
+      pwm_enable <= '1;
     end
   end
 
   // init of PWM signals
   always_comb
   begin: pwm_ctrl_values
-    if(local_pwm_enable=='0) begin
-      local_pwm_size         = '0;
-      local_pwm_period       = '0;
-      local_pwm_pulse        = '0;
+    if(pwm_enable=='0) begin
+      pwm_size         = '0;
+      pwm_pulse        = '0;
     end
     else begin
-      local_pwm_size         = '1;
-      local_pwm_period       = pwm_period;
-      local_pwm_pulse        = local_pwm_period / (100/pwm_duty_cycle);
+      pwm_size         = '1;
+      pwm_pulse        = pwm_period / (100/pwm_duty_cycle);
     end
   end
 
   // PWM controller
   PWM_ctrl #(
     .WORD_WIDTH     ( 32                )
-  ) PWM_ctrl_i (
-    .CLK            ( ap_clk            ),
-    .RSTN           ( ap_rst_n          ),
-    .PWM_PERIOD     ( local_pwm_period  ), 
-    .PWM_PULSE      ( local_pwm_pulse   ), 
-    .PWM_SIZE       ( local_pwm_size    ),  
-    .PWM_ENABLE     ( local_pwm_enable  ), 
-    .PWM_OUT        ( local_pwm_out     )
+  ) i_PWM_ctrl (
+    .clk_i          ( ap_clk            ),
+    .rstn_i         ( ap_rst_n          ),
+    .pwm_period     ( pwm_period        ), 
+    .pwm_pulse      ( pwm_pulse         ), 
+    .pwm_size       ( pwm_size          ),  
+    .pwm_enable     ( pwm_enable        ), 
+    .pwm_out        ( pwm_out           )
   );
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 
-  // < COUNT INPUTS >
+  // < COUNT GENERATE WRITE REQUESTS >
 
   always_comb
   begin
@@ -124,7 +121,7 @@ module traffic_gen #(
   end
 
   always_ff @(posedge ap_clk or negedge ap_rst_n)
-  begin
+  begin: register_cnt
     if(~ap_rst_n) begin // reset counter
       r_cnt <= '0;
     end
@@ -132,7 +129,7 @@ module traffic_gen #(
       r_cnt <= '0;
     end
     else if(ap_start) begin // if job
-      if ((r_cnt < n_reqs) && (r_reqs_TVALID & r_reqs_TREADY == 1'b1)) begin // update counter
+      if ((r_cnt < n_reqs) && (w_reqs_TVALID & w_reqs_TREADY == 1'b1)) begin // update counter
         r_cnt <= cnt;
       end
     end
@@ -143,7 +140,7 @@ module traffic_gen #(
   // < EDGE DETECTOR AP_START >
 
   always_ff @(posedge ap_clk or negedge ap_rst_n)
-  begin: ap_start_delay
+  begin: delay_ap_start
     ap_start_dly <= ap_start;
   end
 
@@ -196,7 +193,7 @@ module traffic_gen #(
   end
 
   always_ff @(posedge ap_clk or negedge ap_rst_n)
-  begin : mult_pipe_data
+  begin : register_out
     if(~ap_rst_n) begin
       r_out <= '0;
     end
@@ -218,7 +215,7 @@ module traffic_gen #(
       r_out_valid <= '0;
     end
     else if ((r_reqs_TVALID) | (r_out_valid & r_out_ready)) begin
-      r_out_valid <= r_reqs_TVALID & local_pwm_out;
+      r_out_valid <= r_reqs_TVALID & pwm_out;
     end
   end
 
@@ -230,7 +227,7 @@ module traffic_gen #(
 
   always_comb
   begin
-    r_reqs_TREADY = local_pwm_out;  // drive using PWM
+    r_reqs_TREADY = pwm_out;  // drive using PWM
   end
 
   ////////////////////////////////////////////////////////////////////////////////////////////

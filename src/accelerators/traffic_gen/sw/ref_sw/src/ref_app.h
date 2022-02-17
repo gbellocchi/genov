@@ -26,7 +26,7 @@
 /* Parameters. */
 
 // Entire image dimension
-#define WIDTH 512
+#define WIDTH 32
 #define HEIGHT 8
 #define STRIPE_HEIGHT 8
 

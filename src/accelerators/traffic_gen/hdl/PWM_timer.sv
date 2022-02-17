@@ -1,6 +1,6 @@
 /* =====================================================================
  * Project:      Traffic generator
- * Title:        timer.sv
+ * Title:        PWM_timer.sv
  * Description:  Timer design.
  *
  * $Date:        16.2.2022
@@ -13,7 +13,7 @@
  *
  */
 
-module timer #(
+module PWM_timer #(
     parameter int unsigned WORD_WIDTH = 32
 ) (   
     input logic clk,
