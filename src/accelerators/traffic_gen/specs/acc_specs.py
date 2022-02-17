@@ -78,8 +78,8 @@ class acc_specs:
     '''
 
     def streaming(self):
-        self.list_sink_stream                   = [ [ 'stream_in_V' , 'int32_t' , 32 , False , 1] ]
-        self.list_source_stream                 = [ [ 'stream_out_V' , 'int32_t' , 32 , False , 1] ]
+        self.list_sink_stream                   = [ [ 'r_reqs' , 'int32_t' , 32 , False , 1] ]
+        self.list_source_stream                 = [ [ 'w_reqs' , 'int32_t' , 32 , False , 1] ]
         return self
 
     '''
@@ -93,9 +93,9 @@ class acc_specs:
 
     def regfile(self):
         self.std_reg_num                        = 4       
-        self.custom_reg                         = [ [ 't_total' , 'int32_t' , 32 , 1 ] ,
-                                                    [ 't_on' , 'int32_t' , 32 , 1 ],
-                                                    [ 't_off' , 'int32_t' , 32 , 1 ] ]
+        self.custom_reg                         = [ [ 'n_reqs' , 'int32_t' , 32 , 1 ] ,
+                                                    [ 'pwm_period' , 'int32_t' , 32 , 1 ],
+                                                    [ 'pwm_duty_cycle' , 'int32_t' , 32 , 1 ] ]
         return self
 
     '''

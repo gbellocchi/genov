@@ -56,10 +56,11 @@ class pwm {
     public:
     void generate_reqs(hls::stream<T1> &stream_in, 
                        hls::stream<T1> &stream_out,
-                    //    T1 n_reqs, 
-                       T1 t_total, 
-                       T1 t_on,
-                       T1 t_off) {
+                       T1 n_reqs, 
+                       T1 duty_cycle) {
+                    //    T1 t_total, 
+                    //    T1 t_on,
+                    //    T1 t_off) {
 
         // Formulas:
         // - Ttotal = Nreqs*(100/DutyCycle)
@@ -67,20 +68,24 @@ class pwm {
         // - Toff = Nreqs*(1-DutyCycle/100)
         // - Tperiod = Ton + Toff
 
-        // // Ttotal - Overall time interval of operations
-        // t_total = n_trans*(100/duty_cycle);
+        // Ttotal - Overall time interval of operations
+        T1 t_total = round(n_reqs*(100/duty_cycle));
 
-        // // Ton - activation during a period
-        // t_on = n_trans*(duty_cycle/100);
+        // Ton - activation during a period
+        T1 t_on = round(n_reqs*(duty_cycle/100));
 
-        // // Toff - deactivation during a period
-        // t_off = n_trans*(1-duty_cycle/100);
+        // Toff - deactivation during a period
+        T1 t_off = round(n_reqs*(1-duty_cycle/100));
 
         // These assertions let HLS know the upper bounds of loops
         assert(t_total < MAX_TIME);
 
         // Local array
         T1 local[WIDTH*HEIGHT];
+
+        cout << "t_total: " << t_total << "\n\n";
+        cout << "t_on: " << t_on << "\n\n";
+        cout << "t_off: " << t_off << "\n\n";
 
         //
         // Reading requests
@@ -161,11 +166,11 @@ void traffic_gen(
     hls::stream<data_t> &stream_in, 
     hls::stream<data_t> &stream_out,
     // Custom registers
-    // int duty_cycle
-    // int n_reqs,
-    int t_total, 
-    int t_on,
-    int t_off
+    int n_reqs,
+    int duty_cycle
+    // int t_total, 
+    // int t_on,
+    // int t_off
 );
 
 #endif // TR_GEN_H_y not defined

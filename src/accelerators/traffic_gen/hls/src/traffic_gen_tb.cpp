@@ -54,7 +54,8 @@ int main(void)
     }
 
     // Generate DUT convolution image
-    traffic_gen(stream_in, stream_out, t_total, t_on, t_off);
+    // traffic_gen(stream_in, stream_out, t_total, t_on, t_off);
+    traffic_gen(stream_in, stream_out, n_reqs, duty_cycle);
 
     // Check DUT vs reference result
 
