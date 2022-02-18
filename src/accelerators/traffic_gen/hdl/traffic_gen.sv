@@ -47,10 +47,6 @@ module traffic_gen #(
   // output flags_engine_t                             flags_o
 );
 
-  // ctrl
-  logic ap_start_dly;
-  logic edge_start;
-
   // registered output
   logic [WORD_WIDTH-1:0] out;
   logic [WORD_WIDTH-1:0] r_out;
@@ -136,15 +132,6 @@ module traffic_gen #(
   end
 
   ////////////////////////////////////////////////////////////////////////////////////////////
-
-  // < EDGE DETECTOR AP_START >
-
-  always_ff @(posedge ap_clk or negedge ap_rst_n)
-  begin: delay_ap_start
-    ap_start_dly <= ap_start;
-  end
-
-  assign edge_start = (r_cnt==0) ? (ap_start & ~ap_start_dly) : '0;
 
   // < PILOT DONE SIGNAL >
 
