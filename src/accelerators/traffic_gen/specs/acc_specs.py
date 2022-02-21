@@ -93,9 +93,9 @@ class acc_specs:
 
     def regfile(self):
         self.std_reg_num                        = 4       
-        self.custom_reg                         = [ [ 'n_reqs' , 'int32_t' , 32 , 1 ] ,
-                                                    [ 'pwm_period' , 'int32_t' , 32 , 1 ],
-                                                    [ 'pwm_duty_cycle' , 'int32_t' , 32 , 1 ] ]
+        self.custom_reg                         = [ [ 'n_total_reqs' , 'int32_t' , 32 , 1 ] ,
+                                                    [ 't_ck_reqs' , 'int32_t' , 32 , 1 ],
+                                                    [ 't_ck_idle' , 'int32_t' , 32 , 1 ] ]
         return self
 
     '''
