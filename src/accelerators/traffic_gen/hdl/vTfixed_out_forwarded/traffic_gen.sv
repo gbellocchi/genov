@@ -117,32 +117,36 @@ module traffic_gen #(
     if(~ap_rst_n) begin // reset counter
       read_r_cnt <= '0;
     end
-    else if ((t_ck_reqs==1) && (read_r_cnt==t_ck_reqs)) begin
+    else if ((t_ck_reqs>1)&&(read_r_cnt==t_ck_reqs-1)) begin
       read_r_cnt <= '0;
     end
-    else if ((t_ck_reqs>1) && (read_r_cnt==(t_ck_reqs-1))) begin
+    else if ((t_ck_reqs==1)&&(read_r_cnt==t_ck_reqs)) begin
       read_r_cnt <= '0;
     end
-    if (ap_start && (r_reqs_TVALID & r_reqs_TREADY=='1)) begin
+    else if (ap_start & (r_reqs_TVALID & r_reqs_TREADY=='1)) begin
       read_r_cnt <= read_r_cnt + 1;
     end
   end
 
   // < COUNT GENERATED WRITE REQUESTS >
 
+  always_comb
+  begin
+    write_cnt = write_r_cnt + 1;
+  end
+
   always_ff @(posedge ap_clk or negedge ap_rst_n)
   begin
-    if(~ap_rst_n) begin // reset counter
+    if(~ap_rst_n) begin
       write_r_cnt <= '0;
     end
-    else if ((n_total_reqs==1) & (write_r_cnt==n_total_reqs)) begin
-      write_r_cnt <= '0;
+    else if(ap_start) begin
+      if ((write_r_cnt < n_total_reqs) && (w_reqs_TVALID & w_reqs_TREADY == 1'b1)) begin
+        write_r_cnt <= write_cnt;
+      end
     end
-    else if ((n_total_reqs>1) & (write_r_cnt==(n_total_reqs-1))) begin
+    else begin
       write_r_cnt <= '0;
-    end
-    if (ap_start & (w_reqs_TVALID & w_reqs_TREADY=='1)) begin
-      write_r_cnt <= write_r_cnt + 1;
     end
   end
 
@@ -160,11 +164,8 @@ module traffic_gen #(
     if(~ap_rst_n) begin
       r_out <= '0;
     end
-    else if (ap_done) begin
-      r_out <= '0;
-    end
     else if(ap_start) begin // if job
-      if (r_reqs_TVALID & r_reqs_TREADY) begin
+      if (r_reqs_TVALID & r_reqs_TREADY=='1) begin
         r_out <= out;
       end
     end
@@ -189,37 +190,39 @@ module traffic_gen #(
 
   // < DRIVE DONE SIGNAL >
 
+  logic r_acc_done;
+
   always_ff @(posedge ap_clk or negedge ap_rst_n)
-  begin: fsm_flags_done
+  begin : acc_done
     if(~ap_rst_n) begin
-      ap_done <= 1'b0;
+      r_acc_done <= '0;
     end
-    else if(ap_start) begin
-      if ((write_r_cnt>0) & (write_r_cnt == (n_total_reqs-1))) begin
-        ap_done <= 1'b1;
+    else if (ap_start) begin
+      if((write_r_cnt>0) && (write_r_cnt == n_total_reqs)) begin
+        r_acc_done <= (write_r_cnt == n_total_reqs);
       end
-    end 
+    end
     else begin
-      ap_done <= 1'b0;
+      r_acc_done <= '0;
     end
   end
 
-  always_comb
-  begin
-    write_cnt = write_r_cnt + 1;
-  end
+  assign ap_done = r_acc_done;
 
-  always_ff @(posedge ap_clk or negedge ap_rst_n)
-  begin
-    if(~ap_rst_n) begin
-      write_r_cnt <= '0;
-    end
-    else if(ap_start) begin
-      if ((write_r_cnt > 0) && (write_r_cnt < n_total_reqs) && (w_reqs_TVALID & w_reqs_TREADY == 1'b1)) begin
-        write_r_cnt <= write_cnt;
-      end
-    end
-  end
+  // always_ff @(posedge ap_clk or negedge ap_rst_n)
+  // begin: fsm_flags_done
+  //   if(~ap_rst_n) begin
+  //     ap_done <= 1'b0;
+  //   end
+  //   else if(ap_start) begin
+  //     if ((write_r_cnt>0) & (write_r_cnt == (n_total_reqs))) begin
+  //       ap_done <= 1'b1;
+  //     end
+  //   end 
+  //   else begin
+  //     ap_done <= 1'b0;
+  //   end
+  // end
 
   // // < DRIVE IDLE/READY SIGNAL >
 
@@ -264,31 +267,71 @@ module traffic_gen #(
 
   // The following assertions help in getting the rules on ready & valid right.
   // They are copied from the general stream rules in hwpe_stream_interfaces.sv
-  // and adapted to the internal r_out and r_mult signals.
+  // and adapted to the internal and interface streaming signals.
   `ifndef SYNTHESIS
   `ifndef VERILATOR
-    // The data and strb can change their value 1) when valid is deasserted,
-    // 2) in the cycle after a valid handshake, even if valid remains asserted.
-    // In other words, valid data must remain on the interface until
-    // a valid handshake has occurred.
+
+    // r_reqs (interface)
+    property r_reqs_change_rule;
+      @(posedge ap_clk)
+      ($past(r_reqs_TVALID) & ~($past(r_reqs_TVALID) & $past(r_reqs_TREADY))) |-> (r_reqs_TDATA == $past(r_reqs_TDATA));
+    endproperty;
+    
+    property r_reqs_valid_deassert_rule;
+      @(posedge ap_clk)
+      ($past(r_reqs_TVALID) & ~r_reqs_TVALID) |-> $past(r_reqs_TVALID) & $past(r_reqs_TREADY);
+    endproperty;
+
+    // r_out (internal)
     property r_out_change_rule;
       @(posedge ap_clk)
       ($past(r_out_valid) & ~($past(r_out_valid) & $past(r_out_ready))) |-> (r_out == $past(r_out));
     endproperty;
-    
-    // The deassertion of valid (transition 1í0) can happen only in the cycle
-    // after a valid handshake. In other words, valid data produced by a source
-    // must be consumed on the sink side before valid is deasserted.
+
     property r_out_valid_deassert_rule;
       @(posedge ap_clk)
       ($past(r_out_valid) & ~r_out_valid) |-> $past(r_out_valid) & $past(r_out_ready);
     endproperty;
+
+    // w_reqs (interface)
+    property w_reqs_change_rule;
+      @(posedge ap_clk)
+      ($past(w_reqs_TVALID) & ~($past(w_reqs_TVALID) & $past(w_reqs_TREADY))) |-> (w_reqs_TDATA == $past(w_reqs_TDATA));
+    endproperty;
+    
+    property w_reqs_valid_deassert_rule;
+      @(posedge ap_clk)
+      ($past(w_reqs_TVALID) & ~w_reqs_TVALID) |-> $past(w_reqs_TVALID) & $past(w_reqs_TREADY);
+    endproperty;
+
+    // // Done should be issued when all data have re-written back to TCDM
+    // property r_acc_done_rule;
+    //   @(posedge ap_clk)
+    //   $past(r_acc_done) |-> (($past(write_r_cnt,1) != n_total_reqs) & ~($past(r_out_valid,1) & $past(r_out_ready,1)));
+    // endproperty;
+
+    // rule instances
+
+    R_REQS_VALUE_CHANGE:    assert property(r_reqs_change_rule)
+      else $fatal("ASSERTION FAILURE: R_REQS_VALUE_CHANGE", 1);
+
+    R_REQS_VALID_DEASSERT:  assert property(r_reqs_valid_deassert_rule)
+      else $fatal("ASSERTION FAILURE R_REQS_VALID_DEASSERT", 1);
 
     R_OUT_VALUE_CHANGE:    assert property(r_out_change_rule)
       else $fatal("ASSERTION FAILURE: R_OUT_VALUE_CHANGE", 1);
 
     R_OUT_VALID_DEASSERT:  assert property(r_out_valid_deassert_rule)
       else $fatal("ASSERTION FAILURE R_OUT_VALID_DEASSERT", 1);
+
+    W_REQS_VALUE_CHANGE:    assert property(w_reqs_change_rule)
+      else $fatal("ASSERTION FAILURE: W_REQS_VALUE_CHANGE", 1);
+
+    W_REQS_VALID_DEASSERT:  assert property(w_reqs_valid_deassert_rule)
+      else $fatal("ASSERTION FAILURE W_REQS_VALID_DEASSERT", 1);
+
+    // R_ACC_DONE_STILL_VALUES:  assert property(r_acc_done_rule)
+    //   else $fatal("ASSERTION FAILURE R_ACC_DONE_STILL_VALUES", 1);
 
   `endif /* VERILATOR */
   `endif /* SYNTHESIS */
