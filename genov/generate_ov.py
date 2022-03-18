@@ -75,7 +75,7 @@ overlay = Overlay()
     Component:      Hardware
 
     Description:    Generation of IP wrapper for PULP instance.
-    ===================================================================== */
+    =====================================================================
 '''
 
 '''
