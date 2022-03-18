@@ -48,9 +48,9 @@ int main(int argc, char *argv[])
 
   /* Create output header files. */
 
-  gen_Hfile("a", a, array_length);
-  gen_Hfile("b", b, array_length);
-  gen_Hfile("c", c, array_length);
+  gen_Hfile("a_dut", a, array_length);
+  gen_Hfile("b_dut", b, array_length);
+  gen_Hfile("c_dut", c, array_length);
   gen_Hfile("d_dut", d_dut, array_length);
   gen_Hfile("d_ref", d_ref, array_length);
 

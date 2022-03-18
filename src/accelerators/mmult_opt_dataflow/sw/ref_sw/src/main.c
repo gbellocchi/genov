@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
 
   /* Create output header files. */
 
-  gen_Hfile("in1", in1, width, stripe_height);
-  gen_Hfile("in2", in2, width, stripe_height);
+  gen_Hfile("in1_dut", in1, width, stripe_height);
+  gen_Hfile("in2_dut", in2, width, stripe_height);
   gen_Hfile("out_r_ref", out_ref, stripe_height, stripe_height);
   gen_Hfile("out_r_dut", out_dut, stripe_height, stripe_height);
 

@@ -14,6 +14,7 @@
  */
 
 #include "ref_app.h"
+#include "inc/taps.h"
 
 int main(int argc, char *argv[])
 {
@@ -37,10 +38,10 @@ int main(int argc, char *argv[])
 
   memset(y_dut, 0, n_stim);
 
-  /* Generate taps. */
+  /* Read taps. */
 
   for(int i=0; i<N_COEFFS; i++){
-    coeffs[i] = rand() % 10;
+    coeffs[i] = taps[i];
   }
 
   /* Generate golden results. */
@@ -49,14 +50,15 @@ int main(int argc, char *argv[])
 
   /* Create output header files. */
 
-  gen_Hfile("x_V", x, n_stim, 1);
-  gen_Hfile("taps", coeffs, n_coeffs, 1);
-  gen_Hfile("y_V_ref", y_ref, n_stim, 1);
+  gen_Hfile("x_V_dut", x, n_stim, 1);
+  gen_Hfile("taps_dut", coeffs, n_coeffs, 1);
   gen_Hfile("y_V_dut", y_dut, n_stim, 1);
+  gen_Hfile("y_V_ref", y_ref, n_stim, 1);
 
   /* Cleanup. */  
 
   free(x);
+  free(coeffs);
   free(y_dut);
   free(y_ref);
 
