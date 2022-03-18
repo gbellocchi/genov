@@ -38,7 +38,7 @@ class ov_specs:
     '''
 
     def system(self):
-        self.ov_config                          = 'asap_ncl1_nacc20'
+        self.ov_config                          = 'asap_ncl2_nacc5'
         return self
 
     '''
@@ -53,23 +53,20 @@ class ov_specs:
     def cluster_0(self):
         self.cl_offset                          = 0
         self.core                               = [ 'riscy', 2 ]
-        self.tcdm                               = [ 64 , 128]
+        self.tcdm                               = [ 32 , 128]
         self.lic                                = [ [ 'traffic_gen' , 'hwpe'],
                                                     [ 'traffic_gen' , 'hwpe'],
                                                     [ 'traffic_gen' , 'hwpe'],
                                                     [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe'],
+                                                    [ 'traffic_gen' , 'hwpe']]
+        self.hci                                = [ ]
+        return self
+
+    def cluster_1(self):
+        self.cl_offset                          = 0
+        self.core                               = [ 'riscy', 2 ]
+        self.tcdm                               = [ 32 , 128]
+        self.lic                                = [ [ 'traffic_gen' , 'hwpe'],
                                                     [ 'traffic_gen' , 'hwpe'],
                                                     [ 'traffic_gen' , 'hwpe'],
                                                     [ 'traffic_gen' , 'hwpe'],
