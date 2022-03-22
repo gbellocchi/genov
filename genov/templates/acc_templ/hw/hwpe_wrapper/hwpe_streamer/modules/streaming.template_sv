@@ -52,6 +52,7 @@
   hwpe_stream_source #(
     .DATA_WIDTH       ( 32 ),
     .DECOUPLED        ( 1  ),
+    .TRANS_CNT        ( 24  ),
         % if addr_gen_in_isprogr[i]:
     .IS_ADDRESSGEN_PROGR  ( 1  )
         % else:
