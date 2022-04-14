@@ -47,31 +47,86 @@ module traffic_gen #(
   // output flags_engine_t                             flags_o
 );
 
-  // registered output
   logic [WORD_WIDTH-1:0] out;
   logic [WORD_WIDTH-1:0] r_out;
   logic r_out_valid;
   logic r_out_ready;
 
-  // counter signals
-  logic unsigned [WORD_WIDTH-1:0] read_r_cnt;
+  logic unsigned [WORD_WIDTH-1:0] burst_r_cnt;
+  logic unsigned [WORD_WIDTH-1:0] read_r_cnt, read_cnt;
   logic unsigned [WORD_WIDTH-1:0] write_r_cnt, write_cnt;
 
+  logic issue_last_idle, last_idle, last_r_idle;
   logic stream_idle, stream_r_idle;
   logic [WORD_WIDTH-1:0] count_idle;
 
+  logic acc_done, r_acc_done;
+
+  logic unsigned [WORD_WIDTH-1:0] local_n_reqs;
+  logic unsigned [WORD_WIDTH-1:0] local_t_reqs;
+  logic unsigned [WORD_WIDTH-1:0] local_t_idle;
+
   ////////////////////////////////////////////////////////////////////////////////////////////
 
-  // < PILOT IDLE SIGNAL >
+  // TODO:
+  // - The control routine of the traffic generator can be re-designed in a more elegant way using a FSM.
 
+  ////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Check if t_ck_idle is null or not
+  always_comb 
+  begin
+    local_n_reqs = n_total_reqs;
+    local_t_reqs = t_ck_reqs;
+    local_t_idle = t_ck_idle;
+  end
+
+  ////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Burst counter
+  always_ff @(posedge ap_clk or negedge ap_rst_n)
+  begin
+    if(~ap_rst_n) begin // reset counter
+      burst_r_cnt <= '0;
+    end
+    else if(r_acc_done) begin // reset counter
+      burst_r_cnt <= '0;
+    end
+    // idle is not null
+    else if (local_t_idle>0) begin
+      if ((local_t_reqs>1)&&(burst_r_cnt==local_t_reqs-1)) begin
+        burst_r_cnt <= '0;
+      end
+      else if ((local_t_reqs==1)&&(burst_r_cnt==local_t_reqs)) begin
+        burst_r_cnt <= '0;
+      end
+      else if (ap_start & (r_reqs_TVALID & r_reqs_TREADY=='1)) begin
+        burst_r_cnt <= burst_r_cnt + 1;
+      end
+    end
+    // idle is null, then the burst length is equal to the number
+    // of read transactions (n_total_reqs)
+    else if (ap_start & (r_reqs_TVALID & r_reqs_TREADY=='1)) begin
+      burst_r_cnt <= burst_r_cnt + 1;
+    end
+  end
+
+  // Drive stream idle signal
   always_comb
   begin
-    if (ap_start && (t_ck_reqs==1) && (r_reqs_TVALID & r_reqs_TREADY)) begin
-      stream_idle = 1'b1;
+    // idle is not null
+    if ((local_t_idle>0) && (read_r_cnt<local_n_reqs)) begin
+      if (ap_start && (local_t_reqs==1) && (r_reqs_TVALID & r_reqs_TREADY)) begin
+        stream_idle = 1'b1;
+      end
+      else if (ap_start && (local_t_reqs>1) && (burst_r_cnt==local_t_reqs-1)) begin
+        stream_idle = 1'b1;
+      end
+      else begin
+        stream_idle = 1'b0;
+      end
     end
-    else if (ap_start && (t_ck_reqs>1) && (read_r_cnt==t_ck_reqs-1)) begin
-      stream_idle = 1'b1;
-    end
+    // idle is null, then you just have a last_idle after all reads are completed
     else begin
       stream_idle = 1'b0;
     end
@@ -86,10 +141,10 @@ module traffic_gen #(
       if (stream_idle) begin
         stream_r_idle <= stream_idle;
       end
-      else if (t_ck_idle==1) begin
+      else if ((local_t_idle==0) | (local_t_idle==1)) begin
         stream_r_idle <= '0;
       end
-      else if ((t_ck_idle>1) && (count_idle==(t_ck_idle-1))) begin
+      else if ((local_t_idle>1) && (count_idle==(local_t_idle-1))) begin
         stream_r_idle <= '0;
       end
     end
@@ -98,38 +153,85 @@ module traffic_gen #(
     end
   end
 
+  // Drive last idle signal
+  always_comb 
+  begin
+    if(ap_start && (read_r_cnt>0) && (read_r_cnt == local_n_reqs) && ~last_r_idle && ~acc_done) begin
+      issue_last_idle = '1;
+    end
+    else begin
+      issue_last_idle = '0;
+    end
+  end
+
+  always_comb 
+  begin
+    if(issue_last_idle) begin
+      last_idle = '1;
+    end
+    else begin
+      last_idle = '0;
+    end
+  end
+
+  always_ff @(posedge ap_clk or negedge ap_rst_n)
+  begin
+    if(~ap_rst_n) begin // reset counter
+      last_r_idle <= '0;
+    end
+    else if(ap_start) begin
+      if (last_idle) begin
+        last_r_idle <= last_idle;
+      end
+      else if ((local_t_idle==0) | (local_t_idle==1)) begin
+        last_r_idle <= '0;
+      end
+      else if ((local_t_idle>1) && (count_idle==(local_t_idle-1))) begin
+        last_r_idle <= '0;
+      end
+    end
+    else begin
+      last_r_idle <= '0;
+    end
+  end
+
   // Idle timer
   PWM_timer #(
       .WORD_WIDTH (WORD_WIDTH)
   ) i_idle_timer (   
-      .clk        ( ap_clk        ),
-      .rstn       ( ap_rst_n      ),
-      .restart    ( stream_idle   ),
-      .count      ( count_idle    )
+      .clk        ( ap_clk                  ),
+      .rstn       ( ap_rst_n                ),
+      .restart    ( stream_idle | last_idle ),
+      .count      ( count_idle              )
   );
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 
-  // < COUNT ACCEPTED READ REQUESTS >
+  // Count read transactions
+  always_comb
+  begin
+    read_cnt = read_r_cnt + 1;
+  end
 
   always_ff @(posedge ap_clk or negedge ap_rst_n)
   begin
     if(~ap_rst_n) begin // reset counter
       read_r_cnt <= '0;
     end
-    else if ((t_ck_reqs>1)&&(read_r_cnt==t_ck_reqs-1)) begin
+    else if(r_acc_done) begin // reset counter
       read_r_cnt <= '0;
     end
-    else if ((t_ck_reqs==1)&&(read_r_cnt==t_ck_reqs)) begin
-      read_r_cnt <= '0;
+    else if(ap_start) begin
+      if (r_reqs_TVALID & r_reqs_TREADY=='1) begin
+        read_r_cnt <= read_cnt;
+      end
     end
-    else if (ap_start & (r_reqs_TVALID & r_reqs_TREADY=='1)) begin
-      read_r_cnt <= read_r_cnt + 1;
+    else begin
+      read_r_cnt <= '0;
     end
   end
 
-  // < COUNT GENERATED WRITE REQUESTS >
-
+  // Count write transactions
   always_comb
   begin
     write_cnt = write_r_cnt + 1;
@@ -137,11 +239,14 @@ module traffic_gen #(
 
   always_ff @(posedge ap_clk or negedge ap_rst_n)
   begin
-    if(~ap_rst_n) begin
+    if(~ap_rst_n) begin // reset counter
+      write_r_cnt <= '0; 
+    end
+    else if(r_acc_done) begin // reset counter
       write_r_cnt <= '0;
     end
     else if(ap_start) begin
-      if ((write_r_cnt < n_total_reqs) && (w_reqs_TVALID & w_reqs_TREADY == 1'b1)) begin
+      if ((write_r_cnt < local_n_reqs) && (w_reqs_TVALID & w_reqs_TREADY == 1'b1)) begin
         write_r_cnt <= write_cnt;
       end
     end
@@ -152,11 +257,10 @@ module traffic_gen #(
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 
-  // < REGISTER OUTPUT VALUES >
-
+  // Generate output values
   always_comb
   begin
-    out = r_reqs_TDATA;
+    out = write_r_cnt;
   end
 
   always_ff @(posedge ap_clk or negedge ap_rst_n)
@@ -165,7 +269,7 @@ module traffic_gen #(
       r_out <= '0;
     end
     else if(ap_start) begin // if job
-      if (r_reqs_TVALID & r_reqs_TREADY=='1) begin
+      if (stream_idle | last_idle) begin
         r_out <= out;
       end
     end
@@ -178,29 +282,52 @@ module traffic_gen #(
       r_out_valid <= '0;
     end
     else if(ap_start) begin // if job
-      if (r_reqs_TVALID | (r_out_valid & r_out_ready)) begin
-        r_out_valid <= r_reqs_TVALID;
+      if (((local_t_idle==0) | (local_t_idle==1)) && (last_r_idle)) begin
+        r_out_valid <= (((local_t_idle==0) | (local_t_idle==1)) && (last_r_idle));
       end
+      else if ((local_t_idle==1) && (stream_r_idle)) begin
+        r_out_valid <= ((local_t_idle==1) && (stream_r_idle));
+      end
+      else if ((local_t_idle>1) && (count_idle==(local_t_idle-1))) begin
+        r_out_valid <= ((local_t_idle>1) && (count_idle==(local_t_idle-1)));
+      end
+      else begin
+        r_out_valid <= '0;
+      end
+      // else if((read_r_cnt>0) && (read_r_cnt == local_n_reqs) && ~stream_r_idle) begin
+      //   r_out_valid <= ((read_r_cnt>0) && (read_r_cnt == local_n_reqs) && ~stream_r_idle);
+      // end
     end
   end
 
-  assign r_out_ready = r_reqs_TREADY | ~r_out_valid;
+  assign r_out_ready = w_reqs_TREADY;
 
   ////////////////////////////////////////////////////////////////////////////////////////////
 
-  // < DRIVE DONE SIGNAL >
-
-  logic r_acc_done;
+  // Drive done signal
+  always_comb 
+  begin
+    if((read_r_cnt>0) && (read_r_cnt == local_n_reqs)) begin
+      if (((local_t_idle==0) | (local_t_idle==1)) && (last_r_idle>0)) begin
+        acc_done = '1;
+      end
+      else if (((local_t_idle>1) && (count_idle==(local_t_idle-1)))) begin
+        acc_done = '1;
+      end
+      // acc_done = '1;
+    end
+    else begin
+      acc_done = '0;
+    end
+  end
 
   always_ff @(posedge ap_clk or negedge ap_rst_n)
-  begin : acc_done
+  begin
     if(~ap_rst_n) begin
       r_acc_done <= '0;
     end
-    else if (ap_start) begin
-      if((write_r_cnt>0) && (write_r_cnt == n_total_reqs)) begin
-        r_acc_done <= (write_r_cnt == n_total_reqs);
-      end
+    else if (ap_start && ~last_r_idle) begin
+      r_acc_done <= acc_done;
     end
     else begin
       r_acc_done <= '0;
@@ -209,22 +336,7 @@ module traffic_gen #(
 
   assign ap_done = r_acc_done;
 
-  // always_ff @(posedge ap_clk or negedge ap_rst_n)
-  // begin: fsm_flags_done
-  //   if(~ap_rst_n) begin
-  //     ap_done <= 1'b0;
-  //   end
-  //   else if(ap_start) begin
-  //     if ((write_r_cnt>0) & (write_r_cnt == (n_total_reqs))) begin
-  //       ap_done <= 1'b1;
-  //     end
-  //   end 
-  //   else begin
-  //     ap_done <= 1'b0;
-  //   end
-  // end
-
-  // // < DRIVE IDLE/READY SIGNAL >
+  // Drive idle/ready signals
 
   // TO-DO; Need to re-think the generated control interface for handcrafted accelerators.
   // The signals should be standardized and a clear technical guide on how to use them
@@ -252,7 +364,7 @@ module traffic_gen #(
 
   always_comb
   begin
-    r_reqs_TREADY = ap_start & ~stream_r_idle; 
+    r_reqs_TREADY = ap_start & ~(stream_r_idle | last_r_idle); 
   end
 
   // < DRIVE OUTPUT WRITES >
@@ -260,7 +372,7 @@ module traffic_gen #(
   always_comb
   begin
     w_reqs_TDATA  = r_out;
-    w_reqs_TVALID = (r_out_valid & ~stream_r_idle) | '0; 
+    w_reqs_TVALID = (r_out_valid) | '0; 
   end
 
   ////////////////////////////////////////////////////////////////////////////////////////////
@@ -303,12 +415,6 @@ module traffic_gen #(
       @(posedge ap_clk)
       ($past(w_reqs_TVALID) & ~w_reqs_TVALID) |-> $past(w_reqs_TVALID) & $past(w_reqs_TREADY);
     endproperty;
-
-    // // Done should be issued when all data have re-written back to TCDM
-    // property r_acc_done_rule;
-    //   @(posedge ap_clk)
-    //   $past(r_acc_done) |-> (($past(write_r_cnt,1) != n_total_reqs) & ~($past(r_out_valid,1) & $past(r_out_ready,1)));
-    // endproperty;
 
     // rule instances
 
