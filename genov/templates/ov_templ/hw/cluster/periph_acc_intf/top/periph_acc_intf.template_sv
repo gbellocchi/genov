@@ -42,19 +42,18 @@
 
 module periph_acc_intf
 #(
-  parameter NB_HWPE        = 0,
-  parameter NB_SPERIPHS    = 8
+  parameter NB_SPERIPHS       = 8,
+  parameter NB_SPERIPHS_HWPE  = 0
 )
 (
   input  logic                                        clk,
   input  logic                                        rst_n,
   input  logic                                        test_mode,
 
-  XBAR_PERIPH_BUS.Slave                               speriph_slave[NB_SPERIPHS-1:0],
-  XBAR_PERIPH_BUS.Master                              hwpe_cfg_master[NB_HWPE-1:0]
+  XBAR_PERIPH_BUS.Slave                               speriph_hwpe_slave[NB_SPERIPHS_HWPE-1:0],
+  XBAR_PERIPH_BUS.Master                              hwpe_cfg_master[NB_SPERIPHS_HWPE-1:0]
 );
 
-% if (n_acc_cl>0):
   % for i in range(n_acc_cl): 
     <%
       # Define accelerator offset
@@ -64,34 +63,21 @@ module periph_acc_intf
     % if (cl_lic_acc_protocols[acc_offset] == "hwpe"):
 
   // Wrapper #${acc_offset}
-  assign speriph_slave[pulp_cluster_${cl_offset}_cfg_pkg::SPER_HWPE_${acc_offset}_ID].gnt     = hwpe_cfg_master[${acc_offset}].gnt;
-  assign speriph_slave[pulp_cluster_${cl_offset}_cfg_pkg::SPER_HWPE_${acc_offset}_ID].r_rdata = hwpe_cfg_master[${acc_offset}].r_rdata;
-  assign speriph_slave[pulp_cluster_${cl_offset}_cfg_pkg::SPER_HWPE_${acc_offset}_ID].r_opc   = hwpe_cfg_master[${acc_offset}].r_opc;
-  assign speriph_slave[pulp_cluster_${cl_offset}_cfg_pkg::SPER_HWPE_${acc_offset}_ID].r_id    = hwpe_cfg_master[${acc_offset}].r_id;
-  assign speriph_slave[pulp_cluster_${cl_offset}_cfg_pkg::SPER_HWPE_${acc_offset}_ID].r_valid = hwpe_cfg_master[${acc_offset}].r_valid;
+  localparam HWPE_${acc_offset}_ID = pulp_cluster_${cl_offset}_cfg_pkg::SPER_HWPE_${acc_offset}_ID - (NB_SPERIPHS - NB_SPERIPHS_HWPE);
+
+  assign speriph_hwpe_slave[HWPE_${acc_offset}_ID].gnt     = hwpe_cfg_master[${acc_offset}].gnt;
+  assign speriph_hwpe_slave[HWPE_${acc_offset}_ID].r_rdata = hwpe_cfg_master[${acc_offset}].r_rdata;
+  assign speriph_hwpe_slave[HWPE_${acc_offset}_ID].r_opc   = hwpe_cfg_master[${acc_offset}].r_opc;
+  assign speriph_hwpe_slave[HWPE_${acc_offset}_ID].r_id    = hwpe_cfg_master[${acc_offset}].r_id;
+  assign speriph_hwpe_slave[HWPE_${acc_offset}_ID].r_valid = hwpe_cfg_master[${acc_offset}].r_valid;
   
-  assign hwpe_cfg_master[${acc_offset}].req   = speriph_slave[pulp_cluster_${cl_offset}_cfg_pkg::SPER_HWPE_${acc_offset}_ID].req;
-  assign hwpe_cfg_master[${acc_offset}].add   = speriph_slave[pulp_cluster_${cl_offset}_cfg_pkg::SPER_HWPE_${acc_offset}_ID].add;
-  assign hwpe_cfg_master[${acc_offset}].wen   = speriph_slave[pulp_cluster_${cl_offset}_cfg_pkg::SPER_HWPE_${acc_offset}_ID].wen;
-  assign hwpe_cfg_master[${acc_offset}].wdata = speriph_slave[pulp_cluster_${cl_offset}_cfg_pkg::SPER_HWPE_${acc_offset}_ID].wdata;
-  assign hwpe_cfg_master[${acc_offset}].be    = speriph_slave[pulp_cluster_${cl_offset}_cfg_pkg::SPER_HWPE_${acc_offset}_ID].be;
-  assign hwpe_cfg_master[${acc_offset}].id    = speriph_slave[pulp_cluster_${cl_offset}_cfg_pkg::SPER_HWPE_${acc_offset}_ID].id;
+  assign hwpe_cfg_master[${acc_offset}].req   = speriph_hwpe_slave[HWPE_${acc_offset}_ID].req;
+  assign hwpe_cfg_master[${acc_offset}].add   = speriph_hwpe_slave[HWPE_${acc_offset}_ID].add;
+  assign hwpe_cfg_master[${acc_offset}].wen   = speriph_hwpe_slave[HWPE_${acc_offset}_ID].wen;
+  assign hwpe_cfg_master[${acc_offset}].wdata = speriph_hwpe_slave[HWPE_${acc_offset}_ID].wdata;
+  assign hwpe_cfg_master[${acc_offset}].be    = speriph_hwpe_slave[HWPE_${acc_offset}_ID].be;
+  assign hwpe_cfg_master[${acc_offset}].id    = speriph_hwpe_slave[HWPE_${acc_offset}_ID].id;
     % endif
   % endfor
-% else:
-  localparam SPER_HWPE_0_ID      = 4;
-  assign speriph_slave[SPER_HWPE_0_ID].gnt     = hwpe_cfg_master[0].gnt;
-  assign speriph_slave[SPER_HWPE_0_ID].r_rdata = hwpe_cfg_master[0].r_rdata;
-  assign speriph_slave[SPER_HWPE_0_ID].r_opc   = hwpe_cfg_master[0].r_opc;
-  assign speriph_slave[SPER_HWPE_0_ID].r_id    = hwpe_cfg_master[0].r_id;
-  assign speriph_slave[SPER_HWPE_0_ID].r_valid = hwpe_cfg_master[0].r_valid;
-
-  assign hwpe_cfg_master[0].req   = speriph_slave[SPER_HWPE_0_ID].req;
-  assign hwpe_cfg_master[0].add   = speriph_slave[SPER_HWPE_0_ID].add;
-  assign hwpe_cfg_master[0].wen   = speriph_slave[SPER_HWPE_0_ID].wen;
-  assign hwpe_cfg_master[0].wdata = speriph_slave[SPER_HWPE_0_ID].wdata;
-  assign hwpe_cfg_master[0].be    = speriph_slave[SPER_HWPE_0_ID].be;
-  assign hwpe_cfg_master[0].id    = speriph_slave[SPER_HWPE_0_ID].id;
-% endif
 
 endmodule
