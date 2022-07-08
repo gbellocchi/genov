@@ -84,7 +84,8 @@ package automatic pulp_cluster_${cl_offset}_cfg_pkg;
     %>
 
     // position of HWPE peripherals on slave port of periph interconnect
-    localparam int unsigned N_SPERIPHS = (N_HWPE_LIC + N_HWPE_HCI>1) ? (8 + N_HWPE_LIC + N_HWPE_HCI - 1) : 8;
+    localparam int unsigned N_SPERIPHS_HWPE = N_HWPE_LIC + N_HWPE_HCI;
+    localparam int unsigned N_SPERIPHS      = N_SPERIPHS_HWPE + 8;
 
 % for i in range(n_acc_cl): 
 <%
@@ -92,11 +93,7 @@ package automatic pulp_cluster_${cl_offset}_cfg_pkg;
     acc_offset = i
 %>\
     % if (cl_lic_acc_protocols[acc_offset] == "hwpe"):
-        % if (acc_offset == 0):
-    localparam SPER_HWPE_${acc_offset}_ID      = 4; // original offset on peripheral interconnect
-        % else:
-    localparam SPER_HWPE_${acc_offset}_ID      = 8 + ${acc_offset} - 1; // additional offsets  
-        % endif
+    localparam SPER_HWPE_${acc_offset}_ID      = 8 + ${acc_offset};
     % endif
 % endfor
 
