@@ -231,7 +231,8 @@ module pulp_cluster_ooc (
     .NB_OUTSND_BURSTS         (pulp_cluster_${cl_offset}_cfg_pkg::DMA_MAX_N_TXNS),
     .NB_DMA_STREAMS           (pulp_cluster_${cl_offset}_cfg_pkg::DMA_STREAMS   ),
     // peripheral and periph interconnect parameters
-    .NB_SPERIPHS              (pulp_cluster_${cl_offset}_cfg_pkg::N_SPERIPHS)
+    .NB_SPERIPHS              (pulp_cluster_${cl_offset}_cfg_pkg::N_SPERIPHS),
+    .NB_SPERIPHS_HWPE         (pulp_cluster_${cl_offset}_cfg_pkg::N_SPERIPHS_HWPE)
   ) i_bound (
     .clk_i,
     .rst_ni,
