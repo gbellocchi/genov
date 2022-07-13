@@ -315,6 +315,17 @@ def format_cl_acc_params(cl_target_interco):
 
 '''
   =====================================================================
+  Title:        clog2
+  Type:         Function
+  Description:  Returns log2(x).
+  =====================================================================
+'''
+
+def clog2(x):
+    return math.ceil(math.log2(x))
+
+'''
+  =====================================================================
   Title:        print_ov_log
   Type:         Function
   Description:  Print overlay information.
@@ -333,17 +344,6 @@ def print_ov_log(overlay_params, verbose=False):
         print("[py] >> User-defined overlay specification:")
 
         print("\n\tOverlay configuration:", overlay_params.ov_config)
-
-'''
-  =====================================================================
-  Title:        clog2
-  Type:         Function
-  Description:  Returns log2(x).
-  =====================================================================
-'''
-
-def clog2(x):
-    return math.ceil(math.log2(x))
 
 '''
   =====================================================================
