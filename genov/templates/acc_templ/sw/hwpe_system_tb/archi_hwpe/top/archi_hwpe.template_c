@@ -68,9 +68,26 @@
  *
  */
 
+<%
+    # Calculate peripheral base address for HWPE accelerator.
+    # This is calculated using an accelerator ID that is passed
+    # through 'extra_param_0'.
+
+    if (extra_param_0 == None):
+        accelerator_id = 0
+    else:
+        accelerator_id = int(extra_param_0)
+
+    # The first HWPE peripheral address that is available in AROV
+    # is 0x1b202000. The address space reserved for HWPE devices is
+    # fixed at 0x200.
+
+    speriph_hwpe_addr = int(0x1b202000) + int(0x200) * accelerator_id
+%>
+
 #define ARCHI_CL_EVT_ACC0 0
 #define ARCHI_CL_EVT_ACC1 1
-#define ARCHI_HWPE_ADDR_BASE 0x1b201000
+#define ARCHI_HWPE_ADDR_BASE ${ hex(speriph_hwpe_addr) }
 #define ARCHI_HWPE_EU_OFFSET 12
 #define __builtin_bitinsert(a,b,c,d) (a | (((b << (32-c)) >> (32-c)) << d))
 

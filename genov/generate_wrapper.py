@@ -47,7 +47,7 @@ from templates.acc_templ.integr_support.integr_support import integr_support
 dir_out_acc = sys.argv[1]
 
 '''
-    Retrieve design parameters
+    Retrieve wrapper design parameters
 '''
 target_acc = os.environ['TARGET_ACC']
 acc_specs = import_acc_dev_module(target_acc)

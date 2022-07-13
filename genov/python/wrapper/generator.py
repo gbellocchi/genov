@@ -34,7 +34,7 @@ class Generator:
 
         The rendered output is a string.
     '''
-    def render(self, design_params, template):
+    def render(self, design_params, template, extra_params=[]):
         # prepare input template
         target = Template(template)
         # rendering phase
@@ -73,6 +73,10 @@ class Generator:
             # static design components
             kernel_modules          = self.get_kernel_list(design_params),
             num_kernel_modules      = len(self.get_kernel_list(design_params)),
+            # additional params
+            extra_param_0           = extra_params[0],
+            extra_param_1           = extra_params[1],
+            extra_param_2           = extra_params[2],
         )
         # Compile a regex to trim trailing whitespaces on lines
         # and multiple consecutive new lines.
@@ -110,8 +114,8 @@ class Generator:
     generation of components for a specific cluster
 '''
 
-def gen_acc_comps(temp_obj, design_params, emitter, descr, out_dir):
+def gen_acc_comps(temp_obj, design_params, emitter, descr, out_dir, extra_params=[None for _ in range(3)]):
     template = temp_obj
-    out_target = Generator().render(design_params, template)
+    out_target = Generator().render(design_params, template, extra_params)
     filename = emitter.get_file_name(descr)
     emitter.out_gen(out_target, filename, out_dir)
