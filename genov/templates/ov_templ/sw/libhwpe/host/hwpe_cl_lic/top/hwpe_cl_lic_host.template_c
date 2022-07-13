@@ -1,0 +1,133 @@
+<%
+# =====================================================================
+# Project:       LibHwpe class
+# Title:         hwpe_cl_lic_host.template_c
+# Description:   The LibHwpe class recalls all the the templates 
+#                compliant with the generation of the software libraries
+#                for HWPE wrappers.
+#
+# Date:          29.12.2022
+# ===================================================================== */
+#
+# Copyright (C) 2022 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+%>
+
+<%
+  # Wrapper dependencies 
+  accelerator_id = extra_param_0
+%>
+
+/* =====================================================================
+ * Project:      LibHWPE
+ * Title:        hwpe_cl${cl_offset}_lic${accelerator_id}
+ * Description:  Software APIs for ${cl_lic_acc_names[accelerator_id]}.
+ *
+ * $Date:        11.7.2022
+ * ===================================================================== */
+/*
+ * Copyright (C) 2022 University of Modena and Reggio Emilia.
+ *
+ * Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+ *
+ */
+
+#include <stdbool.h>
+#include <hwpe_cl${cl_offset}_lic${accelerator_id}.h>
+
+/* Initialization */
+
+void arov_cl${cl_offset}_lic${accelerator_id}_init(${cl_lic_acc_names[accelerator_id]}_wrapper_struct *wrapper) {
+    return;
+};
+
+/* Programming */
+
+void arov_cl${cl_offset}_lic${accelerator_id}_program(${cl_lic_acc_names[accelerator_id]}_wrapper_struct *wrapper) {
+    return;
+};
+
+/* Data memory interaction */
+
+void arov_cl${cl_offset}_lic${accelerator_id}_update_buffer_addr(${cl_lic_acc_names[accelerator_id]}_wrapper_struct *wrapper) {
+    return;
+};
+
+/* Processing */
+
+void arov_cl${cl_offset}_lic${accelerator_id}_compute() {
+    return;
+};
+
+/* Synchronization */
+
+void arov_cl${cl_offset}_lic${accelerator_id}_wait() {
+    return;
+};
+
+/* Deactivation */
+
+void arov_cl${cl_offset}_lic${accelerator_id}_free() {
+    return;
+};
+
+void ${cl_lic_acc_names[accelerator_id]}_init_addr_gen(${cl_lic_acc_names[accelerator_id]}_stream_struct *stream) {
+    return;
+};
+
+void ${cl_lic_acc_names[accelerator_id]}_alloc_tcdm_buffers(hwpe_stream_struct *stream) {
+    return;
+};
+
+int ${cl_lic_acc_names[accelerator_id]}_activate(${cl_lic_acc_names[accelerator_id]}_ctrl_struct *ctrl) {
+    return 0;
+};
+
+void ${cl_lic_acc_names[accelerator_id]}_set_std_regs(
+% for i in range (acc_wr_n_sink):
+    hwpe_stream_struct *${acc_wr_stream_in[i]},
+% endfor
+% for j in range (acc_wr_n_source):
+    hwpe_stream_struct *${acc_wr_stream_out[j]},
+% endfor
+    ${cl_lic_acc_names[accelerator_id]}_ctrl_struct *ctrl
+) {
+    return;
+};
+
+void ${cl_lic_acc_names[accelerator_id]}_set_custom_regs(${cl_lic_acc_names[accelerator_id]}_ctrl_struct *ctrl) {
+    return;
+}; 
+
+% for i in range (acc_wr_n_sink):
+void ${cl_lic_acc_names[accelerator_id]}_set_buffer_${acc_wr_stream_in[i]}(hwpe_stream_struct *${acc_wr_stream_in[i]}){
+    return;
+}
+% endfor
+% for j in range (acc_wr_n_source):
+void ${cl_lic_acc_names[accelerator_id]}_set_buffer_${acc_wr_stream_out[j]}(hwpe_stream_struct *${acc_wr_stream_out[j]}){
+    return;
+}
+% endfor
+
+void ${cl_lic_acc_names[accelerator_id]}_compute() {
+    return;
+};
+
+void ${cl_lic_acc_names[accelerator_id]}_wait() {
+    return;
+};
+
+void ${cl_lic_acc_names[accelerator_id]}_disable() {
+    return;
+};
+
+void ${cl_lic_acc_names[accelerator_id]}_wrapper_l1free(${cl_lic_acc_names[accelerator_id]}_wrapper_struct* a) { return; };
+void ${cl_lic_acc_names[accelerator_id]}_wrapper_l2free(${cl_lic_acc_names[accelerator_id]}_wrapper_struct* a) { return; };
+
+void ${cl_lic_acc_names[accelerator_id]}_stream_l1free(${cl_lic_acc_names[accelerator_id]}_stream_struct* a) { return; };
+void ${cl_lic_acc_names[accelerator_id]}_stream_l2free(${cl_lic_acc_names[accelerator_id]}_stream_struct* a) { return; };
+
+void ${cl_lic_acc_names[accelerator_id]}_ctrl_l1free(${cl_lic_acc_names[accelerator_id]}_ctrl_struct* a) { return; };
+void ${cl_lic_acc_names[accelerator_id]}_ctrl_l2free(${cl_lic_acc_names[accelerator_id]}_ctrl_struct* a) { return; };
