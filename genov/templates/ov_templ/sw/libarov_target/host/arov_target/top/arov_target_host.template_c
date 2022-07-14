@@ -1,0 +1,41 @@
+<%
+# =====================================================================
+# Project:       LibAROV
+# Title:         arov_target_host.template_c
+# Description:   The LibHwpe class recalls all the the templates 
+#                compliant with the generation of the software libraries
+#                for the control of the accelerator-rich system.
+#
+# Date:          13.7.2022
+# ===================================================================== */
+#
+# Copyright (C) 2022 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+%>
+
+#include <arov.h>
+
+void arov_init(arov_struct *accelerators, int accelerator_id){
+    return;
+}
+
+void arov_program(arov_struct *accelerators, int accelerator_id){
+    return;
+}
+
+void arov_update_buffer_addr(arov_struct *accelerators, int accelerator_id){
+    return;
+}
+
+void arov_compute(arov_struct *accelerators, int accelerator_id){
+    return;
+}
+
+void arov_wait(arov_struct *accelerators, int accelerator_id){
+    return;
+}
+
+void arov_free(arov_struct *accelerators, int accelerator_id){
+    return;
+}

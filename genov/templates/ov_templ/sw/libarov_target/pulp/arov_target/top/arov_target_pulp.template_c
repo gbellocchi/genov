@@ -1,0 +1,233 @@
+<%
+# =====================================================================
+# Project:       LibAROV
+# Title:         arov_target_pulp.template_c
+# Description:   The LibHwpe class recalls all the the templates 
+#                compliant with the generation of the software libraries
+#                for HWPE wrappers.
+#
+# Date:          13.7.2022
+# ===================================================================== */
+#
+# Copyright (C) 2022 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+%>
+
+<%
+    # Extra parameters
+    list_cl_lic = extra_param_0
+    list_cl_hci = extra_param_1
+%>
+
+/* =====================================================================
+ * Project:      LibAROV
+ * Title:        arov_target
+ * Description:  Software APIs for accelerator-rich system.
+ *
+ * $Date:        13.7.2022
+ * ===================================================================== */
+/*
+ * Copyright (C) 2022 University of Modena and Reggio Emilia.
+ *
+ * Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+ *
+ */
+
+#include <stdbool.h>
+
+#include <arov.h>
+
+#include <hwpe_cl0_lic0.h>
+
+void arov_init(arov_struct *arov, int cluster_id, int accelerator_id){
+
+    /* Decide which hardware accelerator to initialize */
+    
+    switch(true){
+% for i in range(n_clusters):
+    <%
+        # Determine cluster ID
+
+        cluster_id = i
+
+        # List of accelerator names
+        cl_lic_acc_names = list_cl_lic[i][1]
+        cl_hci_acc_names = list_cl_hci[i][1]
+
+        # Count number of wrappers
+
+        n_acc_cl = len(cl_lic_acc_names) + len(cl_hci_acc_names)
+    %>
+    % for j in range(n_acc_cl):
+        <%
+            # Determine accelerator ID
+
+            accelerator_id = j
+        %>
+		case (cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}): arov_cl${cluster_id}_lic${accelerator_id}_init(&(arov->${cl_lic_acc_names[accelerator_id]}_${cluster_id}_${accelerator_id})); break; \
+    % endfor
+% endfor
+        default:
+    }
+};
+
+void arov_program(arov_struct *arov, int cluster_id, int accelerator_id){
+    
+    /* Decide which hardware accelerator to program */
+    
+    switch(true){
+% for i in range(n_clusters):
+    <%
+        # Determine cluster ID
+
+        cluster_id = i
+
+        # List of accelerator names
+        cl_lic_acc_names = list_cl_lic[i][1]
+        cl_hci_acc_names = list_cl_hci[i][1]
+
+        # Count number of wrappers
+
+        n_acc_cl = len(cl_lic_acc_names) + len(cl_hci_acc_names)
+    %>
+    % for j in range(n_acc_cl):
+        <%
+            # Determine accelerator ID
+
+            accelerator_id = j
+        %>
+		case (cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}): arov_cl${cluster_id}_lic${accelerator_id}_program(&(arov->${cl_lic_acc_names[accelerator_id]}_${cluster_id}_${accelerator_id})); break; \
+    % endfor
+% endfor
+        default:
+    }
+};
+
+void arov_update_buffer_addr(arov_struct *arov, int cluster_id, int accelerator_id){
+    
+    /* Decide which hardware accelerator to update with new buffer addresses */
+    
+    switch(true){
+% for i in range(n_clusters):
+    <%
+        # Determine cluster ID
+
+        cluster_id = i
+
+        # List of accelerator names
+        cl_lic_acc_names = list_cl_lic[i][1]
+        cl_hci_acc_names = list_cl_hci[i][1]
+
+        # Count number of wrappers
+
+        n_acc_cl = len(cl_lic_acc_names) + len(cl_hci_acc_names)
+    %>
+    % for j in range(n_acc_cl):
+        <%
+            # Determine accelerator ID
+
+            accelerator_id = j
+        %>
+		case (cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}): arov_cl${cluster_id}_lic${accelerator_id}_update_buffer_addr(&(arov->${cl_lic_acc_names[accelerator_id]}_${cluster_id}_${accelerator_id})); break; \
+    % endfor
+% endfor
+        default:
+    }
+};
+
+void arov_compute(arov_struct *arov, int cluster_id, int accelerator_id){
+    
+    /* Decide which hardware accelerator to execute */
+    
+    switch(true){
+% for i in range(n_clusters):
+    <%
+        # Determine cluster ID
+
+        cluster_id = i
+
+        # List of accelerator names
+        cl_lic_acc_names = list_cl_lic[i][1]
+        cl_hci_acc_names = list_cl_hci[i][1]
+
+        # Count number of wrappers
+
+        n_acc_cl = len(cl_lic_acc_names) + len(cl_hci_acc_names)
+    %>
+    % for j in range(n_acc_cl):
+        <%
+            # Determine accelerator ID
+
+            accelerator_id = j
+        %>
+		case (cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}): arov_cl${cluster_id}_lic${accelerator_id}_compute(&(arov->${cl_lic_acc_names[accelerator_id]}_${cluster_id}_${accelerator_id})); break; \
+    % endfor
+% endfor
+        default:
+    }
+};
+
+void arov_wait(arov_struct *arov, int cluster_id, int accelerator_id){
+    
+    /* Decide which hardware accelerator to wait for */
+    
+    switch(true){
+% for i in range(n_clusters):
+    <%
+        # Determine cluster ID
+
+        cluster_id = i
+
+        # List of accelerator names
+        cl_lic_acc_names = list_cl_lic[i][1]
+        cl_hci_acc_names = list_cl_hci[i][1]
+
+        # Count number of wrappers
+
+        n_acc_cl = len(cl_lic_acc_names) + len(cl_hci_acc_names)
+    %>
+    % for j in range(n_acc_cl):
+        <%
+            # Determine accelerator ID
+
+            accelerator_id = j
+        %>
+		case (cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}): arov_cl${cluster_id}_lic${accelerator_id}_wait(&(arov->${cl_lic_acc_names[accelerator_id]}_${cluster_id}_${accelerator_id})); break; \
+    % endfor
+% endfor
+        default:
+    }
+};
+
+void arov_free(arov_struct *arov, int cluster_id, int accelerator_id){
+    
+    /* Decide which hardware accelerator to disable */
+    
+    switch(true){
+% for i in range(n_clusters):
+    <%
+        # Determine cluster ID
+
+        cluster_id = i
+
+        # List of accelerator names
+        cl_lic_acc_names = list_cl_lic[i][1]
+        cl_hci_acc_names = list_cl_hci[i][1]
+
+        # Count number of wrappers
+
+        n_acc_cl = len(cl_lic_acc_names) + len(cl_hci_acc_names)
+    %>
+    % for j in range(n_acc_cl):
+        <%
+            # Determine accelerator ID
+
+            accelerator_id = j
+        %>
+		case (cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}): arov_cl${cluster_id}_lic${accelerator_id}_free(&(arov->${cl_lic_acc_names[accelerator_id]}_${cluster_id}_${accelerator_id})); break; \
+    % endfor
+% endfor
+        default:
+    }
+};
