@@ -1,12 +1,12 @@
 <%
 # =====================================================================
-# Project:       LibHwpe class
+# Project:       LibHWPE
 # Title:         hwpe_cl_lic_host.template_c
 # Description:   The LibHwpe class recalls all the the templates 
 #                compliant with the generation of the software libraries
 #                for HWPE wrappers.
 #
-# Date:          29.12.2022
+# Date:          13.7.2022
 # ===================================================================== */
 #
 # Copyright (C) 2022 University of Modena and Reggio Emilia.

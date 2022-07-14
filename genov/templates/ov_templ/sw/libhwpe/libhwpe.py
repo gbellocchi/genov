@@ -6,7 +6,7 @@
                 compliant with the generation of the software libraries
                 for HWPE wrappers.
 
- Date:          29.12.2022
+ Date:          13.7.2022
  ===================================================================== */
 
  Copyright (C) 2022 University of Modena and Reggio Emilia.
@@ -28,7 +28,7 @@ class LibHwpe:
         self.path_common = 'templates/ov_templ/sw/common/'
 
     def HwpeClLicHost(self, name):
-        print("\n[py] >> Overlay Libs ~ %s (Host APIs)" % name.upper())
+        print("\n[py] >> LibHWPE ~ %s (Host APIs)" % name)
         return HwpeClLicHost(
             temp_type = 'templates/ov_templ/sw/libhwpe/host/hwpe_cl_lic/',
             temp_top = 'hwpe_cl_lic_host.template_c',
@@ -37,7 +37,7 @@ class LibHwpe:
         ).top()
 
     def MakefileHost(self, name):
-        print("\n[py] >> Overlay Libs ~ %s (Host Makefile)" % name.upper())
+        print("\n[py] >> LibHWPE ~ %s (Host Makefile)" % name)
         return MakefileHost(
             temp_type = 'templates/ov_templ/sw/libhwpe/host/makefile/',
             temp_top = 'makefile_host.template_mk',
@@ -46,7 +46,7 @@ class LibHwpe:
         ).top()
 
     def HwpeClLicPulp(self, name):
-        print("\n[py] >> Overlay Libs ~ %s (PULP APIs)" % name.upper())
+        print("\n[py] >> LibHWPE ~ %s (PULP APIs)" % name)
         return HwpeClLicPulp(
             temp_type = 'templates/ov_templ/sw/libhwpe/pulp/hwpe_cl_lic/',
             temp_top = 'hwpe_cl_lic_pulp.template_c',
@@ -55,7 +55,7 @@ class LibHwpe:
         ).top()
 
     def MakefilePulp(self, name):
-        print("\n[py] >> Overlay Libs ~ %s (PULP Makefile)" % name.upper())
+        print("\n[py] >> LibHWPE ~ %s (PULP Makefile)" % name)
         return MakefilePulp(
             temp_type = 'templates/ov_templ/sw/libhwpe/pulp/makefile/',
             temp_top = 'makefile_pulp.template_mk',
@@ -64,7 +64,7 @@ class LibHwpe:
         ).top()
 
     def HwpeClLicHeader(self, name):
-        print("\n[py] >> Overlay Libs ~ %s (Header)" % name.upper())
+        print("\n[py] >> LibHWPE ~ %s (Header)" % name)
         return HwpeClLicHeader(
             temp_type = 'templates/ov_templ/sw/libhwpe/inc/hwpe_cl_lic/',
             temp_top = 'hwpe_cl_lic_header.template_c',

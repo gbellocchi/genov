@@ -1,10 +1,10 @@
 '''
  =====================================================================
- Project:       LibHwpe class
+ Project:       LibHWPE
  Title:         makefile_host.py
  Description:   
 
- Date:          29.12.2022
+ Date:          13.7.2022
  ===================================================================== */
 
  Copyright (C) 2022 University of Modena and Reggio Emilia.

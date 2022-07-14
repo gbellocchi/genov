@@ -1,9 +1,9 @@
 <%
 # =====================================================================
-# Project:       LibHwpe class
+# Project:       LibHWPE
 # Title:         hwpe_cl_lic_header.template_c
 # Description:   Definition of Software APIs for Host and PULP.
-# Date:          29.12.2022
+# Date:          13.7.2022
 # ===================================================================== */
 #
 # Copyright (C) 2022 University of Modena and Reggio Emilia.
@@ -21,7 +21,7 @@
  * Title:        hwpe_cl${cl_offset}_lic${accelerator_id}
  * Description:  Definition of APIs for ${cl_lic_acc_names[accelerator_id]}.
  *
- * $Date:        11.7.2022
+ * $Date:        13.7.2022
  * ===================================================================== */
 /*
  * Copyright (C) 2022 University of Modena and Reggio Emilia.
