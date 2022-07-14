@@ -63,7 +63,7 @@ class EmitOv:
         # Libs
         self.ov_gen_libs                    = self.out_ov + '/libs'
         self.ov_gen_libhwpe                 = self.ov_gen_libs + '/libhwpe'
-        self.ov_gen_libarov                 = self.ov_gen_libs + '/libarov'
+        self.ov_gen_libarov_target          = self.ov_gen_libs + '/libarov_target'
 
         # Test
         self.ov_gen_test                    = self.out_ov + '/test'

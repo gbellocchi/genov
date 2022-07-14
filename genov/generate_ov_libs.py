@@ -41,6 +41,7 @@ from dev.ov_dev.specs.ov_specs import ov_specs
     Import templates
 '''
 from templates.ov_templ.sw.libhwpe.libhwpe import LibHwpe
+from templates.ov_templ.sw.libarov_target.libarov_target import LibArov
 from templates.acc_templ.sw.hwpe_system_tb.hwpe_system_tb import hwpe_system_tb as hwpe_archi_hal
 
 '''
@@ -72,14 +73,16 @@ emitter = EmitOv(ov_specs, dir_out_ov)
     Instantiate templates
 ''' 
 libhwpe = LibHwpe()
+libarov = LibArov()
 hwpe_archi_hal = hwpe_archi_hal()
 
 '''
     =====================================================================
-    Component:      Software libraries - HWPE wrappers
+    Component:      Software libraries - LibHWPE
 
-    Description:    Generation of libraries and correlated components to
-                    abstract and simplify the control of hardware accelerators.
+    Description:    Generation of libraries and correlated components 
+                    to abstract and simplify the control of HWPE-based
+                    hardware accelerators.
     ===================================================================== */
 '''
 
@@ -107,6 +110,7 @@ for cl_offset in range(ov_design_params.n_clusters):
         '''
 
         lib_path = emitter.ov_gen_libhwpe + '/hwpe_cl' + str(cl_offset) + '_lic' + str(accelerator_id)
+        
         os.mkdir(lib_path) 
         os.mkdir(lib_path + '/host') 
         os.mkdir(lib_path + '/inc') 
@@ -194,3 +198,76 @@ for cl_offset in range(ov_design_params.n_clusters):
             lib_path + '/inc',
             [accelerator_id, None, None]
         )
+
+'''
+    =====================================================================
+    Component:      Software libraries - LibAROV
+
+    Description:    Generation of libraries and correlated components 
+                    to abstract and simplify the accelerator-rich
+                    system control.
+    ===================================================================== */
+'''
+
+'''
+    Create libraries directory
+'''
+
+lib_path = emitter.ov_gen_libarov_target
+
+os.mkdir(lib_path + '/host') 
+os.mkdir(lib_path + '/inc') 
+os.mkdir(lib_path + '/pulp') 
+
+'''
+    Generate design components ~ LibAROV (Host APIs)
+''' 
+
+gen_ov_libs_comps(
+    libarov.ArovTargetHost(),
+    ov_design_params,
+    acc_design_params,
+    emitter,
+    ['sw', 'arov_target', ['sw', 'API']],
+    lib_path + '/host'
+)
+
+gen_ov_libs_comps(
+    libarov.MakefileHost(),
+    ov_design_params,
+    acc_design_params,
+    emitter,
+    ['integr_support', 'Makefile', ['integr_support', 'mk']],
+    lib_path + '/host'
+)
+
+gen_ov_libs_comps(
+    libarov.ArovTargetPulp(),
+    ov_design_params,
+    acc_design_params,
+    emitter,
+    ['sw', 'arov_target', ['sw', 'API']],
+    lib_path + '/pulp',
+    0,
+    [ov_design_params.list_cl_lic, ov_design_params.list_cl_hci, None]
+)
+
+gen_ov_libs_comps(
+    libarov.MakefilePulp(),
+    ov_design_params,
+    acc_design_params,
+    emitter,
+    ['integr_support', 'Makefile', ['integr_support', 'mk']],
+    lib_path + '/pulp'
+)
+
+gen_ov_libs_comps(
+    libarov.ArovTargetHeader(),
+    ov_design_params,
+    acc_design_params,
+    emitter,
+    ['sw', 'arov_target', ['sw', 'header']],
+    lib_path + '/inc',
+    0,
+    [ov_design_params.list_cl_lic, ov_design_params.list_cl_hci, None]
+)

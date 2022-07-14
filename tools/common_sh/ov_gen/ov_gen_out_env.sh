@@ -56,7 +56,10 @@ if [ ! -d "$dir_out_ov" ]; then
     mkdir -p $dir_out_ov/libs/libhwpe
 
     # LibAROV
-    mkdir -p $dir_out_ov/libs/libarov
+    mkdir -p $dir_out_ov/libs/libarov_target
+
+    # Common HWPE components
+    mkdir -p $dir_out_ov/libs/hwpe_common
 
     # ========================================== #
     # Create directories for test and validation #
