@@ -38,7 +38,7 @@
 
 /* =====================================================================
  * Project:      LibAROV
- * Title:        arov_target
+ * Title:        arov-target.h
  * Description:  Definition of APIs for the accelerator-rich system.
  *
  * $Date:        13.7.2022
@@ -50,14 +50,25 @@
  *
  */
 
-#ifndef __HWPE_AROV_API_H__
-#define __HWPE_AROV_API_H__
+#ifndef __AROV_API_H__
+#define __AROV_API_H__
+
+#include <stdbool.h>
+#include <stdint.h>
 
 /* Hardware accelerators */
 
 % for i in range(len(acc_design_names)):
-#include <hwpe_${acc_design_names[i]}.h>
+#include <common_structs/def_struct_hwpe_${acc_design_names[i]}.h>
 % endfor
+
+// If LLVM, use our address space support, otherwise fall back to bit-compatible
+// data types.
+#if defined(__llvm__)
+#   define AROV_DEVICE_PTR __device arov_struct*
+#else
+#   define AROV_DEVICE_PTR arov_struct*
+#endif
 
 /* Definition - Types */
 
@@ -94,12 +105,14 @@ struct arov_struct {
     % endfor
 % endfor
 
-    void arov_init(arov_struct *accelerators, int accelerator_id);
-    void arov_program(arov_struct *accelerators, int accelerator_id);
-    void arov_update_buffer_addr(arov_struct *accelerators, int accelerator_id);
-    void arov_compute(arov_struct *accelerators, int accelerator_id);
-    void arov_wait(arov_struct *accelerators, int accelerator_id);
-    void arov_free(arov_struct *accelerators, int accelerator_id);
 };
+
+void arov_init(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id);
+int arov_activate(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id);
+void arov_program(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id);
+void arov_update_buffer_addr(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id);
+void arov_compute(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id);
+void arov_wait(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id);
+void arov_free(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id);
 
 #endif
