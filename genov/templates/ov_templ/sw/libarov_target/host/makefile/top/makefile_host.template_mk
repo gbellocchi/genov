@@ -42,12 +42,12 @@ SRC_DIR  := .
 INC_DIR  := ../inc
 LIB_DIR  := ../lib
 
-SOURCES  := $(SRC_DIR)/arov.c
-CFLAGS   := -Wall -O3 -g -I. -I../../hwpe_common
+SOURCES  := $(SRC_DIR)/arov-target.c
+CFLAGS   := -Wall -O3 -g -I. -I$(HERO_PULP_INC_DIR)
 CFLAGS_SO:= $(CFLAGS) -shared -fPIC
 
-SO       := $(LIB_DIR)/libarov.so
-A        := $(LIB_DIR)/libarov.a
+SO       := $(LIB_DIR)/libarov-target.so
+A        := $(LIB_DIR)/libarov-target.a
 
 all: build
 

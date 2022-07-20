@@ -14,28 +14,51 @@
 # Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
 %>
 
-#include <arov.h>
+/* =====================================================================
+ * Project:      LibAROV
+ * Title:        arov-target.c
+ * Description:  Software APIs for accelerator-rich system.
+ *
+ * $Date:        13.7.2022
+ * ===================================================================== */
+/*
+ * Copyright (C) 2022 University of Modena and Reggio Emilia.
+ *
+ * Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+ *
+ */
 
-void arov_init(arov_struct *accelerators, int accelerator_id){
+#include <arov-target.h>
+
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void arov_init(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id){
     return;
 }
 
-void arov_program(arov_struct *accelerators, int accelerator_id){
+int arov_activate(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id){
     return;
 }
 
-void arov_update_buffer_addr(arov_struct *accelerators, int accelerator_id){
+void arov_program(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id){
     return;
 }
 
-void arov_compute(arov_struct *accelerators, int accelerator_id){
+void arov_update_buffer_addr(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id){
     return;
 }
 
-void arov_wait(arov_struct *accelerators, int accelerator_id){
+void arov_compute(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id){
     return;
 }
 
-void arov_free(arov_struct *accelerators, int accelerator_id){
+void arov_wait(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id){
+    return;
+}
+
+void arov_free(AROV_DEVICE_PTR accelerators, const int cluster_id, const int accelerator_id){
     return;
 }

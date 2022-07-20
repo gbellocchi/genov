@@ -61,7 +61,7 @@
 % endfor
 
 
-void arov_init(arov_struct *arov, int cluster_id, int accelerator_id){
+void arov_init(AROV_DEVICE_PTR arov, const int cluster_id, const int accelerator_id){
 
     /* Decide which hardware accelerator to initialize */
     
@@ -85,13 +85,13 @@ void arov_init(arov_struct *arov, int cluster_id, int accelerator_id){
 
             accelerator_id = j
         %>
-	(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) ? arov_cl${cluster_id}_lic${accelerator_id}_init(&(arov->${cl_lic_acc_names[accelerator_id]}_${cluster_id}_${accelerator_id})) : 0; \
+	if(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) arov_cl${cluster_id}_lic${accelerator_id}_init(&(arov->${cl_lic_acc_names[accelerator_id]}_${cluster_id}_${accelerator_id})); \
     % endfor
 % endfor
         
 };
 
-int arov_activate(arov_struct *arov, int cluster_id, int accelerator_id){
+int arov_activate(AROV_DEVICE_PTR arov, const int cluster_id, const int accelerator_id){
 
     /* Decide which hardware accelerator to activate */
 
@@ -117,15 +117,15 @@ int arov_activate(arov_struct *arov, int cluster_id, int accelerator_id){
 
             accelerator_id = j
         %>
-	(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) ? offload_id = arov_cl${cluster_id}_lic${accelerator_id}_activate() : 0; \
+	if(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) offload_id = arov_cl${cluster_id}_lic${accelerator_id}_activate(); \
     % endfor
 % endfor
 
-    return offload_id;
-        
+
+    return offload_id;        
 };
 
-void arov_program(arov_struct *arov, int cluster_id, int accelerator_id){
+void arov_program(AROV_DEVICE_PTR arov, const int cluster_id, const int accelerator_id){
     
     /* Decide which hardware accelerator to program */
     
@@ -149,13 +149,13 @@ void arov_program(arov_struct *arov, int cluster_id, int accelerator_id){
 
             accelerator_id = j
         %>
-	(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) ? arov_cl${cluster_id}_lic${accelerator_id}_program(&(arov->${cl_lic_acc_names[accelerator_id]}_${cluster_id}_${accelerator_id})) : 0; \
+	if(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) arov_cl${cluster_id}_lic${accelerator_id}_program(&(arov->${cl_lic_acc_names[accelerator_id]}_${cluster_id}_${accelerator_id})); \
     % endfor
 % endfor
         
 };
 
-void arov_update_buffer_addr(arov_struct *arov, int cluster_id, int accelerator_id){
+void arov_update_buffer_addr(AROV_DEVICE_PTR arov, const int cluster_id, const int accelerator_id){
     
     /* Decide which hardware accelerator to update with new buffer addresses */
     
@@ -179,13 +179,13 @@ void arov_update_buffer_addr(arov_struct *arov, int cluster_id, int accelerator_
 
             accelerator_id = j
         %>
-	(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) ? arov_cl${cluster_id}_lic${accelerator_id}_update_buffer_addr(&(arov->${cl_lic_acc_names[accelerator_id]}_${cluster_id}_${accelerator_id})) : 0; \
+	if(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) arov_cl${cluster_id}_lic${accelerator_id}_update_buffer_addr(&(arov->${cl_lic_acc_names[accelerator_id]}_${cluster_id}_${accelerator_id})); \
     % endfor
 % endfor
         
 };
 
-void arov_compute(arov_struct *arov, int cluster_id, int accelerator_id){
+void arov_compute(AROV_DEVICE_PTR arov, const int cluster_id, const int accelerator_id){
     
     /* Decide which hardware accelerator to execute */
     
@@ -209,13 +209,13 @@ void arov_compute(arov_struct *arov, int cluster_id, int accelerator_id){
 
             accelerator_id = j
         %>
-	(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) ? arov_cl${cluster_id}_lic${accelerator_id}_compute() : 0; \
+	if(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) arov_cl${cluster_id}_lic${accelerator_id}_compute(); \
     % endfor
 % endfor
   
 };
 
-void arov_wait(arov_struct *arov, int cluster_id, int accelerator_id){
+void arov_wait(AROV_DEVICE_PTR arov, const int cluster_id, const int accelerator_id){
     
     /* Decide which hardware accelerator to wait for */
     
@@ -239,13 +239,13 @@ void arov_wait(arov_struct *arov, int cluster_id, int accelerator_id){
 
             accelerator_id = j
         %>
-	(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) ? arov_cl${cluster_id}_lic${accelerator_id}_wait() : 0; \
+	if(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) arov_cl${cluster_id}_lic${accelerator_id}_wait(); \
     % endfor
 % endfor
       
 };
 
-void arov_free(arov_struct *arov, int cluster_id, int accelerator_id){
+void arov_free(AROV_DEVICE_PTR arov, const int cluster_id, const int accelerator_id){
     
     /* Decide which hardware accelerator to disable */
     
@@ -269,7 +269,7 @@ void arov_free(arov_struct *arov, int cluster_id, int accelerator_id){
 
             accelerator_id = j
         %>
-	(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) ? arov_cl${cluster_id}_lic${accelerator_id}_free() : 0; \
+	if(cluster_id == ${cluster_id} && accelerator_id == ${accelerator_id}) arov_cl${cluster_id}_lic${accelerator_id}_free(); \
     % endfor
 % endfor
         
