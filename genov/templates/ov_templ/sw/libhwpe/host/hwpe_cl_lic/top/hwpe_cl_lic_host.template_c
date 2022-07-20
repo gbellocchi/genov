@@ -33,13 +33,18 @@
  *
  */
 
-#include <stdbool.h>
-#include <hwpe_cl${cl_offset}_lic${accelerator_id}.h>
+#include <libhwpe/hwpe_cl${cl_offset}_lic${accelerator_id}.h>
 
 /* Initialization */
 
 void arov_cl${cl_offset}_lic${accelerator_id}_init(${cl_lic_acc_names[accelerator_id]}_wrapper_struct *wrapper) {
     return;
+};
+
+/* Activation */
+
+int arov_cl${cl_offset}_lic${accelerator_id}_activate() {
+    return 0;
 };
 
 /* Programming */
@@ -72,62 +77,62 @@ void arov_cl${cl_offset}_lic${accelerator_id}_free() {
     return;
 };
 
-void ${cl_lic_acc_names[accelerator_id]}_init_addr_gen(${cl_lic_acc_names[accelerator_id]}_stream_struct *stream) {
-    return;
-};
+/* 
+ * The following code is currently not used.
+ */
 
-void ${cl_lic_acc_names[accelerator_id]}_alloc_tcdm_buffers(hwpe_stream_struct *stream) {
-    return;
-};
+// void ${cl_lic_acc_names[accelerator_id]}_init_addr_gen(${cl_lic_acc_names[accelerator_id]}_stream_struct *stream) {
+//     return;
+// };
 
-int ${cl_lic_acc_names[accelerator_id]}_activate(${cl_lic_acc_names[accelerator_id]}_ctrl_struct *ctrl) {
-    return 0;
-};
+// int ${cl_lic_acc_names[accelerator_id]}_activate(${cl_lic_acc_names[accelerator_id]}_ctrl_struct *ctrl) {
+//     return 0;
+// };
 
-void ${cl_lic_acc_names[accelerator_id]}_set_std_regs(
+// void ${cl_lic_acc_names[accelerator_id]}_set_std_regs(
 % for i in range (acc_wr_n_sink):
-    hwpe_stream_struct *${acc_wr_stream_in[i]},
+//     hwpe_stream_struct *${acc_wr_stream_in[i]},
 % endfor
 % for j in range (acc_wr_n_source):
-    hwpe_stream_struct *${acc_wr_stream_out[j]},
+//     hwpe_stream_struct *${acc_wr_stream_out[j]},
 % endfor
-    ${cl_lic_acc_names[accelerator_id]}_ctrl_struct *ctrl
-) {
-    return;
-};
+//     ${cl_lic_acc_names[accelerator_id]}_ctrl_struct *ctrl
+// ) {
+//     return;
+// };
 
-void ${cl_lic_acc_names[accelerator_id]}_set_custom_regs(${cl_lic_acc_names[accelerator_id]}_ctrl_struct *ctrl) {
-    return;
-}; 
+// void ${cl_lic_acc_names[accelerator_id]}_set_custom_regs(${cl_lic_acc_names[accelerator_id]}_ctrl_struct *ctrl) {
+//     return;
+// }; 
 
 % for i in range (acc_wr_n_sink):
-void ${cl_lic_acc_names[accelerator_id]}_set_buffer_${acc_wr_stream_in[i]}(hwpe_stream_struct *${acc_wr_stream_in[i]}){
-    return;
-}
+// void ${cl_lic_acc_names[accelerator_id]}_set_buffer_${acc_wr_stream_in[i]}(hwpe_stream_struct *${acc_wr_stream_in[i]}){
+//     return;
+// }
 % endfor
 % for j in range (acc_wr_n_source):
-void ${cl_lic_acc_names[accelerator_id]}_set_buffer_${acc_wr_stream_out[j]}(hwpe_stream_struct *${acc_wr_stream_out[j]}){
-    return;
-}
+// void ${cl_lic_acc_names[accelerator_id]}_set_buffer_${acc_wr_stream_out[j]}(hwpe_stream_struct *${acc_wr_stream_out[j]}){
+//     return;
+// }
 % endfor
 
-void ${cl_lic_acc_names[accelerator_id]}_compute() {
-    return;
-};
+// void ${cl_lic_acc_names[accelerator_id]}_compute() {
+//     return;
+// };
 
-void ${cl_lic_acc_names[accelerator_id]}_wait() {
-    return;
-};
+// void ${cl_lic_acc_names[accelerator_id]}_wait() {
+//     return;
+// };
 
-void ${cl_lic_acc_names[accelerator_id]}_disable() {
-    return;
-};
+// void ${cl_lic_acc_names[accelerator_id]}_disable() {
+//     return;
+// };
 
-void ${cl_lic_acc_names[accelerator_id]}_wrapper_l1free(${cl_lic_acc_names[accelerator_id]}_wrapper_struct* a) { return; };
-void ${cl_lic_acc_names[accelerator_id]}_wrapper_l2free(${cl_lic_acc_names[accelerator_id]}_wrapper_struct* a) { return; };
+// void ${cl_lic_acc_names[accelerator_id]}_wrapper_l1free(${cl_lic_acc_names[accelerator_id]}_wrapper_struct* a) { return; };
+// void ${cl_lic_acc_names[accelerator_id]}_wrapper_l2free(${cl_lic_acc_names[accelerator_id]}_wrapper_struct* a) { return; };
 
-void ${cl_lic_acc_names[accelerator_id]}_stream_l1free(${cl_lic_acc_names[accelerator_id]}_stream_struct* a) { return; };
-void ${cl_lic_acc_names[accelerator_id]}_stream_l2free(${cl_lic_acc_names[accelerator_id]}_stream_struct* a) { return; };
+// void ${cl_lic_acc_names[accelerator_id]}_stream_l1free(${cl_lic_acc_names[accelerator_id]}_stream_struct* a) { return; };
+// void ${cl_lic_acc_names[accelerator_id]}_stream_l2free(${cl_lic_acc_names[accelerator_id]}_stream_struct* a) { return; };
 
-void ${cl_lic_acc_names[accelerator_id]}_ctrl_l1free(${cl_lic_acc_names[accelerator_id]}_ctrl_struct* a) { return; };
-void ${cl_lic_acc_names[accelerator_id]}_ctrl_l2free(${cl_lic_acc_names[accelerator_id]}_ctrl_struct* a) { return; };
+// void ${cl_lic_acc_names[accelerator_id]}_ctrl_l1free(${cl_lic_acc_names[accelerator_id]}_ctrl_struct* a) { return; };
+// void ${cl_lic_acc_names[accelerator_id]}_ctrl_l2free(${cl_lic_acc_names[accelerator_id]}_ctrl_struct* a) { return; };
