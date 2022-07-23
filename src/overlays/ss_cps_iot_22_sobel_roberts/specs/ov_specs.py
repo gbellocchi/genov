@@ -39,6 +39,7 @@ class ov_specs:
 
     def system(self):
         self.ov_config                          = 'ss_cps_iot_22_sobel_roberts'
+        self.target_soc                         = 'xilzu9eg'
         return self
 
     '''

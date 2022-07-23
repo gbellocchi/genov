@@ -39,6 +39,7 @@ class ov_specs:
 
     def system(self):
         self.ov_config                          = 'testRteMc'
+        self.target_soc                         = 'xilzu9eg'
         return self
 
     '''

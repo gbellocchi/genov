@@ -50,7 +50,7 @@ class overlay_params_formatted:
     def format_overlay_system(self, ov_specs):
         self.ov_config                          = ov_specs().ov_config
         self.n_clusters                         = get_n_cl(ov_specs())
-        self.target_soc                         = 'xilzu9eg' 
+        self.target_soc                         = ov_specs().target_soc
         self.aw                                 = 64 
         self.dw                                 = 128
         self.iw                                 = 3 + clog2(self.n_clusters+1) 

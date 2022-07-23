@@ -39,6 +39,7 @@ class ov_specs:
 
     def system(self):
         self.ov_config                          = 'ov_mdc_lic8wr'
+        self.target_soc                         = 'xilzu9eg'
         return self
 
     '''

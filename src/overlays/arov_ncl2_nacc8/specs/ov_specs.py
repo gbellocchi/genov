@@ -39,6 +39,7 @@ class ov_specs:
 
     def system(self):
         self.ov_config                          = 'arov_ncl2_nacc8'
+        self.target_soc                         = 'xilzu9eg'
         return self
 
     '''
