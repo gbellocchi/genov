@@ -27,7 +27,7 @@ source $THIS_DIR/../common.sh
 if [ ! -d "$dir_out_ov" ]; then
     echo -e "[sh] >> Creating directory for target overlay configuration <$target_ov>"
 
-    mkdir $dir_out_ov
+    mkdir -p $dir_out_ov
 
     echo -e "\n\t- Location -> $dir_out_ov\n"
 
@@ -35,68 +35,45 @@ if [ ! -d "$dir_out_ov" ]; then
     # Create directories for generated hardware #
     # ========================================= #
 
-    mkdir $dir_out_ov/ip
+    mkdir -p $dir_out_ov/ip
 
-    mkdir $dir_out_ov/soc
-    mkdir $dir_out_ov/soc/packages
-    mkdir $dir_out_ov/soc/rtl
-    mkdir $dir_out_ov/soc/rtl/out-of-context
+    mkdir -p $dir_out_ov/soc
+    mkdir -p $dir_out_ov/soc/packages
+    mkdir -p $dir_out_ov/soc/rtl
+    mkdir -p $dir_out_ov/soc/rtl/out-of-context
 
-    mkdir $dir_out_ov/cluster
-    mkdir $dir_out_ov/cluster/packages
-    mkdir $dir_out_ov/cluster/rtl
+    mkdir -p $dir_out_ov/cluster
+    mkdir -p $dir_out_ov/cluster/packages
+    mkdir -p $dir_out_ov/cluster/rtl
+
+    # ========================================= #
+    # Create directories for software libraries #
+    # ========================================= #
+
+    mkdir -p $dir_out_ov/libs
+
+    # LibHWPE
+    mkdir -p $dir_out_ov/libs/libhwpe
+
+    # LibAROV
+    mkdir -p $dir_out_ov/libs/libarov-target
+
+    # Default structs
+    mkdir -p $dir_out_ov/libs/hwpe_structs
+    mkdir -p $dir_out_ov/libs/soc_structs
 
     # ========================================== #
     # Create directories for test and validation #
     # ========================================== #
 
-    mkdir $dir_out_ov/test
+    mkdir -p $dir_out_ov/test
 
     # Simulation
-    mkdir $dir_out_ov/test/waves
+    mkdir -p $dir_out_ov/test/waves
 
     # Software runtime
-    mkdir $dir_out_ov/test/sw
-    mkdir $dir_out_ov/test/sw/inc 
-    mkdir $dir_out_ov/test/sw/inc/wrappers
-
-    # ============================================================================= #
-    # Retrieve static hardware components 
-    #
-    # - Description -
-    # Move static hardware files to their target positions. The term 'static' is used 
-    # to denote files that are not targets of the rendering phase, but are either 
-    # defined within the repository, or cloned as external sources. 
-    # ============================================================================= #
-
-    echo -e "[sh] >> Retrieving static SoC components"
-
-    # Copy static system IPs
-    dst=$dir_out_ov/soc/rtl
-    if [ -d "$dst" ]; then
-        cp -rf $dir_static/static_rtl/apb $dst
-    else
-        error_exit "[sh] >> Directory not found -> $dst"
-    fi
-
-    # ============================================================================= #
-    # Retrieve static software components 
-    #
-    # - Description -
-    # Move static software files to their target positions. The term 'static' is used 
-    # to denote files that are not targets of the rendering phase, but are either 
-    # defined within the repository, or cloned as external sources. 
-    # ============================================================================= #
-
-    echo -e "[sh] >> Retrieving static software components"
-
-    # Copy TB generator for compilation support files for software TB
-    dst=$dir_out_ov/test/sw
-    if [ -d "$dst" ]; then
-        cp -rf $dir_static/static_tb/overlay/Makefile $dst
-        cp -rf $dir_static/static_tb/overlay/inc/* $dst/inc
-    else
-        error_exit "[sh] >> Directory not found -> $dst"
-    fi
+    mkdir -p $dir_out_ov/test/sw
+    mkdir -p $dir_out_ov/test/sw/inc 
+    mkdir -p $dir_out_ov/test/sw/inc/wrappers
     
 fi

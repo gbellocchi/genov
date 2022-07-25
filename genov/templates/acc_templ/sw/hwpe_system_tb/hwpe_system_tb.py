@@ -25,7 +25,7 @@ class hwpe_system_tb:
         self.path_common = 'templates/acc_templ/sw/common/'
 
     def archi_hwpe(self):
-        print("\n[py] >> HWPE system test ~ archi")
+        print("\n[py] >> LibHWPE ~ archi")
         return archi_hwpe(
             temp_type = 'templates/acc_templ/sw/hwpe_system_tb/archi_hwpe/',
             temp_top = 'archi_hwpe.template_c',
@@ -39,7 +39,7 @@ class hwpe_system_tb:
         ).top()
 
     def hal_hwpe(self):
-        print("\n[py] >> HWPE system test ~ hal")
+        print("\n[py] >> LibHWPE ~ hal")
         return hal_hwpe(
             temp_type = 'templates/acc_templ/sw/hwpe_system_tb/hal_hwpe/',
             temp_top = 'hal_hwpe.template_c',

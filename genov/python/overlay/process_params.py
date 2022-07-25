@@ -50,7 +50,7 @@ class overlay_params_formatted:
     def format_overlay_system(self, ov_specs):
         self.ov_config                          = ov_specs().ov_config
         self.n_clusters                         = get_n_cl(ov_specs())
-        self.target_soc                         = 'xilzu9eg' 
+        self.target_soc                         = ov_specs().target_soc
         self.aw                                 = 64 
         self.dw                                 = 128
         self.iw                                 = 3 + clog2(self.n_clusters+1) 
@@ -315,6 +315,17 @@ def format_cl_acc_params(cl_target_interco):
 
 '''
   =====================================================================
+  Title:        clog2
+  Type:         Function
+  Description:  Returns log2(x).
+  =====================================================================
+'''
+
+def clog2(x):
+    return math.ceil(math.log2(x))
+
+'''
+  =====================================================================
   Title:        print_ov_log
   Type:         Function
   Description:  Print overlay information.
@@ -333,17 +344,6 @@ def print_ov_log(overlay_params, verbose=False):
         print("[py] >> User-defined overlay specification:")
 
         print("\n\tOverlay configuration:", overlay_params.ov_config)
-
-'''
-  =====================================================================
-  Title:        clog2
-  Type:         Function
-  Description:  Returns log2(x).
-  =====================================================================
-'''
-
-def clog2(x):
-    return math.ceil(math.log2(x))
 
 '''
   =====================================================================

@@ -25,6 +25,7 @@ source $dir_py_venv/bin/activate
 # Launch python generators
 cd genov 
 python generate_ov.py $dir_out_ov
+python generate_ov_libs.py $dir_out_ov
 python generate_ov_test.py $dir_out_ov
 python generate_soc.py $dir_out_ov
 python generate_cluster.py $dir_out_ov

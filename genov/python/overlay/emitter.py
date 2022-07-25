@@ -60,6 +60,13 @@ class EmitOv:
         self.ov_gen_cl_pkg                  = self.ov_gen_cl + '/packages'
         self.ov_gen_cl_rtl                  = self.ov_gen_cl + '/rtl'
 
+        # Libs
+        self.ov_gen_libs                    = self.out_ov + '/libs'
+        self.ov_gen_libhwpe                 = self.ov_gen_libs + '/libhwpe'
+        self.ov_gen_libarov_target          = self.ov_gen_libs + '/libarov-target'
+        self.ov_gen_hwpe_structs            = self.ov_gen_libs + '/hwpe_structs'
+        self.ov_gen_soc_structs             = self.ov_gen_libs + '/soc_structs'
+
         # Test
         self.ov_gen_test                    = self.out_ov + '/test'
         self.ov_gen_test_waves              = self.ov_gen_test + '/waves'
@@ -195,7 +202,7 @@ class EmitOv:
         # dictionary for file extensions
         dict_file_ext = {
             'hw'                : { "sv": ".sv", "v": ".v" } , 
-            'integr_support'    : { "yml": ".yml", "lock": ".lock", "vsim_wave": ".wave.do" } ,
-            'sw'                : { "archi": ".h", "hal": ".h", "tb": ".c" }
+            'integr_support'    : { "yml": ".yml", "lock": ".lock", "vsim_wave": ".wave.do", "mk": "" } ,
+            'sw'                : { "archi": ".h", "hal": ".h", "tb": ".c", "app": ".c", "API": ".c", "header": ".h" }
         }
         return dict_file_ext[self.design_type[0]][self.design_type[1]]

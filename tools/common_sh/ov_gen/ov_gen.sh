@@ -98,6 +98,24 @@ gen_overlay()
     make --silent ov_gen_run
 }
 
+# =====================================================================
+# Title:        get_static_comps
+# Description:  Retrieve static components.
+# =====================================================================
+
+get_static_comps()
+{
+    echo -e ""
+    echo "# ================================== #"
+    echo "# Retrieving static HW/SW components #" 
+    echo "# ================================== #"
+    echo -e ""
+
+    # Retrieve static components
+    cd $dir_root
+    make --silent ov_gen_out_static
+}
+
 # ======= #
 # Program #
 # ======= #
@@ -129,6 +147,9 @@ gen_acc_wrappers
 
 # Generate overlay
 gen_overlay
+
+# Retrieve static components
+get_static_comps
 
 # Deactivate environment
 deactivate

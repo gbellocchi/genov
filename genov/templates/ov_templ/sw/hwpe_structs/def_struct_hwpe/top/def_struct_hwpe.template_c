@@ -1,0 +1,87 @@
+<%
+# =====================================================================
+# Project:       HWPE structs 
+# Title:         def_struct_${cl_lic_acc_names[accelerator_id]}.py
+# Description:   Definition of C structures for HWPE wrappers.
+# Date:          15.7.2022
+# ===================================================================== */
+#
+# Copyright (C) 2022 University of Modena and Reggio Emilia.
+#
+# Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+%>
+
+<%
+  # Wrapper dependencies 
+  accelerator_id = extra_param_0
+%>
+
+/* =====================================================================
+ * Project:      HWPE structures
+ * Title:        def_struct_${cl_lic_acc_names[accelerator_id]}
+ * Description:  Definition of C structures for HWPE wrappers.
+ *
+ * $Date:        15.7.2022
+ * ===================================================================== */
+/*
+ * Copyright (C) 2022 University of Modena and Reggio Emilia.
+ *
+ * Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
+ *
+ */
+
+#ifndef __HWPE_STRUCTS_${cl_lic_acc_names[accelerator_id].upper()}_H__
+#define __HWPE_STRUCTS_${cl_lic_acc_names[accelerator_id].upper()}_H__
+
+#include <common_structs/def_struct_hwpe_common.h>
+
+/* Definition - Types */
+
+typedef struct hwpe_stream_struct ${cl_lic_acc_names[accelerator_id]}_stream_struct;
+typedef struct ${cl_lic_acc_names[accelerator_id]}_custom_regs_struct ${cl_lic_acc_names[accelerator_id]}_custom_regs_struct;
+typedef struct ${cl_lic_acc_names[accelerator_id]}_ctrl_struct ${cl_lic_acc_names[accelerator_id]}_ctrl_struct;
+typedef struct ${cl_lic_acc_names[accelerator_id]}_wrapper_struct ${cl_lic_acc_names[accelerator_id]}_wrapper_struct;
+
+/* Definition - Functions */
+
+typedef void (*Program_${cl_lic_acc_names[accelerator_id].title()})(${cl_lic_acc_names[accelerator_id]}_wrapper_struct *_wrapper);
+typedef void (*Command_${cl_lic_acc_names[accelerator_id].title()})();
+
+/* Definition - Structs */
+
+struct ${cl_lic_acc_names[accelerator_id]}_custom_regs_struct {
+% if acc_wr_custom_reg_num>0:
+    % for i in range (acc_wr_custom_reg_num):
+    unsigned ${acc_wr_custom_reg_name[i]};
+    % endfor 
+% endif
+};
+
+struct ${cl_lic_acc_names[accelerator_id]}_ctrl_struct {
+    hwpe_fsm_struct fsm;
+    ${cl_lic_acc_names[accelerator_id]}_custom_regs_struct custom_regs;
+};
+
+struct ${cl_lic_acc_names[accelerator_id]}_wrapper_struct {
+
+    int id;
+    int tag;
+
+% for i in range (acc_wr_n_sink):
+    ${cl_lic_acc_names[accelerator_id]}_stream_struct ${acc_wr_stream_in[i]};
+% endfor
+% for j in range (acc_wr_n_source):
+    ${cl_lic_acc_names[accelerator_id]}_stream_struct ${acc_wr_stream_out[j]};
+% endfor
+
+    ${cl_lic_acc_names[accelerator_id]}_ctrl_struct           ctrl;
+
+    Program_${cl_lic_acc_names[accelerator_id].title()} init; 
+    Program_${cl_lic_acc_names[accelerator_id].title()} program;
+    Program_${cl_lic_acc_names[accelerator_id].title()} update_buffer_addr;
+    Command_${cl_lic_acc_names[accelerator_id].title()} compute;
+    Command_${cl_lic_acc_names[accelerator_id].title()} wait;
+    Command_${cl_lic_acc_names[accelerator_id].title()} clear;
+};
+
+#endif
