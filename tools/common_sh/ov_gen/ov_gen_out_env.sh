@@ -56,10 +56,11 @@ if [ ! -d "$dir_out_ov" ]; then
     mkdir -p $dir_out_ov/libs/libhwpe
 
     # LibAROV
-    mkdir -p $dir_out_ov/libs/libarov_target
+    mkdir -p $dir_out_ov/libs/libarov-target
 
-    # Common HWPE components
-    mkdir -p $dir_out_ov/libs/hwpe_common
+    # Default structs
+    mkdir -p $dir_out_ov/libs/hwpe_structs
+    mkdir -p $dir_out_ov/libs/soc_structs
 
     # ========================================== #
     # Create directories for test and validation #
@@ -74,44 +75,5 @@ if [ ! -d "$dir_out_ov" ]; then
     mkdir -p $dir_out_ov/test/sw
     mkdir -p $dir_out_ov/test/sw/inc 
     mkdir -p $dir_out_ov/test/sw/inc/wrappers
-
-    # ============================================================================= #
-    # Retrieve static hardware components 
-    #
-    # - Description -
-    # Move static hardware files to their target positions. The term 'static' is used 
-    # to denote files that are not targets of the rendering phase, but are either 
-    # defined within the repository, or cloned as external sources. 
-    # ============================================================================= #
-
-    echo -e "[sh] >> Retrieving static SoC components"
-
-    # Copy static system IPs
-    dst=$dir_out_ov/soc/rtl
-    if [ -d "$dst" ]; then
-        cp -rf $dir_static/static_rtl/apb $dst
-    else
-        error_exit "[sh] >> Directory not found -> $dst"
-    fi
-
-    # ============================================================================= #
-    # Retrieve static software components 
-    #
-    # - Description -
-    # Move static software files to their target positions. The term 'static' is used 
-    # to denote files that are not targets of the rendering phase, but are either 
-    # defined within the repository, or cloned as external sources. 
-    # ============================================================================= #
-
-    echo -e "[sh] >> Retrieving static software components"
-
-    # Copy TB generator for compilation support files for software TB
-    dst=$dir_out_ov/test/sw
-    if [ -d "$dst" ]; then
-        cp -rf $dir_static/static_tb/overlay/Makefile $dst
-        cp -rf $dir_static/static_tb/overlay/inc/* $dst/inc
-    else
-        error_exit "[sh] >> Directory not found -> $dst"
-    fi
     
 fi

@@ -44,6 +44,13 @@ ov_gen_out_env:
 		${OUT_OV_GEN} \
 		${STATIC} 
 
+ov_gen_out_static:
+	@bash ${SCRIPTS_OV_GEN}/$@.sh \
+		${TARGET_OV} \
+		${DEV_DIR} \
+		${OUT_OV_GEN} \
+		${STATIC} 
+
 ov_gen_init:
 	@bash ${SCRIPTS_OV_GEN}/$@.sh \
 		${PY_VENV}
