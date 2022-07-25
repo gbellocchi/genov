@@ -1,3 +1,15 @@
+<%
+    if (extra_param_0 == None):
+        cluster_id = 0
+    else:
+        cluster_id = int(extra_param_0)
+    
+    if (extra_param_1 == None):
+        accelerator_id = 0
+    else:
+        accelerator_id = int(extra_param_1)
+%>
+\
 /*
  * Copyright (C) 2018-2019 ETH Zurich and University of Bologna
  *
@@ -19,8 +31,8 @@
  * Contribute:  ${author} ${email}
  */
 
-#ifndef __ARCHI_HWPE_H__
-#define __ARCHI_HWPE_H__
+#ifndef __ARCHI_HWPE_CL${cluster_id}_LIC${accelerator_id}_H__
+#define __ARCHI_HWPE_CL${cluster_id}_LIC${accelerator_id}_H__
 
 /*
  * Control and generic configuration register layout
@@ -71,12 +83,7 @@
 <%
     # Calculate peripheral base address for HWPE accelerator.
     # This is calculated using an accelerator ID that is passed
-    # through 'extra_param_0'.
-
-    if (extra_param_0 == None):
-        accelerator_id = 0
-    else:
-        accelerator_id = int(extra_param_0)
+    # through 'extra_param_1'.
 
     # The first HWPE peripheral address that is available in AROV
     # is 0x1b202000. The address space reserved for HWPE devices is
@@ -85,11 +92,16 @@
     speriph_hwpe_addr = int(0x1b202000) + int(0x200) * accelerator_id
 %>
 
-#define ARCHI_CL_EVT_ACC0 0
-#define ARCHI_CL_EVT_ACC1 1
+/* HWPE base address (with cluster alias) */
+
 #define ARCHI_HWPE_ADDR_BASE ${ hex(speriph_hwpe_addr) }
-#define ARCHI_HWPE_EU_OFFSET 12
-#define __builtin_bitinsert(a,b,c,d) (a | (((b << (32-c)) >> (32-c)) << d))
+
+/* Event unit */
+// NB: Might be also referred to as ARCHI_HWPE_EU_OFFSET
+
+#ifndef ARCHI_CL_EVT_ACC0
+#define ARCHI_CL_EVT_ACC0 12
+#endif 
 
 <%
 ##########################

@@ -42,6 +42,8 @@ from dev.ov_dev.specs.ov_specs import ov_specs
 '''
 from templates.ov_templ.sw.libhwpe.libhwpe import LibHwpe
 from templates.ov_templ.sw.libarov_target.libarov_target import LibArov
+from templates.ov_templ.sw.hwpe_structs.hwpe_structs import HwpeStructs
+from templates.ov_templ.sw.soc_structs.soc_structs import SocStructs
 from templates.acc_templ.sw.hwpe_system_tb.hwpe_system_tb import hwpe_system_tb as hwpe_archi_hal
 
 '''
@@ -74,6 +76,8 @@ emitter = EmitOv(ov_specs, dir_out_ov)
 ''' 
 libhwpe = LibHwpe()
 libarov = LibArov()
+hwpe_structs = HwpeStructs()
+soc_structs = SocStructs()
 hwpe_archi_hal = hwpe_archi_hal()
 
 '''
@@ -187,7 +191,7 @@ for cl_offset in range(ov_design_params.n_clusters):
             emitter,
             ['sw', 'archi_hwpe', ['sw', 'archi']],
             lib_path + '/inc',
-            [accelerator_id, None, None]
+            [cl_offset, accelerator_id, None]
         )
 
         gen_acc_comps(
@@ -196,7 +200,7 @@ for cl_offset in range(ov_design_params.n_clusters):
             emitter,
             ['sw', 'hal_hwpe', ['sw', 'hal']],
             lib_path + '/inc',
-            [accelerator_id, None, None]
+            [cl_offset, accelerator_id, None]
         )
 
 '''
@@ -228,7 +232,7 @@ gen_ov_libs_comps(
     ov_design_params,
     acc_design_params,
     emitter,
-    ['sw', 'arov_target', ['sw', 'API']],
+    ['sw', 'arov-target', ['sw', 'API']],
     lib_path + '/host'
 )
 
@@ -246,7 +250,7 @@ gen_ov_libs_comps(
     ov_design_params,
     acc_design_params,
     emitter,
-    ['sw', 'arov_target', ['sw', 'API']],
+    ['sw', 'arov-target', ['sw', 'API']],
     lib_path + '/pulp',
     0,
     [ov_design_params.list_cl_lic, ov_design_params.list_cl_hci, None]
@@ -266,8 +270,99 @@ gen_ov_libs_comps(
     ov_design_params,
     acc_design_params,
     emitter,
-    ['sw', 'arov_target', ['sw', 'header']],
+    ['sw', 'arov-target', ['sw', 'header']],
     lib_path + '/inc',
     0,
     [ov_design_params.list_cl_lic, ov_design_params.list_cl_hci, None]
+)
+
+'''
+    =====================================================================
+    Component:      Software libraries - HWPE structs
+
+    Description:    Generation of C structures for HWPE wrappers.
+    ===================================================================== */
+'''
+
+'''
+    Generate design components ~ Application-specific HWPE structs
+''' 
+
+list_generated_acc_structs = []
+
+for cl_offset in range(ov_design_params.n_clusters):
+
+    cl_lic_acc_names = ov_design_params.list_cl_lic[cl_offset][1]
+
+    for accelerator_id in range(len(cl_lic_acc_names)):
+
+        '''
+            Retrieve wrapper design parameters
+        '''
+
+        target_acc = cl_lic_acc_names[accelerator_id]
+
+        if target_acc not in list_generated_acc_structs:
+
+            list_generated_acc_structs.append(target_acc)
+
+            acc_specs = import_acc_dev_module(target_acc)
+
+            '''
+                Format wrapper design parameters
+            '''
+
+            acc_design_params = wrapper_params_formatted(acc_specs.acc_specs)
+
+            '''
+                Generate design components ~ LibHWPE (Host APIs)
+            ''' 
+
+            hwpe_name = acc_design_params.target
+
+            gen_ov_libs_comps(
+                hwpe_structs.DefStructHwpe(hwpe_name),
+                ov_design_params,
+                acc_design_params,
+                emitter,
+                ['sw', "def_struct_hwpe_" + hwpe_name, ['sw', 'header']],
+                emitter.ov_gen_hwpe_structs,
+                cl_offset,
+                [accelerator_id, None, None]
+            )
+
+'''
+    Generate design components ~ Common HWPE structs
+''' 
+
+gen_ov_libs_comps(
+    hwpe_structs.DefStructCommon(),
+    ov_design_params,
+    acc_design_params,
+    emitter,
+    ['sw', 'def_struct_hwpe_common', ['sw', 'header']],
+    emitter.ov_gen_hwpe_structs,
+    0,
+    [list_generated_acc_structs, None, None]
+)
+
+'''
+    =====================================================================
+    Component:      Software libraries - SoC structs
+
+    Description:    Generation of C structures for Soc.
+    ===================================================================== */
+'''
+
+'''
+    Generate design components ~ Performance evaluation
+''' 
+
+gen_ov_libs_comps(
+    soc_structs.DefStructPerfEval(),
+    ov_design_params,
+    acc_design_params,
+    emitter,
+    ['sw', 'def_struct_soc_perf_eval', ['sw', 'header']],
+    emitter.ov_gen_soc_structs
 )
