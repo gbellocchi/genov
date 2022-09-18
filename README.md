@@ -9,7 +9,7 @@ GenOv is a set of Python-based tools to simplify the design of accelerator-rich 
 ### Clone the Repository
 GenOv can be be cloned from:
 ```
-git@github.com:gbellocchi/arov.git
+https://github.com/gbellocchi/genov.git
 ```
 
 ### AROV Environment
