@@ -5,12 +5,9 @@
  Description:   Specification file to guide the generation of HW/SW
 	            components for accelerator-rich overlays.
 
- Date:          17.2.2022
  ===================================================================== */
 
  Copyright (C) 2022 University of Modena and Reggio Emilia.
-
- Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
 
 '''
 
@@ -29,8 +26,10 @@ class ov_specs:
     '''
 
     def author(self):
-        self.author                             = 'Gianluca Bellocchi'    
-        self.email                              = '<gianluca.bellocchi@unimore.it>'
+        # Insert Your Name (optional)
+        self.author                             = ''
+        # Insert Your Email (optional)
+        self.email                              = ''
         return self
 
     '''
@@ -38,8 +37,12 @@ class ov_specs:
     '''
 
     def system(self):
-        self.ov_config                          = 'example2'
-        self.target_soc                         = 'xilzu9eg'
+        # Insert the Overaly Name (same of the folder)
+        self.ov_config                          = ''
+        # Insert the Overaly Target
+        # (xilzu9eg (for zcu102), xilzu7ev (for zcu104),
+        #  xilzu3eg (for ultra96), k26 (for kv260))
+        self.target_soc                         = ''
         return self
 
     '''
@@ -52,19 +55,20 @@ class ov_specs:
     '''
 
     def cluster_0(self):
-        self.cl_offset                          = 0
-        self.core                               = [ 'riscy', 2 ]
-        self.tcdm                               = [ 32 , 128]
-        self.lic                                = [ [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe']]
-        self.hci                                = [ ]
-        return self
-
-    def cluster_1(self):
-        self.cl_offset                          = 0
-        self.core                               = [ 'riscy', 2 ]
-        self.tcdm                               = [ 32 , 128]
-        self.lic                                = [ [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe']]
+        # Cluster ID (same of the contructor...)
+        self.cl_offset                          = XXXX
+        # Core definition (['type'], NumberOfCores)
+        # type = {riscy | ibex}
+        # NumeberOfCores = must be log2 and not greater than 16
+        self.core                               = [XXXXXX]
+        # Memory declaration (NumberOfBanks, TotalSizeInKB)
+        # NumberOfBanks = must be log2 and not greater than 64
+        # TotalSizeInKB = must be lower than 2MB
+        self.tcdm                               = [ XXXXX ]
+        # Internal Interconnection list of couples ([['HW_IP_Name'], ['Interface']])
+        # HW_IP_Name = same of src/accelerators
+        # Interface/Protocol = 
+        self.lic                                = [ [ XXXX , XXXX]
+                                                  ]
         self.hci                                = [ ]
         return self

@@ -9,6 +9,8 @@
 
  Copyright (C) 2022 University of Modena and Reggio Emilia.
 
+ Author: Alessandro Capotondi, University of Modena and Reggio Emilia.
+
 '''
 
 #!/usr/bin/env python3
@@ -27,9 +29,9 @@ class ov_specs:
 
     def author(self):
         # Insert Your Name (optional)
-        self.author                             = ''
+        self.author                             = 'Alessandro Capotondi'
         # Insert Your Email (optional)
-        self.email                              = ''
+        self.email                              = 'a.capotondi@unimore.it'
         return self
 
     '''
@@ -38,11 +40,11 @@ class ov_specs:
 
     def system(self):
         # Insert the Overaly Name (same of the folder)
-        self.ov_config                          = ''
+        self.ov_config                          = 'example1'
         # Insert the Overaly Target
         # (xilzu9eg (for zcu102), xilzu7ev (for zcu104),
         #  xilzu3eg (for ultra96), k26 (for kv260))
-        self.target_soc                         = ''
+        self.target_soc                         = 'xilzu9eg'
         return self
 
     '''
@@ -56,19 +58,22 @@ class ov_specs:
 
     def cluster_0(self):
         # Cluster ID (same of the contructor...)
-        self.cl_offset                          = XXXX
+        self.cl_offset                          = 0
         # Core definition (['type'], NumberOfCores)
         # type = {riscy | ibex}
         # NumeberOfCores = must be log2 and not greater than 16
-        self.core                               = [XXXXXX]
+        self.core                               = [ 'riscy', 8 ]
         # Memory declaration (NumberOfBanks, TotalSizeInKB)
         # NumberOfBanks = must be log2 and not greater than 64
         # TotalSizeInKB = must be lower than 2MB
-        self.tcdm                               = [ XXXXX ]
+        self.tcdm                               = [ 16 , 128]
         # Internal Interconnection list of couples ([['HW_IP_Name'], ['Interface']])
         # HW_IP_Name = same of src/accelerators
         # Interface/Protocol = 
-        self.lic                                = [ [ XXXX , XXXX]
+        self.lic                                = [ [ 'traffic_gen' , 'hwpe'],
+                                                    [ 'traffic_gen' , 'hwpe'],
+                                                    [ 'traffic_gen' , 'hwpe'],
+                                                    [ 'traffic_gen' , 'hwpe']
                                                   ]
         self.hci                                = [ ]
         return self

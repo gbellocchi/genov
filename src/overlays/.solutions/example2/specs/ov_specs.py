@@ -5,12 +5,10 @@
  Description:   Specification file to guide the generation of HW/SW
 	            components for accelerator-rich overlays.
 
- Date:          25.1.2022
+ Date:          17.2.2022
  ===================================================================== */
 
  Copyright (C) 2022 University of Modena and Reggio Emilia.
-
- Author: Gianluca Bellocchi, University of Modena and Reggio Emilia.
 
 '''
 
@@ -38,13 +36,9 @@ class ov_specs:
     '''
 
     def system(self):
-        self.ov_config                          = 'ov_mdc_aes_128'
-        self.target_soc                         = 'xilzu7ev'
+        self.ov_config                          = 'example2'
+        self.target_soc                         = 'xilzu9eg'
         return self
-
-    '''
-        Cluster #0
-    '''
 
     '''
         Cluster #0
@@ -58,7 +52,17 @@ class ov_specs:
     def cluster_0(self):
         self.cl_offset                          = 0
         self.core                               = [ 'riscy', 2 ]
-        self.tcdm                               = [ 64 , 128]
-        self.lic                                = [ [ 'aes_128_mdc' , 'hwpe'] ]
+        self.tcdm                               = [ 32 , 128]
+        self.lic                                = [ [ 'traffic_gen' , 'hwpe'],
+                                                    [ 'traffic_gen' , 'hwpe']]
+        self.hci                                = [ ]
+        return self
+
+    def cluster_1(self):
+        self.cl_offset                          = 0
+        self.core                               = [ 'riscy', 2 ]
+        self.tcdm                               = [ 32 , 128]
+        self.lic                                = [ [ 'traffic_gen' , 'hwpe'],
+                                                    [ 'traffic_gen' , 'hwpe']]
         self.hci                                = [ ]
         return self
