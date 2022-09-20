@@ -51,18 +51,19 @@ class ov_specs:
 
     def cluster_0(self):
         self.cl_offset                          = 0
-        self.core                               = [ 'riscy', 2 ]
-        self.tcdm                               = [ 32 , 128]
+        self.core                               = [ 'riscy', 4 ]
+        self.tcdm                               = [ 16 , 128]
         self.lic                                = [ [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe']]
+                                                    [ 'traffic_gen' , 'hwpe'],
+                                                    [ 'traffic_gen' , 'hwpe']
+                                                  ]
         self.hci                                = [ ]
         return self
 
     def cluster_1(self):
-        self.cl_offset                          = 0
+        self.cl_offset                          = 1
         self.core                               = [ 'riscy', 2 ]
-        self.tcdm                               = [ 32 , 128]
-        self.lic                                = [ [ 'traffic_gen' , 'hwpe'],
-                                                    [ 'traffic_gen' , 'hwpe']]
+        self.tcdm                               = [ 8 , 128]
+        self.lic                                = [ [ 'traffic_gen' , 'hwpe'] ]
         self.hci                                = [ ]
         return self
