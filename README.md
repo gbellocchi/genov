@@ -3,9 +3,11 @@
 
 ## Introduction
 ### Description
-**GenOv** is a set of Python-based tools to simplify the design of accelerator-rich heterogeneous embedded architectures [1]. 
+**GenOv** is a set of Python-based tools to simplify the design of accelerator-rich heterogeneous embedded architectures [1].
 
-The tool generates both system components and accelerator wrappers, based on the HWPE protocol. To learn more about HWPE, take a look at [2] and [3].
+The tool generates both system components and accelerator wrappers, based on the HWPE protocol [2, 3].
+
+***If you want to use _GenOv_, you can cite our paper [1].***
 
 ## Getting Started
 
