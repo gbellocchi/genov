@@ -1,19 +1,24 @@
+
 # GenOv
 
 ## Introduction
 ### Description
-GenOv is a set of Python-based tools to simplify the design of accelerator-rich heterogeneous embedded architectures [1]. GenOv generates both system components and accelerator wrappers, based on the HWPE protocol. To learn more about HWPE, take a look at [2] and [3].
+**GenOv** is a set of Python-based tools to simplify the design of accelerator-rich heterogeneous embedded architectures [1]. 
+
+The tool generates both system components and accelerator wrappers, based on the HWPE protocol. To learn more about HWPE, take a look at [2] and [3].
 
 ## Getting Started
 
 ### Clone the Repository
-GenOv can be be cloned from:
+**GenOv** can be be cloned from:
 ```
 https://github.com/gbellocchi/genov.git
 ```
 
-### AROV Environment
-Be sure that `HERO_OV_HW_EXPORT` is set to the root of AROV (e.g. `/home/user-name/workspace_user/arov`).
+### Initial Setup
+```Shell
+source $XIL_OPENHW_PATH/setup.sh
+```
 
 ### Python Virtual Environment
 To manage the tool dependencies, a Python virtual environment is employed. To initialize it and download the required packages (see 'requirements.txt'), run:
@@ -41,33 +46,35 @@ make ov_gen_init
 
 ### Accelerator Specification Source Files
 
-User-defined source files are to be inserted in the accelerator library (`src/accelerators/`). There exist exemplary library items to guide the user in the phase of integration of new wrapper specifications.
-To extend the content of the library, the best practice is to create a new library folder comprising the following sections:
+User-defined accelerator specifications are collected in the accelerator library (`src/accelerators/`). 
 
-1.  `specs/` - This location contains the Python specification file `acc_specs.py`. The latter embodies the required information to specialize the interface between the accelerator wrapper and the integrated engine, as well as additional features.
-2.  `rtl/` - This location contains the RTL components of the engine the user wants to wrap. To this end, the flow does not mandate any specific design methodology for the target accelerator engines.
-3.  `sw/` - This location contains additional software components for the testing phase.
-  
-An `__init__.py` is always required to properly propagate information from the accelerator library throughout the template library. The content of the former has to be interpretable and accessible by Python as part of the tool package.
+Each project comprise the following items:
+
+1.  `specs/` - This location contains the Python specification file `acc_specs.py` that embodies the required information to specialize the interface between the accelerator wrapper and the HLS accelerator kernel, as well as additional features.
+2.  `rtl/` - This location contains the RTL components of the HLS accelerator. To this end, the flow does not mandate any specific design methodology for the target accelerator engines.
+3.  `sw/` - This location contains additional software components for the testing phase. These components are not mandatory.
 
 ### Overlay Specification Source Files
-Similarly, the user-defined source files to guide system generation are to be inserted in the overlay library (`src/overlays/`). To extend the content of the library, the best practice is to create a new library folder comprising the following sections:
+Similarly, the user-defined source files to guide system generation are to be inserted in the overlay library (`src/overlays/`). 
 
-1.  `specs/` - The Python specification file is named `ov_specs.py`. This specification tells the tool how to connect accelerator wrappers at system-level and how to tailor HW resources to the application requirements. At the moment, only a minimal subset of the possible HW customizations are exposed to the user. Examples are inserted to guide the user during the first system specifications.
+Each project comprise the following item:
+
+1.  `specs/` - The Python specification file is named `ov_specs.py`. This specification tells the tool how to connect accelerator wrappers at system-level and how to tailor HW resources to the application requirements.
+
+### MatMul HLS examples
+We provide examples of three alternative overlay-based platforms integrating the _MatMul accelerators_ previously developed with HLS.
 
 ## System Generation
 To generate the system, you can run the command `make clean all`. 
 
-Additionally, add the following arguments:
+Additionally, the following arguments can be added:
 
-- **TARGET_OV**: This is to specify the path to the target system to be generated. For the generation to succeed, an overlay specification should exist in the library (comprised under: `src/overlays/`) with the very same name of the target system. For example, you can run the command `make vsim TARGET_OV=ex-gen-1` only when It exists a specification for `ex-gen-1` under `src/overlays/ex-gen-1/specs`.
+- **TARGET_OV**: It specifies what overlay to generate. For example, you can run the command `make clean all TARGET_OV=xil_open_hw_23_mmult_hw`.
 
-The generated components will then be available under `output`.
-
-To export the generated system to AROV, run `make ov_deploy`.
+The generated components are automatically exported to the FPGA overlay subsystem where they can be later built.
 
 ## References
-1) "A RISC-V-based FPGA Overlay to Simplify Embedded Accelerator Deployment" - G. Bellocchi et al. (2021)
+1) **"A RISC-V-based FPGA Overlay to Simplify Embedded Accelerator Deployment" - G. Bellocchi et al. (2021)**
 2) "XNOR Neural Engine: A Hardware Accelerator IP for 21.6-fJ/op Binary Neural Network Inference" - F. Conti et al. (2018)
 3) Hardware Processing Engines Documentation: https://hwpe-doc.readthedocs.io/en/latest/index.html
   

@@ -34,7 +34,7 @@ REPO 			:= genov
 #				user through this.
 # =====================================================================
 
-TARGET_OV		:= ov_mdc_lic6wr
+TARGET_OV		:= xil_open_hw_23_mmult_hw
 
 # =====================================================================
 # Description:  Basic recipes and inclusion of sub-mk-files.
@@ -44,7 +44,7 @@ TARGET_OV		:= ov_mdc_lic6wr
 
 .PHONY: all clean
 
-all: ov_gen
+all: ov_gen ov_deploy
 
 init: ov_gen_init
 
