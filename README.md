@@ -3,7 +3,7 @@
 
 ## Introduction
 ### Description
-**GenOv** is a set of Python-based tools to simplify the design of accelerator-rich heterogeneous embedded architectures [1].
+**GenOv** is a set of Python-based tools to simplify the design of heterogeneous RISC-V-based FPGA overlays [1].
 
 The tool generates both system components and accelerator wrappers, based on the HWPE protocol [2, 3].
 
